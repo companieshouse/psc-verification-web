@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { GenericHandler } from "./../generic";
 import logger from "../../../lib/Logger";
 
-export class HomeHandler extends GenericHandler {
+export class StartHandler extends GenericHandler {
 
     constructor () {
         super();
