@@ -1,10 +1,28 @@
 {% extends "layouts/default.njk" %}
 
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
 {% block main_content %}
 
   <div class="generic-class-name">
-    <h3>Index Router: Home page</h3>
+    <h1>Start page</h1>
     <p>{{ sampleKey }}</p>
   </div>
+
+  <h2>Addition sample text as examples below...</h2>
+
+  {{ govukDetails({
+      summaryText: "What is PSC verification?",
+      text:"This is example text."
+  }) }}
+
+  <h2 class="govuk-heading-m">Before you start</h2>
+
+  <p class="govuk-body">You'll need:</p>
+  <ul class="govuk-list govuk-list--bullet">
+      <li>to sign in to or create a Companies House account</li>
+      <li>Another list option</li>
+      <li>the <a href="https://www.gov.uk/guidance/company-authentication-codes-for-online-filing" class="govuk-link">company authentication code</a></li>
+  </ul>
 
 {% endblock %}
