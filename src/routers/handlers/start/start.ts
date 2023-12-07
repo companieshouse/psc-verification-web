@@ -6,8 +6,8 @@ export class StartHandler extends GenericHandler {
 
     constructor () {
         super();
-        this.viewData.title = "Home handler for index router";
-        this.viewData.sampleKey = "sample value for home page screen";
+        this.viewData.title = "PSC Verification";
+        this.viewData.sampleKey = "Example text for start page.";
     }
 
     execute (req: Request, response: Response): Promise<Object> {
