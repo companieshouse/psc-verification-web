@@ -8,6 +8,6 @@ custom_build(
   ],
   deps = [
     './src',
-    '/views'
+    './src/views'
   ]
 )
