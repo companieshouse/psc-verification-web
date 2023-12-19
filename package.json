@@ -111,7 +111,7 @@
     "ignore": [
       "**/*.test.ts"
     ],
-    "exec": "npm run build && source ./dist/config/.env && node dist/server.js"
+    "exec": "npm run build && node dist/server.js"
   },
   "directories": {
     "test": "test"
