@@ -1,0 +1,6 @@
+app_name: psc-verification-web
+group: web
+
+weight: 100
+routes:
+  1: ^/persons-with-significant-control-verification/*
