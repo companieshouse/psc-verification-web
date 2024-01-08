@@ -5,4 +5,4 @@
 PORT=3000
 
 export NODE_PORT=${PORT}
-exec node server.js -- ${PORT}
+exec node dist/server.js
