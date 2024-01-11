@@ -9,34 +9,14 @@ const errorManifest = {
             summary: "Your request contains validation errors",
             inline: "Your request contains validation errors"
         },
-        email: {
+        chosenNumber: {
             blank: {
-                summary: "Enter an email address",
-                inline: "Enter an email address"
+                summary: "Enter a number",
+                inline: "Enter a number"
             },
             incorrect: {
-                summary: "Email is not valid",
-                inline: "Enter an email address in the correct format, like name@example.com"
-            }
-        },
-        companyName: {
-            blank: {
-                summary: "Enter a company name",
-                inline: "Enter a company name"
-            },
-            incorrect: {
-                summary: "Company name is not valid",
-                inline: "Enter a valid company name"
-            }
-        },
-        description: {
-            blank: {
-                summary: "Enter a company description",
-                inline: "Enter a company description"
-            },
-            incorrect: {
-                summary: "Company description is not valid",
-                inline: "Enter a valid company description; 120 max characters"
+                summary: "Chosen number is not valid",
+                inline: "Enter a valid number between 1 and 100"
             }
         }
     }

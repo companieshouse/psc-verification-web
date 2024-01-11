@@ -1,0 +1,37 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block main_content %}
+
+  <h1 class="govuk-heading-xl">{{ title }}</h1>
+
+  <h2 class="govuk-heading-m">{{ sampleKey }}</h2>
+
+  <form action="" method="post" enctype="application/json" id="frm-chosen-number">
+
+      <div class="govuk-form-group{{ ' govuk-form-group--error' if errors.chosenNumber is not undefined }}">
+        {% if errors.chosenNumber is not undefined %}
+          <span class="govuk-visually-hidden">Error:</span>
+          <span id="err-id-name" class="govuk-error-message">{{ errors.chosenNumber.inline }}</span>
+        {% endif %}
+        <input class="govuk-input{{ ' govuk-input--error' if errors.chosenNumber is not undefined }}"
+               id="chosenNumber" name="chosenNumber" value="{{ payload.chosenNumber }}" type="number"/>
+      </div>
+      
+      {{ govukButton({
+        attributes: {
+          "data-event-id": "continue-button"
+        },
+        text: "Continue"
+      }) }}
+
+      <a href="/" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+        Cancel
+      </a>
+
+    </form>
+    </form>
+
+{% endblock %}
