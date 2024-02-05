@@ -3,5 +3,5 @@ FROM 416670754337.dkr.ecr.eu-west-2.amazonaws.com/ci-node-runtime-20:${IMAGE_VER
 
 RUN cp -r ./dist/* ./ && rm -rf ./dist
 RUN ls
-CMD ["--inspect=0.0.0.0:9229","./server.js","--","3000"]
+CMD ["./server.js","--","3000"]
 EXPOSE 3000
