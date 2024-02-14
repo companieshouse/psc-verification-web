@@ -1,5 +1,6 @@
 {% extends "layouts/default.njk" %}
 
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% block main_content %}
@@ -24,5 +25,12 @@
       <li>Another list option</li>
       <li>the <a href="https://www.gov.uk/guidance/company-authentication-codes-for-online-filing" class="govuk-link">company authentication code</a></li>
   </ul>
+
+      {{ govukButton({
+          text: "Skeleton One",
+          href: Urls.SKELETON_ONE,
+          classes: "govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8",
+          isStartButton: true
+      }) }}
 
 {% endblock %}
