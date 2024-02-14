@@ -1,14 +1,14 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Request, Response, Router } from "express";
 import startRouter from "./routers/startRouter";
-import { StartRouter, SkeletonOneRouter, SkeletonTwoRouter, SkeletonThreeRouter, SkeletonFourRouter, SkeletonFiveRouter } from "./routers";
+import { StartRouter, SkeletonOneRouter, SkeletonTwoRouter, SkeletonThreeRouter, SkeletonFourRouter, SkeletonFiveRouter } from "./routers/__utils";
 import { Urls, servicePathPrefix } from "./constants";
 
 const routerDispatch = (app: Application) => {
 
     const router = Router();
     // Required for endpoint prefix
-    app.use("/persons-with-significant-control-verification", router);
+    app.use(servicePathPrefix, router);
 
     router.use("/", StartRouter);
     router.use("/start", StartRouter);

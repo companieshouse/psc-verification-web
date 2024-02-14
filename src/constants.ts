@@ -11,7 +11,6 @@ export const Urls = {
     SKELETON_THREE: "/skeleton_three",
     SKELETON_FOUR: "/skeleton_four",
     SKELETON_FIVE: "/skeleton_five",
-
     HEALTHCHECK: "/healthcheck"
 } as const;
 

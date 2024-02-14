@@ -26,10 +26,7 @@ export class SkeletonOneHandler extends GenericHandler<SkeletonOneViewData> {
         };
     }
 
-    public executeGet (
-        req: Request,
-        _response: Response
-    ): ViewModel<SkeletonOneViewData> {
+    public executeGet (req: Request, _response: Response): ViewModel<SkeletonOneViewData> {
         logger.info(`SkeletonOneHandler execute called`);
         const viewData = this.getViewData(req);
 
