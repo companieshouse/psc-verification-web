@@ -11,6 +11,7 @@ export const Urls = {
     SKELETON_THREE: "/skeleton_three",
     SKELETON_FOUR: "/skeleton_four",
     SKELETON_FIVE: "/skeleton_five",
+    SKELETON_SIX: "/skeleton_six",
     HEALTHCHECK: "/healthcheck"
 } as const;
 
@@ -23,6 +24,7 @@ export const PrefixedUrls = {
     SKELETON_THREE: servicePathPrefix + Urls.SKELETON_THREE,
     SKELETON_FOUR: servicePathPrefix + Urls.SKELETON_FOUR,
     SKELETON_FIVE: servicePathPrefix + Urls.SKELETON_FIVE,
+    SKELETON_SIX: servicePathPrefix + Urls.SKELETON_SIX,
     COOKIES: "/help/cookies"
 } as const;
 
