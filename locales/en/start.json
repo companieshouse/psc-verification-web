@@ -1,3 +1,11 @@
 {
-    "start_main_title": "Provide identity verification details for a PSC or relevant legal entity"
+    "start_main_title" : "Provide identity verification details for a PSC or relevant legal entity",
+    "start_service_description" : "Use this service to provide verification details for a company's person with significant control (PSC), or a relevant legal entity's (RLE) relevant officer.",
+    "start_service_user" : "Who can use this service",
+    "start_service_user_description" : "This service is for:",
+    "start_service_user_item1" : "new PSCs of a new or existing company",
+    "start_service_user_item2" : "current PSCs that are already on the Companies House register",
+    "start_service_user_item3" : "people providing verification details on behalf of a PSC",
+    "start_service_user_item4" : "RLEs providing information about a relevant officer for the first time",
+    "start_service_user_item5" : "RLEs telling us about a new relevant officer"
 }

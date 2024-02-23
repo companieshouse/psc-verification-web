@@ -42,7 +42,7 @@ export const env = readEnv(process.env, {
     ),
     LOCALES_ENABLED: str
         .describe("feature flag that toggles localisation behaviour")
-        .default("false"),
+        .default("true"),
     LOCALES_PATH: str
         .describe("The name of the directory where the locales files are stored")
         .default("locales"),
