@@ -8,11 +8,16 @@
 
         <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
         {# {% include "partials/cookie_consent_banner.njk" %} #}
+        
         <a href="#main-page-content" class="govuk-skip-link">Skip to main content</a>
+        
         {% include "partials/__header.njk" %}
 
         <div class="govuk-width-container ">
+            
+            {% include "locales-banner.njk" %}
             <main class="govuk-main-wrapper " id="main-content">
+                
                 <div class="govuk-grid-row">
                     {% block main_content %}
                     {% endblock %}
