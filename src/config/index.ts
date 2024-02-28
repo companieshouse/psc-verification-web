@@ -4,7 +4,6 @@ const { str, url, bool, port } = Validators;
 
 export const env = readEnv(process.env, {
     ABILITY_NET_LINK: url.default("https://mcmw.abilitynet.org.uk/"),
-    API_URL: url.describe("API base URL for service interaction"),
     APP_NAME: str
         .describe("Name of the application")
         .default("persons-with-significant-control-verification"),
@@ -18,8 +17,7 @@ export const env = readEnv(process.env, {
     CDN_URL_JS: str.describe("CDN URL for the JavaScript files").default("/js"),
     CH_NODE_UTILS_LOG_LVL: str
         .describe("Enable the logging within ch-node-utils for localisation")
-        .default("DEBUG"),
-    CHS_API_KEY: str.describe("API key for CHS service"),
+        .default("INFO"),
     CHS_URL: url.describe("This host URL for CHS"),
     CONTACT_US_LINK: str
         .describe("Link to contact us")
@@ -37,7 +35,7 @@ export const env = readEnv(process.env, {
         .default(""),
     LOCALES_ENABLED: str
         .describe("feature flag that toggles localisation behaviour")
-        .default("true"),
+        .default("false"),
     LOCALES_PATH: str
         .describe("The name of the directory where the locales files are stored")
         .default("locales"),
