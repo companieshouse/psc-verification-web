@@ -4,7 +4,6 @@ const { str, url, bool, port } = Validators;
 
 export const env = readEnv(process.env, {
     ABILITY_NET_LINK: url.default("https://mcmw.abilitynet.org.uk/"),
-    API_URL: url.describe("API base URL for service interaction"),
     APP_NAME: str
         .describe("Name of the application")
         .default("persons-with-significant-control-verification"),
@@ -13,12 +12,12 @@ export const env = readEnv(process.env, {
             "https://www.gov.uk/government/publications/apply-for-a-companies-house-online-filing-presenter-account"
         )
         .describe("Link to complete an application form"),
-    CACHE_SERVER: str.describe("Cache server URL"),
     CDN_HOST: str.map(addProtocolIfMissing).describe("URL for the CDN"),
     CDN_URL_CSS: str.describe("CDN URL for the CSS files").default("/css"),
     CDN_URL_JS: str.describe("CDN URL for the JavaScript files").default("/js"),
-    CHS_API_KEY: str.describe("API key for CHS service"),
-    CHS_INTERNAL_API_KEY: str.describe("API key with internal app privileges"),
+    CH_NODE_UTILS_LOG_LVL: str
+        .describe("Enable the logging within ch-node-utils for localisation")
+        .default("INFO"),
     CHS_URL: url.describe("This host URL for CHS"),
     CONTACT_US_LINK: str
         .describe("Link to contact us")
@@ -34,9 +33,12 @@ export const env = readEnv(process.env, {
     FEEDBACK_URL: str
         .describe("Link for the user to give feedback on the service")
         .default(""),
-    INTERNAL_API_URL: url.describe(
-        "Internal API base URL for internal service interaction"
-    ),
+    LOCALES_ENABLED: str
+        .describe("feature flag that toggles localisation behaviour")
+        .default("false"),
+    LOCALES_PATH: str
+        .describe("The name of the directory where the locales files are stored")
+        .default("locales"),
     LOG_LEVEL: str
         .in([
             "ALL",
