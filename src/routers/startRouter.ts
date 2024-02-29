@@ -1,9 +1,6 @@
 import { Request, Response, Router, NextFunction } from "express";
 import { StartHandler } from "./handlers/start/start";
 import { handleExceptions } from "../utils/async.handler";
-import { PrefixedUrls } from "./../constants";
-import { LocalesService } from "@companieshouse/ch-node-utils";
-import { selectLang, getLocalesService, getLocaleInfo } from "./../utils/localise";
 
 const router: Router = Router();
 
