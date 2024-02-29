@@ -10,11 +10,18 @@
 {#    {% include "partials/cookie_consent_banner.njk" %} #}
 
     <a href="#main-page-content" class="govuk-skip-link">Skip to main content</a>
-    
+
     {% include "partials/__header.njk" %}
-    
+
     <div class="govuk-width-container ">
-      
+      {% if isSignedIn %}
+        {% include "../partials/signout-bar.njk" %}
+      {% endif %}
+
+      {% if backURL %}
+        <a href="{{ backURL }}" class="govuk-back-link">Back</a>
+      {% endif %}
+
       {% include "locales-banner.njk" %}
       <main class="govuk-main-wrapper " id="main-content">
 

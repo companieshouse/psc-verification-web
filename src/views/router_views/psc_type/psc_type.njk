@@ -1,0 +1,76 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% block main_content %}
+
+<p class="govuk-body govuk-!-margin-bottom-7"></p>
+
+{% set pscTypeTitle %}
+  {{ i18n.psc_type_title }}
+{% endset %}
+
+{% set pscTypeIndividual %}
+  {{ i18n.psc_type_individual}}
+{% endset %}
+
+{% set pscTypeRle %}
+  {{ i18n.psc_type_rle}}
+{% endset %}
+
+{% set pscTypeHint %}
+  {{ i18n.psc_type_hint}}
+{% endset %}
+
+  {% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{{ govukRadios({
+  name: "pscType",
+  fieldset: {
+    legend: {
+      text: pscTypeTitle,
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "individual",
+      text: pscTypeIndividual
+    },
+    {
+      value: "rle",
+      text: pscTypeRle,
+      hint: {
+        text: pscTypeHint
+      }
+    }
+  ]
+}) }}
+
+{% set detailsTitleText %}
+  {{ i18n.psc_type_details_title }}
+{% endset %}
+
+{% set detailsText %}
+  {{ i18n.psc_type_details_text }}
+{% endset %}
+
+{{ govukDetails({
+summaryText: detailsTitleText,
+text: detailsText
+}) }}
+
+{% set continueText %}
+  {{ i18n.global_continue_button }}
+{% endset %}
+
+      {{ govukButton({
+          text: continueText,
+          href: Urls.SKELETON_THREE,
+          classes: "govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8",
+          isStartButton: true
+      }) }}
+
+{% endblock %}
