@@ -5,7 +5,7 @@ export const servicePathPrefix = "/persons-with-significant-control-verification
 
 export const Urls = {
     ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
-    START: "/",
+    START: "/start",
     SKELETON_ONE: "/skeleton_one",
     SKELETON_TWO: "/skeleton_two",
     SKELETON_THREE: "/skeleton_three",
