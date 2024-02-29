@@ -1,0 +1,111 @@
+{% extends "layouts/default.njk" %}
+
+{% set title = i18n.confirmCompanyTitle %}
+
+{% block pageTitle %}
+    {% include "includes/page-title.html" %}
+{% endblock %}
+{% block backLink %}
+    {% include "includes/back-link.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">{{ i18n.confirmCompanyTitle }}
+            </h1>
+            <form action="" method="post">
+
+                {% set notDueWarningHTML %}
+                <p style="font-weight: 400; display: inline;">
+                    {{ i18n.confirmNotDueToFile }}
+                    <strong>{{notDueWarning.newNextMadeUptoDate}}</strong>
+                    {{ i18n.confirmReviewPeriodChange }}
+                </p>
+                {% endset %}
+
+                {{ govukSummaryList({
+          rows: [
+          {
+            key: {
+              id: "confirm-company-name",
+              text: i18n.confirmCompanyName
+            },
+            value: {
+              text: company.companyName
+            }
+          },
+            {
+              key: {
+                id: "confirm-company-number",
+                classes: "govuk-!-width-full",
+                text: i18n.confirmCompanyNumber
+              },
+              value: {
+                text: company.companyNumber
+              }
+            },
+            {
+              key: {
+                id: "confirm-company-status",
+                text: i18n.confirmCompanyStatus
+              },
+              value: {
+                text: company.companyStatus
+              }
+            },
+            {
+              key: {
+                id: "confirm-company-incorporation-date",
+                text: i18n.confirmCompanyDateOfCreation
+              },
+              value: {
+                text: company.dateOfCreation
+              }
+            },
+            {
+              key: {
+                id: "confirm-company-type",
+                text: i18n.confirmCompanyType
+              },
+              value: {
+                text: company.type
+              }
+            },
+            {
+              key: {
+                id: "confirm-company-registered-office-address",
+                text: i18n.confirmRegisteredOfficeAddress
+              },
+              value: {
+                html: address
+
+              }
+            }
+          ]
+        }) }}
+
+                {% set warningText = i18n.warning | default("Warning") %}
+                {% set notDueWarning = notDueWarning | default(false) %}
+                {% if notDueWarning %}
+                    {{ govukWarningText({
+            html: notDueWarningHTML,
+            iconFallbackText: warningText
+          }) }}
+                {% endif %}
+
+                <input type="hidden" name="lang" value="{{lang}}">
+                {{ govukButton({
+          attributes: {
+            id: "submit",
+            "data-event-id": "confirm-and-continue-button"
+          },
+          text: i18n.confirmAndContinue
+        }) }}
+            </form>
+            <p class="govuk-body">
+                <a href="/appoint-update-remove-company-officer/company-number?lang={{lang}}" data-event-id="choose-a-different-company-link">{{ i18n.confirmChooseADifferentCompany }}</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
