@@ -3,7 +3,7 @@ import {
     BaseViewData,
     GenericHandler,
     ViewModel
-} from "./../generic";
+} from "../generic";
 import logger from "../../../lib/Logger";
 import { PrefixedUrls } from "../../../constants";
 
@@ -13,7 +13,7 @@ interface SkeletonOneViewData extends BaseViewData {
 
 export class SkeletonOneHandler extends GenericHandler<SkeletonOneViewData> {
 
-    private static templatePath = "router_views/skeleton_one/skeleton_one";
+    private static templatePath = "router_views/confirmCompany/confirmCompany";
 
     public getViewData (req: Request): SkeletonOneViewData {
 
