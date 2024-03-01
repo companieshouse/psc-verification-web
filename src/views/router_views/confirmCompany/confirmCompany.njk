@@ -1,6 +1,9 @@
 {% extends "layouts/default.njk" %}
 
-{% set title = i18n.confirmCompanyTitle %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% set title = i18n.confirm_company_main_title %}
 
 {% block pageTitle %}
     {% include "includes/page-title.html" %}
@@ -9,10 +12,10 @@
     {% include "includes/back-link.html" %}
 {% endblock %}
 
-{% block content %}
+{% block main_content %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">{{ i18n.confirmCompanyTitle }}
+            <h1 class="govuk-heading-l">{{ i18n.confirm_company_main_title }}
             </h1>
             <form action="" method="post">
 
@@ -29,7 +32,7 @@
           {
             key: {
               id: "confirm-company-name",
-              text: i18n.confirmCompanyName
+              text: i18n.confirm_company_company_name
             },
             value: {
               text: company.companyName
@@ -39,7 +42,7 @@
               key: {
                 id: "confirm-company-number",
                 classes: "govuk-!-width-full",
-                text: i18n.confirmCompanyNumber
+                text: i18n.confirm_company_company_number
               },
               value: {
                 text: company.companyNumber
@@ -48,7 +51,7 @@
             {
               key: {
                 id: "confirm-company-status",
-                text: i18n.confirmCompanyStatus
+                text: i18n.confirm_company_company_status
               },
               value: {
                 text: company.companyStatus
@@ -57,7 +60,7 @@
             {
               key: {
                 id: "confirm-company-incorporation-date",
-                text: i18n.confirmCompanyDateOfCreation
+                text: i18n.confirm_company_incorporation_date
               },
               value: {
                 text: company.dateOfCreation
@@ -66,7 +69,7 @@
             {
               key: {
                 id: "confirm-company-type",
-                text: i18n.confirmCompanyType
+                text: i18n.confirm_company_company_type
               },
               value: {
                 text: company.type
@@ -75,7 +78,7 @@
             {
               key: {
                 id: "confirm-company-registered-office-address",
-                text: i18n.confirmRegisteredOfficeAddress
+                text: i18n.confirm_company_registered_office_address
               },
               value: {
                 html: address
@@ -100,11 +103,11 @@
             id: "submit",
             "data-event-id": "confirm-and-continue-button"
           },
-          text: i18n.confirmAndContinue
+          text: i18n.global_confirm_continue
         }) }}
             </form>
             <p class="govuk-body">
-                <a href="/appoint-update-remove-company-officer/company-number?lang={{lang}}" data-event-id="choose-a-different-company-link">{{ i18n.confirmChooseADifferentCompany }}</a>
+                <a href="/appoint-update-remove-company-officer/company-number?lang={{lang}}" data-event-id="choose-a-different-company-link">{{ i18n.confirm_company_choose_different_company }}</a>
             </p>
         </div>
     </div>

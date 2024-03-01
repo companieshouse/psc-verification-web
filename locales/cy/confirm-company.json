@@ -1,12 +1,10 @@
 {
-  "confirmCompanyTitle" : "Cadarnhau mai hwn yw’r cwmni cywir",
-  "confirmCompanyName" : "Enw’r cwmni",
-  "confirmCompanyNumber": "Rhif y cwmni",
-  "confirmCompanyStatus" : "Statws",
-  "confirmCompanyDateOfCreation": "Dyddiad corffori",
-  "confirmCompanyType": "Math o gwmni",
-  "confirmRegisteredOfficeAddress": "Cyfeiriad swyddfa gofrestredig",
-  "confirmNotDueToFile": "Ni fyddwch yn gorfod ffeilio swyddog sy'n ffeilio. Os ydych chi'n ffeilio datganiad heddiw, bydd yn dangos y dyddiad fel",
-  "confirmReviewPeriodChange": "bydd hyn yn newid eich cyfnodau adolygu yn y dyfodol.",
-  "confirmChooseADifferentCompany": "Dewis cwmni gwahanol"
+    "confirm_company_main_title": "Cadarnhau mai hwn yw’r cwmni cywir",
+    "confirm_company_company_name": "Enw’r cwmni",
+    "confirm_company_company_number": "Rhif y cwmni",
+    "confirm_company_company_status": "Statws",
+    "confirm_company_incorporation_date": "Dyddiad corffori",
+    "confirm_company_company_type": "Math o gwmni",
+    "confirm_company_registered_office_address": "Cyfeiriad swyddfa gofrestredig",
+    "confirm_company_choose_different_company": "Dewis cwmni gwahanol"
 }
