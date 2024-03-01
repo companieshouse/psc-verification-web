@@ -1,28 +1,36 @@
 import { Request, Response } from "express";
-import { GenericHandler } from "./../generic";
+import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
 import logger from "../../../lib/Logger";
+import { PrefixedUrls } from "../../../constants";
+import { LocalesService } from "@companieshouse/ch-node-utils";
+import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 
-export class StartHandler extends GenericHandler {
+export class StartHandler extends GenericHandler<BaseViewData> {
 
-    constructor () {
-        super();
-        this.viewData.title = "PSC Verification";
-        this.viewData.sampleKey = "Example text for start page.";
+    public static templatePath = "router_views/start/start";
+
+    public getViewData (req: Request): BaseViewData {
+        const baseViewData = super.getViewData(req);
+        // adding language functionality
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
+
+        return {
+            ...baseViewData,
+            ...getLocaleInfo(locales, lang),
+            title: "PSC Verification",
+            currentUrl: PrefixedUrls.START,
+            backURL: null
+        };
     }
 
-    execute (req: Request, response: Response): Promise<Object> {
-        logger.info(`GET request for to serve home page`);
+    public execute (req: Request, _response: Response): ViewModel<BaseViewData> {
+        logger.info(`GET request to serve start page`);
         // ...process request here and return data for the view
-        return Promise.resolve(this.viewData);
-    }
 
-    // additional support method in handler
-    private supportMethod1 (): boolean {
-        return true;
-    }
-
-    // additional support method in handler
-    protected supportMethod2 (): boolean {
-        return false;
+        return {
+            templatePath: StartHandler.templatePath,
+            viewData: this.getViewData(req)
+        };
     }
 };

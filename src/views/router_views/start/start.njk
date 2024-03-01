@@ -1,28 +1,96 @@
 {% extends "layouts/default.njk" %}
 
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% block main_content %}
+    <div class="govuk-grid-row">
 
-  <div class="generic-class-name">
-    <h1>Start page</h1>
-    <p>{{ sampleKey }}</p>
-  </div>
+            <h1 class="govuk-heading-l">{{ i18n.start_main_title }}</h1>
+            <p class="govuk-body">{{ i18n.start_service_description }}</p>
+            
+            <h2 class="govuk-heading-m">{{ i18n.start_service_user }}</h2>
+            <p class="govuk-body">{{ i18n.start_service_user_list }}</p>
+            
+            <ul class="govuk-list govuk-list--bullet">
+                <li>{{ i18n.start_service_user_list_item1 }}</li>
+                <li>{{ i18n.start_service_user_list_item2 }}</li>
+                <li>{{ i18n.start_service_user_list_item3 }}</li>
+                <li>{{ i18n.start_service_user_list_item4 }}</li>
+                <li>{{ i18n.start_service_user_list_item5 }}</li>
+            </ul>
 
-  <h2>Addition sample text as examples below...</h2>
+            <p class="govuk-body">{{ i18n.start_service_restriction_description }}</>
+            
+            {% set startLearnDetailsText %}
+                    <h3 class="govuk-heading-s">{{ i18n.start_learn_details_psc_heading }}</h3>
+                    <p class="govuk-body">{{ i18n.start_learn_details_psc_description }}</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>{{ i18n.start_learn_details_psc_list_item1 }}</li>
+                        <li>{{ i18n.start_learn_details_psc_list_item2 }}</li>
+                        <li>{{ i18n.start_learn_details_psc_list_item3 }}</li>
+                    </ul>
 
-  {{ govukDetails({
-      summaryText: "What is PSC verification?",
-      text:"This is example text."
-  }) }}
+                    <h3 class="govuk-heading-s">{{ i18n.start_learn_details_rle_heading }}</h3>
+                    <p class="govuk-body">{{ i18n.start_learn_details_rle_description }}</p>
+                    <p class="govuk-body">{{ i18n.start_learn_details_rle_list }}</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>{{ i18n.start_learn_details_rle_list_item1 }}</li>
+                        <li>{{ i18n.start_learn_details_rle_list_item2 }}</li>
+                        <li>{{ i18n.start_learn_details_rle_list_item3 }}</li>
+                    </ul>
 
-  <h2 class="govuk-heading-m">Before you start</h2>
+                    <h3 class="govuk-heading-s">{{ i18n.start_learn_details_ro_heading }}</h3>
+                    <p class="govuk-body">{{ i18n.start_learn_details_ro_description }}</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>{{ i18n.start_learn_details_ro_list_item1 }}</li>
+                        <li>{{ i18n.start_learn_details_ro_list_item2 }}</li>
+                        <li>{{ i18n.start_learn_details_ro_list_item3 }}</li>
+                    </ul>
+            {% endset %}
 
-  <p class="govuk-body">You'll need:</p>
-  <ul class="govuk-list govuk-list--bullet">
-      <li>to sign in to or create a Companies House account</li>
-      <li>Another list option</li>
-      <li>the <a href="https://www.gov.uk/guidance/company-authentication-codes-for-online-filing" class="govuk-link">company authentication code</a></li>
-  </ul>
+            {% set startLearnDetailsMain %} 
+                {{ i18n.start_learn_details_main_link }}
+            {% endset %}
+
+            {{ govukDetails({
+                summaryText: startLearnDetailsMain,
+                html: startLearnDetailsText
+            }) }}
+
+            <h2 class="govuk-heading-m">{{ i18n.start_learn_when_to_verify_heading }}</h2>
+            <p class="govuk-body">{{ i18n.start_learn_when_to_verify_description }} <a href="#" title="{{ i18n.start_learn_when_to_verify_link }}" class="govuk-link">{{ i18n.start_learn_when_to_verify_link}}</a></p>
+
+            <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>
+            <p class="govuk-body">{{ i18n.start_before_verify_description }} <a href="#" title="{{ i18n.start_before_verify_link }}" class="govuk-link"> {{ i18n.start_before_verify_link }} </a> {{i18n.start_before_verify_description2}}</p>
+            <p class="govuk-body">{{ i18n.start_before_list }}</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>{{ i18n.start_before_list_item1 }}</li>
+                <li>{{ i18n.start_before_list_item2 }}</li>
+            </ul>
+            <p class="govuk-body">{{ i18n.start_before_required_description }} </p>
+
+            {% set startPersonalCodeSummaryText %} 
+                {{ i18n.start_personal_code_details_main_link }}
+            {% endset %}
+
+            {% set startPersonalCodeDetailsText %}
+                <p class="govuk-body">{{ i18n.start_personal_code_details_description }}</p>
+             {% endset %}
+
+            {{ govukDetails({
+                summaryText: startPersonalCodeSummaryText,
+                html: startPersonalCodeDetailsText
+            }) }}
+
+            {% set startButtonText %}{{ i18n.start_button }}{% endset %}
+            {{ govukButton({
+                text: startButtonText,
+                href: Urls.SKELETON_ONE,
+                classes: "govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8",
+                isStartButton: true
+            }) }}
+
+    </div>
 
 {% endblock %}
