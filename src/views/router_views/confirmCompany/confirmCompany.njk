@@ -17,14 +17,6 @@
         <h1 class="govuk-heading-l">{{ i18n.confirm_company_main_title }}</h1>
         <form action="" method="post">
 
-            {% set notDueWarningHTML %}
-            <p style="font-weight: 400; display: inline;">
-                {{ i18n.confirmNotDueToFile }}
-                <strong>{{notDueWarning.newNextMadeUptoDate}}</strong>
-                {{ i18n.confirmReviewPeriodChange }}
-            </p>
-            {% endset %}
-
             {{ govukSummaryList({
           rows: [
           {
@@ -86,26 +78,17 @@
           ]
         }) }}
 
-            {% set warningText = i18n.warning | default("Warning") %}
-            {% set notDueWarning = notDueWarning | default(false) %}
-            {% if notDueWarning %}
-                {{ govukWarningText({
-            html: notDueWarningHTML,
-            iconFallbackText: warningText
-          }) }}
-            {% endif %}
-
             <input type="hidden" name="lang" value="{{lang}}">
             {{ govukButton({
           attributes: {
             id: "submit",
             "data-event-id": "confirm-and-continue-button"
           },
-          text: i18n.global_confirm_continue
+          text: i18n.global_confirm_continue_button
         }) }}
         </form>
         <p class="govuk-body">
-            <a href="/appoint-update-remove-company-officer/company-number?lang={{lang}}" data-event-id="choose-a-different-company-link">{{ i18n.confirm_company_choose_different_company }}</a>
+            <a title="{{i18n.confirm_company_choose_different_company }}" class="govuk-link" href="/appoint-update-remove-company-officer/company-number?lang={{lang}}" data-event-id="choose-a-different-company-link">{{ i18n.confirm_company_choose_different_company }}</a>
         </p>
     </div>
 </div>
