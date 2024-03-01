@@ -6,32 +6,36 @@ import {
 } from "../generic";
 import logger from "../../../lib/Logger";
 import { PrefixedUrls } from "../../../constants";
+import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 
-interface SkeletonOneViewData extends BaseViewData {
-
+interface ConfirmCompanyViewData extends BaseViewData {
 }
 
-export class SkeletonOneHandler extends GenericHandler<SkeletonOneViewData> {
+export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData> {
 
     private static templatePath = "router_views/confirmCompany/confirmCompany";
 
-    public getViewData (req: Request): SkeletonOneViewData {
+    public getViewData (req: Request): ConfirmCompanyViewData {
 
         const baseViewData = super.getViewData(req);
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
 
         return {
             ...baseViewData,
-            title: "Skeleton One",
+            ...getLocaleInfo(locales, lang),
+            title: "Confirm Company",
+            currentUrl: PrefixedUrls.CONFIRM_COMPANY,
             backURL: PrefixedUrls.START
         };
     }
 
-    public executeGet (req: Request, _response: Response): ViewModel<SkeletonOneViewData> {
-        logger.info(`SkeletonOneHandler execute called`);
+    public executeGet (req: Request, _response: Response): ViewModel<ConfirmCompanyViewData> {
+        logger.info(`ConfirmCompanyHandler execute called`);
         const viewData = this.getViewData(req);
 
         return {
-            templatePath: SkeletonOneHandler.templatePath,
+            templatePath: ConfirmCompanyHandler.templatePath,
             viewData
         };
     }
