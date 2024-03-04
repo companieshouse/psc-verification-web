@@ -83,9 +83,9 @@
                 html: startPersonalCodeDetailsText
             }) }}
 
-            {% set startButtonText %}{{ i18n.start_button }}{% endset %}
+            
             {{ govukButton({
-                text: startButtonText,
+                text: i18n.start_button,
                 href: Urls.CONFIRM_COMPANY,
                 classes: "govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8",
                 isStartButton: true
