@@ -1,3 +1,6 @@
 {
-    "global_continue_button" : "To be translated"
+    "global_banner_new_service": "Mae hwn yn wasanaeth newydd - bydd eich ",
+    "global_banner_feedback_link": "adborth",
+    "global_banner_help_improve": " yn ein helpu i'w wella.",
+    "global_confirm_continue_button": "Cadarnhau a pharhau"
 }

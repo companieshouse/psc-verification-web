@@ -20,7 +20,7 @@
 {% endset %}
 
 {% set pscTypeHint %}
-  {{ i18n.psc_type_hint}}
+  {{ i18n.psc_type_hint | safe}}
 {% endset %}
 
   {% from "govuk/components/radios/macro.njk" import govukRadios %}
@@ -42,7 +42,7 @@
     {
       value: "rle",
       text: pscTypeRle,
-      hint: {
+       hint: {
         text: pscTypeHint
       }
     }

@@ -1,3 +1,6 @@
 {
-    "global_continue_button" : "Continue"
+    "global_banner_new_service": "This is a new service - your ",
+    "global_banner_feedback_link": "feedback",
+    "global_banner_help_improve": " will help us to improve it.",
+    "global_confirm_continue_button": "Confirm and continue"
 }

@@ -6,7 +6,7 @@ export const servicePathPrefix = "/persons-with-significant-control-verification
 export const Urls = {
     ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
     START: "/start",
-    SKELETON_ONE: "/skeleton_one",
+    CONFIRM_COMPANY: "/confirm-company",
     PSC_TYPE: "/psc_type",
     SKELETON_THREE: "/skeleton_three",
     SKELETON_FOUR: "/skeleton_four",
@@ -19,7 +19,7 @@ export const PrefixedUrls = {
     ACCESSIBILITY_STATEMENT: servicePathPrefix + Urls.ACCESSIBILITY_STATEMENT,
     START: servicePathPrefix + Urls.START,
     HEALTHCHECK: servicePathPrefix + Urls.HEALTHCHECK,
-    SKELETON_ONE: servicePathPrefix + Urls.SKELETON_ONE,
+    CONFIRM_COMPANY: servicePathPrefix + Urls.CONFIRM_COMPANY,
     PSC_TYPE: servicePathPrefix + Urls.PSC_TYPE,
     SKELETON_THREE: servicePathPrefix + Urls.SKELETON_THREE,
     SKELETON_FOUR: servicePathPrefix + Urls.SKELETON_FOUR,
