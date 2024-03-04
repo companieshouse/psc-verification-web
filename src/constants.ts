@@ -7,7 +7,7 @@ export const Urls = {
     ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
     START: "/start",
     CONFIRM_COMPANY: "/confirm-company",
-    PSC_TYPE: "/psc_type",
+    PSC_TYPE: "/psc-type",
     SKELETON_THREE: "/skeleton_three",
     SKELETON_FOUR: "/skeleton_four",
     SKELETON_FIVE: "/skeleton_five",
