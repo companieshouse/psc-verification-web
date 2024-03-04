@@ -19,7 +19,7 @@ export class PscTypeHandler extends GenericHandler<BaseViewData> {
             ...getLocaleInfo(locales, lang),
             title: "PSC type – Provide identity verification details for a PSC or relevant legal entity",
             currentUrl: PrefixedUrls.PSC_TYPE,
-            backURL: PrefixedUrls.SKELETON_ONE
+            backURL: PrefixedUrls.CONFIRM_COMPANY
         };
     }
 
