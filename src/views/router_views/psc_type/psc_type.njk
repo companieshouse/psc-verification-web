@@ -6,21 +6,11 @@
 
 {% block main_content %}
 
-{% set pscTypeTitle = i18n.psc_type_title %}
-{% set pscTypeIndividual = i18n.psc_type_individual %}
-{% set pscTypeRle = i18n.psc_type_rle %}
-{% set pscTypeHint = i18n.psc_type_hint | safe %}
-{% set detailsTitleText = i18n.psc_type_details_title %}
-{% set detailsText = i18n.psc_type_details_text %}
-{% set continueText = i18n.global_confirm_continue_button %}
-
-<p class="govuk-body govuk-!-margin-bottom-7"></p>
-
 {{ govukRadios({
   name: "pscType",
   fieldset: {
     legend: {
-      text: pscTypeTitle,
+      text: i18n.psc_type_title,
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }
@@ -28,25 +18,25 @@
   items: [
     {
       value: "individual",
-      text: pscTypeIndividual
+      text: i18n.psc_type_individual
     },
     {
       value: "rle",
-      text: pscTypeRle,
+      text: i18n.psc_type_rle,
        hint: {
-        text: pscTypeHint
+        text: i18n.psc_type_hint | safe
       }
     }
   ]
 }) }}
 
 {{ govukDetails({
-summaryText: detailsTitleText,
-text: detailsText
+summaryText: i18n.psc_type_details_title,
+text: i18n.psc_type_details_text
 }) }}
 
 {{ govukButton({
-  text: continueText,
+  text: i18n.global_confirm_continue_button,
   href: Urls.SKELETON_THREE,
   classes: "govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8"
 }) }}
