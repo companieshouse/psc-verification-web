@@ -29,7 +29,7 @@ export class PscTypeHandler extends GenericHandler<BaseViewData> {
 
         return {
             templatePath: PscTypeHandler.templatePath,
-            viewData: this.getViewData(req)
+            viewData
         };
     }
 }
