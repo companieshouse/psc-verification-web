@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
 import logger from "../../../lib/Logger";
 import { PrefixedUrls } from "../../../constants";
-import { LocalesService } from "@companieshouse/ch-node-utils";
 import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 
 export class StartHandler extends GenericHandler<BaseViewData> {
