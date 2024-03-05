@@ -18,6 +18,8 @@ export const env = readEnv(process.env, {
     CH_NODE_UTILS_LOG_LVL: str
         .describe("Enable the logging within ch-node-utils for localisation")
         .default("INFO"),
+    CHS_API_KEY: str
+        .describe("API key"),
     CHS_URL: url.describe("This host URL for CHS"),
     CONTACT_US_LINK: str
         .describe("Link to contact us")

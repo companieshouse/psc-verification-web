@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Start script for confirmation statement web
+# Start script for PSC verification web
 
 PORT=3000
 
