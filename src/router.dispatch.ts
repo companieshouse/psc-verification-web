@@ -1,6 +1,6 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Request, Response, Router } from "express";
-import { StartRouter, ConfirmCompanyRouter, SkeletonTwoRouter, SkeletonThreeRouter, SkeletonFourRouter, SkeletonFiveRouter, SkeletonSixRouter } from "./routers/__utils";
+import { StartRouter, ConfirmCompanyRouter, SkeletonTwoRouter, SkeletonThreeRouter, SkeletonFourRouter, SkeletonFiveRouter, PscVerifiedRouter } from "./routers/__utils";
 import { Urls, servicePathPrefix } from "./constants";
 
 const routerDispatch = (app: Application) => {
@@ -16,7 +16,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.SKELETON_THREE, SkeletonThreeRouter);
     router.use(Urls.SKELETON_FOUR, SkeletonFourRouter);
     router.use(Urls.SKELETON_FIVE, SkeletonFiveRouter);
-    router.use(Urls.SKELETON_SIX, SkeletonSixRouter);
+    router.use(Urls.PSC_VERIFIED, PscVerifiedRouter);
     router.use("*", (req: Request, res: Response) => {
         res.status(404).render("partials/error_400");
     });

@@ -4,5 +4,5 @@ import SkeletonTwoRouter from "./../skeleton.two.router";
 import SkeletonThreeRouter from "./../skeleton.three.router";
 import SkeletonFourRouter from "./../skeleton.four.router";
 import SkeletonFiveRouter from "./../skeleton.five.router";
-import SkeletonSixRouter from "./../skeleton.six.router";
-export { StartRouter, ConfirmCompanyRouter, SkeletonTwoRouter, SkeletonThreeRouter, SkeletonFourRouter, SkeletonFiveRouter, SkeletonSixRouter };
+import PscVerifiedRouter from "./../pscVerifiedRouter";
+export { StartRouter, ConfirmCompanyRouter, SkeletonTwoRouter, SkeletonThreeRouter, SkeletonFourRouter, SkeletonFiveRouter, PscVerifiedRouter };
