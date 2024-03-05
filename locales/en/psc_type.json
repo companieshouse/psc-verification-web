@@ -1,0 +1,8 @@
+{
+   "psc_type_title" : "Are you providing verification details for a PSC or an RLE?",
+   "psc_type_individual" : "Person with significant control (PSC)",
+   "psc_type_rle" : "Relevant legal entity (RLE)",
+   "psc_type_hint" : "You'll need to provide the relevant officer's details",
+   "psc_type_details_title" : "What is the difference between a PSC and an RLE?",
+   "psc_type_details_text" : "A person with significant control (PSC) is an individual who has significant control over a company. A relevant legal entity (RLE) is a corporate entity that would qualify as a PSC of a company if it were an individual."
+}

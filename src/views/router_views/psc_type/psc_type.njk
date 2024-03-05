@@ -1,0 +1,43 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% block main_content %}
+
+{{ govukRadios({
+  name: "pscType",
+  fieldset: {
+    legend: {
+      text: i18n.psc_type_title,
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "individual",
+      text: i18n.psc_type_individual
+    },
+    {
+      value: "rle",
+      text: i18n.psc_type_rle,
+       hint: {
+        text: i18n.psc_type_hint | safe
+      }
+    }
+  ]
+}) }}
+
+{{ govukDetails({
+summaryText: i18n.psc_type_details_title,
+text: i18n.psc_type_details_text
+}) }}
+
+{{ govukButton({
+  text: i18n.global_continue_button,
+  href: Urls.SKELETON_THREE
+}) }}
+
+{% endblock %}

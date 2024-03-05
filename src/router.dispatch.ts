@@ -1,6 +1,7 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Request, Response, Router } from "express";
-import { StartRouter, ConfirmCompanyRouter, SkeletonTwoRouter, SkeletonThreeRouter, SkeletonFourRouter, SkeletonFiveRouter, SkeletonSixRouter } from "./routers/__utils";
+import startRouter from "./routers/startRouter";
+import { StartRouter, ConfirmCompanyRouter, PscTypeRouter, SkeletonThreeRouter, SkeletonFourRouter, SkeletonFiveRouter, SkeletonSixRouter } from "./routers/__utils";
 import { Urls, servicePathPrefix } from "./constants";
 
 const routerDispatch = (app: Application) => {
@@ -12,7 +13,7 @@ const routerDispatch = (app: Application) => {
     router.use("/", StartRouter);
     router.use("/start", StartRouter);
     router.use(Urls.CONFIRM_COMPANY, ConfirmCompanyRouter);
-    router.use(Urls.SKELETON_TWO, SkeletonTwoRouter);
+    router.use(Urls.PSC_TYPE, PscTypeRouter);
     router.use(Urls.SKELETON_THREE, SkeletonThreeRouter);
     router.use(Urls.SKELETON_FOUR, SkeletonFourRouter);
     router.use(Urls.SKELETON_FIVE, SkeletonFiveRouter);
