@@ -7,8 +7,6 @@ import {
 import logger from "../../../lib/Logger";
 import { PrefixedUrls } from "../../../constants";
 import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
-import { getCompanyProfile } from "../../../services/external/company.profile.service";
 
 interface ConfirmCompanyViewData extends BaseViewData {
 }
