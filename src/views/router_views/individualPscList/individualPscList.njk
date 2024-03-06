@@ -1,0 +1,50 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set title = i18n.individual_psc_list %}
+{% set dummyRadioButtons = i18n.individual_psc_list %}
+{% set dummyPscOption = i18n.individual_psc_list %}
+
+{% block pageTitle %}
+    {% include "includes/page-title.html" %}
+{% endblock %}
+{% block backLink %}
+    {% include "includes/back-link.html" %}
+{% endblock %}
+
+{% block main_content %}
+    <div class="govuk-grid-row">
+
+            <h1 class="govuk-heading-l">{{ i18n.individual_psc_list_main_title }}</h1>
+            <h3 class="govuk-hint">{{ i18n.individual_psc_list_hint }}</h3>
+
+            {{ govukRadios({
+              name: "dummyRadioButtons",
+              fieldset: {
+                legend: {
+                  text: dummyRadioButtons,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+              },
+              items: [
+                {
+                  value: "dummyValue",
+                  text: dummyPscOption
+                }
+              ]
+            }) }}
+            <input type="hidden" name="lang" value="{{lang}}">
+            {{ govukButton({
+          attributes: {
+            id: "submit",
+            "data-event-id": "continue-button"
+          },
+          text: i18n.continue_button
+        }) }}
+
+    </div>
+</div>
+{% endblock %}
