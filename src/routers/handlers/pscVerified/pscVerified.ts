@@ -3,25 +3,25 @@ import {
     BaseViewData,
     GenericHandler,
     ViewModel
-} from "./../generic";
+} from "../generic";
 import logger from "../../../lib/Logger";
 import { PrefixedUrls } from "../../../constants";
 
-interface SkeletonSixViewData extends BaseViewData {
+interface PscVerifiedViewData extends BaseViewData {
 
 }
 
-export class SkeletonSixHandler extends GenericHandler<SkeletonSixViewData> {
+export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
 
-    private static templatePath = "router_views/skeleton_six/skeleton_six";
+    private static templatePath = "router_views/pscVerified/pscVerified";
 
-    public getViewData (req: Request): SkeletonSixViewData {
+    public getViewData (req: Request): PscVerifiedViewData {
 
         const baseViewData = super.getViewData(req);
 
         return {
             ...baseViewData,
-            title: "Skeleton Six",
+            title: "Psc Verified",
             backURL: PrefixedUrls.START
         };
     }
@@ -29,12 +29,12 @@ export class SkeletonSixHandler extends GenericHandler<SkeletonSixViewData> {
     public executeGet (
         req: Request,
         _response: Response
-    ): ViewModel<SkeletonSixViewData> {
-        logger.info(`SkeletonSixHandler execute called`);
+    ): ViewModel<PscVerifiedViewData> {
+        logger.info(`PscVerifiedHandler execute called`);
         const viewData = this.getViewData(req);
 
         return {
-            templatePath: SkeletonSixHandler.templatePath,
+            templatePath: PscVerifiedHandler.templatePath,
             viewData
         };
     }
