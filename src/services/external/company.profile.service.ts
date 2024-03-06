@@ -1,5 +1,5 @@
 import { createApiClient, Resource } from "@companieshouse/api-sdk-node";
-import { CompanyProfile, RegisteredOfficeAddress } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import logger from "../../lib/Logger";
 
 export const getCompanyProfile = async (companyNumber: string): Promise<CompanyProfile> => {
@@ -23,21 +23,4 @@ export const getCompanyProfile = async (companyNumber: string): Promise<CompanyP
     logger.debug(`Received company profile ${JSON.stringify(sdkResponse)}`);
 
     return sdkResponse.resource;
-};
-
-export const mapCompanyProfileToOfficerFilingAddress = (registeredOffice: RegisteredOfficeAddress) => {
-    if (!registeredOffice) {
-        return;
-    }
-    return {
-        addressLine1: registeredOffice.addressLineOne,
-        addressLine2: registeredOffice.addressLineTwo,
-        careOf: registeredOffice.careOf,
-        country: registeredOffice.country,
-        locality: registeredOffice.locality,
-        poBox: registeredOffice.poBox,
-        postalCode: registeredOffice.postalCode,
-        premises: registeredOffice.premises,
-        region: registeredOffice.region
-    };
 };

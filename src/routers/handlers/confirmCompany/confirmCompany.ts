@@ -36,7 +36,7 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
         logger.info(`ConfirmCompanyHandler execute called`);
 
         const companyNumber = req.query.companyNumber as string;
-        const companyProfile: Promise<CompanyProfile> = getCompanyProfile(companyNumber);
+        // const companyProfile: Promise<CompanyProfile> = getCompanyProfile(companyNumber);
 
         const viewData = this.getViewData(req);
 
