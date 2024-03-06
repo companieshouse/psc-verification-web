@@ -21,7 +21,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
 
         return {
             ...baseViewData,
-            title: "Skeleton Six",
+            title: "Psc Verified",
             backURL: PrefixedUrls.START
         };
     }

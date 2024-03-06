@@ -47,6 +47,7 @@
     "js-yaml": "^3.14.0",
     "nunjucks": "3.2.4",
     "sonarqube-scanner": "^3.3.0",
+    "tslib": "^2.6.2",
     "uuid": "8.0.0",
     "yargs": "15.3.1"
   },
