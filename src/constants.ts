@@ -6,13 +6,13 @@ export const servicePathPrefix = "/persons-with-significant-control-verification
 export const Urls = {
     ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
     START: "/start",
+    COMPANY_NUMBER: "/company-number",
     CONFIRM_COMPANY: "/confirm-company",
-    SKELETON_TWO: "/skeleton_two",
+    PSC_TYPE: "/psc-type",
     INDIVIDUAL_PSC_LIST: "/individual/psc-list",
-    SKELETON_THREE: "/skeleton_three",
     SKELETON_FOUR: "/skeleton_four",
     SKELETON_FIVE: "/skeleton_five",
-    SKELETON_SIX: "/skeleton_six",
+    PSC_VERIFIED: "/psc-verified",
     HEALTHCHECK: "/healthcheck"
 } as const;
 
@@ -20,17 +20,19 @@ export const PrefixedUrls = {
     ACCESSIBILITY_STATEMENT: servicePathPrefix + Urls.ACCESSIBILITY_STATEMENT,
     START: servicePathPrefix + Urls.START,
     HEALTHCHECK: servicePathPrefix + Urls.HEALTHCHECK,
+    COMPANY_NUMBER: servicePathPrefix + Urls.COMPANY_NUMBER,
     CONFIRM_COMPANY: servicePathPrefix + Urls.CONFIRM_COMPANY,
     INDIVIDUAL_PSC_LIST: servicePathPrefix + Urls.INDIVIDUAL_PSC_LIST,
-    SKELETON_TWO: servicePathPrefix + Urls.SKELETON_TWO,
-    SKELETON_THREE: servicePathPrefix + Urls.SKELETON_THREE,
+    PSC_TYPE: servicePathPrefix + Urls.PSC_TYPE,
     SKELETON_FOUR: servicePathPrefix + Urls.SKELETON_FOUR,
     SKELETON_FIVE: servicePathPrefix + Urls.SKELETON_FIVE,
-    SKELETON_SIX: servicePathPrefix + Urls.SKELETON_SIX,
+    PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
     COOKIES: "/help/cookies"
 } as const;
 
 export const ExternalUrls = {
+    COMPANY_LOOKUP: "/company-lookup/search?forward=" + servicePathPrefix + "/confirm-company?companyNumber={companyNumber}",
+    COMPANY_LOOKUP_WITH_LANG: "/company-lookup/search?forward=" + servicePathPrefix + "/confirm-company?companyNumber={companyNumber}%26lang="
 //     ABILITY_NET: env.ABILITY_NET_LINK,
 //     CONTACT_US: env.CONTACT_US_LINK,
 //     DEVELOPERS: env.DEVELOPERS_LINK,

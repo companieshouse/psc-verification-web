@@ -1,9 +1,9 @@
 import StartRouter from "./../startRouter";
+import CompanyNumberRouter from "./../companyNumberRouter";
 import ConfirmCompanyRouter from "./../confirmCompanyRouter";
-import SkeletonTwoRouter from "./../skeleton.two.router";
 import IndividualPscListRouter from "./../individualPscListRouter";
-import SkeletonThreeRouter from "./../skeleton.three.router";
+import PscTypeRouter from "./../psc.type.router";
 import SkeletonFourRouter from "./../skeleton.four.router";
 import SkeletonFiveRouter from "./../skeleton.five.router";
-import SkeletonSixRouter from "./../skeleton.six.router";
-export { StartRouter, ConfirmCompanyRouter, SkeletonTwoRouter, IndividualPscListRouter, SkeletonThreeRouter, SkeletonFourRouter, SkeletonFiveRouter, SkeletonSixRouter };
+import PscVerifiedRouter from "./../pscVerifiedRouter";
+export { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, SkeletonFourRouter, SkeletonFiveRouter, PscVerifiedRouter };
