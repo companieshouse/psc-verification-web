@@ -49,12 +49,8 @@
                     </ul>
             {% endset %}
 
-            {% set startLearnDetailsMain %} 
-                {{ i18n.start_learn_details_main_link }}
-            {% endset %}
-
             {{ govukDetails({
-                summaryText: startLearnDetailsMain,
+                summaryText: i18n.start_learn_details_main_link,
                 html: startLearnDetailsText
             }) }}
 
@@ -70,16 +66,12 @@
             </ul>
             <p class="govuk-body">{{ i18n.start_before_required_description }} </p>
 
-            {% set startPersonalCodeSummaryText %} 
-                {{ i18n.start_personal_code_details_main_link }}
-            {% endset %}
-
             {% set startPersonalCodeDetailsText %}
                 <p class="govuk-body">{{ i18n.start_personal_code_details_description }}</p>
              {% endset %}
 
             {{ govukDetails({
-                summaryText: startPersonalCodeSummaryText,
+                summaryText: i18n.start_personal_code_details_main_link,
                 html: startPersonalCodeDetailsText
             }) }}
 
@@ -88,6 +80,7 @@
                 text: i18n.start_button,
                 href: Urls.COMPANY_NUMBER + "?lang=" +lang,
                 classes: "govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8",
+                id: "start-button" ,
                 isStartButton: true
             }) }}
 
