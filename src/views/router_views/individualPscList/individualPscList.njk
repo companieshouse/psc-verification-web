@@ -3,16 +3,9 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-{% set title = i18n.individual_psc_list %}
-{% set dummyRadioButtons = i18n.individual_psc_list %}
-{% set dummyPscOption = i18n.individual_psc_list %}
-
-{% block pageTitle %}
-    {% include "includes/page-title.html" %}
-{% endblock %}
-{% block backLink %}
-    {% include "includes/back-link.html" %}
-{% endblock %}
+{% set title = i18n.individual_psc_list_main_title %}
+{% set dummyRadioButtons = i18n.dummyRadioButtons %}
+{% set dummyPscOption = i18n.dummyPscOption %}
 
 {% block main_content %}
     <div class="govuk-grid-row">

@@ -1,7 +1,7 @@
 {
     "individual_psc_list_main_title": "Which PSC are you providing verification details for?",
     "individual_psc_list_hint": "The following PSCs for still need to provide their identity verification details. We will not show PSCs whose identity has been confirmed. You can only provide verification details for one PSC at a time.",
-    "dummyRadioButtons": "Dummy Radio Buttons",
+    "dummyRadioButtons": "Dummy Radio Button",
     "dummyPscOption": "Dummy Psc Option",
     "continue_button": "Continue"
 }
