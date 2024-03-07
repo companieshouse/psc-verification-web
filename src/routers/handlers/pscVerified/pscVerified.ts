@@ -6,6 +6,7 @@ import {
 } from "../generic";
 import logger from "../../../lib/Logger";
 import { PrefixedUrls } from "../../../constants";
+import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 
 interface PscVerifiedViewData extends BaseViewData {
 
@@ -19,10 +20,15 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
 
         const baseViewData = super.getViewData(req);
 
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
+
         return {
             ...baseViewData,
+            ...getLocaleInfo(locales, lang),
             title: "Psc Verified",
-            backURL: PrefixedUrls.START
+            currentUrl: PrefixedUrls.PSC_VERIFIED,
+            backURL: PrefixedUrls.SKELETON_FIVE
         };
     }
 
