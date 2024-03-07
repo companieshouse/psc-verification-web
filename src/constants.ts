@@ -10,7 +10,7 @@ export const Urls = {
     CONFIRM_COMPANY: "/confirm-company",
     PSC_TYPE: "/psc-type",
     SKELETON_THREE: "/skeleton_three",
-    SKELETON_FOUR: "/skeleton_four",
+    PERSONAL_CODE: "/individual/personal-code",
     SKELETON_FIVE: "/skeleton_five",
     PSC_VERIFIED: "/psc-verified",
     HEALTHCHECK: "/healthcheck"
@@ -24,7 +24,7 @@ export const PrefixedUrls = {
     CONFIRM_COMPANY: servicePathPrefix + Urls.CONFIRM_COMPANY,
     PSC_TYPE: servicePathPrefix + Urls.PSC_TYPE,
     SKELETON_THREE: servicePathPrefix + Urls.SKELETON_THREE,
-    SKELETON_FOUR: servicePathPrefix + Urls.SKELETON_FOUR,
+    PERSONAL_CODE: servicePathPrefix + Urls.PERSONAL_CODE,
     SKELETON_FIVE: servicePathPrefix + Urls.SKELETON_FIVE,
     PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
     COOKIES: "/help/cookies"
