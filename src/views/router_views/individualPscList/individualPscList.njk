@@ -3,41 +3,38 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-{% set title = i18n.individual_psc_list_main_title %}
-{% set dummyRadioButtons = i18n.dummyRadioButtons %}
-{% set dummyPscOption = i18n.dummyPscOption %}
-
 {% block main_content %}
     <div class="govuk-grid-row">
 
-            <h1 class="govuk-fieldset__legend--l">{{ title }}</h1>
-            <h3 class="govuk-hint">{{ i18n.individual_psc_list_hint }}</h3>
+        {{ govukRadios({
+          name: "dummyRadioButtons",
+          fieldset: {
+            legend: {
+              text: i18n.individual_psc_list_main_title,
 
-            {{ govukRadios({
-              name: "dummyRadioButtons",
-              fieldset: {
-                legend: {
-                  text: dummyRadioButtons,
-                  isPageHeading: true,
-                  classes: "govuk-fieldset__legend--l"
-                }
-              },
-              items: [
-                {
-                  value: "dummyValue",
-                  text: dummyPscOption
-                }
-              ]
-            }) }}
-            <input type="hidden" name="lang" value="{{lang}}">
-            {{ govukButton({
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: i18n.individual_psc_list_hint
+          },
+          items: [
+            {
+              value: "dummyValue",
+              text: i18n.dummyPscOption
+            }
+          ]
+        }) }}
+        <input type="hidden" name="lang" value="{{lang}}">
+        {{ govukButton({
           attributes: {
             id: "submit",
             "data-event-id": "continue-button"
           },
-          text: i18n.continue_button
+          text: i18n.continue_button,
+          href: Urls.SKELETON_FOUR
         }) }}
 
     </div>
-</div>
 {% endblock %}

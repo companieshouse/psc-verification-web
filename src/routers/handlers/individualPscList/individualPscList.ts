@@ -23,7 +23,7 @@ export class IndividualPscListHandler extends GenericHandler<BaseViewData> {
             ...getLocaleInfo(locales, lang),
             title: "Which PSC are you providing verification details for?",
             currentUrl: PrefixedUrls.INDIVIDUAL_PSC_LIST,
-            backURL: PrefixedUrls.START
+            backURL: PrefixedUrls.PSC_TYPE
         };
     }
 
