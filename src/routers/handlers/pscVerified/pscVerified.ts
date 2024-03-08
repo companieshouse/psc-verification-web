@@ -28,7 +28,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
             ...getLocaleInfo(locales, lang),
             title: "Psc Verified",
             currentUrl: PrefixedUrls.PSC_VERIFIED,
-            backURL: PrefixedUrls.SKELETON_FIVE
+            backURL: PrefixedUrls.INDIVIDUAL_STATEMENT
         };
     }
 

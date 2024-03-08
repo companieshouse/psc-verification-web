@@ -1,0 +1,31 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block main_content %}
+
+    {{ govukCheckboxes({
+      name: "psc_individual_statement",
+      fieldset: {
+        legend: {
+          text: i18n.individual_statement_title,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      items: [
+        {
+          value: i18n.individual_statement_value,
+          text: i18n.individual_statement_part1 + "[name]" + i18n.individual_statement_part2
+        }
+      ]
+    }) }}  
+
+    {{ govukButton({
+        text: i18n.global_save_continue_button,
+        href: Urls.PSC_VERIFIED,
+        classes: "govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8"
+    }) }}
+
+{% endblock %}
