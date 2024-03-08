@@ -11,7 +11,7 @@ export const Urls = {
     PSC_TYPE: "/psc-type",
     INDIVIDUAL_PSC_LIST: "/individual/psc-list",
     PERSONAL_CODE: "/individual/personal-code",
-    SKELETON_FIVE: "/skeleton_five",
+    INDIVIDUAL_STATEMENT: "/individual/statement",
     PSC_VERIFIED: "/psc-verified",
     HEALTHCHECK: "/healthcheck"
 } as const;
@@ -25,7 +25,7 @@ export const PrefixedUrls = {
     INDIVIDUAL_PSC_LIST: servicePathPrefix + Urls.INDIVIDUAL_PSC_LIST,
     PSC_TYPE: servicePathPrefix + Urls.PSC_TYPE,
     PERSONAL_CODE: servicePathPrefix + Urls.PERSONAL_CODE,
-    SKELETON_FIVE: servicePathPrefix + Urls.SKELETON_FIVE,
+    INDIVIDUAL_STATEMENT: servicePathPrefix + Urls.INDIVIDUAL_STATEMENT,
     PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
     COOKIES: "/help/cookies"
 } as const;
@@ -39,4 +39,9 @@ export const ExternalUrls = {
 //     FEEDBACK: env.FEEDBACK_URL,
 //     OPEN_GOVERNMENT_LICENSE: env.OPEN_GOVERNMENT_LICENSE_LINK,
 //     POLICIES: env.POLICIES_LINK,
+} as const;
+
+//  For use by Matomo
+export const Ids = {
+    BUTTON_ID_INDIVIDUAL_STATEMENT: "continue_button_ind_statement"
 } as const;
