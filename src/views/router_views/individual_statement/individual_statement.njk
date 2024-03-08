@@ -2,6 +2,7 @@
 
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% set title = i18n.individual_statement_title %}
 
 {% block main_content %}
 
@@ -9,7 +10,7 @@
       name: "psc_individual_statement",
       fieldset: {
         legend: {
-          text: i18n.individual_statement_title,
+          text: title,
           isPageHeading: true,
           classes: "govuk-fieldset__legend--l"
         }
