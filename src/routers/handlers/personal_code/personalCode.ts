@@ -26,7 +26,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
           ...baseViewData,
           ...getLocaleInfo(locales, lang),
           currentUrl: PrefixedUrls.PERSONAL_CODE,
-          backURL: PrefixedUrls.SKELETON_THREE
+          backURL: PrefixedUrls.INDIVIDUAL_PSC_LIST
       };
   }
 
