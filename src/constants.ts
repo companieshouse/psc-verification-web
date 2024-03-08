@@ -40,3 +40,8 @@ export const ExternalUrls = {
 //     OPEN_GOVERNMENT_LICENSE: env.OPEN_GOVERNMENT_LICENSE_LINK,
 //     POLICIES: env.POLICIES_LINK,
 } as const;
+
+//  For use by Matomo
+export const Ids = {
+    BUTTON_ID_INDIVIDUAL_STATEMENT: "continue_button_ind_statement"
+} as const;
