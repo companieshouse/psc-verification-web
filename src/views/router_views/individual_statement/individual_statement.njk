@@ -6,6 +6,10 @@
 
 {% block main_content %}
 
+<span class="govuk-caption-xl">
+  <div class="govuk-!-padding-bottom-1">[name]</div>
+</span>
+
     {{ govukCheckboxes({
       name: "psc_individual_statement",
       fieldset: {
@@ -15,9 +19,6 @@
           classes: "govuk-fieldset__legend--l"
         }
       },
-        hint: {
-    text: "[name]"
-  },
       items: [
         {
           value: i18n.individual_statement_value,
