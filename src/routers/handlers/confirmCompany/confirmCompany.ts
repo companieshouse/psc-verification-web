@@ -25,8 +25,8 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             title: "Confirm Company",
-            currentUrl: PrefixedUrls.CONFIRM_COMPANY,
-            backURL: PrefixedUrls.START
+            currentUrl: PrefixedUrls.CONFIRM_COMPANY + "?lang=" + lang,
+            backURL: PrefixedUrls.START + "?lang=" + lang
         };
     }
 
