@@ -6,13 +6,13 @@ const router: Router = Router();
 
 router.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new ConfirmCompanyHandler();
-    const { templatePath, viewData } = handler.executeGet(req, res);
+    const { templatePath, viewData } = await handler.executeGet(req, res);
     res.render(templatePath, viewData);
 }));
 
 router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new PscTypeHandler();
-    const { templatePath, viewData } = handler.execute(req, res);
+    const { templatePath, viewData } = await handler.execute(req, res);
     res.render(templatePath, viewData);
 }));
 
