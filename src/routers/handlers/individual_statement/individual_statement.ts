@@ -28,7 +28,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
         req: Request,
         _response: Response
     ): ViewModel<IndividualStatementViewData> {
-        logger.info(`SkeletonFiveHandler execute called`);
+        logger.info(`IndividualStatementHandler execute called`);
         const viewData = this.getViewData(req);
 
         return {
