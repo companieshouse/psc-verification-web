@@ -28,9 +28,8 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
         req: Request,
         _response: Response
     ): Promise<ViewModel<IndividualStatementViewData>> {
-        logger.info(`SkeletonFiveHandler execute called`);
+        logger.info(`IndividualStatementHandler execute called`);
         const viewData = await this.getViewData(req);
-
         return {
             templatePath: IndividualStatementHandler.templatePath,
             viewData
