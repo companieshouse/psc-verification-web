@@ -9,9 +9,11 @@ import { PrefixedUrls } from "../../../constants";
 import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { getCompanyProfile } from "../../../services/external/companyProfileService";
+import { buildAddress, formatForDisplay } from "../../../services/internal/confirmCompanyService";
 
 interface ConfirmCompanyViewData extends BaseViewData {
     company: CompanyProfile
+    address: String
 }
 
 export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData> {
@@ -25,14 +27,17 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
         const locales = getLocalesService();
 
         const companyNumber = req.query.companyNumber as string;
-        const company: CompanyProfile = await getCompanyProfile(companyNumber);
+        const companyProfile: CompanyProfile = await getCompanyProfile(companyNumber);
+        const company = formatForDisplay(companyProfile, locales, lang);
+        const address = buildAddress(companyProfile);
 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             currentUrl: PrefixedUrls.CONFIRM_COMPANY,
             backURL: PrefixedUrls.START,
-            company
+            company,
+            address
         };
     }
 
