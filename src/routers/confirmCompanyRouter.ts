@@ -13,9 +13,6 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
 }));
 
 router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
-    // const handler = new PscTypeHandler();
-    // const { templatePath, viewData } = handler.executeGet(req, res);
-    // res.render(templatePath, viewData);
     res.redirect(PrefixedUrls.PSC_TYPE + "?lang=" + req.body.lang);
 }));
 
