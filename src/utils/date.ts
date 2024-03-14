@@ -7,14 +7,8 @@ export const toReadableFormat = (dateToConvert: string | undefined, lang = "en")
     }
     const jsDate = new Date(dateToConvert);
     const dateTime = DateTime.fromJSDate(jsDate);
-    let convertedDate;
 
-    if (lang) {
-        convertedDate = dateTime.setLocale(lang).toFormat("d MMMM yyyy");
-      }
-    else {
-        convertedDate = dateTime.setLocale("en").toFormat("d MMMM yyyy");
-    }
+    const convertedDate = dateTime.setLocale(lang || "en").toFormat("d MMMM yyyy");
 
     if (convertedDate === "Invalid DateTime") {
         throw logger.info(`Unable to convert provided date ${dateToConvert}`);
