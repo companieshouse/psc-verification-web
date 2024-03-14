@@ -7,7 +7,7 @@ const router: Router = Router();
 
 router.get("/", handleExceptions(async (req: Request, res: Response) => {
     const handler = new PersonalCodeHandler();
-    const { templatePath, viewData } = handler.executeGet(req, res);
+    const { templatePath, viewData } = await handler.executeGet(req, res);
     res.render(templatePath, viewData);
 }));
 

@@ -10,9 +10,9 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
 
     private static templatePath = "router_views/individual_statement/individual_statement";
 
-    public getViewData (req: Request): IndividualStatementViewData {
+    public async getViewData (req: Request): Promise<IndividualStatementViewData> {
 
-        const baseViewData = super.getViewData(req);
+        const baseViewData = await super.getViewData(req);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
@@ -24,13 +24,12 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
         };
     }
 
-    public executeGet (
+    public async executeGet (
         req: Request,
         _response: Response
-    ): ViewModel<IndividualStatementViewData> {
+    ): Promise<ViewModel<IndividualStatementViewData>> {
         logger.info(`IndividualStatementHandler execute called`);
-        const viewData = this.getViewData(req);
-
+        const viewData = await this.getViewData(req);
         return {
             templatePath: IndividualStatementHandler.templatePath,
             viewData

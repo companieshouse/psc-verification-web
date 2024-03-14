@@ -12,9 +12,9 @@ export class IndividualPscListHandler extends GenericHandler<BaseViewData> {
 
     private static templatePath = "router_views/individualPscList/individualPscList";
 
-    public getViewData (req: Request): BaseViewData {
+    public async getViewData (req: Request): Promise<BaseViewData> {
 
-        const baseViewData = super.getViewData(req);
+        const baseViewData = await super.getViewData(req);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
@@ -26,9 +26,9 @@ export class IndividualPscListHandler extends GenericHandler<BaseViewData> {
         };
     }
 
-    public executeGet (req: Request, _response: Response): ViewModel<BaseViewData> {
+    public async executeGet (req: Request, _response: Response): Promise<ViewModel<BaseViewData>> {
         logger.info(`IndividualPscListHandler execute called`);
-        const viewData = this.getViewData(req);
+        const viewData = await this.getViewData(req);
 
         return {
             templatePath: IndividualPscListHandler.templatePath,

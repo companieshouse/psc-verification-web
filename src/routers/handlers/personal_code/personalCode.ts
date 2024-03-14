@@ -16,9 +16,9 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
   private static templatePath = "router_views/personal_code/personal_code";
 
-  public getViewData (req: Request): BaseViewData {
+  public async getViewData (req: Request): Promise<BaseViewData> {
 
-      const baseViewData = super.getViewData(req);
+      const baseViewData = await super.getViewData(req);
       const lang = selectLang(req.query.lang);
       const locales = getLocalesService();
 
@@ -30,12 +30,12 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
       };
   }
 
-  public executeGet (
+  public async executeGet (
       req: Request,
       _response: Response
-  ): ViewModel<PersonalCodeViewData> {
+  ): Promise<ViewModel<PersonalCodeViewData>> {
       logger.info(`PersonalCodeHandler execute called`);
-      const viewData = this.getViewData(req);
+      const viewData = await this.getViewData(req);
 
       return {
           templatePath: PersonalCodeHandler.templatePath,
