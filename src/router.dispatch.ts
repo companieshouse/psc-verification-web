@@ -1,6 +1,6 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Request, Response, Router } from "express";
-import { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, PscVerifiedRouter } from "./routers/__utils";
+import { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, PscVerifiedRouter, CreateTransactionRouter } from "./routers/__utils";
 import { Urls, servicePathPrefix } from "./constants";
 
 const routerDispatch = (app: Application) => {
@@ -8,6 +8,8 @@ const routerDispatch = (app: Application) => {
     const router = Router();
     // Required for endpoint prefix
     app.use(servicePathPrefix, router);
+
+    router.use(Urls.CREATE_TRANSACTION, CreateTransactionRouter);
 
     router.use("/", StartRouter);
     router.use(Urls.START, StartRouter);

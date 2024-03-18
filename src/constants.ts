@@ -5,6 +5,7 @@ export const servicePathPrefix = "/persons-with-significant-control-verification
 
 export const Urls = {
     ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
+    CREATE_TRANSACTION: "/transaction",
     START: "/start",
     COMPANY_NUMBER: "/company-number",
     CONFIRM_COMPANY: "/confirm-company",
@@ -18,6 +19,7 @@ export const Urls = {
 
 export const PrefixedUrls = {
     ACCESSIBILITY_STATEMENT: servicePathPrefix + Urls.ACCESSIBILITY_STATEMENT,
+    CREATE_TRANSACTION: servicePathPrefix + Urls.CREATE_TRANSACTION,
     START: servicePathPrefix + Urls.START,
     HEALTHCHECK: servicePathPrefix + Urls.HEALTHCHECK,
     COMPANY_NUMBER: servicePathPrefix + Urls.COMPANY_NUMBER,
