@@ -1,10 +1,17 @@
 import app from "../../../../src/app";
 import request from "supertest";
 import { PrefixedUrls } from "../../../../src/constants";
+import { getCompanyProfile } from "../../../../src/services/external/companyProfileService";
+import { validCompanyProfile } from "../../../mocks/companyProfileMock";
+
+jest.mock("../../../../src/services/external/companyProfileService");
+
+const COMPANY_NUMBER = "12345678";
+const diffCompanyHtml = "href=/persons-with-significant-control-verification/company-number";
+const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
+mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 
 describe("confirm company tests", () => {
-
-    const diffCompanyHtml = "href=/persons-with-significant-control-verification/company-number";
 
     it("Should render the Confirm Company page with a successful status code", async () => {
         const resp = await request(app).get(PrefixedUrls.CONFIRM_COMPANY);

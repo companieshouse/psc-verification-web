@@ -34,13 +34,8 @@ export interface Redirect {
 }
 
 export abstract class GenericHandler<T extends BaseViewData> {
-    protected errorManifest: typeof errorManifest;
-    private viewData: T;
-
-    constructor () {
-        this.errorManifest = errorManifest;
-        this.viewData = defaultBaseViewData as T;
-    }
+    protected errorManifest!: typeof errorManifest;
+    private viewData!: T;
 
     processHandlerException (err: any): Object {
         if (err.name === "VALIDATION_ERRORS") {
@@ -51,12 +46,9 @@ export abstract class GenericHandler<T extends BaseViewData> {
         };
     }
 
-    populateViewData (req: Request) {
-        // Populate when we have a session
-    }
-
-    getViewData (req: Request): T {
-        this.populateViewData(req);
+    async getViewData (req: Request): Promise<T> {
+        this.errorManifest = errorManifest;
+        this.viewData = defaultBaseViewData as T;
         return this.viewData;
     }
 }

@@ -11,7 +11,7 @@ export const Urls = {
     PSC_TYPE: "/psc-type",
     INDIVIDUAL_PSC_LIST: "/individual/psc-list",
     PERSONAL_CODE: "/individual/personal-code",
-    INDIVIDUAL_STATEMENT: "/individual/statement",
+    INDIVIDUAL_STATEMENT: "/individual/psc-statement",
     PSC_VERIFIED: "/psc-verified",
     HEALTHCHECK: "/healthcheck"
 } as const;

@@ -16,9 +16,9 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
 
     private static templatePath = "router_views/pscVerified/pscVerified";
 
-    public getViewData (req: Request): PscVerifiedViewData {
+    public async getViewData (req: Request): Promise<PscVerifiedViewData> {
 
-        const baseViewData = super.getViewData(req);
+        const baseViewData = await super.getViewData(req);
 
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
@@ -32,12 +32,12 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         };
     }
 
-    public executeGet (
+    public async executeGet (
         req: Request,
         _response: Response
-    ): ViewModel<PscVerifiedViewData> {
+    ): Promise<ViewModel<PscVerifiedViewData>> {
         logger.info(`PscVerifiedHandler execute called`);
-        const viewData = this.getViewData(req);
+        const viewData = await this.getViewData(req);
 
         return {
             templatePath: PscVerifiedHandler.templatePath,

@@ -3,7 +3,6 @@ import request from "supertest";
 import { PrefixedUrls } from "../../src/constants";
 
 describe("healthcheck tests", () => {
-    it("should show status 200", async () => {
     it.skip("should show status 200", async () => {
 
         // Insert when we have a heathcheck to call.
