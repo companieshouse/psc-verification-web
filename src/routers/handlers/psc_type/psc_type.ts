@@ -10,8 +10,8 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
 
     private static templatePath = "router_views/psc_type/psc_type";
 
-    public getViewData (req: Request): PscTypeViewData {
-        const baseViewData = super.getViewData(req);
+    public async getViewData (req: Request): Promise<PscTypeViewData> {
+        const baseViewData = await super.getViewData(req);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
@@ -24,9 +24,9 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
         };
     }
 
-    public executeGet (req: Request, _response: Response): ViewModel<PscTypeViewData> {
+    public async executeGet (req: Request, _response: Response): Promise<ViewModel<PscTypeViewData>> {
         logger.info(`PscTypeHandler execute called`);
-        const viewData = this.getViewData(req);
+        const viewData = await this.getViewData(req);
 
         return {
             templatePath: PscTypeHandler.templatePath,

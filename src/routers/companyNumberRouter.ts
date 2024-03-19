@@ -5,7 +5,7 @@ const router: Router = Router();
 
 router.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new CompanyNumberHandler();
-    handler.execute(req, res);
+    await handler.execute(req, res);
 }));
 
 export default router;
