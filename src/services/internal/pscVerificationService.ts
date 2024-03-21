@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { Resource } from "@companieshouse/api-sdk-node";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { PscVerification, PscVerificationResource } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";

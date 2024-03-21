@@ -4,86 +4,123 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% block main_content %}
-    <div class="govuk-grid-row">
+  <div class="govuk-grid-row">
 
-            <h1 class="govuk-heading-l">{{ i18n.start_main_title }}</h1>
-            <p class="govuk-body">{{ i18n.start_service_description }}</p>
-            
-            <h2 class="govuk-heading-m">{{ i18n.start_service_user }}</h2>
-            <p class="govuk-body">{{ i18n.start_service_user_list }}</p>
-            
-            <ul class="govuk-list govuk-list--bullet">
-                <li>{{ i18n.start_service_user_list_item1 }}</li>
-                <li>{{ i18n.start_service_user_list_item2 }}</li>
-                <li>{{ i18n.start_service_user_list_item3 }}</li>
-                <li>{{ i18n.start_service_user_list_item4 }}</li>
-                <li>{{ i18n.start_service_user_list_item5 }}</li>
-            </ul>
+    <form action="/" method="post">
+      <h1 class="govuk-heading-l">{{ i18n.start_main_title }}</h1>
+      <p class="govuk-body">{{ i18n.start_service_description }}</p>
 
-            <p class="govuk-body">{{ i18n.start_service_restriction_description }}</>
-            
-            {% set startLearnDetailsText %}
-                    <h3 class="govuk-heading-s">{{ i18n.start_learn_details_psc_heading }}</h3>
-                    <p class="govuk-body">{{ i18n.start_learn_details_psc_description }}</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>{{ i18n.start_learn_details_psc_list_item1 }}</li>
-                        <li>{{ i18n.start_learn_details_psc_list_item2 }}</li>
-                        <li>{{ i18n.start_learn_details_psc_list_item3 }}</li>
-                    </ul>
+      <h2 class="govuk-heading-m">{{ i18n.start_service_user }}</h2>
+      <p class="govuk-body">{{ i18n.start_service_user_list }}</p>
 
-                    <h3 class="govuk-heading-s">{{ i18n.start_learn_details_rle_heading }}</h3>
-                    <p class="govuk-body">{{ i18n.start_learn_details_rle_description }}</p>
-                    <p class="govuk-body">{{ i18n.start_learn_details_rle_list }}</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>{{ i18n.start_learn_details_rle_list_item1 }}</li>
-                        <li>{{ i18n.start_learn_details_rle_list_item2 }}</li>
-                        <li>{{ i18n.start_learn_details_rle_list_item3 }}</li>
-                    </ul>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.start_service_user_list_item1 }}</li>
+        <li>{{ i18n.start_service_user_list_item2 }}</li>
+        <li>{{ i18n.start_service_user_list_item3 }}</li>
+        <li>{{ i18n.start_service_user_list_item4 }}</li>
+        <li>{{ i18n.start_service_user_list_item5 }}</li>
+      </ul>
 
-                    <h3 class="govuk-heading-s">{{ i18n.start_learn_details_ro_heading }}</h3>
-                    <p class="govuk-body">{{ i18n.start_learn_details_ro_description }}</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>{{ i18n.start_learn_details_ro_list_item1 }}</li>
-                        <li>{{ i18n.start_learn_details_ro_list_item2 }}</li>
-                        <li>{{ i18n.start_learn_details_ro_list_item3 }}</li>
-                    </ul>
-            {% endset %}
+      <p class="govuk-body">{{ i18n.start_service_restriction_description }}</>
 
-            {{ govukDetails({
+      {% set startLearnDetailsText %}
+      <h3 class="govuk-heading-s">{{ i18n.start_learn_details_psc_heading }}</h3>
+      <p class="govuk-body">{{ i18n.start_learn_details_psc_description }}</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.start_learn_details_psc_list_item1 }}</li>
+        <li>{{ i18n.start_learn_details_psc_list_item2 }}</li>
+        <li>{{ i18n.start_learn_details_psc_list_item3 }}</li>
+      </ul>
+
+      <h3 class="govuk-heading-s">{{ i18n.start_learn_details_rle_heading }}</h3>
+      <p class="govuk-body">{{ i18n.start_learn_details_rle_description }}</p>
+      <p class="govuk-body">{{ i18n.start_learn_details_rle_list }}</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.start_learn_details_rle_list_item1 }}</li>
+        <li>{{ i18n.start_learn_details_rle_list_item2 }}</li>
+        <li>{{ i18n.start_learn_details_rle_list_item3 }}</li>
+      </ul>
+
+      <h3 class="govuk-heading-s">{{ i18n.start_learn_details_ro_heading }}</h3>
+      <p class="govuk-body">{{ i18n.start_learn_details_ro_description }}</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.start_learn_details_ro_list_item1 }}</li>
+        <li>{{ i18n.start_learn_details_ro_list_item2 }}</li>
+        <li>{{ i18n.start_learn_details_ro_list_item3 }}</li>
+      </ul>
+      {% endset %}
+
+      {{ govukDetails({
                 summaryText: i18n.start_learn_details_main_link,
                 html: startLearnDetailsText
             }) }}
 
-            <h2 class="govuk-heading-m">{{ i18n.start_learn_when_to_verify_heading }}</h2>
-            <p class="govuk-body">{{ i18n.start_learn_when_to_verify_description }} <a href="#" title="{{ i18n.start_learn_when_to_verify_link }}" class="govuk-link">{{ i18n.start_learn_when_to_verify_link}}</a></p>
+      <h2 class="govuk-heading-m">{{ i18n.start_learn_when_to_verify_heading }}</h2>
+      <p class="govuk-body">{{ i18n.start_learn_when_to_verify_description }}
+        <a href="#" title="{{ i18n.start_learn_when_to_verify_link }}" class="govuk-link">{{ i18n.start_learn_when_to_verify_link}}</a>
+      </p>
 
-            <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>
-            <p class="govuk-body">{{ i18n.start_before_verify_description }} <a href="#" title="{{ i18n.start_before_verify_link }}" class="govuk-link"> {{ i18n.start_before_verify_link }} </a> {{i18n.start_before_verify_description2}}</p>
-            <p class="govuk-body">{{ i18n.start_before_list }}</p>
-            <ul class="govuk-list govuk-list--bullet">
-                <li>{{ i18n.start_before_list_item1 }}</li>
-                <li>{{ i18n.start_before_list_item2 }}</li>
-            </ul>
-            <p class="govuk-body">{{ i18n.start_before_required_description }} </p>
+      <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>
+      <p class="govuk-body">{{ i18n.start_before_verify_description }}
+        <a href="#" title="{{ i18n.start_before_verify_link }}" class="govuk-link">
+          {{ i18n.start_before_verify_link }}
+        </a>
+        {{i18n.start_before_verify_description2}}</p>
+      <p class="govuk-body">{{ i18n.start_before_list }}</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.start_before_list_item1 }}</li>
+        <li>{{ i18n.start_before_list_item2 }}</li>
+      </ul>
+      <p class="govuk-body">{{ i18n.start_before_required_description }}
+      </p>
 
-            {% set startPersonalCodeDetailsText %}
-                <p class="govuk-body">{{ i18n.start_personal_code_details_description }}</p>
-             {% endset %}
+      {% set startPersonalCodeDetailsText %}
+      <p class="govuk-body">{{ i18n.start_personal_code_details_description }}</p>
+      {% endset %}
 
-            {{ govukDetails({
+      {{ govukDetails({
                 summaryText: i18n.start_personal_code_details_main_link,
                 html: startPersonalCodeDetailsText
             }) }}
 
-            
-            {{ govukButton({
+      {% from "govuk/components/input/macro.njk" import govukInput %}
+      {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+
+      {% call govukFieldset({
+        legend: {
+          text: "Can you provide full data now?",
+          classes: "govuk-fieldset__legend--l"
+        }
+    }) %}
+
+      {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+
+      {{ govukTextarea({
+          rows: 20,
+          name: "fullJson",
+          id: "full-json",
+          value: fullJson,
+          hint: {
+            text: "Enter full data in JSON format."
+          }
+        }) }}
+
+      {{ govukButton({
+          text: "POST",
+          classes: "govuk-button--warning",
+          id: "post-button",
+          isStartButton: false
+        })}}
+      {% endcall %}
+
+      {{ govukButton({
                 text: i18n.start_button,
                 href: Urls.COMPANY_NUMBER + "?lang=" +lang,
                 classes: "govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8",
                 id: "start-button" ,
                 isStartButton: true
             }) }}
-
-    </div>
+    </form>
+  </div>
 
 {% endblock %}
