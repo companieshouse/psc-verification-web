@@ -1,6 +1,6 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Request, Response, Router } from "express";
-import { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, PscVerifiedRouter } from "./routers/__utils";
+import { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, PscVerifiedRouter, RlePscListRouter } from "./routers/__utils";
 import { Urls, servicePathPrefix } from "./constants";
 
 const routerDispatch = (app: Application) => {
@@ -18,6 +18,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.PERSONAL_CODE, PersonalCodeRouter);
     router.use(Urls.INDIVIDUAL_STATEMENT, IndividualStatementRouter);
     router.use(Urls.PSC_VERIFIED, PscVerifiedRouter);
+    router.use(Urls.RLE_LIST, RlePscListRouter);
     router.use("*", (req: Request, res: Response) => {
         res.status(404).render("partials/error_400");
     });
