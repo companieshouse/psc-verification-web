@@ -3,7 +3,7 @@ import nunjucks from "nunjucks";
 import path from "path";
 import logger from "./lib/Logger";
 import routerDispatch from "./router.dispatch";
-import { servicePathPrefix } from "./constants";
+import { servicePathPrefix, ExternalUrls } from "./constants";
 import { sessionMiddleware } from "./middleware/session";
 import cookieParser from "cookie-parser";
 
@@ -43,6 +43,7 @@ njk.addGlobal("cdnUrlCss", process.env.CDN_URL_CSS);
 njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
 njk.addGlobal("cdnHost", process.env.CDN_HOST);
 njk.addGlobal("chsUrl", process.env.CHS_URL);
+njk.addGlobal("ExternalUrls", ExternalUrls);
 
 // If app is behind a front-facing proxy, and to use the X-Forwarded-* headers to determine the connection and the IP address of the client
 app.enable("trust proxy");
