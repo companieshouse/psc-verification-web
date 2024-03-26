@@ -36,6 +36,7 @@
     "@companieshouse/ch-node-utils": "^1.2.0",
     "@companieshouse/node-session-handler": "^5.0.1",
     "@companieshouse/structured-logging-node": "^2.0.1",
+    "@companieshouse/web-security-node": "^2.0.5",
     "@types/supertest": "^6.0.2",
     "axios": "^1.6.7",
     "cookie-parser": "1.4.5",

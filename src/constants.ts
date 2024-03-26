@@ -14,7 +14,8 @@ export const Urls = {
     PERSONAL_CODE: "/individual/personal-code",
     INDIVIDUAL_STATEMENT: "/individual/psc-statement",
     PSC_VERIFIED: "/psc-verified",
-    HEALTHCHECK: "/healthcheck"
+    HEALTHCHECK: "/healthcheck",
+    RLE_LIST: "/rle/rle-list"
 } as const;
 
 export const PrefixedUrls = {
@@ -29,6 +30,7 @@ export const PrefixedUrls = {
     PERSONAL_CODE: servicePathPrefix + Urls.PERSONAL_CODE,
     INDIVIDUAL_STATEMENT: servicePathPrefix + Urls.INDIVIDUAL_STATEMENT,
     PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
+    RLE_LIST: servicePathPrefix + Urls.RLE_LIST,
     COOKIES: "/help/cookies"
 } as const;
 
