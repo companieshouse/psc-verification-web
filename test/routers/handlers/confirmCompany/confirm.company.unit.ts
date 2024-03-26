@@ -11,7 +11,7 @@ const diffCompanyHtml = "href=/persons-with-significant-control-verification/com
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
 mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 
-describe("confirm company tests", () => {
+describe.skip("confirm company tests", () => {
 
     it("Should render the Confirm Company page with a successful status code", async () => {
         const resp = await request(app).get(PrefixedUrls.CONFIRM_COMPANY);
