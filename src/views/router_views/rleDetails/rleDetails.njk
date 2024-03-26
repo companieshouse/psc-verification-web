@@ -11,6 +11,11 @@
 
 {% block main_content %}
 
+{% set dobHintText %}
+{{i18n.rle_details_hint1}} <br>
+{{i18n.rle_details_hint2}}
+{% endset %}
+
 {% call govukFieldset({
   legend: {
     text: i18n.rle_details_field_title,
@@ -43,19 +48,36 @@
     id: "ro-last-name"
   }) }}
 
-  <label class="govuk-label">{{i18n.rle_details_dob_label}}</label>
-  <div class="govuk-hint">{{i18n.rle_details_hint1}}</div>
-
   {{ govukDateInput({
   fieldset: {
     legend: {
-      isPageHeading: true,
-      classes: "govuk-fieldset__legend--l"
+      html: i18n.rle_details_dob_label,
+      isPageHeading: false
     }
   },
   hint: {
-    text: i18n.rle_details_hint2
-  }
+    html: dobHintText
+  },
+    items: [
+    {
+      name: "day",
+      label: i18n.rle_details_dob_day,
+      classes: "govuk-input--width-2",
+      autocomplete: "dob-day"
+    },
+    {
+      name: "month",
+      label: i18n.rle_details_dob_month,
+      classes: "govuk-input--width-2",
+      autocomplete: "dob-month"
+    },
+    {
+      name: "year",
+      label: i18n.rle_details_dob_year,
+      classes: "govuk-input--width-4",
+      autocomplete: "dob-year"
+    }
+  ]
 }) }}
 
 {{ govukInput({
@@ -78,7 +100,7 @@
           },
           text: i18n.rle_details_continue_button
         }) }}
-        
+
 {% endcall %}
 
 {% endblock %}
