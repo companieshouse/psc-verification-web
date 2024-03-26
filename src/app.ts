@@ -3,6 +3,9 @@ import nunjucks from "nunjucks";
 import path from "path";
 import logger from "./lib/Logger";
 import routerDispatch from "./router.dispatch";
+import { servicePathPrefix } from "./constants";
+import { sessionMiddleware } from "./middleware/session";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -29,9 +32,12 @@ const njk = new nunjucks.Environment(
 njk.express(app);
 app.set("view engine", "njk");
 
+// apply middleware
+app.use(cookieParser());
+app.use(servicePathPrefix, sessionMiddleware);
+
 // Serve static files
 app.use(express.static(path.join(__dirname, "/../assets/public")));
-// app.use("/assets", express.static("./../node_modules/govuk-frontend/govuk/assets"));
 
 njk.addGlobal("cdnUrlCss", process.env.CDN_URL_CSS);
 njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
