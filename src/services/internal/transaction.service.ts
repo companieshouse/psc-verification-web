@@ -5,7 +5,12 @@ import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/res
 import { Session } from "@companieshouse/node-session-handler";
 import { getAccessToken } from "../../utils/session";
 
-export const postTransaction = async (session: Session, companyNumber: string, description: string, reference: string): Promise<Transaction> => {
+export const postTransaction = async (req: Request): Promise<Transaction> => {
+
+    const session = req.session as Session;
+    const companyNumber = req.query.companyNumber as string;
+    const reference = "PscVerificationReference";
+    const description = "PSC Verification Transaction";
 
     const accessToken: string = getAccessToken(session);
     const apiClient = createApiClient(undefined, accessToken, undefined);

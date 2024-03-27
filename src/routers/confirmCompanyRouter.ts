@@ -16,12 +16,7 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
 
 router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
 
-    const session = req.session as Session;
-    const companyNumber = req.query.companyNumber as string;
-    const DESCRIPTION = "PSC Verification Transaction";
-    const REFERENCE = "PscVerificationReference";
-
-    const transaction: Transaction = await postTransaction(session, companyNumber, DESCRIPTION, REFERENCE);
+    const transaction: Transaction = await postTransaction(req);
 
     res.redirect(PrefixedUrls.PSC_TYPE + "?lang=" + req.body.lang);
 }));
