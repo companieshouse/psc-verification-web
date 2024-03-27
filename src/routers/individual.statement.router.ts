@@ -9,7 +9,7 @@ const router: Router = Router();
 router.get("/", handleExceptions(async (req: Request, res: Response) => {
     const handler = new IndividualStatementHandler();
     const { templatePath, viewData } = await handler.executeGet(req, res);
-    res.redirect(PrefixedUrls.CREATE_TRANSACTION + "?lang=" + req.body.lang);
+    res.render(templatePath, viewData);
 }));
 
 export default router;
