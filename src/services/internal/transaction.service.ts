@@ -1,14 +1,16 @@
 import logger from "../../lib/Logger";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { createApiClient, Resource } from "@companieshouse/api-sdk-node";
-import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
-import { env } from "../../config";
+import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
+import { Session } from "@companieshouse/node-session-handler";
+import { getAccessToken } from "../../utils/session";
 
-export const postTransaction = async (companyNumber: string, description: string, reference: string): Promise<Transaction> => {
-    const apiClient = createApiClient(env.CHS_API_KEY, undefined, env.API_URL);
+export const postTransaction = async (session: Session, companyNumber: string, description: string, reference: string): Promise<Transaction> => {
+
+    const accessToken: string = getAccessToken(session);
+    const apiClient = createApiClient(undefined, accessToken, undefined);
 
     const transaction: Transaction = {
-        companyNumber,
         reference,
         description
     };

@@ -4,6 +4,7 @@ import { handleExceptions } from "../utils/async.handler";
 import { PrefixedUrls } from "../constants";
 import { postTransaction } from "../services/internal/transaction.service";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
+import { Session } from "@companieshouse/node-session-handler";
 
 const router: Router = Router();
 
@@ -15,13 +16,14 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
 
 router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
 
+    const session = req.session as Session;
     const companyNumber = req.query.companyNumber as string;
     const DESCRIPTION = "PSC Verification Transaction";
     const REFERENCE = "PscVerificationReference";
 
-    const transaction: Transaction = await postTransaction(companyNumber, DESCRIPTION, REFERENCE);
+    const transaction: Transaction = await postTransaction(session, companyNumber, DESCRIPTION, REFERENCE);
 
-    res.redirect(PrefixedUrls.CREATE_TRANSACTION + "?lang=" + req.body.lang);
+    res.redirect(PrefixedUrls.PSC_TYPE + "?lang=" + req.body.lang);
 }));
 
 export default router;
