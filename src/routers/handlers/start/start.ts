@@ -17,6 +17,7 @@ export class StartHandler extends GenericHandler<BaseViewData> {
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
+            isSignedIn: false,
             title: "PSC Verification",
             currentUrl: PrefixedUrls.START,
             backURL: null
