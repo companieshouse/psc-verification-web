@@ -13,7 +13,7 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
 }));
 
 router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
-    res.redirect(PrefixedUrls.PSC_TYPE + "?lang=" + req.body.lang);
+    res.redirect(PrefixedUrls.FULL_RECORD + "?lang=" + req.body.lang);
 }));
 
 export default router;

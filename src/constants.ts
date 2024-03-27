@@ -8,6 +8,7 @@ export const Urls = {
     START: "/start",
     COMPANY_NUMBER: "/company-number",
     CONFIRM_COMPANY: "/confirm-company",
+    FULL_RECORD: "/full-record", // temp. path to spike's data input screen
     PSC_TYPE: "/psc-type",
     INDIVIDUAL_PSC_LIST: "/individual/psc-list",
     PERSONAL_CODE: "/individual/personal-code",
@@ -24,6 +25,7 @@ export const PrefixedUrls = {
     COMPANY_NUMBER: servicePathPrefix + Urls.COMPANY_NUMBER,
     CONFIRM_COMPANY: servicePathPrefix + Urls.CONFIRM_COMPANY,
     INDIVIDUAL_PSC_LIST: servicePathPrefix + Urls.INDIVIDUAL_PSC_LIST,
+    FULL_RECORD: servicePathPrefix + Urls.FULL_RECORD, // temp. path to spike's data input screen
     PSC_TYPE: servicePathPrefix + Urls.PSC_TYPE,
     PERSONAL_CODE: servicePathPrefix + Urls.PERSONAL_CODE,
     INDIVIDUAL_STATEMENT: servicePathPrefix + Urls.INDIVIDUAL_STATEMENT,

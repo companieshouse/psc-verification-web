@@ -1,0 +1,42 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
+
+{% set title = 'submit_full_record' %}
+
+{% block main_content %}
+
+    <span class="govuk-caption-xl"></span>
+    <h1 class="govuk-heading-l" id="submit-full-record--title">
+        {{title}}
+    </h1>
+    <form action="" method="post">
+        <div class="govuk-form-group">
+            {{ govukTextarea({
+          rows: 25,
+          name: "fullRecord",
+          id: "full-record",
+          value: fullRecordJson,
+          hint: {
+            text: "Enter full data in JSON format."
+          }
+        }) }}
+            {% if statusTag %}
+                {{govukTag({
+          text: statusTag.status,
+          classes: statusTag.colour
+        })}}
+            {% endif %}
+            <div class="govuk-!-padding-bottom-9"></div>
+            {{ govukButton({
+          text: "Submit",
+          classes: "govuk-button--warning govuk-!-margin-top-2 govuk-!-margin-bottom-8",
+          id: "submit"
+        })}}
+        </div>
+    </form>
+
+{% endblock %}
