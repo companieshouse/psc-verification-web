@@ -1,3 +1,4 @@
+import { Request } from "express";
 import logger from "../../lib/Logger";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { createApiClient, Resource } from "@companieshouse/api-sdk-node";
@@ -7,12 +8,11 @@ import { getAccessToken } from "../../utils/session";
 
 export const postTransaction = async (req: Request): Promise<Transaction> => {
 
-    const session = req.session as Session;
     const companyNumber = req.query.companyNumber as string;
     const reference = "PscVerificationReference";
     const description = "PSC Verification Transaction";
 
-    const accessToken: string = getAccessToken(session);
+    const accessToken: string = getAccessToken(req.session as Session);
     const apiClient = createApiClient(undefined, accessToken, undefined);
 
     const transaction: Transaction = {
