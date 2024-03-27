@@ -1,10 +1,15 @@
+import { Request } from "express";
 import { createApiClient, Resource } from "@companieshouse/api-sdk-node";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
+import { getAccessToken } from "../../utils/session";
 import logger from "../../lib/Logger";
-import { env } from "../../config";
+import { Session } from "@companieshouse/node-session-handler";
 
-export const getCompanyProfile = async (companyNumber: string): Promise<CompanyProfile> => {
-    const apiClient = createApiClient(env.CHS_API_KEY, undefined, env.API_URL);
+export const getCompanyProfile = async (req: Request): Promise<CompanyProfile> => {
+
+    const accessToken: string = getAccessToken(req.session as Session);
+    const apiClient = createApiClient(undefined, accessToken, undefined);
+    const companyNumber = req.query.companyNumber as string;
 
     logger.debug(`Looking for company profile with company number ${companyNumber}`);
     const sdkResponse: Resource<CompanyProfile> = await apiClient.companyProfile.getCompanyProfile(companyNumber);
