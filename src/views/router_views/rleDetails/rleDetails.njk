@@ -11,11 +11,6 @@
 
 {% block main_content %}
 
-{% set dobHintText %}
-{{i18n.rle_details_hint1}} <br>
-{{i18n.rle_details_hint2}}
-{% endset %}
-
 {% call govukFieldset({
   legend: {
     text: i18n.rle_details_field_title,
@@ -47,6 +42,11 @@
     classes: "govuk-!-width-two-thirds",
     id: "ro-last-name"
   }) }}
+
+{% set dobHintText %}
+{{i18n.rle_details_hint1}} <br>
+{{i18n.rle_details_hint2}}
+{% endset %}
 
   {{ govukDateInput({
   fieldset: {
