@@ -1,8 +1,10 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { ConfirmCompanyHandler } from "./handlers/confirmCompany/confirmCompany";
-import { PscTypeHandler } from "./handlers/psc_type/psc_type";
 import { handleExceptions } from "../utils/async.handler";
 import { PrefixedUrls } from "../constants";
+import { postTransaction } from "../services/internal/transaction.service";
+import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
+import { Session } from "@companieshouse/node-session-handler";
 
 const router: Router = Router();
 
@@ -13,7 +15,10 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
 }));
 
 router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
-    res.redirect(PrefixedUrls.FULL_RECORD + "?lang=" + req.body.lang);
+
+    const transaction: Transaction = await postTransaction(req);
+
+    res.redirect(PrefixedUrls.PSC_TYPE + "?lang=" + req.body.lang);
 }));
 
 export default router;
