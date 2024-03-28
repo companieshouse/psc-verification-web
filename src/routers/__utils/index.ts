@@ -7,5 +7,4 @@ import PersonalCodeRouter from "../personalCode.router";
 import IndividualStatementRouter from "../individual.statement.router";
 import PscVerifiedRouter from "./../pscVerifiedRouter";
 import RlePscListRouter from "./../rlePscListRouter";
-import FullRecordRouter from "../fullRecordRouter";
-export { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, PscVerifiedRouter, RlePscListRouter, FullRecordRouter };
+export { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, PscVerifiedRouter, RlePscListRouter };
