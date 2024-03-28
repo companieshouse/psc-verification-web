@@ -36,7 +36,8 @@ export const PrefixedUrls = {
 
 export const ExternalUrls = {
     COMPANY_LOOKUP: "/company-lookup/search?forward=" + servicePathPrefix + "/confirm-company?companyNumber={companyNumber}",
-    COMPANY_LOOKUP_WITH_LANG: "/company-lookup/search?forward=" + servicePathPrefix + "/confirm-company?companyNumber={companyNumber}%26lang="
+    COMPANY_LOOKUP_WITH_LANG: "/company-lookup/search?forward=" + servicePathPrefix + "/confirm-company?companyNumber={companyNumber}%26lang=",
+    SIGNOUT: "/signout"
 //     ABILITY_NET: env.ABILITY_NET_LINK,
 //     CONTACT_US: env.CONTACT_US_LINK,
 //     DEVELOPERS: env.DEVELOPERS_LINK,

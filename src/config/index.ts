@@ -14,6 +14,8 @@ export const env = readEnv(process.env, {
             "https://www.gov.uk/government/publications/apply-for-a-companies-house-online-filing-presenter-account"
         )
         .describe("Link to complete an application form"),
+    CACHE_SERVER: str
+        .default("redis"),
     CDN_HOST: str.map(addProtocolIfMissing).describe("URL for the CDN"),
     CDN_URL_CSS: str.describe("CDN URL for the CSS files").default("/css"),
     CDN_URL_JS: str.describe("CDN URL for the JavaScript files").default("/js"),
@@ -29,8 +31,12 @@ export const env = readEnv(process.env, {
             "https://www.gov.uk/government/organisations/companies-house#org-contacts"
         ),
     COOKIE_DOMAIN: str.describe("Domain for cookies"),
-    COOKIE_NAME: str.describe("Name for the cookie"),
+    COOKIE_NAME: str
+        .describe("Name for the cookie")
+        .default("__SID"),
     COOKIE_SECRET: str.describe("Secret used for cookie encryption"),
+    DEFAULT_SESSION_EXPIRATION: str
+        .default("3600"),
     DEVELOPERS_LINK: str
         .describe("Link for developers")
         .default("https://developer.companieshouse.gov.uk/"),

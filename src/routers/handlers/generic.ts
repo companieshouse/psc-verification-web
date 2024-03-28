@@ -46,9 +46,25 @@ export abstract class GenericHandler<T extends BaseViewData> {
         };
     }
 
+    populateViewData (req: Request) {
+        const { signin_info: signInInfo } = req.session?.data ?? {};
+        const isSignedIn = signInInfo?.signed_in !== undefined;
+        this.viewData.isSignedIn = isSignedIn;
+
+        if (!isSignedIn) { return; }
+
+        const userEmail = signInInfo?.user_profile?.email;
+        if (!userEmail) {
+            throw new Error("GenericHandler unable to get email. Email is undefined.");
+        }
+
+        this.viewData.userEmail = userEmail;
+    }
+
     async getViewData (req: Request): Promise<T> {
         this.errorManifest = errorManifest;
         this.viewData = defaultBaseViewData as T;
+        this.populateViewData(req);
         return this.viewData;
     }
 }

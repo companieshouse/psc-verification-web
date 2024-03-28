@@ -26,8 +26,7 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
-        const companyNumber = req.query.companyNumber as string;
-        const companyProfile: CompanyProfile = await getCompanyProfile(companyNumber);
+        const companyProfile: CompanyProfile = await getCompanyProfile(req);
         const company = formatForDisplay(companyProfile, locales, lang);
         const address = buildAddress(companyProfile);
 
