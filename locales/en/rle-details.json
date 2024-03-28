@@ -1,0 +1,17 @@
+{
+    "rle_details_title": "Relevant officer's details",
+    "rle_details_field_title": "Relevant officer's details",
+    "rle_details_first_name": "First name",
+    "rle_details_middle_names": "Middle names",
+    "rle_details_last_name": "Last name",
+    "rle_details_dob_label": "Date of birth",
+    "rle_details_hint1": "For example, 27 3 1992.",
+    "rle_details_hint2": "This must match the date of birth provided when they verified their identity.",
+    "rle_details_ch_personal_code": "Companies House personal code",
+    "rle_details_summary_text": "Where to find the Companies House personal code",
+    "rle_details_text": "This is an 11 character code that is given to a person after they have verified their identity with Companies House.",
+    "rle_details_continue_button": "Save and continue",
+    "rle_details_dob_day": "Day",
+    "rle_details_dob_month": "Month",
+    "rle_details_dob_year": "Year"    
+}
