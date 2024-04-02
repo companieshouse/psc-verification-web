@@ -4,8 +4,8 @@ import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { createOAuthApiClient } from "../external/apiClientService";
-import { createAndLogError, logger } from "../../utils/logger";
 import { PscVerification, PscVerificationResource } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { createAndLogError, logger } from "../../lib/Logger";
 
 export const createPscVerification = async (request: Request, transaction: Transaction, pscVerification: PscVerification): Promise<PscVerificationResource> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);

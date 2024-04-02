@@ -4,7 +4,7 @@ import {
     GenericHandler,
     ViewModel
 } from "../generic";
-import logger from "../../../lib/Logger";
+import { logger } from "../../../lib/Logger";
 import { PrefixedUrls } from "../../../constants";
 import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 

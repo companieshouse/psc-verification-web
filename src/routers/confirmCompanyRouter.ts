@@ -6,7 +6,7 @@ import { postTransaction } from "../services/internal/transaction.service";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { createPscVerification } from "../services/internal/pscVerificationService";
-import { logger } from "../utils/logger";
+import { logger } from "../lib/Logger";
 
 const router: Router = Router();
 

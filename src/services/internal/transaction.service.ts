@@ -1,10 +1,8 @@
-import { Request } from "express";
-import logger from "../../lib/Logger";
-import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
-import { createApiClient, Resource } from "@companieshouse/api-sdk-node";
+import { Resource } from "@companieshouse/api-sdk-node";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
-import { Session } from "@companieshouse/node-session-handler";
-import { getAccessToken } from "../../utils/session";
+import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
+import { Request } from "express";
+import { logger } from "../../lib/Logger";
 import { createOAuthApiClient } from "../external/apiClientService";
 
 export const postTransaction = async (req: Request): Promise<Transaction> => {
