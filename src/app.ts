@@ -50,7 +50,7 @@ app.enable("trust proxy");
 
 // parse body into req.body
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 // Unhandled errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
