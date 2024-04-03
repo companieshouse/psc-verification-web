@@ -3,6 +3,7 @@ import request from "supertest";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/external/companyProfileService";
 import { validCompanyProfile } from "../../../mocks/companyProfileMock";
+import middlewareMocks from "../../../mocks/all.middleware.mock";
 
 jest.mock("../../../../src/services/external/companyProfileService");
 
@@ -11,7 +12,17 @@ const diffCompanyHtml = "href=/persons-with-significant-control-verification/com
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
 mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 
-describe.skip("confirm company tests", () => {
+describe("confirm company tests", () => {
+
+    beforeEach(() => {
+        middlewareMocks.mockAuthenticationMiddleware.mockClear();
+        middlewareMocks.mockSessionMiddleware.mockClear();
+    })
+
+    afterEach(() => {
+        expect(middlewareMocks.mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
+        expect(middlewareMocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
+    });
 
     it("Should render the Confirm Company page with a successful status code", async () => {
         const resp = await request(app).get(PrefixedUrls.CONFIRM_COMPANY);
