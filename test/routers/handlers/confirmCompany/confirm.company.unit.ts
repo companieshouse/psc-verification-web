@@ -14,9 +14,14 @@ mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 
 describe("confirm company tests", () => {
 
+    beforeEach(() => {
+        middlewareMocks.mockAuthenticationMiddleware.mockClear();
+        middlewareMocks.mockSessionMiddleware.mockClear();
+    })
+
     afterEach(() => {
-        expect(middlewareMocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(middlewareMocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(middlewareMocks.mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
+        expect(middlewareMocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
     });
 
     it("Should render the Confirm Company page with a successful status code", async () => {

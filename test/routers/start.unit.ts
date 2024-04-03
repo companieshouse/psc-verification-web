@@ -10,6 +10,6 @@ describe("start page tests", () => {
 
         expect(resp.status).toBe(200);
         expect(resp.text).toContain(HEADING);
-        expect(middlewareMocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(middlewareMocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
     });
 });
