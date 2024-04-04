@@ -20,10 +20,26 @@
         "quotes": ["error", "double", { "allowTemplateLiterals": true }],
         "semi": [2, "always"],
         "no-unused-vars": "off",
-        "padded-blocks": "off"
+        "padded-blocks": "off",
+        "check-file/filename-naming-convention": [
+            "error",
+            {
+              "src/**/*.*": "CAMEL_CASE"
+            },
+            {
+                "ignoreMiddleExtensions": true
+            }
+          ],
+          "check-file/folder-naming-convention": [
+            "error",
+            {
+              "src/**/": "KEBAB_CASE"
+            }
+          ]
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "check-file"
     ],
     "env": {
         "node": true,
