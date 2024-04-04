@@ -1,11 +1,11 @@
 import app from "../../../../src/app";
 import request from "supertest";
 import { PrefixedUrls } from "../../../../src/constants";
-import { getCompanyProfile } from "../../../../src/services/external/companyProfileService";
+import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { validCompanyProfile } from "../../../mocks/companyProfileMock";
 import middlewareMocks from "../../../mocks/all.middleware.mock";
 
-jest.mock("../../../../src/services/external/companyProfileService");
+jest.mock("../../../../src/services/companyProfileService");
 
 const COMPANY_NUMBER = "12345678";
 const diffCompanyHtml = "href=/persons-with-significant-control-verification/company-number";
@@ -17,7 +17,7 @@ describe("confirm company tests", () => {
     beforeEach(() => {
         middlewareMocks.mockAuthenticationMiddleware.mockClear();
         middlewareMocks.mockSessionMiddleware.mockClear();
-    })
+    });
 
     afterEach(() => {
         expect(middlewareMocks.mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
