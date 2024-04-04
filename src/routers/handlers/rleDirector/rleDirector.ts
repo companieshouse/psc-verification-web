@@ -12,9 +12,9 @@ interface RleListViewData extends BaseViewData {
 
 }
 
-export class RleDetailsHandler extends GenericHandler<RleListViewData> {
+export class RleDirectorHandler extends GenericHandler<RleListViewData> {
 
-    private static templatePath = "router_views/rleDetails/rleDetails";
+    private static templatePath = "router_views/rleDirector/rleDirector";
 
     public async getViewData (req: Request): Promise<RleListViewData> {
 
@@ -26,9 +26,9 @@ export class RleDetailsHandler extends GenericHandler<RleListViewData> {
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            title: "Rle Details",
-            currentUrl: PrefixedUrls.RLE_DETAILS + "?lang=" + lang,
-            backURL: PrefixedUrls.RLE_LIST + "?lang=" + lang
+            title: "Are They A Director?",
+            currentUrl: PrefixedUrls.RLE_DIRECTOR + "?lang=" + lang,
+            backURL: PrefixedUrls.RLE_DETAILS + "?lang=" + lang
         };
     }
 
@@ -36,11 +36,11 @@ export class RleDetailsHandler extends GenericHandler<RleListViewData> {
         req: Request,
         _response: Response
     ): Promise<ViewModel<RleListViewData>> {
-        logger.info(`RleDetailsHandler execute called`);
+        logger.info(`RleDirectorHandler execute called`);
         const viewData = await this.getViewData(req);
 
         return {
-            templatePath: RleDetailsHandler.templatePath,
+            templatePath: RleDirectorHandler.templatePath,
             viewData
         };
     }
