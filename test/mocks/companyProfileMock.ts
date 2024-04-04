@@ -1,7 +1,7 @@
 import { Resource } from "@companieshouse/api-sdk-node";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 
-jest.mock("../../src/services/external/companyProfileService");
+jest.mock("../../src/services/companyProfileService");
 
 export const validCompanyProfile: CompanyProfile = {
     accounts: {
