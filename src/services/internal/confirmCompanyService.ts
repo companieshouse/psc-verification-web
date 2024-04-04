@@ -1,6 +1,6 @@
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
-import { toReadableFormat } from "../../utils/date";
 import { LocalesService } from "@companieshouse/ch-node-utils";
+import { toReadableFormat } from "../../utils/date";
 
 export const buildAddress = (companyProfile: CompanyProfile): string => {
     var addressArray: string[] = [companyProfile.registeredOfficeAddress.poBox,

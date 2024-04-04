@@ -1,9 +1,9 @@
-import app from "../../../../src/app";
 import request from "supertest";
+import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/external/companyProfileService";
-import { validCompanyProfile } from "../../../mocks/companyProfileMock";
 import middlewareMocks from "../../../mocks/all.middleware.mock";
+import { validCompanyProfile } from "../../../mocks/companyProfileMock";
 
 jest.mock("../../../../src/services/external/companyProfileService");
 
@@ -17,7 +17,7 @@ describe("confirm company tests", () => {
     beforeEach(() => {
         middlewareMocks.mockAuthenticationMiddleware.mockClear();
         middlewareMocks.mockSessionMiddleware.mockClear();
-    })
+    });
 
     afterEach(() => {
         expect(middlewareMocks.mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);

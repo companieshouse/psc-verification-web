@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response, Router } from "express";
-import { PscVerifiedHandler } from "./handlers/pscVerified/pscVerified";
+import { Request, Response, Router } from "express";
 import { handleExceptions } from "../utils/async.handler";
-import { logger } from "../lib/Logger";
+import { PscVerifiedHandler } from "./handlers/psc-verified/pscVerified";
 const router: Router = Router();
 
 router.get("/", handleExceptions(async (req: Request, res: Response) => {

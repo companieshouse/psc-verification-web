@@ -35,11 +35,16 @@
             {
               "src/**/": "KEBAB_CASE"
             }
-          ]
+          ],
+          "sort-imports": ["error", {
+            "ignoreDeclarationSort": true
+          }],
+          "unused-imports/no-unused-imports": "error"
     },
     "plugins": [
         "@typescript-eslint",
-        "check-file"
+        "check-file",
+        "unused-imports"
     ],
     "env": {
         "node": true,

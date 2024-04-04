@@ -1,15 +1,15 @@
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { Request, Response } from "express";
+import { PrefixedUrls } from "../../../constants";
+import { logger } from "../../../lib/Logger";
+import { getCompanyProfile } from "../../../services/external/companyProfileService";
+import { buildAddress, formatForDisplay } from "../../../services/internal/confirmCompanyService";
+import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import {
     BaseViewData,
     GenericHandler,
     ViewModel
 } from "../generic";
-import { logger } from "../../../lib/Logger";
-import { PrefixedUrls } from "../../../constants";
-import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
-import { getCompanyProfile } from "../../../services/external/companyProfileService";
-import { buildAddress, formatForDisplay } from "../../../services/internal/confirmCompanyService";
 
 interface ConfirmCompanyViewData extends BaseViewData {
     company: CompanyProfile

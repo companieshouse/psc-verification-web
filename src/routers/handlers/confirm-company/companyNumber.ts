@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
 import { ExternalUrls } from "../../../constants";
-import { selectLang } from "../../../utils/localise";
 import { logger } from "../../../lib/Logger";
+import { selectLang } from "../../../utils/localise";
+import { BaseViewData, GenericHandler } from "./../generic";
 
 export class CompanyNumberHandler extends GenericHandler<BaseViewData> {
 
