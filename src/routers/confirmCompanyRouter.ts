@@ -2,10 +2,10 @@ import { NextFunction, Request, Response, Router } from "express";
 import { ConfirmCompanyHandler } from "./handlers/confirmCompany/confirmCompany";
 import { handleExceptions } from "../utils/async.handler";
 import { PrefixedUrls } from "../constants";
-import { postTransaction } from "../services/internal/transaction.service";
+import { postTransaction } from "../services/transaction.service";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-import { createPscVerification } from "../services/internal/pscVerificationService";
+import { createPscVerification } from "../services/pscVerificationService";
 import { logger } from "../lib/Logger";
 
 const router: Router = Router();
