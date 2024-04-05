@@ -1,6 +1,5 @@
 {
-    "rle_director_caption": "test test test (Born November 2011)",
-    "rle_director_title": "Are they a director of [SELECTED COMPANY]",
+    "rle_director_title": "Are they a director of ",
     "rle_director_hint": "A relevant officer must be a director of the entity, or someone whose roles and responsibilities correspond to that of a company director.",
     "rle_director_yes": "Yes",
     "rle_director_no": "No",
