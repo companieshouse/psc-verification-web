@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { handleExceptions } from "../utils/async.handler";
+import { handleExceptions } from "../utils/asyncHandler";
 import { CompanyNumberHandler } from "./handlers/confirm-company/companyNumber";
 const router: Router = Router();
 

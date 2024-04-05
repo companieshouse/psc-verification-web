@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { handleExceptions } from "../utils/async.handler";
+import { handleExceptions } from "../utils/asyncHandler";
 import { IndividualPscListHandler } from "./handlers/individual-psc-list/individualPscList";
 const router: Router = Router();
 

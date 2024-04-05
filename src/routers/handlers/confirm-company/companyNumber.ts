@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ExternalUrls } from "../../../constants";
-import { logger } from "../../../lib/Logger";
+import { logger } from "../../../lib/logger";
 import { selectLang } from "../../../utils/localise";
 import { BaseViewData, GenericHandler } from "./../generic";
 

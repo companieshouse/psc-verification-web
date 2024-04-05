@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { handleExceptions } from "../utils/async.handler";
+import { handleExceptions } from "../utils/asyncHandler";
 import { RleListHandler } from "./handlers/rle-psc-list/rlePscList";
 const router: Router = Router();
 

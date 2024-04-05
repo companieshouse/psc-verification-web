@@ -2,7 +2,7 @@ import { Resource, createApiClient } from "@companieshouse/api-sdk-node";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request } from "express";
-import { logger } from "../../lib/Logger";
+import { logger } from "../../lib/logger";
 import { getAccessToken } from "../../utils/session";
 
 export const getCompanyProfile = async (req: Request): Promise<CompanyProfile> => {

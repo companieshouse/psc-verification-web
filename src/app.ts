@@ -3,9 +3,9 @@ import express, { NextFunction, Request, Response } from "express";
 import nunjucks from "nunjucks";
 import path from "path";
 import { ExternalUrls, servicePathPrefix } from "./constants";
-import { logger } from "./lib/Logger";
+import { logger } from "./lib/logger";
 import { sessionMiddleware } from "./middleware/session";
-import routerDispatch from "./router.dispatch";
+import routerDispatch from "./routerDispatch";
 
 const app = express();
 
