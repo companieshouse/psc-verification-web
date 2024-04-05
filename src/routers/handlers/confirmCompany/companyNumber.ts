@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
 import { ExternalUrls } from "../../../constants";
-import { selectLang } from "../../../utils/localise";
 import { logger } from "../../../lib/Logger";
+import { selectLang } from "../../../utils/localise";
+import { BaseViewData, GenericHandler } from "./../generic";
+import { addSearchParams } from "../../../utils/queryParams";
 
 export class CompanyNumberHandler extends GenericHandler<BaseViewData> {
 
@@ -11,7 +12,10 @@ export class CompanyNumberHandler extends GenericHandler<BaseViewData> {
 
         const lang = req.query.lang;
         if (lang !== undefined && lang !== "") {
-            const companyLookup = ExternalUrls.COMPANY_LOOKUP_WITH_LANG + selectLang(lang);
+            const forward = decodeURI(addSearchParams(ExternalUrls.COMPANY_LOOKUP_FORWARD, { companyNumber: "{companyNumber}", lang: selectLang(lang) }));
+            // addSearchParams() encodes the URI, so need to decode value before second call
+            const companyLookup = addSearchParams(ExternalUrls.COMPANY_LOOKUP, { forward });
+
             logger.debug("Company number redirect: " + companyLookup);
             return _response.redirect(companyLookup);
         }

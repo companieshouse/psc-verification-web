@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
+import { PrefixedUrls } from "../../../constants";
+import { logger } from "../../../lib/Logger";
+import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { addSearchParams } from "../../../utils/queryParams";
 import {
     BaseViewData,
     GenericHandler,
     ViewModel
 } from "../generic";
-import { logger } from "../../../lib/Logger";
-import { PrefixedUrls } from "../../../constants";
-import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 
 interface PscVerifiedViewData extends BaseViewData {
 
@@ -27,8 +28,8 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             title: "Psc Verified",
-            currentUrl: PrefixedUrls.PSC_VERIFIED + "?lang=" + lang,
-            backURL: PrefixedUrls.INDIVIDUAL_STATEMENT + "?lang=" + lang
+            currentUrl: addSearchParams(PrefixedUrls.PSC_VERIFIED, { lang }),
+            backURL: addSearchParams(PrefixedUrls.INDIVIDUAL_STATEMENT, { lang })
         };
     }
 

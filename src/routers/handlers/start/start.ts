@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
-import { logger } from "../../../lib/Logger";
 import { PrefixedUrls } from "../../../constants";
-import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
+import { logger } from "../../../lib/Logger";
+import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { addSearchParams } from "../../../utils/queryParams";
+import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
 
 export class StartHandler extends GenericHandler<BaseViewData> {
 
@@ -19,7 +20,7 @@ export class StartHandler extends GenericHandler<BaseViewData> {
             ...getLocaleInfo(locales, lang),
             isSignedIn: false,
             title: "PSC Verification",
-            currentUrl: PrefixedUrls.START,
+            currentUrl: addSearchParams(PrefixedUrls.START, { lang }),
             backURL: null
         };
     }

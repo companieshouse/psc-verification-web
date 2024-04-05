@@ -17,7 +17,7 @@ describe("confirm company tests", () => {
     beforeEach(() => {
         middlewareMocks.mockAuthenticationMiddleware.mockClear();
         middlewareMocks.mockSessionMiddleware.mockClear();
-    })
+    });
 
     afterEach(() => {
         expect(middlewareMocks.mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);

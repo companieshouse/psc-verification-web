@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { BaseViewData, GenericHandler, ViewModel } from "../generic";
-import { logger } from "../../../lib/Logger";
 import { PrefixedUrls } from "../../../constants";
-import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
+import { logger } from "../../../lib/Logger";
+import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { addSearchParams } from "../../../utils/queryParams";
+import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 
 interface PscTypeViewData extends BaseViewData {}
 
@@ -14,13 +15,14 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
         const baseViewData = await super.getViewData(req);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
+        const companyNumber = req.query.companyNumber as string;
 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             title: "PSC type – Provide identity verification details for a PSC or relevant legal entity",
-            currentUrl: PrefixedUrls.PSC_TYPE + "?lang=" + lang,
-            backURL: PrefixedUrls.CONFIRM_COMPANY + "?lang=" + lang
+            currentUrl: addSearchParams(PrefixedUrls.PSC_TYPE, { lang }),
+            backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang })
         };
     }
 
