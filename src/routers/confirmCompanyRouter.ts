@@ -3,8 +3,8 @@ import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transact
 import { NextFunction, Request, Response, Router } from "express";
 import { PrefixedUrls } from "../constants";
 import { logger } from "../lib/logger";
-import { createPscVerification } from "../services/internal/pscVerificationService";
-import { postTransaction } from "../services/internal/transactionService";
+import { createPscVerification } from "../services/pscVerificationService";
+import { postTransaction } from "../services/transactionService";
 import { handleExceptions } from "../utils/asyncHandler";
 import { ConfirmCompanyHandler } from "./handlers/confirm-company/confirmCompany";
 

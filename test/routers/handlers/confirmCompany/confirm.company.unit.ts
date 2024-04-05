@@ -1,11 +1,11 @@
 import request from "supertest";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
-import { getCompanyProfile } from "../../../../src/services/external/companyProfileService";
+import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import middlewareMocks from "../../../mocks/all.middleware.mock";
 import { validCompanyProfile } from "../../../mocks/companyProfileMock";
 
-jest.mock("../../../../src/services/external/companyProfileService");
+jest.mock("../../../../src/services/companyProfileService");
 
 const COMPANY_NUMBER = "12345678";
 const diffCompanyHtml = "href=/persons-with-significant-control-verification/company-number";

@@ -2,8 +2,8 @@ import { Resource } from "@companieshouse/api-sdk-node";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { Request } from "express";
-import { logger } from "../../lib/logger";
-import { createOAuthApiClient } from "../external/apiClientService";
+import { logger } from "../lib/logger";
+import { createOAuthApiClient } from "./apiClientService";
 
 export const postTransaction = async (req: Request): Promise<Transaction> => {
 
