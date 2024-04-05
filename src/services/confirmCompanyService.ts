@@ -1,5 +1,5 @@
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
-import { toReadableFormat } from "../../utils/date";
+import { toReadableFormat } from "../utils/date";
 import { LocalesService } from "@companieshouse/ch-node-utils";
 
 export const buildAddress = (companyProfile: CompanyProfile): string => {

@@ -11,8 +11,8 @@ const routerDispatch = (app: Application) => {
     // Required for endpoint prefix
     app.use(servicePathPrefix, router);
 
-    router.use("/", sessionMiddleware, StartRouter);
-    router.use(Urls.START, sessionMiddleware, StartRouter);
+    router.use("/", StartRouter);
+    router.use(Urls.START, StartRouter);
     router.use(Urls.COMPANY_NUMBER, authenticationMiddleware, CompanyNumberRouter);
     router.use(Urls.CONFIRM_COMPANY, authenticationMiddleware, ConfirmCompanyRouter);
     router.use(Urls.PSC_TYPE, authenticationMiddleware, PscTypeRouter);
