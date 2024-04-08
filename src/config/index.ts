@@ -1,4 +1,4 @@
-import { Validators, readEnv, addProtocolIfMissing } from "./validator";
+import { Validators, addProtocolIfMissing, readEnv } from "./validator";
 
 const { str, url, bool, port } = Validators;
 

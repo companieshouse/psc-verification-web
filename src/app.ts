@@ -1,11 +1,11 @@
-import express, { Request, Response, NextFunction } from "express";
+import cookieParser from "cookie-parser";
+import express, { NextFunction, Request, Response } from "express";
 import nunjucks from "nunjucks";
 import path from "path";
-import routerDispatch from "./router.dispatch";
-import { servicePathPrefix, ExternalUrls } from "./constants";
+import { ExternalUrls, servicePathPrefix } from "./constants";
+import { logger } from "./lib/logger";
 import { sessionMiddleware } from "./middleware/session";
-import cookieParser from "cookie-parser";
-import { logger } from "./lib/Logger";
+import routerDispatch from "./routerDispatch";
 
 const app = express();
 

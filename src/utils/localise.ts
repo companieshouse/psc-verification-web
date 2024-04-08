@@ -1,4 +1,4 @@
-import { LocalesService, LanguageNames } from "@companieshouse/ch-node-utils";
+import { LanguageNames, LocalesService } from "@companieshouse/ch-node-utils";
 import { env } from "../config/index";
 
 export const selectLang = (lang: any): string => {

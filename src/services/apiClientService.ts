@@ -1,6 +1,6 @@
-import { Session } from "@companieshouse/node-session-handler";
-import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { createApiClient } from "@companieshouse/api-sdk-node";
+import ApiClient from "@companieshouse/api-sdk-node/dist/client";
+import { Session } from "@companieshouse/node-session-handler";
 
 import { env } from "../config";
 import { getAccessToken } from "../utils/session";
