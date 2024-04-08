@@ -1,10 +1,11 @@
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { Request, Response } from "express";
-import { PrefixedUrls } from "../../../constants";
+import { ExternalUrls, PrefixedUrls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getCompanyProfile } from "../../../services/companyProfileService";
 import { buildAddress, formatForDisplay } from "../../../services/confirmCompanyService";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { addSearchParams } from "../../../utils/queryParams";
 import {
     BaseViewData,
     GenericHandler,
@@ -29,12 +30,16 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
         const companyProfile: CompanyProfile = await getCompanyProfile(req);
         const company = formatForDisplay(companyProfile, locales, lang);
         const address = buildAddress(companyProfile);
+        const currentUrl = addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber: companyProfile.companyNumber, lang });
+        const forward = decodeURI(addSearchParams(ExternalUrls.COMPANY_LOOKUP_FORWARD, { companyNumber: "{companyNumber}", lang }));
+        // addSearchParams() encodes the URI, so need to decode value before second call
+        const companyLookup = addSearchParams(ExternalUrls.COMPANY_LOOKUP, { forward });
 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            currentUrl: PrefixedUrls.CONFIRM_COMPANY + "?lang=" + lang,
-            backURL: PrefixedUrls.START + "?lang=" + lang,
+            currentUrl,
+            backURL: companyLookup,
             company,
             address
         };

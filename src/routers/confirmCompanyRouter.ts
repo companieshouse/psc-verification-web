@@ -6,6 +6,8 @@ import { logger } from "../lib/logger";
 import { createPscVerification } from "../services/pscVerificationService";
 import { postTransaction } from "../services/transactionService";
 import { handleExceptions } from "../utils/asyncHandler";
+import { selectLang } from "../utils/localise";
+import { addSearchParams } from "../utils/queryParams";
 import { ConfirmCompanyHandler } from "./handlers/confirm-company/confirmCompany";
 
 const router: Router = Router();
@@ -19,8 +21,9 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
 router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
 
     const transaction: Transaction = await postTransaction(req);
+    const number = req.query.companyNumber as string;
     const verification: PscVerification = {
-        company_number: req.query.companyNumber as string,
+        company_number: number,
         psc_appointment_id: "TBC",
         verification_details: {
             verification_statements: []
@@ -28,9 +31,10 @@ router.post("/", handleExceptions(async (req: Request, res: Response, _next: Nex
     };
 
     const resource = await createPscVerification(req, transaction, verification);
+    const lang = selectLang(req.body.lang);
     logger.info("CREATED" + resource);
 
-    res.redirect(PrefixedUrls.PSC_TYPE + "?lang=" + req.body.lang);
+    res.redirect(addSearchParams(PrefixedUrls.PSC_TYPE, { companyNumber: number, lang }));
 }));
 
 export default router;

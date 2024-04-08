@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PrefixedUrls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { addSearchParams } from "../../../utils/queryParams";
 import {
     BaseViewData,
     GenericHandler,
@@ -21,8 +22,8 @@ export class IndividualPscListHandler extends GenericHandler<BaseViewData> {
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            currentUrl: PrefixedUrls.INDIVIDUAL_PSC_LIST,
-            backURL: PrefixedUrls.PSC_TYPE
+            currentUrl: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { lang }),
+            backURL: addSearchParams(PrefixedUrls.PSC_TYPE, { lang })
         };
     }
 

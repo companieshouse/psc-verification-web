@@ -3,6 +3,7 @@ import { PrefixedUrls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
+import { addSearchParams } from "../../../utils/queryParams";
 
 export class StartHandler extends GenericHandler<BaseViewData> {
 
@@ -19,7 +20,7 @@ export class StartHandler extends GenericHandler<BaseViewData> {
             ...getLocaleInfo(locales, lang),
             isSignedIn: false,
             title: "PSC Verification",
-            currentUrl: PrefixedUrls.START,
+            currentUrl: addSearchParams(PrefixedUrls.START, { lang }),
             backURL: null
         };
     }
