@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { PrefixedUrls } from "../../../constants";
-import { logger } from "../../../lib/Logger";
+import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";

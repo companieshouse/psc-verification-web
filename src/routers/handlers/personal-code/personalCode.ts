@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { PrefixedUrls } from "../../../constants";
-import { logger } from "../../../lib/Logger";
+import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import {
@@ -9,39 +9,37 @@ import {
     ViewModel
 } from "../generic";
 
-interface PscVerifiedViewData extends BaseViewData {
+interface PersonalCodeViewData extends BaseViewData {
 
 }
 
-export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
+export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
-    private static templatePath = "router_views/pscVerified/pscVerified";
+    private static templatePath = "router_views/personal_code/personal_code";
 
-    public async getViewData (req: Request): Promise<PscVerifiedViewData> {
+    public async getViewData (req: Request): Promise<BaseViewData> {
 
         const baseViewData = await super.getViewData(req);
-
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            title: "Psc Verified",
-            currentUrl: addSearchParams(PrefixedUrls.PSC_VERIFIED, { lang }),
-            backURL: addSearchParams(PrefixedUrls.INDIVIDUAL_STATEMENT, { lang })
+            currentUrl: addSearchParams(PrefixedUrls.PERSONAL_CODE, { lang }),
+            backURL: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { lang })
         };
     }
 
     public async executeGet (
         req: Request,
         _response: Response
-    ): Promise<ViewModel<PscVerifiedViewData>> {
-        logger.info(`PscVerifiedHandler execute called`);
+    ): Promise<ViewModel<PersonalCodeViewData>> {
+        logger.info(`PersonalCodeHandler execute called`);
         const viewData = await this.getViewData(req);
 
         return {
-            templatePath: PscVerifiedHandler.templatePath,
+            templatePath: PersonalCodeHandler.templatePath,
             viewData
         };
     }

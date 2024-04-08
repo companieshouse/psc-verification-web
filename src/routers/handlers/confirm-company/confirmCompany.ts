@@ -1,7 +1,7 @@
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { Request, Response } from "express";
 import { ExternalUrls, PrefixedUrls } from "../../../constants";
-import { logger } from "../../../lib/Logger";
+import { logger } from "../../../lib/logger";
 import { getCompanyProfile } from "../../../services/companyProfileService";
 import { buildAddress, formatForDisplay } from "../../../services/confirmCompanyService";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";

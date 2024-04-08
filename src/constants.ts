@@ -1,6 +1,3 @@
-
-import { env } from "./config";
-
 export const servicePathPrefix = "/persons-with-significant-control-verification";
 
 export const Urls = {

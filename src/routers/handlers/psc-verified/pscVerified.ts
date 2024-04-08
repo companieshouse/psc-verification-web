@@ -1,23 +1,22 @@
 import { Request, Response } from "express";
 import { PrefixedUrls } from "../../../constants";
-import { logger } from "../../../lib/Logger";
+import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { addSearchParams } from "../../../utils/queryParams";
 import {
     BaseViewData,
     GenericHandler,
     ViewModel
 } from "../generic";
 
-interface RleListViewData extends BaseViewData {
+interface PscVerifiedViewData extends BaseViewData {
 
 }
 
-export class RleDetailsHandler extends GenericHandler<RleListViewData> {
+export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
 
-    private static templatePath = "router_views/rleDetails/rleDetails";
+    private static templatePath = "router_views/pscVerified/pscVerified";
 
-    public async getViewData (req: Request): Promise<RleListViewData> {
+    public async getViewData (req: Request): Promise<PscVerifiedViewData> {
 
         const baseViewData = await super.getViewData(req);
 
@@ -27,21 +26,21 @@ export class RleDetailsHandler extends GenericHandler<RleListViewData> {
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            title: "Rle List",
-            currentUrl: addSearchParams(PrefixedUrls.RLE_DETAILS, { lang }),
-            backURL: addSearchParams(PrefixedUrls.RLE_LIST, { lang })
+            title: "Psc Verified",
+            currentUrl: PrefixedUrls.PSC_VERIFIED + "?lang=" + lang,
+            backURL: PrefixedUrls.INDIVIDUAL_STATEMENT + "?lang=" + lang
         };
     }
 
     public async executeGet (
         req: Request,
         _response: Response
-    ): Promise<ViewModel<RleListViewData>> {
-        logger.info(`RleDetailsHandler execute called`);
+    ): Promise<ViewModel<PscVerifiedViewData>> {
+        logger.info(`PscVerifiedHandler execute called`);
         const viewData = await this.getViewData(req);
 
         return {
-            templatePath: RleDetailsHandler.templatePath,
+            templatePath: PscVerifiedHandler.templatePath,
             viewData
         };
     }

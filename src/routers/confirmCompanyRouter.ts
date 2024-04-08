@@ -2,13 +2,13 @@ import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { NextFunction, Request, Response, Router } from "express";
 import { PrefixedUrls } from "../constants";
-import { logger } from "../lib/Logger";
+import { logger } from "../lib/logger";
 import { createPscVerification } from "../services/pscVerificationService";
-import { postTransaction } from "../services/transaction.service";
-import { handleExceptions } from "../utils/async.handler";
+import { postTransaction } from "../services/transactionService";
+import { handleExceptions } from "../utils/asyncHandler";
 import { selectLang } from "../utils/localise";
 import { addSearchParams } from "../utils/queryParams";
-import { ConfirmCompanyHandler } from "./handlers/confirmCompany/confirmCompany";
+import { ConfirmCompanyHandler } from "./handlers/confirm-company/confirmCompany";
 
 const router: Router = Router();
 

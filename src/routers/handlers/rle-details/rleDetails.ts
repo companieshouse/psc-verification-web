@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { PrefixedUrls } from "../../../constants";
-import { logger } from "../../../lib/Logger";
+import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { addSearchParams } from "../../../utils/queryParams";
 import {
     BaseViewData,
     GenericHandler,
@@ -13,9 +12,9 @@ interface RleListViewData extends BaseViewData {
 
 }
 
-export class RleListHandler extends GenericHandler<RleListViewData> {
+export class RleDetailsHandler extends GenericHandler<RleListViewData> {
 
-    private static templatePath = "router_views/rlePscList/rlePscList";
+    private static templatePath = "router_views/rleDetails/rleDetails";
 
     public async getViewData (req: Request): Promise<RleListViewData> {
 
@@ -28,8 +27,8 @@ export class RleListHandler extends GenericHandler<RleListViewData> {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             title: "Rle List",
-            currentUrl: addSearchParams(PrefixedUrls.RLE_LIST, { lang }),
-            backURL: addSearchParams(PrefixedUrls.PSC_TYPE, { lang })
+            currentUrl: PrefixedUrls.RLE_DETAILS + "?lang=" + lang,
+            backURL: PrefixedUrls.RLE_LIST + "?lang=" + lang
         };
     }
 
@@ -37,11 +36,11 @@ export class RleListHandler extends GenericHandler<RleListViewData> {
         req: Request,
         _response: Response
     ): Promise<ViewModel<RleListViewData>> {
-        logger.info(`RleListHandler execute called`);
+        logger.info(`RleDetailsHandler execute called`);
         const viewData = await this.getViewData(req);
 
         return {
-            templatePath: RleListHandler.templatePath,
+            templatePath: RleDetailsHandler.templatePath,
             viewData
         };
     }
