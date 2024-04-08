@@ -1,5 +1,5 @@
+import { AuthOptions, authMiddleware } from "@companieshouse/web-security-node";
 import { NextFunction, Request, Response } from "express";
-import { authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
 import { env } from "../config";
 
 export const authenticationMiddleware = (req: Request, res: Response, next: NextFunction) => {

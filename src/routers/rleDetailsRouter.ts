@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response, Router } from "express";
-import { RleDetailsHandler } from "./handlers/rleDetails/rleDetails";
-import { handleExceptions } from "../utils/async.handler";
-import { logger } from "../lib/Logger";
+import { Request, Response, Router } from "express";
+import { handleExceptions } from "../utils/asyncHandler";
+import { RleDetailsHandler } from "./handlers/rle-details/rleDetails";
 const router: Router = Router();
 
 router.get("/", handleExceptions(async (req: Request, res: Response) => {

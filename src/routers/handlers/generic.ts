@@ -1,9 +1,9 @@
 // Generic handler is the base handler that is extended by all other handlers
 // It contains methods that are common to multiple route handlers
 
-import { ExternalUrls, PrefixedUrls, servicePathPrefix } from "../../constants";
-import errorManifest from "../../lib/utils/error_manifests/default";
 import { Request } from "express";
+import { ExternalUrls, PrefixedUrls, servicePathPrefix } from "../../constants";
+import errorManifest from "../../lib/utils/error-manifests/default";
 
 export interface BaseViewData {
     errors: any
