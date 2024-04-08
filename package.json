@@ -10,8 +10,8 @@
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "build:assets": "gulp build",
-    "build:server": "tsc && cp -r src/views dist/ && cp -r src/config dist/",
-    "build": "tsc && cp -r src/views dist/",
+    "build:server": "tsc -p tsconfig-build.json && cp -r src/views dist/ && cp -r src/config dist/",
+    "build": "tsc -p tsconfig-build.json && cp -r src/views dist/",
     "lint": "eslint 'src/*.ts' 'src/**/*.ts' 'test/**/*.ts'",
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' 'test/**/*.ts' --fix",
     "coverage": "nyc --check-coverage --reporter=text-summary npm run test",

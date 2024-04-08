@@ -1,6 +1,6 @@
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { Request, Response } from "express";
-import { PrefixedUrls } from "../../../constants";
+import { ExternalUrls, PrefixedUrls } from "../../../constants";
 import { logger } from "../../../lib/Logger";
 import { getCompanyProfile } from "../../../services/companyProfileService";
 import { buildAddress, formatForDisplay } from "../../../services/confirmCompanyService";
@@ -31,12 +31,15 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
         const company = formatForDisplay(companyProfile, locales, lang);
         const address = buildAddress(companyProfile);
         const currentUrl = addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber: companyProfile.companyNumber, lang });
+        const forward = decodeURI(addSearchParams(ExternalUrls.COMPANY_LOOKUP_FORWARD, { companyNumber: "{companyNumber}", lang }));
+        // addSearchParams() encodes the URI, so need to decode value before second call
+        const companyLookup = addSearchParams(ExternalUrls.COMPANY_LOOKUP, { forward });
 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            backURL: addSearchParams(PrefixedUrls.START, { lang }),
+            backURL: companyLookup,
             company,
             address
         };
