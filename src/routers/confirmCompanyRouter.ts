@@ -1,12 +1,12 @@
-import { NextFunction, Request, Response, Router } from "express";
-import { ConfirmCompanyHandler } from "./handlers/confirmCompany/confirmCompany";
-import { handleExceptions } from "../utils/async.handler";
-import { PrefixedUrls } from "../constants";
-import { postTransaction } from "../services/transaction.service";
-import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
+import { NextFunction, Request, Response, Router } from "express";
+import { PrefixedUrls } from "../constants";
+import { logger } from "../lib/logger";
 import { createPscVerification } from "../services/pscVerificationService";
-import { logger } from "../lib/Logger";
+import { postTransaction } from "../services/transactionService";
+import { handleExceptions } from "../utils/asyncHandler";
+import { ConfirmCompanyHandler } from "./handlers/confirm-company/confirmCompany";
 
 const router: Router = Router();
 

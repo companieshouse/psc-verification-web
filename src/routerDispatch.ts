@@ -1,9 +1,8 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Request, Response, Router } from "express";
-import { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, PscVerifiedRouter, RlePscListRouter, RleDetailsRouter, RleDirectorRouter } from "./routers/__utils";
 import { Urls, servicePathPrefix } from "./constants";
 import { authenticationMiddleware } from "./middleware/authentication";
-import { sessionMiddleware } from "./middleware/session";
+import { CompanyNumberRouter, ConfirmCompanyRouter, IndividualPscListRouter, IndividualStatementRouter, PersonalCodeRouter, PscTypeRouter, PscVerifiedRouter, RleDetailsRouter, RleDirectorRouter, RlePscListRouter, StartRouter } from "./routers/utils";
 
 const routerDispatch = (app: Application) => {
 
