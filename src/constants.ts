@@ -12,7 +12,8 @@ export const Urls = {
     PSC_VERIFIED: "/psc-verified",
     HEALTHCHECK: "/healthcheck",
     RLE_LIST: "/rle/rle-list",
-    RLE_DETAILS: "/rle/ro-details"
+    RLE_DETAILS: "/rle/ro-details",
+    RLE_DIRECTOR: "/rle/ro-director"
 } as const;
 
 export const PrefixedUrls = {
@@ -28,6 +29,7 @@ export const PrefixedUrls = {
     PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
     RLE_LIST: servicePathPrefix + Urls.RLE_LIST,
     RLE_DETAILS: servicePathPrefix + Urls.RLE_DETAILS,
+    RLE_DIRECTOR: servicePathPrefix + Urls.RLE_DIRECTOR,
     COOKIES: "/help/cookies"
 } as const;
 
