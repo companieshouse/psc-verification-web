@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PrefixedUrls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { addSearchParams } from "../../../utils/queryParams";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 
 interface IndividualStatementViewData extends BaseViewData { }
@@ -19,8 +20,8 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            currentUrl: PrefixedUrls.INDIVIDUAL_STATEMENT,
-            backURL: PrefixedUrls.PERSONAL_CODE
+            currentUrl: addSearchParams(PrefixedUrls.INDIVIDUAL_STATEMENT, { lang }),
+            backURL: addSearchParams(PrefixedUrls.PERSONAL_CODE, { lang })
         };
     }
 
