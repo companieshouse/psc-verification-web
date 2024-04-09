@@ -14,7 +14,7 @@ interface RleListViewData extends BaseViewData {
 
 export class RleDirectorHandler extends GenericHandler<RleListViewData> {
 
-    private static templatePath = "router_views/rleDirector/rleDirector";
+    private static templatePath = "router_views/rle-director/rleDirector";
 
     public async getViewData (req: Request): Promise<RleListViewData> {
 
