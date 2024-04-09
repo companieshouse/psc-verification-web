@@ -25,12 +25,13 @@
           text: i18n.individual_statement_part1 + "[name]" + i18n.individual_statement_part2
         }
       ]
-    }) }}  
+    }) }}
 
+    <input type="hidden" name="lang" value="{{lang}}">
     {{ govukButton({
         id: "confirmContinue",
         text: i18n.global_confirm_continue_button,
-        href: Urls.PSC_VERIFIED
+        href: Urls.PSC_VERIFIED + "?lang=" +lang
     }) }}
 
 {% endblock %}
