@@ -2,8 +2,8 @@ import request from "supertest";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
-import middlewareMocks from "../../../mocks/all.middleware.mock";
-import { validCompanyProfile } from "../../../mocks/companyProfileMock";
+import middlewareMocks from "../../../mocks/allMiddleware.mock";
+import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
 
 jest.mock("../../../../src/services/companyProfileService");
 

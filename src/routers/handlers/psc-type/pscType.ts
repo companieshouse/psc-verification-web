@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrefixedUrls } from "../../../constants";
+import { PrefixedUrls, SessionKeys } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
@@ -15,7 +15,7 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
         const baseViewData = await super.getViewData(req);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const companyNumber = req.query.companyNumber as string;
+        const companyNumber = req.session?.getExtraData(SessionKeys.COMPANY_NUMBER) as string;
 
         return {
             ...baseViewData,
