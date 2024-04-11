@@ -8,9 +8,9 @@ module.exports = {
     verbose: true,
     testMatch: ["**/test/**/*.unit.[jt]s"],
     transform: {
-        "^.+\\.tsx?$": ["ts-jest", { diagnostics: false }],
+        "^.+\\.tsx?$": ["ts-jest", { diagnostics: false }]
     },
     globalSetup: "./test/global.setup.ts",
     testTimeout: 10000, // Set the timeout to 10 seconds (or any other appropriate value)
-    setupFilesAfterEnv: ["<rootDir>/test/mocks/allMiddleware.mock.ts"],
+    setupFilesAfterEnv: ["<rootDir>/test/mocks/allMiddleware.mock.ts"]
 };
