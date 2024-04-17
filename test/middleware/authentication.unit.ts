@@ -3,28 +3,37 @@ import { NextFunction, Request, Response } from "express";
 import { authenticationMiddleware } from "../../src/middleware/authentication";
 
 jest.mock("@companieshouse/web-security-node");
+jest.mock("./../../src/middleware/authentication");
 
-// get handle on mocked function
-const mockAuthenticationMiddleware = authMiddleware as jest.Mock;
+const mockAuthenticationMiddleware = authenticationMiddleware as jest.Mock;
+const mockAuthReturnedFunction = jest.fn();
+// When the mocked authenticationMiddleware is called, make it return a mocked function so we can verify it gets called
+mockAuthenticationMiddleware.mockReturnValue(mockAuthReturnedFunction);
 
-// tell the mock what to return
-mockAuthenticationMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => next());
+const mockAuthMiddleware = authMiddleware as jest.Mock;
+mockAuthMiddleware.mockImplementation((expectedConfig: AuthOptions) => next());
+mockAuthMiddleware.mockReturnValue(mockAuthReturnedFunction);
+
+const URL = "/psc-verification/something";
+const req: Request = { originalUrl: URL } as Request;
+const res: Response = {} as Response;
+const next = jest.fn();
+
+const expectedConfig: AuthOptions = {
+    chsWebUrl: "http://chs.local",
+    returnUrl: URL
+};
 
 describe("authenticationMiddleware", () => {
 
-    it("should use the correct URLs", () => {
-        const originalUrl = "originalUrl";
-        const req = { originalUrl } as Request;
-        const expectedConfig: AuthOptions = {
-            chsWebUrl: "",
-            returnUrl: originalUrl
-        };
-        const res = {} as Response;
-        const next = jest.fn();
-        authenticationMiddleware(req, res, next);
+    beforeEach(() => {
+        jest.clearAllMocks();
+        req.originalUrl = URL;
+    });
 
-        // wip
-        // expect(mockAuthenticationMiddleware).toHaveBeenCalled();
-        // expect(authMiddleware).toHaveBeenCalledWith(expectedConfig);
+    it("should use the correct URLs", () => {
+        authenticationMiddleware(req, res, next);
+        expect(mockAuthenticationMiddleware).toHaveBeenCalledWith(req, res, next);
+        // expect(mockAuthMiddleware).toHaveBeenCalledWith(expectedConfig);
     });
 });
