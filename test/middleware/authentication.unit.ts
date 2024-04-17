@@ -1,39 +1,38 @@
-import { AuthOptions, authMiddleware } from "@companieshouse/web-security-node";
 import { NextFunction, Request, Response } from "express";
-import { authenticationMiddleware } from "../../src/middleware/authentication";
+import { authenticate } from "../../src/middleware/authentication";
+import { authMiddleware } from "@companieshouse/web-security-node";
 
-jest.mock("@companieshouse/web-security-node");
-jest.mock("./../../src/middleware/authentication");
+const mockRequestHandler = jest.fn();
 
-const mockAuthenticationMiddleware = authenticationMiddleware as jest.Mock;
-const mockAuthReturnedFunction = jest.fn();
-// When the mocked authenticationMiddleware is called, make it return a mocked function so we can verify it gets called
-mockAuthenticationMiddleware.mockReturnValue(mockAuthReturnedFunction);
+jest.mock("@companieshouse/web-security-node", () => ({
+    authMiddleware: jest.fn(() => mockRequestHandler)
+}));
 
-const mockAuthMiddleware = authMiddleware as jest.Mock;
-mockAuthMiddleware.mockImplementation((expectedConfig: AuthOptions) => next());
-mockAuthMiddleware.mockReturnValue(mockAuthReturnedFunction);
-
-const URL = "/psc-verification/something";
-const req: Request = { originalUrl: URL } as Request;
-const res: Response = {} as Response;
-const next = jest.fn();
-
-const expectedConfig: AuthOptions = {
-    chsWebUrl: "http://chs.local",
-    returnUrl: URL
-};
-
-describe("authenticationMiddleware", () => {
+describe("Authenticate via Authentication middleware", () => {
+    const request = {} as Request;
+    const response = {} as Response;
+    const next = jest.fn() as NextFunction;
 
     beforeEach(() => {
         jest.clearAllMocks();
-        req.originalUrl = URL;
     });
 
-    it("should use the correct URLs", () => {
-        authenticationMiddleware(req, res, next);
-        expect(mockAuthenticationMiddleware).toHaveBeenCalledWith(req, res, next);
-        // expect(mockAuthMiddleware).toHaveBeenCalledWith(expectedConfig);
+    it("should call authMiddleware with correct config", () => {
+        request.originalUrl = "/some-url";
+
+        authenticate(request, response, next);
+
+        expect(authMiddleware).toHaveBeenCalledWith({
+            chsWebUrl: process.env.CHS_URL,
+            returnUrl: "/some-url"
+        });
+        expect(mockRequestHandler).toHaveBeenCalledWith(
+            {
+                originalUrl: "/some-url"
+            },
+            {},
+            next
+        );
     });
+
 });
