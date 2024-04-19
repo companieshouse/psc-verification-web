@@ -2,7 +2,7 @@
 import { Application, Request, Response, Router } from "express";
 import { Urls, servicePathPrefix } from "./constants";
 import { authenticationMiddleware } from "./middleware/authentication";
-import { CompanyNumberRouter, ConfirmCompanyRouter, IndividualPscListRouter, IndividualStatementRouter, PersonalCodeRouter, PscTypeRouter, PscVerifiedRouter, RleDetailsRouter, RleDirectorRouter, RlePscListRouter, StartRouter } from "./routers/utils";
+import { CompanyNumberRouter, ConfirmCompanyRouter, ConfirmRoStatementsRouter, IndividualPscListRouter, IndividualStatementRouter, PersonalCodeRouter, PscTypeRouter, PscVerifiedRouter, RleDetailsRouter, RleDirectorRouter, RlePscListRouter, StartRouter } from "./routers/utils";
 
 const routerDispatch = (app: Application) => {
 
@@ -22,6 +22,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.RLE_LIST, authenticationMiddleware, RlePscListRouter);
     router.use(Urls.RLE_DETAILS, authenticationMiddleware, RleDetailsRouter);
     router.use(Urls.RLE_DIRECTOR, authenticationMiddleware, RleDirectorRouter);
+    router.use(Urls.CONFIRM_RO_STATEMENTS, authenticationMiddleware, ConfirmRoStatementsRouter);
 
     router.use("*", (req: Request, res: Response) => {
         res.status(404).render("partials/error_400");

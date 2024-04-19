@@ -1,0 +1,43 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block main_content %}
+
+<span class="govuk-caption-xl">
+    [first] [middle] [last] ({{i18n.confirm_ro_statements_caption}} [Month] [Year])
+  </span>
+
+{{ govukCheckboxes({
+  name: "RO Statements",
+  fieldset: {
+    legend: {
+      text: i18n.confirm_ro_statements_title,
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "has verified identity",
+      text: i18n.confirm_ro_statements_first_checkbox1 + "[first] [middle] [last]" + i18n.confirm_ro_statements_first_checkbox2
+    },
+    {
+      value: "is the RO",
+      text: "[SELECTED COMPANY]" + i18n.confirm_ro_statements_second_checkbox1 + "[first] [middle] [last]" + i18n.confirm_ro_statements_second_checkbox2
+    },
+    {
+      value: "is the RO of the business",
+      text: "[first] [middle] [last]" + i18n.confirm_ro_statements_third_checkbox + "[SELECTED COMPANY]"
+    }
+  ]
+}) }}
+
+{{ govukButton({
+          id: "confirmContinue",
+          text: i18n.confirm_ro_statements_continue_button,
+          href: Urls.PSC_VERIFIED
+        }) }}
+
+{% endblock %}
