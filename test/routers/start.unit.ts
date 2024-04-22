@@ -1,14 +1,27 @@
+import middlewareMocks from "../mocks/allMiddleware.mock";
 import request from "supertest";
 import app from "../../src/app";
-import { PrefixedUrls } from "../../src/constants";
-import middlewareMocks from "../mocks/all.middleware.mock";
+import { PrefixedUrls, servicePathPrefix } from "../../src/constants";
+import { HttpStatusCode } from "axios";
 
 describe("start page tests", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     const HEADING = "PSC Verification";
-    it("should render the start page", async () => {
+    it("should render the start page for service root", async () => {
+        const resp = await request(app).get(servicePathPrefix);
+
+        expect(resp.status).toBe(HttpStatusCode.Ok);
+        expect(resp.text).toContain(HEADING);
+        expect(middlewareMocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
+    });
+
+    it("should render the start page for Start", async () => {
         const resp = await request(app).get(PrefixedUrls.START);
 
-        expect(resp.status).toBe(200);
+        expect(resp.status).toBe(HttpStatusCode.Ok);
         expect(resp.text).toContain(HEADING);
         expect(middlewareMocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
     });

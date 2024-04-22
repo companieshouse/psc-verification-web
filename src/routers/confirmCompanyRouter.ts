@@ -32,9 +32,9 @@ router.post("/", handleExceptions(async (req: Request, res: Response, _next: Nex
 
     const resource = await createPscVerification(req, transaction, verification);
     const lang = selectLang(req.body.lang);
-    logger.info("CREATED" + resource);
+    logger.info("CREATED" + resource.links.self);
 
-    res.redirect(addSearchParams(PrefixedUrls.PSC_TYPE, { companyNumber: number, lang }));
+    res.redirect(addSearchParams(PrefixedUrls.PSC_TYPE, { lang }));
 }));
 
 export default router;

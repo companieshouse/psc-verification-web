@@ -28,14 +28,13 @@
             }
           ]
         }) }}
-        <input type="hidden" name="lang" value="{{lang}}">
         {{ govukButton({
           attributes: {
             id: "submit",
             "data-event-id": "continue-button"
           },
           text: i18n.global_continue_button,
-          href: Urls.PERSONAL_CODE
+          href: Urls.PERSONAL_CODE + "?lang=" +lang
         }) }}
 
     </div>
