@@ -1,11 +1,11 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
-import { authenticationMiddleware } from "../../src/middleware/authentication";
+import { authenticate } from "../../src/middleware/authentication";
 
 jest.mock("../../src/middleware/authentication");
 
 // get handle on mocked function
-const mockAuthenticationMiddleware = authenticationMiddleware as jest.Mock;
+const mockAuthenticationMiddleware = authenticate as jest.Mock;
 
 export const session = new Session();
 
