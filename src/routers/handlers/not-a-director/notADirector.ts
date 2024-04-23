@@ -27,8 +27,8 @@ export class NotADirectorHandler extends GenericHandler<NotADirectorViewData> {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             title: "Psc Verified",
-            currentUrl: PrefixedUrls.RLE_DIRECTOR + "?lang=" + lang,
-            backURL: PrefixedUrls.NOT_A_DIRECTOR + "?lang=" + lang
+            currentUrl: PrefixedUrls.NOT_A_DIRECTOR + "?lang=" + lang,
+            backURL: PrefixedUrls.RLE_DIRECTOR + "?lang=" + lang
         };
     }
 
