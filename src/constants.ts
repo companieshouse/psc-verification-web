@@ -14,7 +14,8 @@ export const Urls = {
     RLE_LIST: "/rle/rle-list",
     RLE_DETAILS: "/rle/ro-details",
     RLE_DIRECTOR: "/rle/ro-director",
-    CONFIRM_RO_STATEMENTS: "/rle/ro-statements"
+    CONFIRM_RO_STATEMENTS: "/rle/ro-statements",
+    NOT_A_DIRECTOR: "/rle/not-director-stop"
 } as const;
 
 export const PrefixedUrls = {
@@ -32,6 +33,7 @@ export const PrefixedUrls = {
     RLE_DETAILS: servicePathPrefix + Urls.RLE_DETAILS,
     RLE_DIRECTOR: servicePathPrefix + Urls.RLE_DIRECTOR,
     CONFIRM_RO_STATEMENTS: servicePathPrefix + Urls.CONFIRM_RO_STATEMENTS,
+    NOT_A_DIRECTOR: servicePathPrefix + Urls.NOT_A_DIRECTOR,
     COOKIES: "/help/cookies"
 } as const;
 
