@@ -1,0 +1,10 @@
+{
+    "confirm_ro_statements_caption" : "Born",
+    "confirm_ro_statements_title" : "Confirm all the relevant officer statements",
+    "confirm_ro_statements_first_checkbox1" : "I confirm that ",
+    "confirm_ro_statements_first_checkbox2" : " has verified their identity.",
+    "confirm_ro_statements_second_checkbox1" : " has confirmed that ",
+    "confirm_ro_statements_second_checkbox2" : " is the relevant officer.",
+    "confirm_ro_statements_third_checkbox" : " has confirmed that they are the relevant officer of ",
+    "confirm_ro_statements_continue_button" : "Confirm and continue"
+}
