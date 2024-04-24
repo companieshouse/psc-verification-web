@@ -7,7 +7,7 @@ export const Urls = {
     COMPANY_NUMBER: "/company-number",
     CONFIRM_COMPANY: "/confirm-company",
     PSC_TYPE: urlWithTransactionIdAndSubmissionId + "/psc-type",
-    INDIVIDUAL_PSC_LIST: "/individual/psc-list",
+    INDIVIDUAL_PSC_LIST: urlWithTransactionIdAndSubmissionId + "/individual/psc-list",
     PERSONAL_CODE: "/individual/personal-code",
     INDIVIDUAL_STATEMENT: "/individual/psc-statement",
     PSC_VERIFIED: "/psc-verified",
