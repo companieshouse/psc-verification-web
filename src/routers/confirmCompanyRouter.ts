@@ -9,6 +9,7 @@ import { handleExceptions } from "../utils/asyncHandler";
 import { selectLang } from "../utils/localise";
 import { addSearchParams } from "../utils/queryParams";
 import { ConfirmCompanyHandler } from "./handlers/confirm-company/confirmCompany";
+import { getUrlWithTransactionIdAndSubmissionId } from "../utils/url";
 
 const router: Router = Router();
 
@@ -21,6 +22,7 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
 router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
 
     const transaction: Transaction = await postTransaction(req);
+
     const number = req.query.companyNumber as string;
     const verification: PscVerification = {
         company_number: number,
@@ -29,12 +31,15 @@ router.post("/", handleExceptions(async (req: Request, res: Response, _next: Nex
             verification_statements: []
         }
     };
-
     const resource = await createPscVerification(req, transaction, verification);
-    const lang = selectLang(req.body.lang);
     logger.info("CREATED" + resource.links.self);
 
-    res.redirect(addSearchParams(PrefixedUrls.PSC_TYPE, { lang }));
+    const lang = selectLang(req.body.lang);
+
+    const regex = "significant-control-verification/(.*)$";
+    const resourceId = resource.links.self.match(regex);
+    const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, transaction.id!, resourceId![1]);
+    res.redirect(addSearchParams(nextPageUrl, { lang }));
 }));
 
 export default router;

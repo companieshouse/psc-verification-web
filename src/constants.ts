@@ -1,11 +1,12 @@
 export const servicePathPrefix = "/persons-with-significant-control-verification";
+const urlWithTransactionIdAndSubmissionId = "/transaction/:transactionId/submission/:submissionId";
 
 export const Urls = {
     ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
     START: "/start",
     COMPANY_NUMBER: "/company-number",
     CONFIRM_COMPANY: "/confirm-company",
-    PSC_TYPE: "/psc-type",
+    PSC_TYPE: urlWithTransactionIdAndSubmissionId + "/psc-type",
     INDIVIDUAL_PSC_LIST: "/individual/psc-list",
     PERSONAL_CODE: "/individual/personal-code",
     INDIVIDUAL_STATEMENT: "/individual/psc-statement",
