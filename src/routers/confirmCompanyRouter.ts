@@ -25,19 +25,15 @@ router.post("/", handleExceptions(async (req: Request, res: Response, _next: Nex
 
     const number = req.query.companyNumber as string;
     const verification: PscVerification = {
-        company_number: number,
-        psc_appointment_id: "TBC",
-        verification_details: {
-            verification_statements: []
-        }
+        company_number: number
     };
     const resource = await createPscVerification(req, transaction, verification);
-    logger.info("CREATED" + resource.links.self);
+    logger.info("CREATED" + resource?.resource?.links.self);
 
     const lang = selectLang(req.body.lang);
 
     const regex = "significant-control-verification/(.*)$";
-    const resourceId = resource.links.self.match(regex);
+    const resourceId = resource.resource?.links.self.match(regex);
     const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, transaction.id!, resourceId![1]);
     res.redirect(addSearchParams(nextPageUrl, { lang }));
 }));
