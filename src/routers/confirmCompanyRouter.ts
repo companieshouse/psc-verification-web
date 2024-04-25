@@ -23,16 +23,12 @@ router.post("/", handleExceptions(async (req: Request, res: Response, _next: Nex
     const transaction: Transaction = await postTransaction(req);
     const number = req.query.companyNumber as string;
     const verification: PscVerification = {
-        company_number: number,
-        psc_appointment_id: "TBC",
-        verification_details: {
-            verification_statements: []
-        }
+        company_number: number
     };
 
     const resource = await createPscVerification(req, transaction, verification);
     const lang = selectLang(req.body.lang);
-    logger.info("CREATED" + resource.links.self);
+    logger.info("CREATED" + resource?.resource?.links.self);
 
     res.redirect(addSearchParams(PrefixedUrls.PSC_TYPE, { lang }));
 }));
