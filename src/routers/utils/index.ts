@@ -11,4 +11,5 @@ import RleDetailsRouter from "./../rleDetailsRouter";
 import RleDirectorRouter from "./../rleDirectorRouter";
 import ConfirmRoStatementsRouter from "./../confirmRoStatementsRouter";
 import NotADirectorRouter from "./../notADirectorRouter";
-export { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, NotADirectorRouter, PscVerifiedRouter, RlePscListRouter, RleDetailsRouter, RleDirectorRouter, ConfirmRoStatementsRouter };
+import RleVerifiedRouter from "./../rleVerifiedRouter";
+export { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, NotADirectorRouter, PscVerifiedRouter, RlePscListRouter, RleDetailsRouter, RleDirectorRouter, RleVerifiedRouter, ConfirmRoStatementsRouter };
