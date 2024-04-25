@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { PrefixedUrls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { addSearchParams } from "../../../utils/queryParams";
+import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import {
     BaseViewData,
     GenericHandler,
@@ -28,7 +30,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
             ...getLocaleInfo(locales, lang),
             title: "Psc Verified",
             currentUrl: PrefixedUrls.PSC_VERIFIED + "?lang=" + lang,
-            backURL: PrefixedUrls.INDIVIDUAL_STATEMENT + "?lang=" + lang
+            backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, req.params.transactionId, req.params.submissionId), { lang })
         };
     }
 

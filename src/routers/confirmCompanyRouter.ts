@@ -1,7 +1,7 @@
 import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { NextFunction, Request, Response, Router } from "express";
-import { PrefixedUrls, Urls } from "../constants";
+import { PrefixedUrls, SessionKeys, Urls } from "../constants";
 import { logger } from "../lib/logger";
 import { createPscVerification } from "../services/pscVerificationService";
 import { postTransaction } from "../services/transactionService";
@@ -31,6 +31,7 @@ router.post(Urls.CONFIRM_COMPANY, authenticate, handleExceptions(async (req: Req
     const resource = await createPscVerification(req, transaction, verification);
     logger.info("CREATED" + resource?.resource?.links.self);
 
+    req.session?.setExtraData(SessionKeys.COMPANY_NUMBER, number);
     const lang = selectLang(req.body.lang);
 
     const regex = "significant-control-verification/(.*)$";
