@@ -23,7 +23,11 @@ router.post("/", handleExceptions(async (req: Request, res: Response, _next: Nex
     const transaction: Transaction = await postTransaction(req);
     const number = req.query.companyNumber as string;
     const verification: PscVerification = {
-        company_number: number
+        company_number: "number",
+        psc_appointment_id: "",
+        verification_details: {
+            verification_statements: []
+        }
     };
 
     const resource = await createPscVerification(req, transaction, verification);
