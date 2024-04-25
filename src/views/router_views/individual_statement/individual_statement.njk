@@ -5,32 +5,36 @@
 {% set title = i18n.individual_statement_title %}
 
 {% block main_content %}
+    <form action="" method="post">
+        <span class="govuk-caption-xl">
+            <div class="govuk-!-padding-bottom-1">[name]</div>
+        </span>
 
-<span class="govuk-caption-xl">
-  <div class="govuk-!-padding-bottom-1">[name]</div>
-</span>
+        {{ govukCheckboxes({
+            name: "psc_individual_statement",
+            fieldset: {
+                legend: {
+                text: title,
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+                }
+        },
+        items: [
+            {
+                value: i18n.individual_statement_value,
+                text: i18n.individual_statement_part1 + "[name]" + i18n.individual_statement_part2
+            }
+        ]
+        })
+        }}
 
-    {{ govukCheckboxes({
-      name: "psc_individual_statement",
-      fieldset: {
-        legend: {
-          text: title,
-          isPageHeading: true,
-          classes: "govuk-fieldset__legend--l"
-        }
-      },
-      items: [
-        {
-          value: i18n.individual_statement_value,
-          text: i18n.individual_statement_part1 + "[name]" + i18n.individual_statement_part2
-        }
-      ]
-    }) }}
-
-    {{ govukButton({
-        id: "confirmContinue",
-        text: i18n.global_confirm_continue_button,
-        href: Urls.PSC_VERIFIED + "?lang=" +lang
-    }) }}
+        {{ govukButton({
+            attributes: {
+                id: "submit", "data-event-id": "confirm-and-continue-button"
+            },
+            text: i18n.global_continue_button
+            })
+        }}
+    </form>
 
 {% endblock %}
