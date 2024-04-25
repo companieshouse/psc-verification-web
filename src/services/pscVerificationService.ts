@@ -3,11 +3,12 @@ import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { PscVerification, PscVerificationResource } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
+import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createAndLogError, logger } from "../lib/logger";
 import { createOAuthApiClient } from "./apiClientService";
 
-export const createPscVerification = async (request: Request, transaction: Transaction, pscVerification: PscVerification): Promise<PscVerificationResource> => {
+export const createPscVerification = async (request: Request, transaction: Transaction, pscVerification: PscVerification): Promise<Resource<PscVerificationResource>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
 
     logger.debug(`Creating PSC verification resource for ${transaction.description} transaction ${transaction.id}`);
@@ -16,15 +17,16 @@ export const createPscVerification = async (request: Request, transaction: Trans
     if (!sdkResponse) {
         throw createAndLogError(`PSC Verification POST request returned no response for transaction ${transaction.id}`);
     }
-    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= 400) {
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Created) {
         throw createAndLogError(`Http status code ${sdkResponse.httpStatusCode} - Failed to POST PSC Verification for transaction ${transaction.id}`);
     }
 
-    const castedSdkResponse: Resource<PscVerificationResource> = sdkResponse as Resource<PscVerificationResource>;
+    const castedSdkResponse = sdkResponse as Resource<PscVerificationResource>;
+
     if (!castedSdkResponse.resource) {
         throw createAndLogError(`PSC Verification API POST request returned no resource for transaction ${transaction.id}`);
     }
     logger.debug(`POST PSC Verification response: ${JSON.stringify(sdkResponse)}`);
 
-    return castedSdkResponse.resource;
+    return castedSdkResponse;
 };
