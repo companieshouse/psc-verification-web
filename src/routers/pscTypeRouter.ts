@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { PrefixedUrls } from "../constants";
+import { PrefixedUrls, Urls } from "../constants";
+import { authenticate } from "../middleware/authentication";
 import { handleExceptions } from "../utils/asyncHandler";
 import { selectLang } from "../utils/localise";
 import { addSearchParams } from "../utils/queryParams";
@@ -8,7 +9,7 @@ import { PscTypeHandler } from "./handlers/psc-type/pscType";
 
 const router: Router = Router();
 
-router.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+router.get(Urls.PSC_TYPE, authenticate, handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new PscTypeHandler();
     const params = await handler.executeGet(req, res);
 
@@ -17,15 +18,10 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
     }
 }));
 
-router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+router.post(Urls.PSC_TYPE, authenticate, handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const lang = selectLang(req.body.lang);
 
-    const transactionIdRegex = "/transaction/(.*)/submission";
-    const submissionIdRegex = "/submission/(.*)/";
-    const transactionId = req.baseUrl.match(transactionIdRegex);
-    const submissionId = req.baseUrl.match(submissionIdRegex);
-
-    const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, transactionId![1], submissionId![1]);
+    const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId);
     res.redirect(addSearchParams(nextPageUrl, { lang }));
 }));
 
