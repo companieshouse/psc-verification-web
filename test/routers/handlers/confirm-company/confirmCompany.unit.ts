@@ -6,11 +6,15 @@ import { getCompanyProfile } from "../../../../src/services/companyProfileServic
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
 import { postTransaction } from "../../../../src/services/transactionService";
 import { HttpStatusCode } from "axios";
+import { CREATED_RESOURCE, FILING_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 
 jest.mock("../../../../src/services/companyProfileService");
 jest.mock("../../../../src/services/transactionService");
 jest.mock("../../../../src/services/pscVerificationService", () => ({
-    createPscVerification: () => Promise.resolve({ links: { self: "self" } })
+    createPscVerification: () => ({
+        httpStatusCode: 201,
+        resource: CREATED_RESOURCE
+    })
 }));
 
 const COMPANY_NUMBER = "12345678";
@@ -50,12 +54,14 @@ describe("confirm company tests", () => {
     });
 
     it("Should create a transaction and redirect", async () => {
-        mockPostTransaction.mockReturnValueOnce({ id: "12345678" });
+        mockPostTransaction.mockReturnValueOnce({ id: TRANSACTION_ID });
+        const expectedRedirectUrl = `${PrefixedUrls.PSC_TYPE.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", FILING_ID)}?lang=en`;
+
         await request(app)
             .post(PrefixedUrls.CONFIRM_COMPANY)
             .query({ companyNumber: "123456" })
             .expect(HttpStatusCode.Found)
-            .expect("Location", PrefixedUrls.PSC_TYPE + "?lang=en");
+            .expect("Location", expectedRedirectUrl);
 
         expect(mockPostTransaction).toHaveBeenCalled();
     });
