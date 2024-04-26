@@ -15,6 +15,7 @@ export interface BaseViewData {
     ExternalUrls: typeof ExternalUrls
     userEmail: string | null
     currentUrl: string | null
+    templateName: string | null
 }
 
 export const defaultBaseViewData: Partial<BaseViewData> = {
@@ -26,7 +27,8 @@ export const defaultBaseViewData: Partial<BaseViewData> = {
     ExternalUrls: ExternalUrls,
     currentUrl: null,
     userEmail: null,
-    title: "Apply to file with Companies House using software"
+    title: "Apply to file with Companies House using software",
+    templateName: null
 } as const;
 
 export interface Redirect {
