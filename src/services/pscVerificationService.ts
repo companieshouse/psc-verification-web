@@ -30,3 +30,27 @@ export const createPscVerification = async (request: Request, transaction: Trans
 
     return castedSdkResponse;
 };
+
+export const getPscVerification = async (request: Request, transaction: Transaction, pscVerificationId: string): Promise<Resource<PscVerificationResource>> => {
+    const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
+    const logReference = `${transaction.description} transaction ${transaction.id}`;
+
+    logger.debug(`Retrieving PSC verification for ${logReference}`);
+    const sdkResponse: Resource<PscVerificationResource> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.getPscVerification(transaction.id as string, pscVerificationId);
+
+    if (!sdkResponse) {
+        throw createAndLogError(`PSC Verification GET request returned no response for ${logReference}`);
+    }
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
+        throw createAndLogError(`Http status code ${sdkResponse.httpStatusCode} - Failed to GET PSC Verification for ${logReference}`);
+    }
+
+    const castedSdkResponse = sdkResponse as Resource<PscVerificationResource>;
+
+    if (!castedSdkResponse.resource) {
+        throw createAndLogError(`PSC Verification API GET request returned no resource for ${logReference}`);
+    }
+    logger.debug(`GET PSC Verification response: ${JSON.stringify(sdkResponse)}`);
+
+    return castedSdkResponse;
+};
