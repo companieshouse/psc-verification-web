@@ -44,6 +44,10 @@ njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
 njk.addGlobal("cdnHost", process.env.CDN_HOST);
 njk.addGlobal("chsUrl", process.env.CHS_URL);
 njk.addGlobal("ExternalUrls", ExternalUrls);
+njk.addGlobal("PIWIK_SERVICE_NAME", process.env.PIWIK_SERVICE_NAME);
+njk.addGlobal("PIWIK_START_GOAL_ID", process.env.PIWIK_START_GOAL_ID);
+njk.addGlobal("PIWIK_SITE_ID", process.env.PIWIK_SITE_ID);
+njk.addGlobal("PIWIK_URL", process.env.PIWIK_URL);
 
 // If app is behind a front-facing proxy, and to use the X-Forwarded-* headers to determine the connection and the IP address of the client
 app.enable("trust proxy");
