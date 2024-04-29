@@ -26,7 +26,7 @@ export class RleVerifiedHandler extends GenericHandler<RLeVerifiedViewData> {
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            title: "Rle Verified",
+            title: "PSC confirmed",
             currentUrl: PrefixedUrls.RLE_VERIFIED + "?lang=" + lang,
             backURL: PrefixedUrls.CONFIRM_RO_STATEMENTS + "?lang=" + lang
         };
