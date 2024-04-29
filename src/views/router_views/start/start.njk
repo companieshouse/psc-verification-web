@@ -81,7 +81,11 @@
                 href: Urls.COMPANY_NUMBER + "?lang=" +lang,
                 classes: "govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8",
                 id: "start-button" ,
-                isStartButton: true
+                isStartButton: true,
+                attributes: {
+                    "onclick": "_paq.push(['trackGoal', '" + PIWIK_START_GOAL_ID + "'])",
+                    "data-event-id": "start-now-start-button"
+                }         
             }) }}
 
     </div>

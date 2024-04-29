@@ -4,41 +4,48 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
+{% set title = i18n.psc_type_title %}
+
 {% block main_content %}
+    <form action="" method="post">
+        {{ govukRadios({
+            name: "pscType",
+            fieldset: {
+                legend: {
+                    text: i18n.psc_type_title,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                }
+            },
+            items: [
+                {
+                    value: "individual",
+                    text: i18n.psc_type_individual
+                },
+                {
+                    value: "rle",
+                    text: i18n.psc_type_rle,
+                    hint: {
+                        text: i18n.psc_type_hint | safe
+                    }
+                }
+            ]
+        })
+        }}
 
-{{ govukRadios({
-  name: "pscType",
-  fieldset: {
-    legend: {
-      text: i18n.psc_type_title,
-      isPageHeading: true,
-      classes: "govuk-fieldset__legend--l"
-    }
-  },
-  items: [
-    {
-      value: "individual",
-      text: i18n.psc_type_individual
-    },
-    {
-      value: "rle",
-      text: i18n.psc_type_rle,
-       hint: {
-        text: i18n.psc_type_hint | safe
-      }
-    }
-  ]
-}) }}
+        {{ govukDetails({
+            summaryText: i18n.psc_type_details_title,
+            text: i18n.psc_type_details_text
+            })
+        }}
 
-{{ govukDetails({
-summaryText: i18n.psc_type_details_title,
-text: i18n.psc_type_details_text
-}) }}
-
-{{ govukButton({
-  text: i18n.global_continue_button,
-  href: Urls.INDIVIDUAL_PSC_LIST + "?lang=" +lang,
-  id: "continue"
-}) }}
+        {{ govukButton({
+            attributes: {
+                id: "submit", "data-event-id": "confirm-and-continue-button"
+            },
+            text: i18n.global_continue_button
+            })
+        }}
+    </form>
 
 {% endblock %}

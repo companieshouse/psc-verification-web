@@ -3,6 +3,7 @@ import { PrefixedUrls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
+import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import {
     BaseViewData,
     GenericHandler,
@@ -27,7 +28,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             currentUrl: addSearchParams(PrefixedUrls.PERSONAL_CODE, { lang }),
-            backURL: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { lang })
+            backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId), { lang })
         };
     }
 

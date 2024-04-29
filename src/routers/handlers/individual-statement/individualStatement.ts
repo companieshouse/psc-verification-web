@@ -3,6 +3,7 @@ import { PrefixedUrls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
+import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 
 interface IndividualStatementViewData extends BaseViewData { }
@@ -21,7 +22,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             currentUrl: addSearchParams(PrefixedUrls.INDIVIDUAL_STATEMENT, { lang }),
-            backURL: addSearchParams(PrefixedUrls.PERSONAL_CODE, { lang })
+            backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, req.params.transactionId, req.params.submissionId), { lang })
         };
     }
 
