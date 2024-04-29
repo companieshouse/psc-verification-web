@@ -116,6 +116,18 @@ export const env = readEnv(process.env, {
         .default(
             "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
         ),
+    PIWIK_SERVICE_NAME: str
+        .describe("Service name used by Matomo scripts")
+        .default("psc-verified"),
+    PIWIK_URL: str
+        .describe("Link to the matomo dashboard")
+        .default("https://matomo.platform.aws.chdev.org"),
+    PIWIK_SITE_ID: str
+        .describe("Matomo Site Id represents the environment")
+        .default(""),
+    PIWIK_START_GOAL_ID: str
+        .describe("Goal Id for the start button used by matomo")
+        .default("24"),
     POLICIES_LINK: str
         .describe("Link to policies")
         .default("http://resources.companieshouse.gov.uk/legal/termsAndConditions.shtml"),
