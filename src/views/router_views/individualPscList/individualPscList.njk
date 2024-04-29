@@ -6,36 +6,35 @@
 {% set title = i18n.individual_psc_list_main_title %}
 
 {% block main_content %}
-    <div class="govuk-grid-row">
-
+    <form action="" method="post">
         {{ govukRadios({
-          name: "dummyRadioButtons",
-          fieldset: {
-            legend: {
-              text: i18n.individual_psc_list_main_title,
+            name: "dummyRadioButtons",
+            fieldset: {
+                legend: {
+                    text: i18n.individual_psc_list_main_title,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+                text: i18n.individual_psc_list_hint
+            },
+            items: [
+                {
+                    value: "dummyValue",
+                    text: i18n.dummyPscOption
+                }
+            ]
+            })
+        }}
 
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l"
-            }
-          },
-          hint: {
-            text: i18n.individual_psc_list_hint
-          },
-          items: [
-            {
-              value: "dummyValue",
-              text: i18n.dummyPscOption
-            }
-          ]
-        }) }}
         {{ govukButton({
-          attributes: {
-            id: "submit",
-            "data-event-id": "continue-button"
-          },
-          text: i18n.global_continue_button,
-          href: Urls.PERSONAL_CODE + "?lang=" +lang
-        }) }}
+            attributes: {
+                id: "submit", "data-event-id": "confirm-and-continue-button"
+            },
+            text: i18n.global_continue_button
+            })
+        }}
+    </form>
 
-    </div>
 {% endblock %}
