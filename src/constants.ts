@@ -1,16 +1,16 @@
 export const servicePathPrefix = "/persons-with-significant-control-verification";
+const urlWithTransactionIdAndSubmissionId = "/transaction/:transactionId/submission/:submissionId";
 
 export const Urls = {
     ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
     START: "/start",
     COMPANY_NUMBER: "/company-number",
     CONFIRM_COMPANY: "/confirm-company",
-    PSC_TYPE: "/psc-type",
-    INDIVIDUAL_PSC_LIST: "/individual/psc-list",
-    PERSONAL_CODE: "/individual/personal-code",
-    INDIVIDUAL_STATEMENT: "/individual/psc-statement",
-    PSC_VERIFIED: "/psc-verified",
-    HEALTHCHECK: "/healthcheck",
+    PSC_TYPE: urlWithTransactionIdAndSubmissionId + "/psc-type",
+    INDIVIDUAL_PSC_LIST: urlWithTransactionIdAndSubmissionId + "/individual/psc-list",
+    PERSONAL_CODE: urlWithTransactionIdAndSubmissionId + "/individual/personal-code",
+    INDIVIDUAL_STATEMENT: urlWithTransactionIdAndSubmissionId + "/individual/psc-statement",
+    PSC_VERIFIED: urlWithTransactionIdAndSubmissionId + "/psc-verified",
     RLE_LIST: "/rle/rle-list",
     RLE_DETAILS: "/rle/ro-details",
     RLE_DIRECTOR: "/rle/ro-director",
@@ -22,7 +22,6 @@ export const Urls = {
 export const PrefixedUrls = {
     ACCESSIBILITY_STATEMENT: servicePathPrefix + Urls.ACCESSIBILITY_STATEMENT,
     START: servicePathPrefix + Urls.START,
-    HEALTHCHECK: servicePathPrefix + Urls.HEALTHCHECK,
     COMPANY_NUMBER: servicePathPrefix + Urls.COMPANY_NUMBER,
     CONFIRM_COMPANY: servicePathPrefix + Urls.CONFIRM_COMPANY,
     INDIVIDUAL_PSC_LIST: servicePathPrefix + Urls.INDIVIDUAL_PSC_LIST,

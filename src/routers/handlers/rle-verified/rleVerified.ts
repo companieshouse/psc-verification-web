@@ -8,15 +8,15 @@ import {
     ViewModel
 } from "../generic";
 
-interface RLeVerifiedViewData extends BaseViewData {
+interface RleVerifiedViewData extends BaseViewData {
 
 }
 
-export class RleVerifiedHandler extends GenericHandler<RLeVerifiedViewData> {
+export class RleVerifiedHandler extends GenericHandler<RleVerifiedViewData> {
 
     private static templatePath = "router_views/rle_verified/rleVerified";
 
-    public async getViewData (req: Request): Promise<RLeVerifiedViewData> {
+    public async getViewData (req: Request): Promise<RleVerifiedViewData> {
 
         const baseViewData = await super.getViewData(req);
 
@@ -26,7 +26,7 @@ export class RleVerifiedHandler extends GenericHandler<RLeVerifiedViewData> {
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            title: "Rle Verified",
+            title: "PSC confirmed",
             currentUrl: PrefixedUrls.RLE_VERIFIED + "?lang=" + lang,
             backURL: PrefixedUrls.CONFIRM_RO_STATEMENTS + "?lang=" + lang
         };
@@ -35,7 +35,7 @@ export class RleVerifiedHandler extends GenericHandler<RLeVerifiedViewData> {
     public async executeGet (
         req: Request,
         _response: Response
-    ): Promise<ViewModel<RLeVerifiedViewData>> {
+    ): Promise<ViewModel<RleVerifiedViewData>> {
         logger.info(`RleVerifiedHandler execute called`);
         const viewData = await this.getViewData(req);
 

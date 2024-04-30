@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrefixedUrls } from "../../../constants";
+import { PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
@@ -21,7 +21,8 @@ export class StartHandler extends GenericHandler<BaseViewData> {
             isSignedIn: false,
             title: "PSC Verification",
             currentUrl: addSearchParams(PrefixedUrls.START, { lang }),
-            backURL: null
+            backURL: null,
+            templateName: Urls.START
         };
     }
 

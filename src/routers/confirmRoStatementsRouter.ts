@@ -1,9 +1,11 @@
 import { Request, Response, Router } from "express";
-import { ConfirmRoStatementsHandler } from "./handlers/confirm-ro-statements/confirmRoStatements";
+import { Urls } from "../constants";
+import { authenticate } from "../middleware/authentication";
 import { handleExceptions } from "../utils/asyncHandler";
+import { ConfirmRoStatementsHandler } from "./handlers/confirm-ro-statements/confirmRoStatements";
 const router: Router = Router();
 
-router.get("/", handleExceptions(async (req: Request, res: Response) => {
+router.get(Urls.CONFIRM_RO_STATEMENTS, authenticate, handleExceptions(async (req: Request, res: Response) => {
     const handler = new ConfirmRoStatementsHandler();
     const { templatePath, viewData } = await handler.executeGet(req, res);
     res.render(templatePath, viewData);
