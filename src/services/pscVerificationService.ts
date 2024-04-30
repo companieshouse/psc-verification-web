@@ -31,12 +31,12 @@ export const createPscVerification = async (request: Request, transaction: Trans
     return castedSdkResponse;
 };
 
-export const getPscVerification = async (request: Request, transaction: Transaction, pscVerificationId: string): Promise<Resource<PscVerificationResource>> => {
+export const getPscVerification = async (request: Request, transactionId: string, pscVerificationId: string): Promise<Resource<PscVerificationResource>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
-    const logReference = `${transaction.description} transaction ${transaction.id}`;
+    const logReference = `transaction ${transactionId}`;
 
     logger.debug(`Retrieving PSC verification for ${logReference}`);
-    const sdkResponse: Resource<PscVerificationResource> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.getPscVerification(transaction.id as string, pscVerificationId);
+    const sdkResponse: Resource<PscVerificationResource> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.getPscVerification(transactionId, pscVerificationId);
 
     if (!sdkResponse) {
         throw createAndLogError(`PSC Verification GET request returned no response for ${logReference}`);

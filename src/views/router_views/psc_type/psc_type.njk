@@ -9,7 +9,9 @@
 {% block main_content %}
     <form action="" method="post">
         {{ govukRadios({
+            idPrefix: "pscType",
             name: "pscType",
+            value: pscType,
             fieldset: {
                 legend: {
                     text: i18n.psc_type_title,

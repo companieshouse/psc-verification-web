@@ -1,17 +1,15 @@
 import { PscVerificationResource } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
-import { Session } from "@companieshouse/node-session-handler";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createOAuthApiClient } from "../../src/services/apiClientService";
 import { createPscVerification, getPscVerification } from "../../src/services/pscVerificationService";
 import { CREATED_RESOURCE, INDIVIDUAL_RESOURCE, INITIAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { PSC_TRANSACTION } from "../mocks/transaction.mock";
+import { Resource } from "@companieshouse/api-sdk-node";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../src/services/apiClientService");
 
-let session: Session;
 const mockCreatePscVerification = jest.fn();
 const mockGetPscVerification = jest.fn();
 const mockCreateOAuthApiClient = createOAuthApiClient as jest.Mock;
@@ -28,16 +26,15 @@ describe("pscVerificationService", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        session = new Session();
     });
 
     describe("createPscVerification", () => {
         it("should return the created initial resource on success", async () => {
-            const mockResponse: ApiResponse<PscVerificationResource> = {
+            const mockCreate: Resource<PscVerificationResource> = {
                 httpStatusCode: HttpStatusCode.Created,
                 resource: CREATED_RESOURCE
             };
-            mockCreatePscVerification.mockResolvedValueOnce(mockResponse);
+            mockCreatePscVerification.mockResolvedValueOnce(mockCreate);
 
             const response = await createPscVerification(req, PSC_TRANSACTION, INITIAL_DATA);
 
@@ -52,13 +49,13 @@ describe("pscVerificationService", () => {
 
     describe("getPscVerification", () => {
         it("should retrieve the resource by its id", async () => {
-            const mockResponse: ApiResponse<PscVerificationResource> = {
+            const mockGet: Resource<PscVerificationResource> = {
                 httpStatusCode: HttpStatusCode.Ok,
                 resource: INDIVIDUAL_RESOURCE
             };
-            mockGetPscVerification.mockResolvedValueOnce(mockResponse);
+            mockGetPscVerification.mockResolvedValueOnce(mockGet);
 
-            const response = await getPscVerification(req, PSC_TRANSACTION, PSC_VERIFICATION_ID);
+            const response = await getPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
             expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
             const castedResource = response.resource as PscVerificationResource;
