@@ -26,6 +26,7 @@ router.post(Urls.PSC_TYPE, authenticate, handleExceptions(async (req: Request, r
     res.redirect(addSearchParams(nextPageUrl, { lang }));
 }));
 
+// TODO update default when error page available.
 const selectPscType = (pscType: any): string => {
     switch (pscType) {
     case "individual": return PrefixedUrls.INDIVIDUAL_PSC_LIST;
