@@ -26,7 +26,7 @@ export class ConfirmRoStatementsHandler extends GenericHandler<RleListViewData> 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            title: "Are They A Director?",
+            title: "Verification statements",
             currentUrl: PrefixedUrls.CONFIRM_RO_STATEMENTS + "?lang=" + lang,
             backURL: PrefixedUrls.RLE_DIRECTOR + "?lang=" + lang
         };
