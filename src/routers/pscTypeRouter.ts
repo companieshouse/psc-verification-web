@@ -34,13 +34,23 @@ router.get(Urls.PSC_TYPE, authenticate, handleExceptions(async (req: Request, re
 
 router.post(Urls.PSC_TYPE, authenticate, handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const lang = selectLang(req.body.lang);
+    const selectedType = req.body.pscType;
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
 
     queryParams.set("lang", lang);
     queryParams.set("pscType", req.body.pscType);
 
-    const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId);
+    const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(selectPscType(selectedType), req.params.transactionId, req.params.submissionId);
     res.redirect(`${nextPageUrl}?${queryParams}`);
 }));
+
+// TODO update default when error page available.
+const selectPscType = (pscType: any): string => {
+    switch (pscType) {
+    case "individual": return PrefixedUrls.INDIVIDUAL_PSC_LIST;
+    case "rle": return PrefixedUrls.RLE_LIST;
+    default: return PrefixedUrls.INDIVIDUAL_PSC_LIST;
+    }
+};
 
 export default router;
