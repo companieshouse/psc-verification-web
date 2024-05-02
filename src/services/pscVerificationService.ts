@@ -50,7 +50,7 @@ export const getPscVerification = async (request: Request, transactionId: string
     if (!castedSdkResponse.resource) {
         throw createAndLogError(`PSC Verification API GET request returned no resource for ${logReference}`);
     }
-    logger.debug(`GET PSC Verification response: ${JSON.stringify(sdkResponse)}`);
+    logger.debug(`GET PSC Verification response: ${sdkResponse.httpStatusCode}`);
 
     return castedSdkResponse;
 };

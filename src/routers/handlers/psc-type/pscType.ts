@@ -34,16 +34,7 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
         viewData.submissionId = req.params.submissionId;
         // retrieve the submission from the request.locals (per express SOP)
         viewData.submission = _response.locals.submission;
-
-        // determine the pscType value to check the correct radio button
-        // Note: the rule logic here is provisional/uncomfirmed
-        if (viewData?.submission?.data?.psc_appointment_id) {
-            if (viewData?.submission?.data?.relevant_officer) {
-                viewData.pscType = "rle";
-            } else {
-                viewData.pscType = "individual";
-            }
-        }
+        viewData.pscType = req.query.pscType as string;
 
         return {
             templatePath: PscTypeHandler.templatePath,
