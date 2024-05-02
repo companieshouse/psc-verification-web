@@ -33,9 +33,9 @@ describe("companyPscService", () => {
         };
         mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControlResource>);
         const request = {} as Request;
-        request.query = { companyNumber: COMPANY_NUMBER };
+        // request.query = { companyNumber: COMPANY_NUMBER };
 
-        const response = await getCompanyPscList(request);
+        const response = await getCompanyPscList(request, COMPANY_NUMBER);
 
         const resource = response.resource as CompanyPersonsWithSignificantControlResource;
         expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
@@ -51,12 +51,11 @@ describe("companyPscService", () => {
         };
         mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControlResource>);
         const request = {} as Request;
-        request.query = { companyNumber: COMPANY_NUMBER };
 
         try {
-            const response = await getCompanyPscList(request);
+            const response = await getCompanyPscList(request, COMPANY_NUMBER);
         } catch (error: any) {
-            expect(error.message).toBe("Http status code 503 - Failed to get company psc list for company number 12345678");
+            expect(error.message).toBe("getCompanyPscList - Failed to get company psc list for company number 12345678");
         }
     });
     it("getCompanyPscList should throw an error if no resource is returned", async () => {
@@ -65,9 +64,8 @@ describe("companyPscService", () => {
         };
         mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControlResource>);
         const request = {} as Request;
-        request.query = { companyNumber: COMPANY_NUMBER };
         try {
-            await getCompanyPscList(request);
+            await getCompanyPscList(request, COMPANY_NUMBER);
         } catch (error: any) {
             expect(error.message).toBe("getCompanyPscList returned no resource for company number 12345678");
         }
@@ -79,9 +77,8 @@ describe("companyPscService", () => {
         };
         mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControlResource>);
         const request = {} as Request;
-        request.query = { companyNumber: COMPANY_NUMBER };
 
-        const individualPscList = await getCompanyIndividualPscList(request);
+        const individualPscList = await getCompanyIndividualPscList(request, COMPANY_NUMBER);
 
         expect(individualPscList).toHaveLength(1);
         individualPscList.forEach((item) => {
@@ -95,9 +92,8 @@ describe("companyPscService", () => {
         };
         mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControlResource>);
         const request = {} as Request;
-        request.query = { companyNumber: COMPANY_NUMBER };
 
-        const individualPscList = await getCompanyIndividualPscList(request);
+        const individualPscList = await getCompanyIndividualPscList(request, COMPANY_NUMBER);
         expect(individualPscList).toHaveLength(0);
     });
 });
