@@ -8,15 +8,15 @@ import {
     ViewModel
 } from "../generic";
 
-interface RleListViewData extends BaseViewData {
+interface RleVerifiedViewData extends BaseViewData {
 
 }
 
-export class ConfirmRoStatementsHandler extends GenericHandler<RleListViewData> {
+export class RleVerifiedHandler extends GenericHandler<RleVerifiedViewData> {
 
-    private static templatePath = "router_views/confirmRoStatements/confirmRoStatements";
+    private static templatePath = "router_views/rle_verified/rleVerified";
 
-    public async getViewData (req: Request): Promise<RleListViewData> {
+    public async getViewData (req: Request): Promise<RleVerifiedViewData> {
 
         const baseViewData = await super.getViewData(req);
 
@@ -26,21 +26,21 @@ export class ConfirmRoStatementsHandler extends GenericHandler<RleListViewData> 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            title: "Verification statements",
-            currentUrl: PrefixedUrls.CONFIRM_RO_STATEMENTS + "?lang=" + lang,
-            backURL: PrefixedUrls.RLE_DIRECTOR + "?lang=" + lang
+            title: "PSC confirmed",
+            currentUrl: PrefixedUrls.RLE_VERIFIED + "?lang=" + lang,
+            backURL: PrefixedUrls.CONFIRM_RO_STATEMENTS + "?lang=" + lang
         };
     }
 
     public async executeGet (
         req: Request,
         _response: Response
-    ): Promise<ViewModel<RleListViewData>> {
-        logger.info(`ConfirmRoStatementsHandler execute called`);
+    ): Promise<ViewModel<RleVerifiedViewData>> {
+        logger.info(`RleVerifiedHandler execute called`);
         const viewData = await this.getViewData(req);
 
         return {
-            templatePath: ConfirmRoStatementsHandler.templatePath,
+            templatePath: RleVerifiedHandler.templatePath,
             viewData
         };
     }
