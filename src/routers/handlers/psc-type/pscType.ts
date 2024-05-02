@@ -4,9 +4,7 @@ import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
-import { PscVerificationResource } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-
-interface PscTypeViewData extends BaseViewData { submission: PscVerificationResource, submissionId: string, pscType: string }
+interface PscTypeViewData extends BaseViewData { pscType: string }
 
 export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
 
@@ -31,9 +29,6 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
         logger.info(`PscTypeHandler execute called`);
         const viewData = await this.getViewData(req);
 
-        viewData.submissionId = req.params.submissionId;
-        // retrieve the submission from the request.locals (per express SOP)
-        viewData.submission = _response.locals.submission;
         viewData.pscType = req.query.pscType as string;
 
         return {

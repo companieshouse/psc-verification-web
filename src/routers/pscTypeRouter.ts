@@ -26,7 +26,6 @@ router.get(Urls.PSC_TYPE, authenticate, handleExceptions(async (req: Request, re
     const handler = new PscTypeHandler();
     const params = await handler.executeGet(req, res);
 
-    logger.debug(`submission retrieved: ${JSON.stringify(params.viewData.submission)}`);
     if (params.templatePath && params.viewData) {
         res.render(params.templatePath, params.viewData);
     }

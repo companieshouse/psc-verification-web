@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PrefixedUrls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import {
     BaseViewData,
     GenericHandler,
@@ -22,13 +23,14 @@ export class RleListHandler extends GenericHandler<RleListViewData> {
 
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
+        const queryParams = new URLSearchParams(req.url.split("?")[1]);
 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             title: "Rle List",
-            currentUrl: PrefixedUrls.RLE_LIST + "?lang=" + lang,
-            backURL: PrefixedUrls.PSC_TYPE + "?lang=" + lang
+            currentUrl: `${PrefixedUrls.RLE_LIST}?${queryParams}`,
+            backURL: `${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, req.params.transactionId, req.params.submissionId)}?${queryParams}`
         };
     }
 
