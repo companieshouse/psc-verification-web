@@ -45,7 +45,7 @@ describe("companyPscService", () => {
         expect(mockGetCompanyPsc).toHaveBeenCalledWith(COMPANY_NUMBER);
 
     });
-    it("getCompanyPscList throw an error if HttpStatus is not 200 OK", async () => {
+    it("getCompanyPscList should throw an error if HttpStatus is not 200 OK", async () => {
         const mockResponse: ApiResponse<CompanyPersonsWithSignificantControlResource> = {
             httpStatusCode: HttpStatusCode.ServiceUnavailable
         };
@@ -59,7 +59,7 @@ describe("companyPscService", () => {
             expect(error.message).toBe("Http status code 503 - Failed to get company psc list for company number 12345678");
         }
     });
-    it("getCompanyPscList throw and error if no resource is present", async () => {
+    it("getCompanyPscList should throw an error if no resource is returned", async () => {
         const mockResponse: ApiResponse<CompanyPersonsWithSignificantControlResource> = {
             httpStatusCode: HttpStatusCode.Ok
         };
@@ -88,7 +88,7 @@ describe("companyPscService", () => {
             expect(item.kind).toEqual("individual-person-with-significant-control");
         });
     });
-    it("getCompanyIndividualPscList will return an empty list if no individual pscs exist for company", async () => {
+    it("getCompanyIndividualPscList should return an empty list if no individual pscs exist for the company", async () => {
         const mockResponse: ApiResponse<CompanyPersonsWithSignificantControlResource> = {
             httpStatusCode: HttpStatusCode.Ok,
             resource: EMPTY_COMPANY_PSC_LIST
