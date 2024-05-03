@@ -1,18 +1,18 @@
-import middlewareMocks from "../../../mocks/allMiddleware.mock";
+import { HttpStatusCode } from "axios";
 import request from "supertest";
+import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
-import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
 import { postTransaction } from "../../../../src/services/transactionService";
-import { HttpStatusCode } from "axios";
-import { CREATED_RESOURCE, FILING_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
+import { CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 
 jest.mock("../../../../src/services/companyProfileService");
 jest.mock("../../../../src/services/transactionService");
 jest.mock("../../../../src/services/pscVerificationService", () => ({
     createPscVerification: () => ({
-        httpStatusCode: 201,
+        httpStatusCode: HttpStatusCode.Created,
         resource: CREATED_RESOURCE
     })
 }));
@@ -55,11 +55,11 @@ describe("confirm company tests", () => {
 
     it("Should create a transaction and redirect", async () => {
         mockPostTransaction.mockReturnValueOnce({ id: TRANSACTION_ID });
-        const expectedRedirectUrl = `${PrefixedUrls.PSC_TYPE.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", FILING_ID)}?lang=en`;
+        const expectedRedirectUrl = `${PrefixedUrls.PSC_TYPE.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?lang=en`;
 
         await request(app)
             .post(PrefixedUrls.CONFIRM_COMPANY)
-            .query({ companyNumber: "123456" })
+            .query({ companyNumber: COMPANY_NUMBER })
             .expect(HttpStatusCode.Found)
             .expect("Location", expectedRedirectUrl);
 

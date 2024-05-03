@@ -2,9 +2,19 @@ import middlewareMocks from "./../mocks/allMiddleware.mock";
 import request from "supertest";
 import { PrefixedUrls } from "../../src/constants";
 import app from "./../../src/app";
-import { FILING_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { HttpStatusCode } from "axios";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../src/utils/url";
+import { getPscVerification } from "../../src/services/pscVerificationService";
+
+jest.mock("../../src/services/pscVerificationService", () => ({
+    getPscVerification: () => ({
+        httpStatusCode: HttpStatusCode.Ok,
+        resource: CREATED_RESOURCE
+    })
+}));
+
+const mockGetPscVerification = getPscVerification as jest.Mock;
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -29,13 +39,13 @@ describe("psc type tests", () => {
         "Should redirect to %s list page if selected",
         async (selectedType, expectedPage) => {
 
-            const expectedRedirectUrl = `${expectedPage.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", FILING_ID)}?lang=en`;
+            const expectedRedirectUrl = `${expectedPage.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=${selectedType}`;
 
             await request(app)
-                .post(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, TRANSACTION_ID, FILING_ID))
+                .post(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, TRANSACTION_ID, PSC_VERIFICATION_ID))
                 .send({ pscType: selectedType })
                 .set({ "Content-Type": "application/json" })
-                .query({ companyNumber: "123456" })
+                .query({ companyNumber: COMPANY_NUMBER, lang: "en", pscType: selectedType })
                 .expect(HttpStatusCode.Found)
                 .expect("Location", expectedRedirectUrl);
         }

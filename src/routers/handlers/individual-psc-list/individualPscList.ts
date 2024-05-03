@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { PrefixedUrls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { addSearchParams } from "../../../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import {
     BaseViewData,
@@ -19,12 +18,13 @@ export class IndividualPscListHandler extends GenericHandler<BaseViewData> {
         const baseViewData = await super.getViewData(req);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
+        const queryParams = new URLSearchParams(req.url.split("?")[1]);
 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            currentUrl: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { lang }),
-            backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, req.params.transactionId, req.params.submissionId), { lang })
+            currentUrl: `${PrefixedUrls.INDIVIDUAL_PSC_LIST}?${queryParams}`,
+            backURL: `${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, req.params.transactionId, req.params.submissionId)}?${queryParams}`
         };
     }
 
