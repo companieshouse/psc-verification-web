@@ -4,8 +4,7 @@ import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
-
-interface PscTypeViewData extends BaseViewData {}
+interface PscTypeViewData extends BaseViewData { pscType: string }
 
 export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
 
@@ -29,6 +28,8 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
     public async executeGet (req: Request, _response: Response): Promise<ViewModel<PscTypeViewData>> {
         logger.info(`PscTypeHandler execute called`);
         const viewData = await this.getViewData(req);
+
+        viewData.pscType = req.query.pscType as string;
 
         return {
             templatePath: PscTypeHandler.templatePath,
