@@ -33,7 +33,6 @@ describe("companyPscService", () => {
         };
         mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControlResource>);
         const request = {} as Request;
-        // request.query = { companyNumber: COMPANY_NUMBER };
 
         const response = await getCompanyPscList(request, COMPANY_NUMBER);
 
@@ -54,6 +53,7 @@ describe("companyPscService", () => {
 
         try {
             const response = await getCompanyPscList(request, COMPANY_NUMBER);
+            throw new Error("invalid expecting getCompanyPscList to throw error");
         } catch (error: any) {
             expect(error.message).toBe("getCompanyPscList - Failed to get company psc list for company number 12345678");
         }
@@ -66,6 +66,7 @@ describe("companyPscService", () => {
         const request = {} as Request;
         try {
             await getCompanyPscList(request, COMPANY_NUMBER);
+            throw new Error("invalid expecting getCompanyPscList to throw error");
         } catch (error: any) {
             expect(error.message).toBe("getCompanyPscList returned no resource for company number 12345678");
         }
