@@ -5,6 +5,14 @@
 
 {% set title = i18n.individual_psc_list_main_title %}
 
+{% set hintText %}
+<p class="govuk-body">
+    {{ i18n.individual_psc_list_hint_1 }}
+    [Company Name]
+    {{ i18n.individual_psc_list_hint_2 }}
+</p>
+{% endset %}
+
 {% block main_content %}
     <form action="" method="post">
         {{ govukRadios({
@@ -17,7 +25,7 @@
                 }
             },
             hint: {
-                text: i18n.individual_psc_list_hint
+                html: hintText
             },
             items: [
                 {
