@@ -6,7 +6,7 @@ import { addSearchParams } from "../../../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 
-interface IndividualStatementViewData extends BaseViewData { }
+interface IndividualStatementViewData extends BaseViewData {PscName: string, DateOfBirth: string}
 
 export class IndividualStatementHandler extends GenericHandler<IndividualStatementViewData> {
 
@@ -32,9 +32,17 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
     ): Promise<ViewModel<IndividualStatementViewData>> {
         logger.info(`IndividualStatementHandler execute called`);
         const viewData = await this.getViewData(req);
+
+        viewData.PscName = _response.locals.pscDetails.name;
+        viewData.DateOfBirth = formatDateBorn(_response.locals.pscDetails.dateOfBirth);
+
         return {
             templatePath: IndividualStatementHandler.templatePath,
             viewData
         };
     }
+}
+
+function formatDateBorn (dateOfBirth: any): string {
+    return `${Intl.DateTimeFormat("en", { month: "long" }).format(new Date("" + dateOfBirth.month))} ${dateOfBirth.year}`;
 }

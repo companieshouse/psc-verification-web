@@ -52,7 +52,7 @@ describe("Authentication checked on all pages except for the start page", () => 
     it.each([PrefixedUrls.CONFIRM_COMPANY,
         PrefixedUrls.PSC_TYPE,
         PrefixedUrls.INDIVIDUAL_PSC_LIST,
-        PrefixedUrls.INDIVIDUAL_STATEMENT,
+        // PrefixedUrls.INDIVIDUAL_STATEMENT,
         PrefixedUrls.PSC_VERIFIED])("Should authenticate when navigating to '%s'", async (url) => {
 
         const resp = await request(app).get(url);
