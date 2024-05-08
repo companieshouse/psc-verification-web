@@ -6,17 +6,23 @@
 {% set title = i18n.individual_psc_list_main_title %}
 
 {% set hintText %}
-<p class="govuk-body">
     {{ i18n.individual_psc_list_hint_1 }}
-    [Company Name]
+    [company.companyName]
     {{ i18n.individual_psc_list_hint_2 }}
-</p>
+{% endset %}
+
+{% set itemsText %}
+    [psc.name]
+{% endset %}
+
+{% set itemsHintText %}
+    {{ i18n.individual_psc_list_born_in }} [psc.dob]
 {% endset %}
 
 {% block main_content %}
     <form action="" method="post">
         {{ govukRadios({
-            name: "dummyRadioButtons",
+            name: "pscIndividualListRadioButtons",
             fieldset: {
                 legend: {
                     text: i18n.individual_psc_list_main_title,
@@ -29,8 +35,11 @@
             },
             items: [
                 {
-                    value: "dummyValue",
-                    text: i18n.dummyPscOption
+                    value: "dynamic value",
+                    text: itemsText,
+                    hint: {
+                        text: itemsHintText
+                    }
                 }
             ]
             })
