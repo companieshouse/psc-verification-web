@@ -42,6 +42,15 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             viewData
         };
     }
+
+    public async executePost (req: Request, _response: Response) {
+        let statement: string = req.body.psc_individual_statement;
+        if (statement == "individualStatement") {
+            // Todo here we would patch the Resource with the statements
+            // patchPscVerification(VerificationStatement.INDIVIDUAL_VERIFIED )
+        }
+        return;
+    }
 }
 
 function formatDateBorn (dateOfBirth: any, lang: string): string {
