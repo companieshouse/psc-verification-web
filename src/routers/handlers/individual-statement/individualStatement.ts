@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { PrefixedUrls } from "../../../constants";
 import { logger } from "../../../lib/logger";
+import { getPscIndividual } from "../../../services/pscService";
+import { getPscVerification } from "../../../services/pscVerificationService";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
@@ -15,26 +17,25 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
     public async getViewData (req: Request): Promise<IndividualStatementViewData> {
 
         const baseViewData = await super.getViewData(req);
+        const verificationResponse = await getPscVerification(req, req.params.transactionId, req.params.submissionId);
+        const pscDetailsResponse = await getPscIndividual(req, verificationResponse.resource?.data.company_number as string,
+                                                verificationResponse.resource?.data.psc_appointment_id as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
+            PscName: pscDetailsResponse.resource?.name!,
+            DateOfBirth: formatDateBorn(pscDetailsResponse.resource?.dateOfBirth, selectLang(req.query.lang)),
             currentUrl: addSearchParams(PrefixedUrls.INDIVIDUAL_STATEMENT, { lang }),
             backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, req.params.transactionId, req.params.submissionId), { lang })
         };
     }
 
-    public async executeGet (
-        req: Request,
-        _response: Response
-    ): Promise<ViewModel<IndividualStatementViewData>> {
+    public async executeGet (req: Request, _response: Response): Promise<ViewModel<IndividualStatementViewData>> {
         logger.info(`IndividualStatementHandler execute called`);
         const viewData = await this.getViewData(req);
-
-        viewData.PscName = _response.locals.pscDetails.name;
-        viewData.DateOfBirth = formatDateBorn(_response.locals.pscDetails.dateOfBirth);
 
         return {
             templatePath: IndividualStatementHandler.templatePath,
@@ -43,6 +44,6 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
     }
 }
 
-function formatDateBorn (dateOfBirth: any): string {
-    return `${Intl.DateTimeFormat("en", { month: "long" }).format(new Date("" + dateOfBirth.month))} ${dateOfBirth.year}`;
+function formatDateBorn (dateOfBirth: any, lang: string): string {
+    return `${Intl.DateTimeFormat(lang, { month: "long" }).format(new Date("" + dateOfBirth.month))} ${dateOfBirth.year}`;
 }
