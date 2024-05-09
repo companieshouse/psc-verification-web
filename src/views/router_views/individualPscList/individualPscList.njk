@@ -7,20 +7,38 @@
 
 {% set hintText %}
     {{ i18n.individual_psc_list_hint_1 }}
-    [company.companyName]
+    {{companyName}}
     {{ i18n.individual_psc_list_hint_2 }}
 {% endset %}
 
-{% set itemsText %}
-    [psc.name]
+{% set pscName %}
+    {{pscIndividuals.key}}
+{% endset %}
+
+{% set pscIndividuals = {"Paul Smith": "2019"} %}
+
+{% for key, value in pscIndividuals %}
+    {% set itemsText %}
+        {{ key }}
+    {% endset %}
+    
+    {% set itemsHintText %}
+        {{ value }}
+    {% endset %}
+{% endfor %}
+
+{# {% set itemsText %}
+    {{pscIndividuals.key}}
 {% endset %}
 
 {% set itemsHintText %}
-    {{ i18n.individual_psc_list_born_in }} [psc.dob]
-{% endset %}
+    {{ i18n.individual_psc_list_born_in }} {{pscIndividuals.value}}
+{% endset %} #}
 
 {% block main_content %}
     <form action="" method="post">
+
+        {% for key, value in pscIndividuals %}
         {{ govukRadios({
             name: "pscIndividualListRadioButtons",
             fieldset: {
@@ -35,15 +53,16 @@
             },
             items: [
                 {
-                    value: "dynamic value",
-                    text: itemsText,
+                    value: pscName,
+                    text: key,
                     hint: {
-                        text: itemsHintText
+                        text: value
                     }
                 }
             ]
             })
         }}
+        {% endfor %}
 
         {{ govukButton({
             attributes: {
