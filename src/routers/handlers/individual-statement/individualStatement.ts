@@ -44,12 +44,11 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
     }
 
     public async executePost (req: Request, _response: Response) {
-        let statement: string = req.body.psc_individual_statement;
-        if (statement == "individualStatement") {
+        const statement: string = req.body.psc_individual_statement;
+        if (statement === "individualStatement") {
             // Todo here we would patch the Resource with the statements
-            // patchPscVerification(VerificationStatement.INDIVIDUAL_VERIFIED )
+            // patchPscVerification(VerificationStatement.INDIVIDUAL_VERIFIED)
         }
-        return;
     }
 }
 
