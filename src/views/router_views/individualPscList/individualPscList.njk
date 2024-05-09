@@ -5,46 +5,44 @@
 
 {% set title = i18n.individual_psc_list_main_title %}
 
-{% set hintText %}
-    {{ i18n.individual_psc_list_hint_1 }}
-    {{companyName}}
-    {{ i18n.individual_psc_list_hint_2 }}
-{% endset %}
-
-{% set pscName %}
-    {{pscIndividuals.key}}
-{% endset %}
-
-{% set pscIndividuals = {"Paul Smith": "2019"} %}
-
-{% for key, value in pscIndividuals %}
-    {% set itemsText %}
-        {{ key }}
-    {% endset %}
-    
-    {% set itemsHintText %}
-        {{ value }}
-    {% endset %}
-{% endfor %}
-
-{# {% set itemsText %}
-    {{pscIndividuals.key}}
-{% endset %}
-
-{% set itemsHintText %}
-    {{ i18n.individual_psc_list_born_in }} {{pscIndividuals.value}}
-{% endset %} #}
-
 {% block main_content %}
     <form action="" method="post">
 
-        {% for key, value in pscIndividuals %}
+        {% set isFirst, ispPageHeading = true %}
+        
+        {% for pscIndividual in pscIndividuals %}
+
+            {% if isFirst %}
+
+            {% set pageHeading %}
+                {{ i18n.individual_psc_list_main_title }}
+            {% endset %}
+        
+            {% set hintText %}
+                {{ i18n.individual_psc_list_hint_1 }}
+                {{companyName}}
+                {{ i18n.individual_psc_list_hint_2 }}
+            {% endset %}
+            
+            {% set isFirst = false %}
+            
+            {% else %}
+                {% set hintText %}{% endset %}
+                {% set pageHeading %}{% endset %}
+                {% set isPageHeading = false %}
+            
+            {% endif %}
+            
+        {% set itemsHintText %}
+            {{ i18n.individual_psc_list_born_in }}{{pscIndividual.dob}}
+        {% endset %}
+
         {{ govukRadios({
-            name: "pscIndividualListRadioButtons",
+            name: "pscIndividualList",
             fieldset: {
                 legend: {
-                    text: i18n.individual_psc_list_main_title,
-                    isPageHeading: true,
+                    text: pageHeading,
+                    isPageHeading: isPageHeading,
                     classes: "govuk-fieldset__legend--l"
                 }
             },
@@ -54,14 +52,15 @@
             items: [
                 {
                     value: pscName,
-                    text: key,
+                    text: pscIndividual.name,
                     hint: {
-                        text: value
+                        text: itemsHintText
                     }
                 }
             ]
             })
-        }}
+        }}       
+
         {% endfor %}
 
         {{ govukButton({
