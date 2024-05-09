@@ -7,6 +7,7 @@ import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/loc
 import { addSearchParams } from "../../../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
+import { formatDateBorn } from "../../utils";
 
 interface IndividualStatementViewData extends BaseViewData {PscName: string, DateOfBirth: string}
 
@@ -50,8 +51,4 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             // patchPscVerification(VerificationStatement.INDIVIDUAL_VERIFIED)
         }
     }
-}
-
-function formatDateBorn (dateOfBirth: any, lang: string): string {
-    return `${Intl.DateTimeFormat(lang, { month: "long" }).format(new Date("" + dateOfBirth.month))} ${dateOfBirth.year}`;
 }
