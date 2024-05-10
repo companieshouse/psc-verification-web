@@ -15,10 +15,10 @@ export const PSC_INDIVIDUAL: PersonWithSignificantControl = {
     },
     nationality: "British",
     address: {
-        postal_code: "CF14 3UZ",
+        postalCode: "CF14 3UZ",
         locality: "Cardiff",
         region: "South Glamorgan",
-        address_line_1: "Crown Way"
+        addressLine: "Crown Way"
     },
     countryOfResidence: "Wales",
     links: {
