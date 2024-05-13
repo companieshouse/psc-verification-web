@@ -9,24 +9,29 @@ import {
     GenericHandler,
     ViewModel
 } from "../generic";
+import { getPscIndividualDetails } from "../utils/pscIndividual";
 
 interface PersonalCodeViewData extends BaseViewData {
-
+    PscName: string,
+    DateOfBirth: string
 }
 
 export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
     private static templatePath = "router_views/personal_code/personal_code";
 
-    public async getViewData (req: Request): Promise<BaseViewData> {
+    public async getViewData (req: Request): Promise<PersonalCodeViewData> {
 
         const baseViewData = await super.getViewData(req);
+        const pscIndividual = await getPscIndividualDetails(req, req.params.transactionId, req.params.submissionId);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
+            PscName: pscIndividual.resource?.name!,
+            DateOfBirth: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
             currentUrl: addSearchParams(PrefixedUrls.PERSONAL_CODE, { lang }),
             backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId), { lang })
         };
@@ -44,4 +49,9 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             viewData
         };
     }
+
+}
+
+function formatDateBorn (dateOfBirth: any, lang: string): string {
+    return `${Intl.DateTimeFormat(lang, { month: "long" }).format(new Date("" + dateOfBirth.month))} ${dateOfBirth.year}`;
 }
