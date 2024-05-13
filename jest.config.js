@@ -16,7 +16,10 @@ module.exports = {
     preset: "ts-jest",
     testEnvironment: "node",
     verbose: true,
-    testMatch: ["**/test/**/*.unit.[jt]s"],
+    testMatch: [
+        "**/test/**/*.unit.[jt]s",
+        "**/test/**/*.int.[jt]s"
+    ],
     transform: {
         "^.+\\.tsx?$": ["ts-jest", { diagnostics: false }]
     },

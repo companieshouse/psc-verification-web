@@ -29,9 +29,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            title: "Psc Verified",
-            currentUrl: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, req.params.transactionId, req.params.submissionId), { lang }),
-            backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, req.params.transactionId, req.params.submissionId), { lang })
+            currentUrl: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, req.params.transactionId, req.params.submissionId), { lang })
         };
     }
 

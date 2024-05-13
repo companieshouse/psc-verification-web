@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 import { Urls } from "../constants";
 import { authenticate } from "../middleware/authentication";
 import { handleExceptions } from "../utils/asyncHandler";
-import { PscVerifiedHandler } from "./handlers/psc-verified/pscVerified";
+import { PscVerifiedHandler } from "./handlers/psc-verified/pscVerifiedHandler";
 const router: Router = Router();
 
 router.get(Urls.PSC_VERIFIED, authenticate, handleExceptions(async (req: Request, res: Response) => {
