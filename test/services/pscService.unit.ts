@@ -1,4 +1,4 @@
-import { PersonWithSignificantControlResource } from "@companieshouse/api-sdk-node/dist/services/psc/types";
+import { PersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/psc/types";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Session } from "@companieshouse/node-session-handler";
 import { HttpStatusCode } from "axios";
@@ -26,16 +26,16 @@ describe("pscServiceIndividual", () => {
         session = new Session();
     });
     it("getPscIndividual should return 200 OK HttpStatus response", async () => {
-        const mockResponse: ApiResponse<PersonWithSignificantControlResource> = {
+        const mockResponse: ApiResponse<PersonWithSignificantControl> = {
             httpStatusCode: HttpStatusCode.Ok,
             resource: PSC_INDIVIDUAL
         };
-        mockGetPscIndividual.mockResolvedValueOnce(mockResponse as ApiResponse<PersonWithSignificantControlResource>);
+        mockGetPscIndividual.mockResolvedValueOnce(mockResponse as ApiResponse<PersonWithSignificantControl>);
         const request = {} as Request;
 
         const response = await getPscIndividual(request, COMPANY_NUMBER, PSC_ID);
 
-        const resource = response.resource as PersonWithSignificantControlResource;
+        const resource = response.resource as PersonWithSignificantControl;
         expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
         expect(resource).toEqual(PSC_INDIVIDUAL);
         expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
@@ -44,10 +44,10 @@ describe("pscServiceIndividual", () => {
 
     });
     it("getPscIndividual should throw an error if HttpStatus is not 200 OK", async () => {
-        const mockResponse: ApiResponse<PersonWithSignificantControlResource> = {
+        const mockResponse: ApiResponse<PersonWithSignificantControl> = {
             httpStatusCode: HttpStatusCode.ServiceUnavailable
         };
-        mockGetPscIndividual.mockResolvedValueOnce(mockResponse as ApiResponse<PersonWithSignificantControlResource>);
+        mockGetPscIndividual.mockResolvedValueOnce(mockResponse as ApiResponse<PersonWithSignificantControl>);
         const request = {} as Request;
 
         try {
@@ -58,10 +58,10 @@ describe("pscServiceIndividual", () => {
         }
     });
     it("getPscIndividual should throw an error if no resource is returned", async () => {
-        const mockResponse: ApiResponse<PersonWithSignificantControlResource> = {
+        const mockResponse: ApiResponse<PersonWithSignificantControl> = {
             httpStatusCode: HttpStatusCode.Ok
         };
-        mockGetPscIndividual.mockResolvedValueOnce(mockResponse as ApiResponse<PersonWithSignificantControlResource>);
+        mockGetPscIndividual.mockResolvedValueOnce(mockResponse as ApiResponse<PersonWithSignificantControl>);
         const request = {} as Request;
         try {
             await getPscIndividual(request, COMPANY_NUMBER, PSC_ID);
