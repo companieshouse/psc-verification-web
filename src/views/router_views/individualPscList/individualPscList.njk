@@ -1,9 +1,71 @@
 {% extends "layouts/default.njk" %}
 
-{% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
-
 {% set title = i18n.individual_psc_list_main_title %}
+
+{% block main_content %}
+
+<form action="" method="post">
+    <div>
+        <fieldset class="govuk-fieldset" aria-describedby="pscIndividualList-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        Which PSC are you providing verification details for?
+            </legend>
+            <div id="pscIndividualList-hint" class="govuk-hint">
+                        The following PSCs for 
+                        THE GIRLS' DAY SCHOOL TRUST
+                        still need to provide their identity verification details. We will not show PSCs whose identity has been confirmed. You can only provide verification details for one PSC at a time.
+            </div>
+            <div class="govuk-radios example-class" data-module="govuk-radios">
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="pscIndividualList" name="pscIndividualList" type="radio" value="" aria-describedby="pscIndividualList-item-hint">
+                    <label class="govuk-label govuk-radios__label" for="pscIndividualList">
+                            Paul Smith
+                    </label>
+                <div id="pscIndividualList-item-hint" class="govuk-hint govuk-radios__hint">
+                        Born in 1999
+                </div>
+            </div>
+            </div>
+        </fieldset>
+    </div>
+    <div>
+        <fieldset class="govuk-fieldset" aria-describedby="pscIndividualList-hint">
+            <div id="pscIndividualList-hint" class="govuk-hint"></div>
+            <div class="govuk-radios example-class" data-module="govuk-radios">
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="pscIndividualList" name="pscIndividualList" type="radio" value="" aria-describedby="pscIndividualList-item-hint">
+                    <label class="govuk-label govuk-radios__label" for="pscIndividualList">
+                        Bertie Bassett
+                    </label>
+                    <div id="pscIndividualList-item-hint" class="govuk-hint govuk-radios__hint">
+                        Born in 2008
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div>
+        <fieldset class="govuk-fieldset" aria-describedby="pscIndividualList-hint">
+            <div id="pscIndividualList-hint" class="govuk-hint"></div>
+            <div class="govuk-radios example-class" data-module="govuk-radios">
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="pscIndividualList" name="pscIndividualList" type="radio" value="" aria-describedby="pscIndividualList-item-hint">
+                    <label class="govuk-label govuk-radios__label" for="pscIndividualList">
+                        Mellow Yellow
+                    </label>
+                    <div id="pscIndividualList-item-hint" class="govuk-hint govuk-radios__hint">
+                        Born in 2004
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <button class="govuk-button" data-module="govuk-button" id="submit" data-event-id="confirm-and-continue-button">
+        Continue
+    </button>
+</form>
+
+{# {% set title = i18n.individual_psc_list_main_title %}
 
 {% block main_content %}
     <form action="" method="post">
@@ -39,6 +101,7 @@
 
         {{ govukRadios({
             name: "pscIndividualList",
+            classes: "example-class",
             fieldset: {
                 legend: {
                     text: pageHeading,
@@ -70,6 +133,6 @@
             text: i18n.global_continue_button
             })
         }}
-    </form>
+    </form> #}
 
 {% endblock %}
