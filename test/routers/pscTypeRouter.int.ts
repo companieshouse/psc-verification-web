@@ -1,7 +1,7 @@
-import middlewareMocks from "./../mocks/allMiddleware.mock";
+import middlewareMocks from "../mocks/allMiddleware.mock";
 import request from "supertest";
 import { PrefixedUrls } from "../../src/constants";
-import app from "./../../src/app";
+import app from "../../src/app";
 import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { HttpStatusCode } from "axios";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../src/utils/url";
