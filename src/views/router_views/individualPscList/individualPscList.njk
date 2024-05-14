@@ -21,7 +21,7 @@
                                 {{ pscIndividual.name }}
                             </label>
                             <div id="pscIndividualList-item-hint" class="govuk-hint govuk-radios__hint">
-                                {{ i18n.individual_psc_list_born_in }} {{ pscIndividual.dob }}
+                                {{ i18n.individual_psc_list_born_in }} {{ pscIndividual.dob.month }} {{ pscIndividual.dob.year }}
                             </div>
                         </div>
                     {% endfor %}
