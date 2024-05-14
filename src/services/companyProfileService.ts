@@ -19,7 +19,7 @@ export const getCompanyProfile = async (req: Request): Promise<CompanyProfile> =
     }
 
     if (sdkResponse.httpStatusCode >= 400) {
-        throw logger.info(`Http status code ${sdkResponse.httpStatusCode} - Failed to get company profile for company number ${companyNumber}`);
+        throw logger.info(`HTTP status code ${sdkResponse.httpStatusCode} - Failed to get company profile for company number ${companyNumber}`);
     }
 
     if (!sdkResponse.resource) {
