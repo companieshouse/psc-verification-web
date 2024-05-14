@@ -8,7 +8,10 @@ import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { closeTransaction } from "../../../services/transactionService";
 
 interface PscVerifiedViewData extends BaseViewData {
-
+    referenceNumber: String;
+    companyName: String;
+    companyNumber: String;
+    pscName: String;
 }
 
 export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
@@ -18,14 +21,18 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
     public async getViewData (req: Request): Promise<PscVerifiedViewData> {
 
         const baseViewData = await super.getViewData(req);
-
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
+        const transactionId = req.params.transactionId;
 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            currentUrl: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, req.params.transactionId, req.params.submissionId), { lang })
+            currentUrl: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, transactionId, req.params.submissionId), { lang }),
+            companyName: "Test Data LTD",
+            companyNumber: "99999999",
+            pscName: "Mr Test Testerton",
+            referenceNumber: transactionId
         };
     }
 

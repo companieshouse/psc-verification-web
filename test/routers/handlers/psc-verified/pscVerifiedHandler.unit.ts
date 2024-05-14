@@ -24,7 +24,7 @@ describe("PSC Verified handler", () => {
 
         it("Should close the transaction and resolve correct view data", async () => {
             mockCloseTransaction.mockResolvedValueOnce(undefined);
-            const req = httpMocks.createRequest({
+            const request = httpMocks.createRequest({
                 method: "GET",
                 url: Urls.PSC_VERIFIED,
                 params: {
@@ -35,18 +35,22 @@ describe("PSC Verified handler", () => {
                     pscType: "individual"
                 }
             });
-            const res = httpMocks.createResponse();
+            const response = httpMocks.createResponse();
             const handler = new PscVerifiedHandler();
             const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
 
-            const resp = await handler.executeGet(req, res);
-
+            const resp = await handler.executeGet(request, response);
+            const viewData = resp.viewData;
             expect(resp.templatePath).toBe("router_views/pscVerified/pscVerified");
             expect(resp.viewData).toMatchObject({
                 currentUrl: `${expectedPrefix}/psc-verified?lang=en`,
+                companyNumber: "99999999",
+                companyName: "Test Data LTD",
+                pscName: "Mr Test Testerton",
+                referenceNumber: TRANSACTION_ID,
                 errors: {}
             });
-            expect(mockCloseTransaction).toHaveBeenCalledWith(req, TRANSACTION_ID, PSC_VERIFICATION_ID);
+            expect(mockCloseTransaction).toHaveBeenCalledWith(request, TRANSACTION_ID, PSC_VERIFICATION_ID);
         });
     });
 });
