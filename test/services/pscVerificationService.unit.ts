@@ -4,7 +4,7 @@ import { Request } from "express";
 import { createOAuthApiClient } from "../../src/services/apiClientService";
 import { createPscVerification, getPscVerification } from "../../src/services/pscVerificationService";
 import { CREATED_RESOURCE, INDIVIDUAL_RESOURCE, INITIAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
-import { PSC_TRANSACTION } from "../mocks/transaction.mock";
+import { CREATED_PSC_TRANSACTION } from "../mocks/transaction.mock";
 import { Resource } from "@companieshouse/api-sdk-node";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -36,7 +36,7 @@ describe("pscVerificationService", () => {
             };
             mockCreatePscVerification.mockResolvedValueOnce(mockCreate);
 
-            const response = await createPscVerification(req, PSC_TRANSACTION, INITIAL_DATA);
+            const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_DATA);
 
             expect(response.httpStatusCode).toBe(HttpStatusCode.Created);
             const castedResource = response.resource as PscVerificationResource;

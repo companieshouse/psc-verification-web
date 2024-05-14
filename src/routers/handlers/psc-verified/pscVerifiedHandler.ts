@@ -9,6 +9,7 @@ import {
     GenericHandler,
     ViewModel
 } from "../generic";
+import { closeTransaction } from "../../../services/transactionService";
 
 interface PscVerifiedViewData extends BaseViewData {
 
@@ -28,9 +29,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            title: "Psc Verified",
-            currentUrl: PrefixedUrls.PSC_VERIFIED + "?lang=" + lang,
-            backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, req.params.transactionId, req.params.submissionId), { lang })
+            currentUrl: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, req.params.transactionId, req.params.submissionId), { lang })
         };
     }
 
@@ -40,6 +39,12 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
     ): Promise<ViewModel<PscVerifiedViewData>> {
         logger.info(`PscVerifiedHandler execute called`);
         const viewData = await this.getViewData(req);
+
+        const closure = await closeTransaction(req, req.params.transactionId, req.params.submissionId)
+            .catch((err) => {
+            // TODO: handle failure properly (redirect to Error Screen? TBC)
+                console.log(err);
+            });
 
         return {
             templatePath: PscVerifiedHandler.templatePath,
