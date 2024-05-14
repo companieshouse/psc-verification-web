@@ -5,17 +5,17 @@
 {% set title = i18n.individual_statement_title %}
 
 {% set nameAndDateBirthText = [
-    PscName,
+    pscName,
     " ",
     "(",
     i18n.individual_statement_born,
-    DateOfBirth,
+    dateOfBirth,
     ")"
 ] | join %}
 
 {% set statementText %}
 <label>{{ i18n.individual_statement_part1 }}
-    <strong>{{ PscName }}</strong>
+    <strong>{{ pscName }}</strong>
     {{ i18n.individual_statement_part2 }}</label>
 {% endset %}
 
