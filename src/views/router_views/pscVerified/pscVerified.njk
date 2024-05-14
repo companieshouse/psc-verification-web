@@ -5,11 +5,16 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
 {% set title = i18n.psc_verified_title %}
-
+ {% set panel%}
+  <div>{{i18n.psc_verified_reference_number_statement}}
+    <br>
+    <strong>{{referenceNumber}}</strong>
+  </div>
+ {% endset %}
 {% block main_content %}
       {{ govukPanel({
         titleText: i18n.psc_verified_main_title,
-        html: i18n.psc_verified_reference_number_statement + "<br><strong>[reference number]</strong>"
+        html: panel
       }) }}
 
       {{ govukSummaryList({
@@ -20,7 +25,7 @@
         text: i18n.psc_verified_company_number
       },
       value: {
-        text: "[company number]"
+        text: companyNumber
       }
     },
     {
@@ -29,7 +34,7 @@
         text: i18n.psc_verified_company_name
       },
       value: {
-        text: "[company name]"
+        text: companyName
       }
     },
     {
@@ -38,17 +43,17 @@
         text: i18n.psc_verified_psc_name
       },
       value: {
-        text: "[name]"
+        text: pscName
       }
     }
   ]
 }) }}
-       <p class="govuk-body">{{i18n.psc_verified_confirmation_email_text}}<strong>[email]</strong></p>
+       <p class="govuk-body">{{i18n.psc_verified_confirmation_email_text}} <strong>{{userEmail}}</strong></p>
        
        <h1 class="govuk-heading-m">{{i18n.psc_verified_next_heading}}</h1>
 
        <p class="govuk-body">
-       <a href="#" class="govuk-link">{{i18n.psc_verified_verification_details_link}}[company name]</a>.
+       <a href="#" class="govuk-link">{{i18n.psc_verified_verification_details_link}} {{companyName}}</a>.
 </p>
 
        <p class="govuk-body">

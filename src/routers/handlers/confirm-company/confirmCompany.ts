@@ -6,11 +6,7 @@ import { getCompanyProfile } from "../../../services/companyProfileService";
 import { buildAddress, formatForDisplay } from "../../../services/confirmCompanyService";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
-import {
-    BaseViewData,
-    GenericHandler,
-    ViewModel
-} from "../generic";
+import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 
 interface ConfirmCompanyViewData extends BaseViewData {
     company: CompanyProfile

@@ -1,9 +1,7 @@
 import { Request, Response } from "express";
-import { PrefixedUrls } from "../../../constants";
+import { PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { addSearchParams } from "../../../utils/queryParams";
-import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import {
     BaseViewData,
     GenericHandler,
@@ -11,7 +9,10 @@ import {
 } from "../generic";
 
 interface PscVerifiedViewData extends BaseViewData {
-
+    referenceNumber: String;
+    companyName: String;
+    companyNumber: String;
+    pscName: String;
 }
 
 export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
@@ -21,7 +22,6 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
     public async getViewData (req: Request): Promise<PscVerifiedViewData> {
 
         const baseViewData = await super.getViewData(req);
-
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
@@ -30,7 +30,11 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
             ...getLocaleInfo(locales, lang),
             title: "Psc Verified",
             currentUrl: PrefixedUrls.PSC_VERIFIED + "?lang=" + lang,
-            backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, req.params.transactionId, req.params.submissionId), { lang })
+            templateName: Urls.PSC_VERIFIED,
+            referenceNumber: req.params.transactionId,
+            companyName: "Test Data LTD",
+            companyNumber: "99999999",
+            pscName: "Mr Test Testerton"
         };
     }
 
