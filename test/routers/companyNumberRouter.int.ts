@@ -1,7 +1,7 @@
-import middlewareMocks from "./../mocks/allMiddleware.mock";
+import middlewareMocks from "../mocks/allMiddleware.mock";
 import request from "supertest";
 import { PrefixedUrls } from "../../src/constants";
-import app from "./../../src/app";
+import app from "../../src/app";
 import { HttpStatusCode } from "axios";
 
 beforeEach(() => {
