@@ -9,7 +9,7 @@ import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn } from "../../utils";
 
-interface IndividualStatementViewData extends BaseViewData {PscName: string, DateOfBirth: string}
+interface IndividualStatementViewData extends BaseViewData {pscName: string, selectedStatements: string[], dateOfBirth: string}
 
 export class IndividualStatementHandler extends GenericHandler<IndividualStatementViewData> {
 
@@ -23,12 +23,14 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
                                                 verificationResponse.resource?.data.psc_appointment_id as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
+        const selectedStatements = verificationResponse.resource?.data?.verification_details?.verification_statements || [];
 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            PscName: pscDetailsResponse.resource?.name!,
-            DateOfBirth: formatDateBorn(pscDetailsResponse.resource?.dateOfBirth, selectLang(req.query.lang)),
+            pscName: pscDetailsResponse.resource?.name!,
+            selectedStatements,
+            dateOfBirth: formatDateBorn(pscDetailsResponse.resource?.dateOfBirth, selectLang(req.query.lang)),
             currentUrl: addSearchParams(PrefixedUrls.INDIVIDUAL_STATEMENT, { lang }),
             backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, req.params.transactionId, req.params.submissionId), { lang })
         };
@@ -45,10 +47,9 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
     }
 
     public async executePost (req: Request, _response: Response) {
-        const statement: string = req.body.psc_individual_statement;
-        if (statement === "individualStatement") {
-            // Todo here we would patch the Resource with the statements
-            // patchPscVerification(VerificationStatement.INDIVIDUAL_VERIFIED)
-        }
+        const statement: string = req.body.psc_individual_statement; // a single string rather than string[] is returned (because there is only 1 checkbox in the group?)
+        const selectedStatements = [statement];
+        // TODO: here we would patch the Resource with the statements
+        // patchPscVerification(selectedStatements)
     }
 }
