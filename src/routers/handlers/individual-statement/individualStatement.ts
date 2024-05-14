@@ -31,9 +31,13 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             pscName: pscDetailsResponse.resource?.name!,
             selectedStatements,
             dateOfBirth: formatDateBorn(pscDetailsResponse.resource?.dateOfBirth, selectLang(req.query.lang)),
-            currentUrl: addSearchParams(PrefixedUrls.INDIVIDUAL_STATEMENT, { lang }),
-            backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, req.params.transactionId, req.params.submissionId), { lang })
+            currentUrl: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_STATEMENT),
+            backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE)
         };
+
+        function resolveUrlTemplate (prefixedUrl: string): string | null {
+            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { lang });
+        }
     }
 
     public async executeGet (req: Request, _response: Response): Promise<ViewModel<IndividualStatementViewData>> {
