@@ -42,7 +42,8 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
             backURL: companyLookup,
             company,
             address,
-            templateName: Urls.CONFIRM_COMPANY
+            templateName: Urls.CONFIRM_COMPANY,
+            backLinkDataEvent: "confirm-company-back-link"
         };
     }
 
