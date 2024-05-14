@@ -59,10 +59,15 @@ describe("individual statement view", () => {
 
         const rootNode = parse(resp.text);
         const backLink = rootNode.querySelector("a.govuk-back-link");
+        const nameDiv = rootNode.querySelector("div#nameAndDateOfBirth");
         const statementCheckbox = rootNode.querySelector("input.govuk-checkboxes__input[name=psc_individual_statement]:checked");
+        const statementLabel = rootNode.querySelector("label.govuk-checkboxes__label[for='psc_individual_statement']");
+        const labelHtmlNormalisedWhitespace = statementLabel?.innerHTML.replace(/[\r\n\t]+/gm, "").replace(/\s+/g, " ").trim();
 
         expect(resp.status).toBe(HttpStatusCode.Ok);
         expect(backLink?.getAttribute("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/personal-code?lang=en");
+        expect(nameDiv?.text).toBe("Sir Forename Middlename Surname (Born April 2000)");
         expect(statementCheckbox?.getAttribute("value")).toBe(VerificationStatement.INDIVIDUAL_VERIFIED);
+        expect(labelHtmlNormalisedWhitespace).toBe("<label>I confirm that <strong>Sir Forename Middlename Surname</strong> has verified their identity.</label>");
     });
 });
