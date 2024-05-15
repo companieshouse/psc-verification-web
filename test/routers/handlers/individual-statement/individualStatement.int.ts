@@ -1,6 +1,5 @@
-import { VerificationStatement } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { HttpStatusCode } from "axios";
-import { parse } from "node-html-parser";
+import * as cheerio from "cheerio";
 import request from "supertest";
 import { URLSearchParams } from "url";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
@@ -41,33 +40,15 @@ describe("individual statement view", () => {
 
         const resp = await request(app).get(uri);
 
-        const rootNode = parse(resp.text);
-        const backLink = rootNode.querySelector("a.govuk-back-link");
-        const statementCheckbox = rootNode.querySelector("input.govuk-checkboxes__input[name=psc_individual_statement]:checked");
+        const $ = cheerio.load(resp.text);
 
         expect(resp.status).toBe(HttpStatusCode.Ok);
-        expect(backLink?.getAttribute("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/personal-code?lang=en");
-        expect(statementCheckbox?.getAttribute("value")).toBe(VerificationStatement.INDIVIDUAL_VERIFIED);
-    });
-
-    it("Should render the Individual Statement page with a success status code, correct links, and correct statement selected", async () => {
-        const queryParams = new URLSearchParams("lang=en");
-        const uriWithQuery = `${PrefixedUrls.INDIVIDUAL_STATEMENT}?${queryParams}`;
-        const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
-
-        const resp = await request(app).get(uri);
-
-        const rootNode = parse(resp.text);
-        const backLink = rootNode.querySelector("a.govuk-back-link");
-        const nameDiv = rootNode.querySelector("div#nameAndDateOfBirth");
-        const statementCheckbox = rootNode.querySelector("input.govuk-checkboxes__input[name=psc_individual_statement]:checked");
-        const statementLabel = rootNode.querySelector("label.govuk-checkboxes__label[for='psc_individual_statement']");
-        const labelHtmlNormalisedWhitespace = statementLabel?.innerHTML.replace(/[\r\n\t]+/gm, "").replace(/\s+/g, " ").trim();
-
-        expect(resp.status).toBe(HttpStatusCode.Ok);
-        expect(backLink?.getAttribute("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/personal-code?lang=en");
-        expect(nameDiv?.text).toBe("Sir Forename Middlename Surname (Born April 2000)");
-        expect(statementCheckbox?.getAttribute("value")).toBe(VerificationStatement.INDIVIDUAL_VERIFIED);
-        expect(labelHtmlNormalisedWhitespace).toBe("<label>I confirm that <strong>Sir Forename Middlename Surname</strong> has verified their identity.</label>");
+        expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/personal-code?lang=en");
+        expect($("div#nameAndDateOfBirth").text()).toBe("Sir Forename Middlename Surname (Born April 2000)");
+        expect($("input.govuk-checkboxes__input[name=psc_individual_statement]").prop("checked")).toBe(true);
+        // expect emphasis applied to PSC name
+        expect(normalizeWhitespace($("label.govuk-checkboxes__label[for='psc_individual_statement']").html())).toBe("<label>I confirm that <strong>Sir Forename Middlename Surname</strong> has verified their identity.</label>");
     });
 });
+
+const normalizeWhitespace = (html: string | null): string | null => html?.replace(/[\r\n\t]+/gm, "").replace(/\s+/g, " ").trim() || null;
