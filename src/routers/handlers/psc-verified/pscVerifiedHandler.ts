@@ -4,7 +4,7 @@ import { getPscIndividual } from "../../../services/pscService";
 import { getPscVerification } from "../../../services/pscVerificationService";
 import { getCompanyProfile } from "../../../services/companyProfileService";
 import { closeTransaction } from "../../../services/transactionService";
-import { PrefixedUrls } from "../../../constants";
+import { ExternalUrls, PrefixedUrls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
@@ -16,6 +16,8 @@ interface PscVerifiedViewData extends BaseViewData {
     companyName: String;
     companyNumber: String;
     pscName: String;
+    companyLookupUrl: String;
+    confirmCompanyUrl: String;
 }
 
 export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
@@ -35,6 +37,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         const pscDetailsResponse = await getPscIndividual(req, companyNumber, pscAppointmentId);
         const companyProfile: CompanyProfile = await getCompanyProfile(req, companyNumber);
         const companyName = companyProfile.companyName as string;
+        const forward = decodeURI(addSearchParams(ExternalUrls.COMPANY_LOOKUP_FORWARD, { companyNumber: "{companyNumber}", lang }));
 
         return {
             ...baseViewData,
@@ -43,7 +46,9 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
             companyName: companyName,
             companyNumber: companyNumber,
             pscName: pscDetailsResponse.resource?.name!,
-            referenceNumber: transactionId
+            referenceNumber: transactionId,
+            confirmCompanyUrl: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang }),
+            companyLookupUrl: addSearchParams(ExternalUrls.COMPANY_LOOKUP, { forward })
         };
     }
 
