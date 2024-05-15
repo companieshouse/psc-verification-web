@@ -18,7 +18,7 @@ export const createPscVerification = async (request: Request, transaction: Trans
         throw createAndLogError(`PSC Verification POST request returned no response for transaction ${transaction.id}`);
     }
     if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Created) {
-        throw createAndLogError(`Http status code ${sdkResponse.httpStatusCode} - Failed to POST PSC Verification for transaction ${transaction.id}`);
+        throw createAndLogError(`HTTP status code ${sdkResponse.httpStatusCode} - Failed to POST PSC Verification for transaction ${transaction.id}`);
     }
 
     const castedSdkResponse = sdkResponse as Resource<PscVerificationResource>;
@@ -42,7 +42,7 @@ export const getPscVerification = async (request: Request, transactionId: string
         throw createAndLogError(`PSC Verification GET request returned no response for ${logReference}`);
     }
     if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
-        throw createAndLogError(`Http status code ${sdkResponse.httpStatusCode} - Failed to GET PSC Verification for ${logReference}`);
+        throw createAndLogError(`HTTP status code ${sdkResponse.httpStatusCode} - Failed to GET PSC Verification for ${logReference}`);
     }
 
     const castedSdkResponse = sdkResponse as Resource<PscVerificationResource>;
