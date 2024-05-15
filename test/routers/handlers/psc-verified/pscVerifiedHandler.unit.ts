@@ -76,7 +76,7 @@ describe("PSC Verified handler", () => {
             });
             expect(mockGetPscVerification).toHaveBeenCalledWith(request, TRANSACTION_ID, PSC_VERIFICATION_ID);
             expect(mockGetPscIndividual).toHaveBeenCalledWith(request, COMPANY_NUMBER, PSC_VERIFICATION_ID);
-            expect(mockGetCompanyProfile).toHaveBeenCalledWith(request);
+            expect(mockGetCompanyProfile).toHaveBeenCalledWith(request, COMPANY_NUMBER);
             expect(mockCloseTransaction).toHaveBeenCalledWith(request, TRANSACTION_ID, PSC_VERIFICATION_ID);
         });
     });

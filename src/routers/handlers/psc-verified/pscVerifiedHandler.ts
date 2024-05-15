@@ -33,7 +33,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         const companyNumber = verificationResponse.resource?.data.company_number as string;
         const pscAppointmentId = verificationResponse.resource?.data.psc_appointment_id as string;
         const pscDetailsResponse = await getPscIndividual(req, companyNumber, pscAppointmentId);
-        const companyProfile: CompanyProfile = await getCompanyProfile(req);
+        const companyProfile: CompanyProfile = await getCompanyProfile(req, companyNumber);
         const companyName = companyProfile.companyName as string;
 
         return {
