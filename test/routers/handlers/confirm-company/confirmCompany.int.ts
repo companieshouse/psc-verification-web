@@ -1,5 +1,6 @@
 import { HttpStatusCode } from "axios";
 import request from "supertest";
+import * as cheerio from "cheerio";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
@@ -18,7 +19,6 @@ jest.mock("../../../../src/services/pscVerificationService", () => ({
 }));
 
 const COMPANY_NUMBER = "12345678";
-const diffCompanyHtml = "href=/persons-with-significant-control-verification/company-number";
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
 mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 const mockPostTransaction = postTransaction as jest.Mock;
@@ -40,17 +40,23 @@ describe("confirm company tests", () => {
 
     it("Should display 'Confirm this is the correct company' message on the Confirm Company page", async () => {
         const resp = await request(app).get(PrefixedUrls.CONFIRM_COMPANY);
-        expect(resp.text).toContain("Confirm this is the correct company");
+
+        const $ = cheerio.load(resp.text);
+        expect($("h1").text()).toBe("Confirm this is the correct company");
     });
 
     it("Should include a 'Confirm and continue' button on the Confirm Company page", async () => {
         const resp = await request(app).get(PrefixedUrls.CONFIRM_COMPANY);
-        expect(resp.text).toContain("Confirm and continue");
+
+        const $ = cheerio.load(resp.text);
+        expect($("button#submit").text()).toContain("Confirm and continue");
     });
 
     it("Should include a 'Choose a different company' button link on the Confirm Company page", async () => {
         const resp = await request(app).get(PrefixedUrls.CONFIRM_COMPANY);
-        expect(resp.text).toContain(diffCompanyHtml);
+
+        const $ = cheerio.load(resp.text);
+        expect($("a#select-different-company").attr("href")).toBe("/persons-with-significant-control-verification/company-number?lang=en");
     });
 
     it("Should create a transaction and redirect", async () => {

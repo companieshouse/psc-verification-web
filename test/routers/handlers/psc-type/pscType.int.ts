@@ -1,5 +1,5 @@
 import { HttpStatusCode } from "axios";
-import { parse } from "node-html-parser";
+import * as cheerio from "cheerio";
 import request from "supertest";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import app from "../../../../src/app";
@@ -36,16 +36,10 @@ describe("psc type view", () => {
 
         const resp = await request(app).get(uri);
 
-        const rootNode = parse(resp.text);
-        const cssSelector = "input[name=pscType]:checked";
-        const checkedRadio = rootNode.querySelector(cssSelector);
+        const $ = cheerio.load(resp.text);
 
         expect(resp.status).toBe(HttpStatusCode.Ok);
-        if (expectedSelection) {
-            expect(checkedRadio?.getAttribute("value")).toEqual(expectedSelection);
-        } else {
-            expect(rootNode.querySelectorAll(cssSelector)).toHaveLength(0);
-        }
+        expect($("input[name=pscType]:checked").val()).toBe(expectedSelection);
     });
 
 });

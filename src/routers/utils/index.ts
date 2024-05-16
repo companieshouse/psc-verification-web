@@ -13,3 +13,7 @@ import ConfirmRoStatementsRouter from "./../confirmRoStatementsRouter";
 import NotADirectorRouter from "./../notADirectorRouter";
 import RleVerifiedRouter from "./../rleVerifiedRouter";
 export { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, NotADirectorRouter, PscVerifiedRouter, RlePscListRouter, RleDetailsRouter, RleDirectorRouter, RleVerifiedRouter, ConfirmRoStatementsRouter };
+
+export function formatDateBorn (dateOfBirth: any, lang: string): string {
+    return `${Intl.DateTimeFormat(lang, { month: "long" }).format(new Date("" + dateOfBirth.month))} ${dateOfBirth.year}`;
+}

@@ -73,15 +73,15 @@
         <input type="hidden" name="lang" value="{{lang}}">
         <input type="hidden" name="companyNumber" value="{{company.companyNumber}}">
         {{ govukButton({
+          text: i18n.global_confirm_continue_button,
+          id: "submit",
           attributes: {
-            id: "submit",
-            "data-event-id": "confirm-and-continue-button"
-          },
-          text: i18n.global_confirm_continue_button
+            "data-event-id": "confirm-company-confirm-and-continue-button"
+          }
         }) }}
     </form>
     <p class="govuk-body">
-        <a title="{{i18n.confirm_company_choose_different_company }}" class="govuk-link" href={{ Urls.COMPANY_NUMBER + "?lang=" +lang }} data-event-id="choose-a-different-company-link">{{ i18n.confirm_company_choose_different_company }}</a>
+        <a id="select-different-company" title="{{i18n.confirm_company_choose_different_company }}" class="govuk-link" href={{ Urls.COMPANY_NUMBER + "?lang=" +lang }} data-event-id="choose-a-different-company-link">{{ i18n.confirm_company_choose_different_company }}</a>
     </p>
 </div>
 {% endblock %}
