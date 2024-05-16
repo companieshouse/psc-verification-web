@@ -50,6 +50,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
         const pscIndividuals : IndividualPscData[] = this.populatePscIndividualData(individualPscList, lang);
         const queryParams = new URLSearchParams(req.url.split("?")[1]);
+        queryParams.set("lang", lang);
 
         return {
             ...baseViewData,
