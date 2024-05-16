@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { getPscIndividual } from "../../../services/pscService";
 import { getPscVerification } from "../../../services/pscVerificationService";
 import { getCompanyProfile } from "../../../services/companyProfileService";
@@ -34,8 +33,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         const verificationResponse = await getPscVerification(req, transactionId, submissionId);
         const companyNumber = verificationResponse.resource?.data.company_number as string;
         const pscAppointmentId = verificationResponse.resource?.data.psc_appointment_id as string;
-        const pscDetailsResponse = await getPscIndividual(req, companyNumber, pscAppointmentId);
-        const companyProfile: CompanyProfile = await getCompanyProfile(req, companyNumber);
+        const [pscDetailsResponse, companyProfile] = await Promise.all([getPscIndividual(req, companyNumber, pscAppointmentId), getCompanyProfile(req, companyNumber)]);
         const companyName = companyProfile.companyName as string;
         const forward = decodeURI(addSearchParams(ExternalUrls.COMPANY_LOOKUP_FORWARD, { companyNumber: "{companyNumber}", lang }));
 
