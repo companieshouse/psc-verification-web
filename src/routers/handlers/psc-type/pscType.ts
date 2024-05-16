@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrefixedUrls, SessionKeys } from "../../../constants";
+import { PrefixedUrls, SessionKeys, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
@@ -21,7 +21,9 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
             ...getLocaleInfo(locales, lang),
             title: "PSC type – Provide identity verification details for a PSC or relevant legal entity",
             currentUrl: addSearchParams(PrefixedUrls.PSC_TYPE, { lang }),
-            backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang })
+            backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang }),
+            templateName: Urls.PSC_TYPE,
+            backLinkDataEvent: "psc-type-back-link"
         };
     }
 
