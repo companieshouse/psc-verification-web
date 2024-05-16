@@ -13,7 +13,7 @@ import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/compa
 import { getCompanyProfile } from "../../../services/companyProfileService";
 
 interface IndividualPscData {
-    pscId: string;
+    pscId: string | any;
     name: string;
     dob: { year: number | any; month: string | any};
 }
@@ -31,6 +31,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
         const baseViewData = await super.getViewData(req);
         const lang = selectLang(req.query.lang);
+        const pscType: any = req.query.pscType;
         const locales = getLocalesService();
         // Gets the JSON of the PSC
         const getResponse: Resource<PscVerificationResource> = await getPscVerification(req, req.params.transactionId, req.params.submissionId);
@@ -51,6 +52,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const pscIndividuals : IndividualPscData[] = this.populatePscIndividualData(individualPscList, lang);
         const queryParams = new URLSearchParams(req.url.split("?")[1]);
         queryParams.set("lang", lang);
+        queryParams.set("pscType", pscType);
 
         return {
             ...baseViewData,
@@ -80,11 +82,16 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             for (let index = 0; index < individualPscList.length; index++) {
                 const element: any = individualPscList[index];
                 logger.debug(`element = ${JSON.stringify(element)}`);
+                // Note retrieving the PSC appointment ID from the "self" link as "psc_appointment_id" is blank
+                // logger.info(`pscId = ${JSON.stringify(element.psc_appointment_id)}`);
+                const pscId = element.links.self.split("/").pop();
+                logger.info(`pscId = ${JSON.stringify(pscId)}`);
                 const dob = new Date(element.dateOfBirth.year, element.dateOfBirth.month);
                 const formatter = new Intl.DateTimeFormat(lang, { month: "long" });
                 const monthAsString = formatter.format(dob);
-                const individualPscDataItem: IndividualPscData = { pscId: element.id, name: element.name, dob: { year: element.dateOfBirth.year, month: monthAsString } };
+                const individualPscDataItem: IndividualPscData = { pscId: pscId, name: element.name, dob: { year: element.dateOfBirth.year, month: monthAsString } };
                 individualPscData[index] = individualPscDataItem;
+                logger.debug(`individualPscDataItem = ${JSON.stringify(individualPscDataItem)}`);
             }
         }
 

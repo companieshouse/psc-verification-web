@@ -7,7 +7,7 @@ import { getCompanyProfile } from "../../src/services/companyProfileService";
 import { getPscVerification } from "../../src/services/pscVerificationService";
 import { validCompanyProfile } from "../mocks/companyProfile.mock";
 import { VALID_COMPANY_PSC_LIST } from "../mocks/companyPsc.mock";
-import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../src/utils/url";
 import { PSC_ID } from "../mocks/psc.mock";
 
@@ -52,12 +52,11 @@ describe("psc individual list tests", () => {
 
     it("Should redirect to the personal code (psc details) page when a PSC is selected", async () => {
         const expectedPage = PrefixedUrls.PERSONAL_CODE;
-        // TODO - confirm if the company number needs adding to the URL e.g. companyNumber=${COMPANY_NUMBER}&lang=en&pscId=${PSC_ID}
-        const expectedRedirectUrl = `${expectedPage.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?lang=en`;
+        const expectedRedirectUrl = `${expectedPage.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?lang=en&pscType=individual`;
         const resp = await request(app).post(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, TRANSACTION_ID, PSC_VERIFICATION_ID))
             .send({ pscId: PSC_ID })
             .set({ "Content-Type": "application/json" })
-            .query({ companyNumber: COMPANY_NUMBER, lang: "en", pscId: PSC_ID })
+            .query({ lang: "en", pscType: "individual" })
             .expect(HttpStatusCode.Found)
             .expect("Location", expectedRedirectUrl);
     });

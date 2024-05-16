@@ -13,10 +13,10 @@
                     {{companyName}}
                     {{ i18n.individual_psc_list_hint_2 }}
                 </div>
-                <div class="govuk-radios example-class" data-module="govuk-radios">
+                <div class="govuk-radios example-class" data-module="govuk-radios" name="pscId" value={{pscIndividual.pscId}}>
                     {% for pscIndividual in pscIndividuals %}
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="pscIndividualList" name="pscIndividualList" type="radio" value="pscId" aria-describedby="pscIndividualList-item-hint">
+                            <input class="govuk-radios__input" id="pscIndividual" name="pscIndividual.pscId" type="radio" value={{pscIndividual.pscId}} aria-describedby="pscIndividualList-item-hint">
                             <label class="govuk-label govuk-radios__label" for="pscIndividualList">
                                 {{ pscIndividual.name }}
                             </label>
