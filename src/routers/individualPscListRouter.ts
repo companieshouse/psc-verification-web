@@ -16,6 +16,11 @@ router.get(Urls.INDIVIDUAL_PSC_LIST, authenticate, handleExceptions(async (req: 
 
 router.post(Urls.INDIVIDUAL_PSC_LIST, authenticate, handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const lang = selectLang(req.body.lang);
+    const queryParams = new URLSearchParams(req.url.split("?")[1]);
+
+    queryParams.set("lang", lang);
+    queryParams.set("pscId", req.body.pscId);
+
     const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, req.params.transactionId, req.params.submissionId);
     res.redirect(addSearchParams(nextPageUrl, { lang }));
 }));

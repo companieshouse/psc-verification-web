@@ -13,8 +13,9 @@ import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/compa
 import { getCompanyProfile } from "../../../services/companyProfileService";
 
 interface IndividualPscData {
+    pscId: string;
     name: string;
-    dob: { year: number | any; month: string | any}
+    dob: { year: number | any; month: string | any};
 }
 
 interface IndividualPscListViewData extends BaseViewData {
@@ -81,7 +82,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
                 const dob = new Date(element.dateOfBirth.year, element.dateOfBirth.month);
                 const formatter = new Intl.DateTimeFormat(lang, { month: "long" });
                 const monthAsString = formatter.format(dob);
-                const individualPscDataItem: IndividualPscData = { name: element.name, dob: { year: element.dateOfBirth.year, month: monthAsString } };
+                const individualPscDataItem: IndividualPscData = { pscId: element.id, name: element.name, dob: { year: element.dateOfBirth.year, month: monthAsString } };
                 individualPscData[index] = individualPscDataItem;
             }
         }
