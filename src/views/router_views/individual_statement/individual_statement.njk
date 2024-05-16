@@ -4,14 +4,30 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% set title = i18n.individual_statement_title %}
 
+{% set nameAndDateBirthText = [
+    pscName,
+    " ",
+    "(",
+    i18n.individual_statement_born,
+    dateOfBirth,
+    ")"
+] | join %}
+
+{% set statementText %}
+<label>{{ i18n.individual_statement_part1 }}
+    <strong>{{ pscName }}</strong>
+    {{ i18n.individual_statement_part2 }}</label>
+{% endset %}
+
 {% block main_content %}
     <form action="" method="post">
         <span class="govuk-caption-xl">
-            <div class="govuk-!-padding-bottom-1">[name]</div>
+            <div class="govuk-!-padding-bottom-1" id="nameAndDateOfBirth">{{ nameAndDateBirthText }}</div>
         </span>
 
         {{ govukCheckboxes({
             name: "psc_individual_statement",
+            values: selectedStatements,
             fieldset: {
                 legend: {
                 text: title,
@@ -21,8 +37,8 @@
         },
         items: [
             {
-                value: i18n.individual_statement_value,
-                text: i18n.individual_statement_part1 + "[name]" + i18n.individual_statement_part2
+                value: "INDIVIDUAL_VERIFIED",
+                html: statementText
             }
         ]
         })

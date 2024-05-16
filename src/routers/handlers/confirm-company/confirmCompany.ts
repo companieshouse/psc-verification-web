@@ -1,6 +1,6 @@
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { Request, Response } from "express";
-import { ExternalUrls, PrefixedUrls } from "../../../constants";
+import { ExternalUrls, PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getCompanyProfile } from "../../../services/companyProfileService";
 import { buildAddress, formatForDisplay } from "../../../services/confirmCompanyService";
@@ -41,7 +41,9 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
             currentUrl,
             backURL: companyLookup,
             company,
-            address
+            address,
+            templateName: Urls.CONFIRM_COMPANY,
+            backLinkDataEvent: "confirm-company-back-link"
         };
     }
 
