@@ -16,9 +16,11 @@ router.get(Urls.INDIVIDUAL_STATEMENT, authenticate, handleExceptions(async (req:
 }));
 
 router.post(Urls.INDIVIDUAL_STATEMENT, authenticate, handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
-    const lang = selectLang(req.body.lang);
+    const handler = new IndividualStatementHandler();
+    await handler.executePost(req, res);
 
     const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, req.params.transactionId, req.params.submissionId);
+    const lang = selectLang(req.body.lang);
     res.redirect(addSearchParams(nextPageUrl, { lang }));
 }));
 

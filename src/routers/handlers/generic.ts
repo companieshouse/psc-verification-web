@@ -16,6 +16,7 @@ export interface BaseViewData {
     userEmail: string | null
     currentUrl: string | null
     templateName: string | null
+    backLinkDataEvent: string | null
 }
 
 export const defaultBaseViewData: Partial<BaseViewData> = {
@@ -28,7 +29,8 @@ export const defaultBaseViewData: Partial<BaseViewData> = {
     currentUrl: null,
     userEmail: null,
     title: "Apply to file with Companies House using software",
-    templateName: null
+    templateName: null,
+    backLinkDataEvent: null
 } as const;
 
 export interface Redirect {
