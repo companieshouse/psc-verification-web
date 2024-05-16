@@ -58,7 +58,10 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         const viewData = await this.getViewData(req);
 
         const closure = await closeTransaction(req, req.params.transactionId, req.params.submissionId)
-            .catch((err: any) => {
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((err) => {
             // TODO: handle failure properly (redirect to Error Screen? TBC)
                 console.log(err);
             });
