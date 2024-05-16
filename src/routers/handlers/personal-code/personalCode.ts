@@ -10,6 +10,7 @@ import {
     ViewModel
 } from "../generic";
 import { getPscIndividualDetails } from "../utils/pscIndividual";
+import { formatDateBorn } from "../../utils";
 
 interface PersonalCodeViewData extends BaseViewData {
     PscName: string,
@@ -50,8 +51,4 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         };
     }
 
-}
-
-function formatDateBorn (dateOfBirth: any, lang: string): string {
-    return `${Intl.DateTimeFormat(lang, { month: "long" }).format(new Date("" + dateOfBirth.month))} ${dateOfBirth.year}`;
 }
