@@ -22,13 +22,20 @@
             items: [
                 {
                     value: "individual",
-                    text: i18n.psc_type_individual
+                    text: i18n.psc_type_individual,
+                    attributes:{
+                        "data-event-id": "psc-type-radio-option"
+                    }
+                    
                 },
                 {
                     value: "rle",
                     text: i18n.psc_type_rle,
                     hint: {
                         text: i18n.psc_type_hint | safe
+                    },
+                    attributes:{
+                        "data-event-id": "rle-type-radio-option"
                     }
                 }
             ]
@@ -37,13 +44,17 @@
 
         {{ govukDetails({
             summaryText: i18n.psc_type_details_title,
-            text: i18n.psc_type_details_text
+            text: i18n.psc_type_details_text,
+            attributes:{
+                "data-event-id": "what-is-the-difference-dropdown"
+            }
             })
         }}
 
         {{ govukButton({
             attributes: {
-                id: "submit", "data-event-id": "confirm-and-continue-button"
+                id: "submit", 
+                "data-event-id": "psc-type-continue-button"
             },
             text: i18n.global_continue_button
             })
