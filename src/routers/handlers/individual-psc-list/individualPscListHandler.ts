@@ -74,24 +74,32 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         };
     }
 
+    public async executePost (req: Request, _response: Response) {
+        const selectedPsc = req.body.pscId;
+        logger.info("individualPscListRouter: selected PSC ID = " + selectedPsc);
+        // TODO: patch the PSC to the verification in the DB
+        // patchPscVerification(selectedStatements)
+    }
+
     private populatePscIndividualData (individualPscList: CompanyPersonWithSignificantControlResource[], lang: string): IndividualPscData[] {
         const individualPscData: IndividualPscData[] = [];
-        let elementDob: { year: number | any; month: string | any};
 
         if (individualPscList) {
             for (let index = 0; index < individualPscList.length; index++) {
                 const element: any = individualPscList[index];
-                logger.debug(`element = ${JSON.stringify(element)}`);
+                logger.debug(`individualPscListHandler: individualPscList element at index: ${index} = ${JSON.stringify(element)}`);
+
                 // Note retrieving the PSC appointment ID from the "self" link as "psc_appointment_id" is blank
                 // logger.info(`pscId = ${JSON.stringify(element.psc_appointment_id)}`);
                 const pscId = element.links.self.split("/").pop();
-                logger.info(`pscId = ${JSON.stringify(pscId)}`);
+                logger.info(`individualPscListHandler: retrieved pscId = ${JSON.stringify(pscId)}`);
                 const dob = new Date(element.dateOfBirth.year, element.dateOfBirth.month);
                 const formatter = new Intl.DateTimeFormat(lang, { month: "long" });
                 const monthAsString = formatter.format(dob);
+
                 const individualPscDataItem: IndividualPscData = { pscId: pscId, name: element.name, dob: { year: element.dateOfBirth.year, month: monthAsString } };
                 individualPscData[index] = individualPscDataItem;
-                logger.debug(`individualPscDataItem = ${JSON.stringify(individualPscDataItem)}`);
+                logger.debug(`individualPscListHandler: FE individualPscDataItem = ${JSON.stringify(individualPscDataItem)}`);
             }
         }
 
