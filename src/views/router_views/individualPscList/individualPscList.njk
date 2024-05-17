@@ -22,7 +22,10 @@
             items: [
                 {
                     value: "dummyValue",
-                    text: i18n.dummyPscOption
+                    text: i18n.dummyPscOption,
+                    attributes:{
+                        "data-event-id": "psc-list-radio-option"
+                    }
                 }
             ]
             })
@@ -30,7 +33,7 @@
 
         {{ govukButton({
             attributes: {
-                id: "submit", "data-event-id": "confirm-and-continue-button"
+                id: "submit", "data-event-id": "psc-list-continue-button"
             },
             text: i18n.global_continue_button
             })
