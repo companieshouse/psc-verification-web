@@ -9,24 +9,30 @@ import {
     GenericHandler,
     ViewModel
 } from "../generic";
+import { getPscIndividualDetails } from "../utils/pscIndividual";
+import { formatDateBorn } from "../../utils";
 
 interface PersonalCodeViewData extends BaseViewData {
-
+    pscName: string,
+    monthBorn: string
 }
 
 export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
     private static templatePath = "router_views/personal_code/personal_code";
 
-    public async getViewData (req: Request): Promise<BaseViewData> {
+    public async getViewData (req: Request): Promise<PersonalCodeViewData> {
 
         const baseViewData = await super.getViewData(req);
+        const pscIndividual = await getPscIndividualDetails(req, req.params.transactionId, req.params.submissionId);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
+            pscName: pscIndividual.resource?.name!,
+            monthBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
             currentUrl: addSearchParams(PrefixedUrls.PERSONAL_CODE, { lang }),
             backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId), { lang })
         };
@@ -44,4 +50,5 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             viewData
         };
     }
+
 }
