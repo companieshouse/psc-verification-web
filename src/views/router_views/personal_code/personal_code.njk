@@ -6,10 +6,18 @@
 
 {% set title = i18n.personal_code_title %}
 
+{% set nameAndDateBirthText = [
+    pscName,
+    " (",
+    i18n.personal_code_born,
+    monthBorn,
+    ")"
+] | join %}
+
 {% block main_content %}
     <form action="" method="post">
         <span class="govuk-caption-xl">
-            [Selected PSC]
+            {{ nameAndDateBirthText }}
         </span>
         <h1 class="govuk-heading-l" id="personal-code--title">
             {{title}}
