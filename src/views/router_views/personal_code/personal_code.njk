@@ -27,20 +27,26 @@
                     id: "personalCode",
                     classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
                     name: "personalCode",
-                    value: ""
+                    value: "",
+                    attributes:{
+                        "data-event-id": "personal-code-input"
+                    }
                 })
             }}
 
             {{ govukDetails({
                     summaryText: i18n.personal_code_details_summaryText,
                     text: i18n.personal_code_details_text,
-                    classes: "govuk-!-padding-top-6"
+                    classes: "govuk-!-padding-top-6",
+                    attributes:{
+                        "data-event-id": "where-to-find-code-dropdown"
+                    }
                 })
             }}
 
             {{ govukButton({
                     attributes: {
-                        id: "submit", "data-event-id": "confirm-and-continue-button"
+                        id: "submit", "data-event-id": "personal-code-continue-button"
                     },
                     text: i18n.global_continue_button
                 })
