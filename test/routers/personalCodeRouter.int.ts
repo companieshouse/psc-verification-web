@@ -1,6 +1,6 @@
 import middlewareMocks from "./../mocks/allMiddleware.mock";
 import { HttpStatusCode } from "axios";
-import { parse } from "node-html-parser";
+import * as cheerio from "cheerio";
 import request from "supertest";
 import app from "../../src/app";
 import { PrefixedUrls } from "../../src/constants";
@@ -45,12 +45,10 @@ describe("personal code router tests", () => {
 
         const resp = await request(app).get(uri);
 
-        const rootNode = parse(resp.text);
-        const cssSelector = "a.govuk-back-link";
-        const backLink = rootNode.querySelector(cssSelector);
+        const $ = cheerio.load(resp.text);
 
         expect(resp.status).toBe(HttpStatusCode.Ok);
-        expect(backLink?.getAttribute("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/psc-list?lang=en");
+        expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/psc-list?lang=en");
     });
 
     it("Should redirect to Individual Staement sceeen", async () => {

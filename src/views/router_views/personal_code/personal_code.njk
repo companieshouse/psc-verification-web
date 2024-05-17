@@ -7,11 +7,10 @@
 {% set title = i18n.personal_code_title %}
 
 {% set nameAndDateBirthText = [
-    PscName,
-    " ",
-    "(Born ",
+    pscName,
+    " (",
     i18n.individual_statement_born,
-    DateOfBirth,
+    monthBorn,
     ")"
 ] | join %}
 

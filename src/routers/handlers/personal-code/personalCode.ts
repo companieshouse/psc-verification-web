@@ -13,8 +13,8 @@ import { getPscIndividualDetails } from "../utils/pscIndividual";
 import { formatDateBorn } from "../../utils";
 
 interface PersonalCodeViewData extends BaseViewData {
-    PscName: string,
-    DateOfBirth: string
+    pscName: string,
+    monthBorn: string
 }
 
 export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
@@ -31,8 +31,8 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
-            PscName: pscIndividual.resource?.name!,
-            DateOfBirth: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
+            pscName: pscIndividual.resource?.name!,
+            monthBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
             currentUrl: addSearchParams(PrefixedUrls.PERSONAL_CODE, { lang }),
             backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId), { lang })
         };
