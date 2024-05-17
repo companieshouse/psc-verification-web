@@ -44,7 +44,7 @@ describe("individual statement view", () => {
 
         expect(resp.status).toBe(HttpStatusCode.Ok);
         expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/personal-code?lang=en");
-        expect($("div#nameAndDateOfBirth").text()).toBe("Sir Forename Middlename Surname (Born in April 2000)");
+        expect($("div#nameAndDateOfBirth").text()).toBe("Sir Forename Middlename Surname (Born April 2000)");
         expect($("input.govuk-checkboxes__input[name=psc_individual_statement]").prop("checked")).toBe(true);
         // expect emphasis applied to PSC name
         expect(normalizeWhitespace($("label.govuk-checkboxes__label[for='psc_individual_statement']").html())).toBe("<label>I confirm that <strong>Sir Forename Middlename Surname</strong> has verified their identity.</label>");
