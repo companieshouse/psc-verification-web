@@ -52,7 +52,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const pscIndividuals : IndividualPscData[] = this.populatePscIndividualData(individualPscList, lang);
         const queryParams = new URLSearchParams(req.url.split("?")[1]);
         queryParams.set("lang", lang);
-        queryParams.set("pscType", pscType);
+        queryParams.set("pscType", "individual");
 
         return {
             ...baseViewData,
@@ -89,8 +89,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
                 const element: any = individualPscList[index];
                 logger.debug(`individualPscListHandler: individualPscList element at index: ${index} = ${JSON.stringify(element)}`);
 
-                // Note retrieving the PSC appointment ID from the "self" link as "psc_appointment_id" is blank
-                // logger.info(`pscId = ${JSON.stringify(element.psc_appointment_id)}`);
+                // Note the PSC appointment ID is retrieved from the "self" link as there is no "psc_appointment_id"
                 const pscId = element.links.self.split("/").pop();
                 logger.info(`individualPscListHandler: retrieved pscId = ${JSON.stringify(pscId)}`);
                 const dob = new Date(element.dateOfBirth.year, element.dateOfBirth.month);

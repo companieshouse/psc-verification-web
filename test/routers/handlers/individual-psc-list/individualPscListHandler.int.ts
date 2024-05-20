@@ -44,7 +44,7 @@ describe("individual PSC list view", () => {
     });
 
     it("Should render the Individual PSC List page with a success status code and correct links", async () => {
-        const queryParams = new URLSearchParams("lang=en&pscType=individual&companyNumber=12345678");
+        const queryParams = new URLSearchParams("lang=en&pscType=individual");
         const uriWithQuery = `${PrefixedUrls.INDIVIDUAL_PSC_LIST}?${queryParams}`;
         const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
@@ -53,7 +53,7 @@ describe("individual PSC list view", () => {
         const $ = cheerio.load(resp.text);
 
         expect(resp.status).toBe(HttpStatusCode.Ok);
-        expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/psc-type?lang=en&pscType=individual&companyNumber=12345678");
+        expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/psc-type?lang=en&pscType=individual");
     });
 
 });

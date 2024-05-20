@@ -5,7 +5,7 @@ import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createOAuthApiClient } from "../../src/services/apiClientService";
 import { getPscIndividual } from "../../src/services/pscService";
-import { COMPANY_NUMBER, PSC_ID, PSC_INDIVIDUAL } from "../mocks/Psc.mock";
+import { COMPANY_NUMBER, PSC_ID, PSC_INDIVIDUAL } from "../mocks/psc.mock";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../src/services/apiClientService");
