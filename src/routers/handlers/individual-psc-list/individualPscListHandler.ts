@@ -37,7 +37,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const getResponse: Resource<PscVerificationResource> = await getPscVerification(req, req.params.transactionId, req.params.submissionId);
         const companyNumber = getResponse?.resource?.data?.company_number as string;
         req.query.companyNumber = companyNumber;
-        const companyProfile: CompanyProfile = await getCompanyProfile(req);
+        const companyProfile: CompanyProfile = await getCompanyProfile(req, companyNumber);
 
         let companyName: string = "";
         if (companyProfile) {
