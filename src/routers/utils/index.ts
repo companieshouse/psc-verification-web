@@ -15,5 +15,12 @@ import RleVerifiedRouter from "./../rleVerifiedRouter";
 export { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, NotADirectorRouter, PscVerifiedRouter, RlePscListRouter, RleDetailsRouter, RleDirectorRouter, RleVerifiedRouter, ConfirmRoStatementsRouter };
 
 export function formatDateBorn (dateOfBirth: any, lang: string): string {
-    return `${Intl.DateTimeFormat(lang, { month: "long" }).format(new Date("" + dateOfBirth.month))} ${dateOfBirth.year}`;
+    try {
+        const formattedMonth = Intl.DateTimeFormat(lang, { month: "long" }).format(new Date("" + dateOfBirth?.month));
+        const formattedYear = dateOfBirth?.year?.toString() || ""; // Default to an empty string if year is null or undefined
+        return `${formattedMonth} ${formattedYear}`;
+    } catch (error) {
+        console.error("Error formatting date:", error);
+        return "Invalid date";
+    }
 }
