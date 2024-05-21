@@ -6,11 +6,7 @@ import { getCompanyProfile } from "../../../services/companyProfileService";
 import { buildAddress, formatForDisplay } from "../../../services/confirmCompanyService";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
-import {
-    BaseViewData,
-    GenericHandler,
-    ViewModel
-} from "../generic";
+import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 
 interface ConfirmCompanyViewData extends BaseViewData {
     company: CompanyProfile
@@ -26,8 +22,8 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
         const baseViewData = await super.getViewData(req);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-
-        const companyProfile: CompanyProfile = await getCompanyProfile(req);
+        const companyNumber = req.query.companyNumber as string;
+        const companyProfile: CompanyProfile = await getCompanyProfile(req, companyNumber);
         const company = formatForDisplay(companyProfile, locales, lang);
         const address = buildAddress(companyProfile);
         const currentUrl = addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber: companyProfile.companyNumber, lang });

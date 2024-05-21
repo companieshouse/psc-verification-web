@@ -6,7 +6,31 @@ import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
-import { PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { VALID_COMPANY_PSC_LIST } from "../../../mocks/companyPsc.mock";
+import { getCompanyProfile } from "../../../../src/services/companyProfileService";
+import { getPscVerification } from "../../../../src/services/pscVerificationService";
+import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
+
+jest.mock("../../../../src/services/pscVerificationService", () => ({
+    getPscVerification: () => ({
+        httpStatusCode: HttpStatusCode.Ok,
+        resource: CREATED_RESOURCE
+    })
+}));
+
+jest.mock("../../../../src/services/companyPscService", () => ({
+    getCompanyIndividualPscList: () => ({
+        httpStatusCode: HttpStatusCode.Ok,
+        resource: VALID_COMPANY_PSC_LIST
+    })
+}));
+
+jest.mock("../../../../src/services/companyProfileService");
+const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
+mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
+
+const mockGetPscVerification = getPscVerification as jest.Mock;
 
 describe("individual PSC list view", () => {
 

@@ -1,9 +1,33 @@
+import { HttpStatusCode } from "axios";
 import * as httpMocks from "node-mocks-http";
 import { Urls } from "../../../../src/constants";
 import { PscVerifiedHandler } from "../../../../src/routers/handlers/psc-verified/pscVerifiedHandler";
+import { getPscIndividual } from "../../../../src/services/pscService";
+import { getPscVerification } from "../../../../src/services/pscVerificationService";
+import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { closeTransaction } from "../../../../src/services/transactionService";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
-import { PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
+
+jest.mock("../../../../src/services/pscService");
+const mockGetPscIndividual = getPscIndividual as jest.Mock;
+mockGetPscIndividual.mockResolvedValue({
+    httpStatusCode: HttpStatusCode.Ok,
+    resource: PSC_INDIVIDUAL
+});
+
+jest.mock("../../../../src/services/pscVerificationService");
+const mockGetPscVerification = getPscVerification as jest.Mock;
+mockGetPscVerification.mockResolvedValue({
+    httpStatusCode: HttpStatusCode.Ok,
+    resource: INDIVIDUAL_RESOURCE
+});
+
+jest.mock("../../../../src/services/companyProfileService");
+const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
+mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 
 jest.mock("../../../../src/services/transactionService", () => ({
     closeTransaction: jest.fn()
@@ -24,7 +48,7 @@ describe("PSC Verified handler", () => {
 
         it("Should close the transaction and resolve correct view data", async () => {
             mockCloseTransaction.mockResolvedValueOnce(undefined);
-            const req = httpMocks.createRequest({
+            const request = httpMocks.createRequest({
                 method: "GET",
                 url: Urls.PSC_VERIFIED,
                 params: {
@@ -35,18 +59,25 @@ describe("PSC Verified handler", () => {
                     pscType: "individual"
                 }
             });
-            const res = httpMocks.createResponse();
+            const response = httpMocks.createResponse();
             const handler = new PscVerifiedHandler();
             const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
 
-            const resp = await handler.executeGet(req, res);
-
+            const resp = await handler.executeGet(request, response);
+            const viewData = resp.viewData;
             expect(resp.templatePath).toBe("router_views/pscVerified/pscVerified");
             expect(resp.viewData).toMatchObject({
                 currentUrl: `${expectedPrefix}/psc-verified?lang=en`,
+                companyNumber: COMPANY_NUMBER,
+                companyName: "Test Company",
+                pscName: "Sir Forename Middlename Surname",
+                referenceNumber: TRANSACTION_ID,
                 errors: {}
             });
-            expect(mockCloseTransaction).toHaveBeenCalledWith(req, TRANSACTION_ID, PSC_VERIFICATION_ID);
+            expect(mockGetPscVerification).toHaveBeenCalledWith(request, TRANSACTION_ID, PSC_VERIFICATION_ID);
+            expect(mockGetPscIndividual).toHaveBeenCalledWith(request, COMPANY_NUMBER, PSC_VERIFICATION_ID);
+            expect(mockGetCompanyProfile).toHaveBeenCalledWith(request, COMPANY_NUMBER);
+            expect(mockCloseTransaction).toHaveBeenCalledWith(request, TRANSACTION_ID, PSC_VERIFICATION_ID);
         });
     });
 });

@@ -5,11 +5,10 @@ import { Request } from "express";
 import { logger } from "../lib/logger";
 import { getAccessToken } from "../utils/session";
 
-export const getCompanyProfile = async (req: Request): Promise<CompanyProfile> => {
+export const getCompanyProfile = async (req: Request, companyNumber: string): Promise<CompanyProfile> => {
 
     const accessToken: string = getAccessToken(req.session as Session);
     const apiClient = createApiClient(undefined, accessToken, undefined);
-    const companyNumber = req.query.companyNumber as string;
 
     logger.debug(`Looking for company profile with company number ${companyNumber}`);
     const sdkResponse: Resource<CompanyProfile> = await apiClient.companyProfile.getCompanyProfile(companyNumber);
