@@ -65,7 +65,7 @@ export const patchPscVerification = async (request: Request, transactionId: stri
     if (!sdkResponse) {
         throw createAndLogError(`PSC Verification PATCH request returned no response for resource with ${logReference}`);
     }
-    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Created) {
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
         throw createAndLogError(`Http status code ${sdkResponse.httpStatusCode} - Failed to PATCH PSC Verification for resource with ${logReference}`);
     }
 
