@@ -54,3 +54,28 @@ export const getPscVerification = async (request: Request, transactionId: string
 
     return castedSdkResponse;
 };
+
+export const patchPscVerification = async (request: Request, transactionId: string, pscVerificationId: string, pscVerification: PscVerification): Promise<Resource<PscVerificationResource>> => {
+    const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
+    const logReference = `transactionId ${transactionId}, pscVerificationId ${pscVerificationId}`;
+
+    logger.debug(`Patching PSC verification resource with ${logReference}`);
+    const sdkResponse: Resource<PscVerificationResource> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.patchPscVerification(transactionId as string, pscVerificationId as string, pscVerification);
+
+    if (!sdkResponse) {
+        throw createAndLogError(`PSC Verification PATCH request returned no response for resource with ${logReference}`);
+    }
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
+        throw createAndLogError(`Http status code ${sdkResponse.httpStatusCode} - Failed to PATCH PSC Verification for resource with ${logReference}`);
+    }
+
+    const castedSdkResponse = sdkResponse as Resource<PscVerificationResource>;
+
+    if (!castedSdkResponse.resource) {
+        throw createAndLogError(`PSC Verification API POST request returned no resource with ${logReference}`);
+    }
+    logger.debug(`PATCH PSC Verification response: ${sdkResponse.httpStatusCode}`);
+    logger.debug(`PATCH PSC Verification response: ${JSON.stringify(sdkResponse)}`);
+
+    return castedSdkResponse;
+};
