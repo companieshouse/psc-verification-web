@@ -2,12 +2,13 @@ import { Request, Response } from "express";
 import { PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getPscIndividual } from "../../../services/pscService";
-import { getPscVerification } from "../../../services/pscVerificationService";
+import { getPscVerification, patchPscVerification } from "../../../services/pscVerificationService";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn } from "../../utils";
+import { PscVerification, VerificationStatement } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 
 interface IndividualStatementViewData extends BaseViewData {pscName: string, selectedStatements: string[], dateOfBirth: string}
 
@@ -53,9 +54,13 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
     }
 
     public async executePost (req: Request, _response: Response) {
-        const statement: string = req.body.psc_individual_statement; // a single string rather than string[] is returned (because there is only 1 checkbox in the group?)
+        const statement: VerificationStatement = req.body.psc_individual_statement; // a single string rather than string[] is returned (because there is only 1 checkbox in the group?)
         const selectedStatements = [statement];
-        // TODO: here we would patch the Resource with the statements
-        // patchPscVerification(selectedStatements)
+        const verification: PscVerification = {
+            verification_details: {
+                verification_statements: selectedStatements
+            }
+        };
+        const resource = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
     }
 }
