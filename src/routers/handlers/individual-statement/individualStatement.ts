@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrefixedUrls } from "../../../constants";
+import { PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getPscIndividual } from "../../../services/pscService";
 import { getPscVerification } from "../../../services/pscVerificationService";
@@ -32,7 +32,9 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             selectedStatements,
             dateOfBirth: formatDateBorn(pscDetailsResponse.resource?.dateOfBirth, selectLang(req.query.lang)),
             currentUrl: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_STATEMENT),
-            backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE)
+            backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
+            templateName: Urls.INDIVIDUAL_STATEMENT,
+            backLinkDataEvent: "psc-statement-back-link"
         };
 
         function resolveUrlTemplate (prefixedUrl: string): string | null {
