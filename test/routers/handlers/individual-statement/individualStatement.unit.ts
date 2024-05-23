@@ -4,17 +4,22 @@ import { Urls } from "../../../../src/constants";
 import { IndividualStatementHandler } from "../../../../src/routers/handlers/individual-statement/individualStatement";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { INDIVIDUAL_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { INDIVIDUAL_RESOURCE, PATCH_INDIVIDUAL_STATEMENT_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { VerificationStatement } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-import { getPscVerification } from "../../../../src/services/pscVerificationService";
+import { getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
 
 jest.mock("../../../../src/services/pscVerificationService", () => ({
-    getPscVerification: jest.fn()
+    getPscVerification: jest.fn(),
+    patchPscVerification: jest.fn()
 }));
 jest.mock("../../../../src/services/pscService", () => ({
     getPscIndividual: () => ({
         httpStatusCode: HttpStatusCode.Ok,
         resource: PSC_INDIVIDUAL
+    }),
+    patchPscVerification: () => ({
+        httpStatusCode: HttpStatusCode.Ok,
+        resource: PATCH_INDIVIDUAL_STATEMENT_DATA
     })
 }));
 
@@ -68,7 +73,7 @@ describe("Individual statement handler", () => {
     });
 
     describe("executePost", () => {
-        it.skip("skip until there's something to test: should patch the submission data", async () => {
+        it("should patch the submission data", async () => {
             const req = httpMocks.createRequest({
                 method: "POST",
                 url: Urls.PSC_VERIFIED,
@@ -88,9 +93,8 @@ describe("Individual statement handler", () => {
 
             const resp = await handler.executePost(req, res);
 
-        // TODO: add expects here when ready...
-        // expect(patchPscVerification).toHaveBeenCalledWith(req, ...)
+            expect(patchPscVerification).toHaveBeenCalledWith(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_STATEMENT_DATA);
         });
-
     });
+
 });
