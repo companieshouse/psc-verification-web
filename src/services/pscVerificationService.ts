@@ -75,7 +75,7 @@ export const patchPscVerification = async (request: Request, transactionId: stri
         throw createAndLogError(`PSC Verification API POST request returned no resource with ${logReference}`);
     }
     logger.debug(`PATCH PSC Verification response: ${sdkResponse.httpStatusCode}`);
-    logger.debug(`PATCH PSC Verification response: ${JSON.stringify(sdkResponse)}`); // TODO confirm if needed
+    logger.debug(`PATCH PSC Verification response: ${JSON.stringify(sdkResponse)}`);
 
     return castedSdkResponse;
 };
