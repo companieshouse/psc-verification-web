@@ -6,7 +6,7 @@ import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { CompanyPersonWithSignificantControlResource } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 import { getCompanyIndividualPscList } from "../../../services/companyPscService";
-import { getPscVerification } from "../../../services/pscVerificationService";
+import { getPscVerification, patchPscVerification } from "../../../services/pscVerificationService";
 import { PscVerificationResource } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { Resource } from "@companieshouse/api-sdk-node";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
@@ -65,7 +65,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
     }
 
     public async executeGet (req: Request, _response: Response): Promise<ViewModel<IndividualPscListViewData>> {
-        logger.info(`IndividualPscListHandler execute called`);
+        logger.info(`IndividualPscListHandler.executeGet called`);
         const viewData = await this.getViewData(req);
 
         return {
@@ -75,10 +75,8 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
     }
 
     public async executePost (req: Request, _response: Response) {
-        const selectedPsc = req.body.pscId;
-        logger.info("individualPscListRouter: selected PSC ID = " + selectedPsc);
-        // TODO: patch the PSC to the verification in the DB
-        // patchPscVerification(selectedStatements)
+        logger.info(`individualPscListRouter.executePost: patching submission resource for submissionId=${req.params.submissionId} with PSC ID: ${req.body.pscId}`);
+        const response = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, { psc_appointment_id: req.body.pscId });
     }
 
     private populatePscIndividualData (individualPscList: CompanyPersonWithSignificantControlResource[], lang: string): IndividualPscData[] {
@@ -91,7 +89,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
                 // Note the PSC appointment ID is retrieved from the "self" link as there is no "psc_appointment_id"
                 const pscId = element.links.self.split("/").pop();
-                logger.info(`individualPscListHandler: retrieved pscId = ${JSON.stringify(pscId)}`);
+                logger.debug(`individualPscListHandler: retrieved pscId = ${JSON.stringify(pscId)}`);
                 const dob = new Date(element.dateOfBirth.year, element.dateOfBirth.month);
                 const formatter = new Intl.DateTimeFormat(lang, { month: "long" });
                 const monthAsString = formatter.format(dob);
