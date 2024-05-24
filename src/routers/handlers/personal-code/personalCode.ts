@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrefixedUrls } from "../../../constants";
+import { PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
@@ -34,7 +34,9 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             pscName: pscIndividual.resource?.name!,
             monthBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
             currentUrl: addSearchParams(PrefixedUrls.PERSONAL_CODE, { lang }),
-            backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId), { lang })
+            backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId), { lang }),
+            templateName: Urls.PERSONAL_CODE,
+            backLinkDataEvent: "personal-code-back-link"
         };
     }
 
