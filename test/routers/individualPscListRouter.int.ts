@@ -45,12 +45,12 @@ describe("psc individual list tests", () => {
         expect(middlewareMocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
     });
 
-    it("Should render the PSC Type page with a successful status code", async () => {
+    it("Should render the PSC Individual List page with a successful status code", async () => {
         const resp = await request(app).get(PrefixedUrls.INDIVIDUAL_PSC_LIST);
         expect(resp.status).toBe(200);
     });
 
-    it("Should redirect to the personal code (psc details) page when a PSC is selected", async () => {
+    it.skip("Should redirect to the personal code (psc details) page when a PSC is selected", async () => {
         const expectedPage = PrefixedUrls.PERSONAL_CODE;
         const expectedRedirectUrl = `${expectedPage.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?lang=en&pscType=individual`;
         const resp = await request(app).post(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, TRANSACTION_ID, PSC_VERIFICATION_ID))

@@ -26,9 +26,7 @@ router.post(Urls.CONFIRM_COMPANY, authenticate, handleExceptions(async (req: Req
 
     const number = req.query.companyNumber as string;
     const verification: PscVerification = {
-        company_number: number,
-        // TODO hardcoded value, remove when PSC Id is selected from the List screen
-        psc_appointment_id: "1kdaTltWeaP1EB70SSD9SLmiK5Y"
+        company_number: number
     };
     const resource = await createPscVerification(req, transaction, verification);
     logger.info("CREATED" + resource?.resource?.links.self);
