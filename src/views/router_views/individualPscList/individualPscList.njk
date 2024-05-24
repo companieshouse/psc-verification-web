@@ -16,10 +16,7 @@
                 <div class="govuk-radios example-class" data-module="govuk-radios">
                     {% for pscIndividual in pscIndividuals %}
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="{{pscIndividual.pscId}}" name="pscId" type="radio" value={{pscIndividual.pscId}} aria-describedby="pscIndividualList-item-hint" 
-                                {% if pscIndividual.pscId == pscIndividual.selectedPscId %}
-                                    checked="true"
-                                {% endif %}>
+                            <input class="govuk-radios__input" id="{{pscIndividual.pscId}}" name="pscId" type="radio" value={{pscIndividual.pscId}} aria-describedby="pscIndividualList-item-hint">
                             <label class="govuk-label govuk-radios__label" for="pscIndividualList">
                                 {{ pscIndividual.name }}
                             </label>

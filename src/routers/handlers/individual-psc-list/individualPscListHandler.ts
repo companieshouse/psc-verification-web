@@ -16,7 +16,6 @@ interface IndividualPscData {
     pscId: string | any;
     name: string;
     dob: { year: number | any; month: string | any};
-    selectedPscId?: string;
 }
 
 interface IndividualPscListViewData extends BaseViewData {
@@ -32,6 +31,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
         const baseViewData = await super.getViewData(req);
         const lang = selectLang(req.query.lang);
+        const pscType: any = req.query.pscType;
         const locales = getLocalesService();
         // Gets the JSON of the PSC
         const getResponse: Resource<PscVerificationResource> = await getPscVerification(req, req.params.transactionId, req.params.submissionId);
@@ -49,8 +49,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             individualPscList = await getCompanyIndividualPscList(req, companyNumber);
         }
 
-        const selectedPscId = getResponse?.resource?.data?.psc_appointment_id as string;
-        const pscIndividuals : IndividualPscData[] = this.populatePscIndividualData(individualPscList, selectedPscId, lang);
+        const pscIndividuals : IndividualPscData[] = this.populatePscIndividualData(individualPscList, lang);
         const queryParams = new URLSearchParams(req.url.split("?")[1]);
         queryParams.set("lang", lang);
         queryParams.set("pscType", "individual");
@@ -76,17 +75,11 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
     }
 
     public async executePost (req: Request, _response: Response) {
-        logger.info(`IndividualPscListHandler.executePost called`);
-
-        if (req.params.transactionId && req.params.submissionId && req.body.pscId) {
-            logger.debug(`individualPscListRouter.executePost: patching submission resource for submissionId=${req.params.submissionId} with PSC ID: ${req.body.pscId}`);
-            const response = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, { psc_appointment_id: req.body.pscId });
-        }
-
-        logger.debug(`IndividualPscListHandler.executePost no psc was selected`);
+        logger.info(`individualPscListRouter.executePost: patching submission resource for submissionId=${req.params.submissionId} with PSC ID: ${req.body.pscId}`);
+        const response = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, { psc_appointment_id: req.body.pscId });
     }
 
-    private populatePscIndividualData (individualPscList: CompanyPersonWithSignificantControlResource[], selectedPscId: string, lang: string): IndividualPscData[] {
+    private populatePscIndividualData (individualPscList: CompanyPersonWithSignificantControlResource[], lang: string): IndividualPscData[] {
         const individualPscData: IndividualPscData[] = [];
 
         if (individualPscList) {
@@ -101,7 +94,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
                 const formatter = new Intl.DateTimeFormat(lang, { month: "long" });
                 const monthAsString = formatter.format(dob);
 
-                const individualPscDataItem: IndividualPscData = { pscId: pscId, name: element.name, dob: { year: element.dateOfBirth.year, month: monthAsString }, selectedPscId: selectedPscId };
+                const individualPscDataItem: IndividualPscData = { pscId: pscId, name: element.name, dob: { year: element.dateOfBirth.year, month: monthAsString } };
                 individualPscData[index] = individualPscDataItem;
                 logger.debug(`individualPscListHandler: FE individualPscDataItem = ${JSON.stringify(individualPscDataItem)}`);
             }
