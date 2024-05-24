@@ -10,5 +10,5 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
 
     const authHandler = authMiddleware(authMiddlewareConfig);
     authHandler(req, res, next);
-
+    next();
 };

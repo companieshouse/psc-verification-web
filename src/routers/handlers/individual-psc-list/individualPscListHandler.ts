@@ -6,9 +6,6 @@ import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { CompanyPersonWithSignificantControlResource } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 import { getCompanyIndividualPscList } from "../../../services/companyPscService";
-import { getPscVerification } from "../../../services/pscVerificationService";
-import { PscVerificationResource } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-import { Resource } from "@companieshouse/api-sdk-node";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { getCompanyProfile } from "../../../services/companyProfileService";
 
@@ -27,16 +24,15 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
     private static templatePath = "router_views/individualPscList/individualPscList";
 
-    public async getViewData (req: Request): Promise<IndividualPscListViewData> {
+    public async getViewData (req: Request, res: Response): Promise<IndividualPscListViewData> {
 
-        const baseViewData = await super.getViewData(req);
+        const baseViewData = await super.getViewData(req, res);
         const lang = selectLang(req.query.lang);
-        const pscType: any = req.query.pscType;
         const locales = getLocalesService();
-        // Gets the JSON of the PSC
-        const getResponse: Resource<PscVerificationResource> = await getPscVerification(req, req.params.transactionId, req.params.submissionId);
-        const companyNumber = getResponse?.resource?.data?.company_number as string;
-        req.query.companyNumber = companyNumber;
+        const verification = res.locals.submission;
+        const companyNumber = verification?.data?.company_number as string;
+        // req.query.companyNumber = companyNumber;
+        // TODO: fetch with middleware!
         const companyProfile: CompanyProfile = await getCompanyProfile(req, companyNumber);
 
         let companyName: string = "";
@@ -64,9 +60,9 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         };
     }
 
-    public async executeGet (req: Request, _response: Response): Promise<ViewModel<IndividualPscListViewData>> {
+    public async executeGet (req: Request, res: Response): Promise<ViewModel<IndividualPscListViewData>> {
         logger.info(`IndividualPscListHandler execute called`);
-        const viewData = await this.getViewData(req);
+        const viewData = await this.getViewData(req, res);
 
         return {
             templatePath: IndividualPscListHandler.templatePath,

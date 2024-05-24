@@ -1,7 +1,7 @@
 // Generic handler is the base handler that is extended by all other handlers
 // It contains methods that are common to multiple route handlers
 
-import { Request } from "express";
+import { Request, Response } from "express";
 import { ExternalUrls, PrefixedUrls, servicePathPrefix } from "../../constants";
 import errorManifest from "../../lib/utils/error-manifests/default";
 
@@ -50,7 +50,7 @@ export abstract class GenericHandler<T extends BaseViewData> {
         };
     }
 
-    populateViewData (req: Request) {
+    populateViewData (req: Request, res: Response) {
         const { signin_info: signInInfo } = req.session?.data ?? {};
         // eslint-disable-next-line camelcase
         const isSignedIn = signInInfo?.signed_in !== undefined;
@@ -67,10 +67,10 @@ export abstract class GenericHandler<T extends BaseViewData> {
         this.viewData.userEmail = userEmail;
     }
 
-    async getViewData (req: Request): Promise<T> {
+    async getViewData (req: Request, res: Response): Promise<T> {
         this.errorManifest = errorManifest;
         this.viewData = defaultBaseViewData as T;
-        this.populateViewData(req);
+        this.populateViewData(req, res);
         return this.viewData;
     }
 }
