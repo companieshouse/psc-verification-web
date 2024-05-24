@@ -22,8 +22,10 @@ router.post(Urls.INDIVIDUAL_PSC_LIST, authenticate, handleExceptions(async (req:
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
     queryParams.set("lang", lang);
 
-    const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, req.params.transactionId, req.params.submissionId);
-    res.redirect(`${nextPageUrl}?${queryParams}`);
+    if (req.params.transactionId && req.params.submissionId && req.body.pscId) {
+        const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, req.params.transactionId, req.params.submissionId);
+        res.redirect(`${nextPageUrl}?${queryParams}`);
+    }
 }));
 
 export default router;
