@@ -20,6 +20,11 @@ export const INDIVIDUAL_DATA: PscVerification = {
     }
 };
 
+export const PATCHED_INDIVIDUAL_PSC_ID_DATA: PscVerification = {
+    company_number: COMPANY_NUMBER,
+    psc_appointment_id: PSC_VERIFICATION_ID
+};
+
 export const PATCH_INDIVIDUAL_DATA: PscVerification = {
     verification_details: {
         name_mismatch_reason: NameMismatchReason.PREFERRED_NAME
@@ -72,5 +77,6 @@ function initPscVerificationResource (data: PscVerification) {
 
 export const CREATED_RESOURCE: PscVerificationResource = initPscVerificationResource(INITIAL_DATA);
 export const PATCHED_INDIVIDUAL_RESOURCE: PscVerificationResource = initPscVerificationResource(PATCHED_INDIVIDUAL_DATA);
+export const PATCHED_INDIVIDUAL_RESOURCE_PSC_ID: PscVerificationResource = initPscVerificationResource(PATCHED_INDIVIDUAL_PSC_ID_DATA);
 export const INDIVIDUAL_RESOURCE: PscVerificationResource = initPscVerificationResource(INDIVIDUAL_DATA);
 export const RLE_RESOURCE: PscVerificationResource = initPscVerificationResource(RLE_DATA);

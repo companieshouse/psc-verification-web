@@ -83,7 +83,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             const response = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, { psc_appointment_id: req.body.pscId });
         }
 
-        logger.debug(`IndividualPscListHandler.executePost no psc was selected`);
+        logger.debug(`IndividualPscListHandler.executePost exiting`);
     }
 
     private populatePscIndividualData (individualPscList: CompanyPersonWithSignificantControlResource[], selectedPscId: string, lang: string): IndividualPscData[] {
