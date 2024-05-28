@@ -9,7 +9,7 @@ export const fetchVerification = async (req: Request, res: Response, next: NextF
     if (transactionId && resourceId) {
         logger.debug(`Retrieving verification resourceID ${resourceId} ...`);
 
-        const response = await getPscVerification(req, transactionId, req.params.submissionId);
+        const response = await getPscVerification(req, transactionId, resourceId);
         // store the submission in the request.locals (per express SOP)
         res.locals.submission = response.resource;
     } else {

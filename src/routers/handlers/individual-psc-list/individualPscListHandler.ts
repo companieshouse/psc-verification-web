@@ -6,8 +6,6 @@ import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { CompanyPersonWithSignificantControlResource } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 import { getCompanyIndividualPscList } from "../../../services/companyPscService";
-import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
-import { getCompanyProfile } from "../../../services/companyProfileService";
 
 interface IndividualPscData {
     pscId: string | any;
@@ -31,9 +29,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const locales = getLocalesService();
         const verification = res.locals.submission;
         const companyNumber = verification?.data?.company_number as string;
-        // req.query.companyNumber = companyNumber;
-        // TODO: fetch with middleware!
-        const companyProfile: CompanyProfile = await getCompanyProfile(req, companyNumber);
+        const companyProfile = res.locals.companyProfile;
 
         let companyName: string = "";
         if (companyProfile) {

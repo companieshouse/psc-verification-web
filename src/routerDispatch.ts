@@ -4,6 +4,7 @@ import { Urls, servicePathPrefix } from "./constants";
 import { CompanyNumberRouter, ConfirmCompanyRouter, ConfirmRoStatementsRouter, IndividualPscListRouter, IndividualStatementRouter, NotADirectorRouter, PersonalCodeRouter, PscTypeRouter, PscVerifiedRouter, RleDetailsRouter, RleDirectorRouter, RlePscListRouter, RleVerifiedRouter, StartRouter } from "./routers/utils";
 import { authenticate } from "./middleware/authentication";
 import { fetchVerification } from "./middleware/fetchVerification";
+import { fetchCompany } from "./middleware/fetchCompany";
 
 const routerDispatch = (app: Application) => {
 
@@ -16,7 +17,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.COMPANY_NUMBER, authenticate, CompanyNumberRouter);
     router.use(Urls.CONFIRM_COMPANY, authenticate, ConfirmCompanyRouter);
     router.use(Urls.PSC_TYPE, authenticate, PscTypeRouter);
-    router.use(Urls.INDIVIDUAL_PSC_LIST, authenticate, fetchVerification, IndividualPscListRouter);
+    router.use(Urls.INDIVIDUAL_PSC_LIST, authenticate, fetchVerification, fetchCompany, IndividualPscListRouter);
     router.use(Urls.PERSONAL_CODE, authenticate, fetchVerification, PersonalCodeRouter);
     router.use(Urls.INDIVIDUAL_STATEMENT, authenticate, fetchVerification, IndividualStatementRouter);
     router.use(Urls.PSC_VERIFIED, authenticate, PscVerifiedRouter);
