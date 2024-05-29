@@ -33,7 +33,10 @@
                 text: title,
                 isPageHeading: true,
                 classes: "govuk-fieldset__legend--l"
-                }
+                },
+            attributes:{
+                "data-event-id": "confirmed-identity-verification-checkbox"
+             }
         },
         items: [
             {
@@ -46,7 +49,7 @@
 
         {{ govukButton({
             attributes: {
-                id: "submit", "data-event-id": "confirm-and-continue-button"
+                id: "submit", "data-event-id": "psc-statement-continue-button"
             },
             text: i18n.global_continue_button
             })
