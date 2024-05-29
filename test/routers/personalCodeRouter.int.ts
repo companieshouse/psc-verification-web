@@ -5,7 +5,6 @@ import request from "supertest";
 import app from "../../src/app";
 import { PrefixedUrls } from "../../src/constants";
 import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
-import { getPscVerification } from "../../src/services/pscVerificationService";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../mocks/psc.mock";
 
@@ -22,7 +21,6 @@ jest.mock("../../src/services/pscService", () => ({
         resource: PSC_INDIVIDUAL
     })
 }));
-const mockGetPscVerification = getPscVerification as jest.Mock;
 
 beforeEach(() => {
     jest.clearAllMocks();

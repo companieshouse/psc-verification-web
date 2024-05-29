@@ -1,7 +1,7 @@
 import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { NextFunction, Request, Response, Router } from "express";
-import { PrefixedUrls, SessionKeys, Urls } from "../constants";
+import { PrefixedUrls, SessionKeys } from "../constants";
 import { logger } from "../lib/logger";
 import { createPscVerification } from "../services/pscVerificationService";
 import { postTransaction } from "../services/transactionService";
@@ -10,17 +10,16 @@ import { selectLang } from "../utils/localise";
 import { addSearchParams } from "../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../utils/url";
 import { ConfirmCompanyHandler } from "./handlers/confirm-company/confirmCompany";
-import { authenticate } from "../middleware/authentication";
 
-const router: Router = Router();
+const router: Router = Router({ mergeParams: true });
 
-router.get(Urls.CONFIRM_COMPANY, authenticate, handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+router.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new ConfirmCompanyHandler();
     const { templatePath, viewData } = await handler.executeGet(req, res);
     res.render(templatePath, viewData);
 }));
 
-router.post(Urls.CONFIRM_COMPANY, authenticate, handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
 
     const transaction: Transaction = await postTransaction(req);
 
