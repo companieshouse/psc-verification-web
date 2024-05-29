@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrefixedUrls } from "../../../constants";
+import { PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
@@ -60,7 +60,9 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             currentUrl: `${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId)}?${queryParams}`,
             backURL: `${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, req.params.transactionId, req.params.submissionId)}?${queryParams}`,
             companyName,
-            pscIndividuals
+            pscIndividuals,
+            templateName: Urls.INDIVIDUAL_PSC_LIST,
+            backLinkDataEvent: "psc-list-back-link"
         };
     }
 
