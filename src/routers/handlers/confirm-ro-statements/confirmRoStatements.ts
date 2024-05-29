@@ -16,9 +16,9 @@ export class ConfirmRoStatementsHandler extends GenericHandler<RleListViewData> 
 
     private static templatePath = "router_views/confirmRoStatements/confirmRoStatements";
 
-    public async getViewData (req: Request): Promise<RleListViewData> {
+    public async getViewData (req: Request, res: Response): Promise<RleListViewData> {
 
-        const baseViewData = await super.getViewData(req);
+        const baseViewData = await super.getViewData(req, res);
 
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
@@ -32,12 +32,9 @@ export class ConfirmRoStatementsHandler extends GenericHandler<RleListViewData> 
         };
     }
 
-    public async executeGet (
-        req: Request,
-        _response: Response
-    ): Promise<ViewModel<RleListViewData>> {
+    public async executeGet (req: Request, res: Response): Promise<ViewModel<RleListViewData>> {
         logger.info(`ConfirmRoStatementsHandler execute called`);
-        const viewData = await this.getViewData(req);
+        const viewData = await this.getViewData(req, res);
 
         return {
             templatePath: ConfirmRoStatementsHandler.templatePath,

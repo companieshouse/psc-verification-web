@@ -59,6 +59,7 @@ describe("psc individual list tests", () => {
             .query({ lang: "en", pscType: "individual" })
             .expect(HttpStatusCode.Found)
             .expect("Location", expectedRedirectUrl);
+
     });
 
 });

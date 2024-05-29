@@ -1,21 +1,20 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { PrefixedUrls, Urls } from "../constants";
-import { authenticate } from "../middleware/authentication";
+import { PrefixedUrls } from "../constants";
 import { handleExceptions } from "../utils/asyncHandler";
 import { selectLang } from "../utils/localise";
 import { addSearchParams } from "../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../utils/url";
 import { IndividualStatementHandler } from "./handlers/individual-statement/individualStatement";
 
-const router: Router = Router();
+const router: Router = Router({ mergeParams: true });
 
-router.get(Urls.INDIVIDUAL_STATEMENT, authenticate, handleExceptions(async (req: Request, res: Response) => {
+router.get("/", handleExceptions(async (req: Request, res: Response) => {
     const handler = new IndividualStatementHandler();
     const { templatePath, viewData } = await handler.executeGet(req, res);
     res.render(templatePath, viewData);
 }));
 
-router.post(Urls.INDIVIDUAL_STATEMENT, authenticate, handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new IndividualStatementHandler();
     await handler.executePost(req, res);
 

@@ -9,8 +9,8 @@ export class StartHandler extends GenericHandler<BaseViewData> {
 
     public static templatePath = "router_views/start/start";
 
-    public async getViewData (req: Request): Promise<BaseViewData> {
-        const baseViewData = await super.getViewData(req);
+    public async getViewData (req: Request, res: Response): Promise<BaseViewData> {
+        const baseViewData = await super.getViewData(req, res);
         // adding language functionality
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
@@ -26,13 +26,13 @@ export class StartHandler extends GenericHandler<BaseViewData> {
         };
     }
 
-    public async execute (req: Request, _response: Response): Promise<ViewModel<BaseViewData>> {
+    public async execute (req: Request, res: Response): Promise<ViewModel<BaseViewData>> {
         logger.info(`GET request to serve start page`);
         // ...process request here and return data for the view
 
         return {
             templatePath: StartHandler.templatePath,
-            viewData: await this.getViewData(req)
+            viewData: await this.getViewData(req, res)
         };
     }
 };

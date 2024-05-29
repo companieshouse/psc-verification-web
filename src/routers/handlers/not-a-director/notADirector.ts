@@ -16,9 +16,9 @@ export class NotADirectorHandler extends GenericHandler<NotADirectorViewData> {
 
     private static templatePath = "router_views/not_a_director/not_a_director";
 
-    public async getViewData (req: Request): Promise<NotADirectorViewData> {
+    public async getViewData (req: Request, res: Response): Promise<NotADirectorViewData> {
 
-        const baseViewData = await super.getViewData(req);
+        const baseViewData = await super.getViewData(req, res);
 
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
@@ -32,12 +32,9 @@ export class NotADirectorHandler extends GenericHandler<NotADirectorViewData> {
         };
     }
 
-    public async executeGet (
-        req: Request,
-        _response: Response
-    ): Promise<ViewModel<NotADirectorViewData>> {
+    public async executeGet (req: Request, res: Response): Promise<ViewModel<NotADirectorViewData>> {
         logger.info(`NotADirectorHandler execute called`);
-        const viewData = await this.getViewData(req);
+        const viewData = await this.getViewData(req, res);
 
         return {
             templatePath: NotADirectorHandler.templatePath,

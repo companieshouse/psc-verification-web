@@ -2,12 +2,15 @@ import { HttpStatusCode } from "axios";
 import * as cheerio from "cheerio";
 import request from "supertest";
 import { URLSearchParams } from "url";
-import middlewareMocks from "../../../mocks/allMiddleware.mock";
-import app from "../../../../src/app";
+import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
+import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { INDIVIDUAL_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { getPscVerification } from "../../../../src/services/pscVerificationService";
+import app from "../../../../src/app";
+// import mockFetchVerificationMiddleware from "../../../mocks/fetchVerification.mock";
 
 jest.mock("../../../../src/services/pscVerificationService", () => ({
     getPscVerification: () => ({
@@ -22,14 +25,18 @@ jest.mock("../../../../src/services/pscService", () => ({
     })
 }));
 
+const mockGetPscVerification = getPscVerification as jest.Mock;
+
 describe("individual statement view", () => {
 
     beforeEach(() => {
-        middlewareMocks.mockSessionMiddleware.mockClear();
+        mockSessionMiddleware.mockClear();
+        mockAuthenticationMiddleware.mockClear();
     });
 
     afterEach(() => {
-        expect(middlewareMocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
+        expect(mockSessionMiddleware).toHaveBeenCalledTimes(1);
+        expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
         jest.clearAllMocks();
     });
 

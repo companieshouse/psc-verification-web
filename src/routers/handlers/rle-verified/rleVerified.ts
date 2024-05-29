@@ -16,9 +16,9 @@ export class RleVerifiedHandler extends GenericHandler<RleVerifiedViewData> {
 
     private static templatePath = "router_views/rle_verified/rleVerified";
 
-    public async getViewData (req: Request): Promise<RleVerifiedViewData> {
+    public async getViewData (req: Request, res: Response): Promise<RleVerifiedViewData> {
 
-        const baseViewData = await super.getViewData(req);
+        const baseViewData = await super.getViewData(req, res);
 
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
@@ -32,12 +32,9 @@ export class RleVerifiedHandler extends GenericHandler<RleVerifiedViewData> {
         };
     }
 
-    public async executeGet (
-        req: Request,
-        _response: Response
-    ): Promise<ViewModel<RleVerifiedViewData>> {
+    public async executeGet (req: Request, res: Response): Promise<ViewModel<RleVerifiedViewData>> {
         logger.info(`RleVerifiedHandler execute called`);
-        const viewData = await this.getViewData(req);
+        const viewData = await this.getViewData(req, res);
 
         return {
             templatePath: RleVerifiedHandler.templatePath,
