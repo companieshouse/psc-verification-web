@@ -6,7 +6,7 @@ import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { INDIVIDUAL_RESOURCE, PATCH_INDIVIDUAL_STATEMENT_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { VerificationStatement } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-import { getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
+import { patchPscVerification } from "../../../../src/services/pscVerificationService";
 
 jest.mock("../../../../src/services/pscVerificationService", () => ({
     getPscVerification: jest.fn(),
@@ -23,8 +23,6 @@ jest.mock("../../../../src/services/pscService", () => ({
     })
 }));
 
-const mockGetPscVerification = getPscVerification as jest.Mock;
-
 describe("Individual statement handler", () => {
     beforeEach(() => {
         middlewareMocks.mockSessionMiddleware.mockClear();
@@ -37,10 +35,6 @@ describe("Individual statement handler", () => {
     describe("executeGet", () => {
 
         it("should resolve correct view data", async () => {
-            mockGetPscVerification.mockResolvedValueOnce({
-                httpStatusCode: HttpStatusCode.Ok,
-                resource: INDIVIDUAL_RESOURCE
-            });
             const req = httpMocks.createRequest({
                 method: "GET",
                 url: Urls.PSC_VERIFIED,
@@ -52,7 +46,7 @@ describe("Individual statement handler", () => {
                     pscType: "individual"
                 }
             });
-            const res = httpMocks.createResponse();
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_RESOURCE } });
             const handler = new IndividualStatementHandler();
             const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
 
@@ -66,9 +60,6 @@ describe("Individual statement handler", () => {
                 dateOfBirth: "April 2000",
                 errors: {}
             });
-            expect(getPscVerification).toHaveBeenCalledTimes(1);
-            expect(getPscVerification).toHaveBeenCalledWith(req, TRANSACTION_ID, PSC_VERIFICATION_ID);
-
         });
     });
 
