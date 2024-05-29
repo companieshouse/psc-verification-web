@@ -1,56 +1,56 @@
-import { CompanyPersonsWithSignificantControlResource } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
+import { CompanyPersonsWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 
 export const COMPANY_NUMBER = "12345678";
 
-export const EMPTY_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControlResource = {
-    ceased_count: "0",
-    items_per_page: "0",
-    total_results: "0",
-    active_count: "0",
+export const EMPTY_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControl = {
+    ceasedCount: "0",
+    itemsPerPage: "0",
+    totalResults: "0",
+    activeCount: "0",
     links: {
         self: "company/123456/persons-with-significant-control"
     },
     items: []
 };
 
-export const VALID_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControlResource = {
-    ceased_count: "2",
-    items_per_page: "25",
-    total_results: "3",
-    active_count: "2",
+export const VALID_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControl = {
+    ceasedCount: "2",
+    itemsPerPage: "25",
+    totalResults: "3",
+    activeCount: "2",
     links: {
         self: "company/123456/persons-with-significant-control"
     },
     items: [
         {
-            natures_of_control: [
+            naturesOfControl: [
                 "ownership-of-shares-50-to-75-percent-as-trust",
                 "ownership-of-shares-50-to-75-percent",
                 "ownership-of-shares-25-to-50-percent-as-trust",
                 "ownership-of-shares-25-to-50-percent"
             ],
             kind: "corporate-entity-person-with-significant-control",
-            name_elements: {
+            nameElements: {
                 forename: "",
-                other_forenames: "",
+                otherForenames: "",
                 surname: "",
                 title: ""
             },
             name: "Racing Cars LTD",
-            notified_on: "2024-03-13",
+            notifiedOn: "2024-03-13",
             address: {
-                postal_code: "CF14 3UZ",
+                postalCode: "CF14 3UZ",
                 premises: "1",
                 locality: "Cardiff",
-                address_line_1: "34 Silver Street",
-                address_line_2: "Silverstone",
+                addressLine1: "34 Silver Street",
+                addressLine2: "Silverstone",
                 careOf: "Care of",
                 poBox: "Po Box",
                 region: "UK"
             },
-            country_of_residence: "Wales",
+            countryOfResidence: "Wales",
             nationality: "",
-            date_of_birth: {
+            dateOfBirth: {
                 year: "",
                 month: ""
             },
@@ -59,38 +59,38 @@ export const VALID_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControlResourc
             },
             etag: "0bc48abc08dec4a6d4dc4c4b895a87d131926cb2",
             identification: {
-                country_registered: "UK",
-                legal_authority: "Legal Authority",
-                legal_form: "Legal Form",
-                place_registered: "Wales",
-                registration_number: "123456"
+                countryRegistered: "UK",
+                legalAuthority: "Legal Authority",
+                legalForm: "Legal Form",
+                placeRegistered: "Wales",
+                registrationNumber: "123456"
             }
         },
         {
-            natures_of_control: [
+            naturesOfControl: [
                 "ownership-of-shares-25-to-50-percent-as-trust"
             ],
             kind: "individual-person-with-significant-control",
-            name_elements: {
+            nameElements: {
                 forename: "Jim",
                 surname: "Testerly",
                 title: "Mr"
             },
             name: "Mr Jim Testerly",
-            notified_on: "2024-03-13",
+            notifiedOn: "2024-03-13",
             nationality: "British",
             address: {
-                postal_code: "CF14 3UZ",
+                postalCode: "CF14 3UZ",
                 premises: "1",
                 locality: "Cardiff",
-                address_line_1: "34 Silver Street",
-                address_line_2: "Silverstone",
+                addressLine1: "34 Silver Street",
+                addressLine2: "Silverstone",
                 careOf: "Care of",
                 poBox: "Po Box",
                 region: "UK"
             },
-            country_of_residence: "Wales",
-            date_of_birth: {
+            countryOfResidence: "Wales",
+            dateOfBirth: {
                 year: "2024",
                 month: "1"
             },
@@ -100,32 +100,32 @@ export const VALID_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControlResourc
             etag: "223a177a441ad66021b14e22f1ed3e0060958761"
         },
         {
-            natures_of_control: [
+            naturesOfControl: [
                 "ownership-of-shares-25-to-50-percent-as-trust"
             ],
             kind: "individual-person-with-significant-control",
-            name_elements: {
+            nameElements: {
                 forename: "Test",
-                other_forenames: "Tester",
+                otherForenames: "Tester",
                 surname: "Testington",
                 title: "Mr"
             },
             name: "Mr Test Tester Testington",
-            notified_on: "2024-03-13",
+            notifiedOn: "2024-03-13",
             nationality: "British",
             address: {
-                postal_code: "CF14 3UZ",
+                postalCode: "CF14 3UZ",
                 premises: "1",
                 locality: "Cardiff",
-                address_line_1: "34 Silver Street",
-                address_line_2: "Silverstone",
+                addressLine1: "34 Silver Street",
+                addressLine2: "Silverstone",
                 careOf: "Care of",
                 poBox: "Po Box",
                 region: "UK"
             },
-            country_of_residence: "Wales",
-            ceased_on: "2024-03-13",
-            date_of_birth: {
+            countryOfResidence: "Wales",
+            ceasedOn: "2024-03-13",
+            dateOfBirth: {
                 year: "2024",
                 month: "1"
             },

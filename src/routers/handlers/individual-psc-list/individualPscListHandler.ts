@@ -4,7 +4,7 @@ import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
-import { CompanyPersonWithSignificantControlResource } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
+import { CompanyPersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 import { getCompanyIndividualPscList } from "../../../services/companyPscService";
 import { patchPscVerification } from "../../../services/pscVerificationService";
 
@@ -38,7 +38,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             companyName = companyProfile.companyName;
         }
 
-        let individualPscList: CompanyPersonWithSignificantControlResource[] = [];
+        let individualPscList: CompanyPersonWithSignificantControl[] = [];
         if (companyNumber) {
             individualPscList = await getCompanyIndividualPscList(req, companyNumber);
         }
@@ -80,18 +80,18 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         logger.debug(`IndividualPscListHandler.executePost exiting`);
     }
 
-    private populatePscIndividualData (individualPscList: CompanyPersonWithSignificantControlResource[], selectedPscId: string, lang: string): IndividualPscData[] {
+    private populatePscIndividualData (individualPscList: CompanyPersonWithSignificantControl[], selectedPscId: string, lang: string): IndividualPscData[] {
         const individualPscData: IndividualPscData[] = [];
 
         if (individualPscList) {
             for (let index = 0; index < individualPscList.length; index++) {
-                const element: any = individualPscList[index];
+                const element: CompanyPersonWithSignificantControl = individualPscList[index];
                 logger.debug(`individualPscListHandler: individualPscList element at index: ${index} = ${JSON.stringify(element)}`);
 
                 // Note the PSC appointment ID is retrieved from the "self" link as there is no "psc_appointment_id"
                 const pscId = element.links.self.split("/").pop();
                 logger.debug(`individualPscListHandler: retrieved pscId = ${JSON.stringify(pscId)}`);
-                const dob = new Date(element.dateOfBirth.year, element.dateOfBirth.month);
+                const dob = new Date(parseInt(element.dateOfBirth.year), parseInt(element.dateOfBirth.month));
                 const formatter = new Intl.DateTimeFormat(lang, { month: "long" });
                 const monthAsString = formatter.format(dob);
 

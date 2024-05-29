@@ -1,4 +1,4 @@
-import { CompanyPersonsWithSignificantControlResource } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
+import { CompanyPersonsWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Session } from "@companieshouse/node-session-handler";
 import { HttpStatusCode } from "axios";
@@ -27,16 +27,16 @@ describe("companyPscService", () => {
     });
 
     it("getCompanyPscList should return 200 OK HttpStatus response", async () => {
-        const mockResponse: ApiResponse<CompanyPersonsWithSignificantControlResource> = {
+        const mockResponse: ApiResponse<CompanyPersonsWithSignificantControl> = {
             httpStatusCode: HttpStatusCode.Ok,
             resource: VALID_COMPANY_PSC_LIST
         };
-        mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControlResource>);
+        mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControl>);
         const request = {} as Request;
 
         const response = await getCompanyPscList(request, COMPANY_NUMBER);
 
-        const resource = response.resource as CompanyPersonsWithSignificantControlResource;
+        const resource = response.resource as CompanyPersonsWithSignificantControl;
         expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
         expect(resource).toEqual(VALID_COMPANY_PSC_LIST);
         expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
@@ -45,10 +45,10 @@ describe("companyPscService", () => {
 
     });
     it("getCompanyPscList should throw an error if HttpStatus is not 200 OK", async () => {
-        const mockResponse: ApiResponse<CompanyPersonsWithSignificantControlResource> = {
+        const mockResponse: ApiResponse<CompanyPersonsWithSignificantControl> = {
             httpStatusCode: HttpStatusCode.ServiceUnavailable
         };
-        mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControlResource>);
+        mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControl>);
         const request = {} as Request;
 
         try {
@@ -59,10 +59,10 @@ describe("companyPscService", () => {
         }
     });
     it("getCompanyPscList should throw an error if no resource is returned", async () => {
-        const mockResponse: ApiResponse<CompanyPersonsWithSignificantControlResource> = {
+        const mockResponse: ApiResponse<CompanyPersonsWithSignificantControl> = {
             httpStatusCode: HttpStatusCode.Ok
         };
-        mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControlResource>);
+        mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControl>);
         const request = {} as Request;
         try {
             await getCompanyPscList(request, COMPANY_NUMBER);
@@ -72,11 +72,11 @@ describe("companyPscService", () => {
         }
     });
     it("getCompanyIndividualPscList should return only individual pscs", async () => {
-        const mockResponse: ApiResponse<CompanyPersonsWithSignificantControlResource> = {
+        const mockResponse: ApiResponse<CompanyPersonsWithSignificantControl> = {
             httpStatusCode: HttpStatusCode.Ok,
             resource: VALID_COMPANY_PSC_LIST
         };
-        mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControlResource>);
+        mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControl>);
         const request = {} as Request;
 
         const individualPscList = await getCompanyIndividualPscList(request, COMPANY_NUMBER);
@@ -87,11 +87,11 @@ describe("companyPscService", () => {
         });
     });
     it("getCompanyIndividualPscList should return an empty list if no individual pscs exist for the company", async () => {
-        const mockResponse: ApiResponse<CompanyPersonsWithSignificantControlResource> = {
+        const mockResponse: ApiResponse<CompanyPersonsWithSignificantControl> = {
             httpStatusCode: HttpStatusCode.Ok,
             resource: EMPTY_COMPANY_PSC_LIST
         };
-        mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControlResource>);
+        mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControl>);
         const request = {} as Request;
 
         const individualPscList = await getCompanyIndividualPscList(request, COMPANY_NUMBER);
