@@ -13,7 +13,6 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
 router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new PscTypeHandler();
     const params = await handler.execute(req, res);
-    // console.log(params);
     if (!Object.keys(params.viewData.errors).length) {
         res.redirect(params.viewData.nextPageUrl);
     } else {
