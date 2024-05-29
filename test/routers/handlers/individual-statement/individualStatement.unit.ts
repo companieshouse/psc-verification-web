@@ -84,6 +84,7 @@ describe("Individual statement handler", () => {
 
             const resp = await handler.executePost(req, res);
 
+            expect(patchPscVerification).toHaveBeenCalledTimes(1);
             expect(patchPscVerification).toHaveBeenCalledWith(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_STATEMENT_DATA);
         });
     });
