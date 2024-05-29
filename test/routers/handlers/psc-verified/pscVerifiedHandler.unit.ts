@@ -20,14 +20,9 @@ mockGetPscIndividual.mockResolvedValue({
 
 jest.mock("../../../../src/services/pscVerificationService");
 const mockGetPscVerification = getPscVerification as jest.Mock;
-mockGetPscVerification.mockResolvedValue({
-    httpStatusCode: HttpStatusCode.Ok,
-    resource: INDIVIDUAL_RESOURCE
-});
 
 jest.mock("../../../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
-mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 
 jest.mock("../../../../src/services/transactionService", () => ({
     closeTransaction: jest.fn()
@@ -59,14 +54,14 @@ describe("PSC Verified handler", () => {
                     pscType: "individual"
                 }
             });
-            const response = httpMocks.createResponse();
+            const response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_RESOURCE, companyProfile: validCompanyProfile } });
             const handler = new PscVerifiedHandler();
             const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
 
             const resp = await handler.executeGet(request, response);
             const viewData = resp.viewData;
             expect(resp.templatePath).toBe("router_views/pscVerified/pscVerified");
-            expect(resp.viewData).toMatchObject({
+            expect(viewData).toMatchObject({
                 currentUrl: `${expectedPrefix}/psc-verified?lang=en`,
                 companyNumber: COMPANY_NUMBER,
                 companyName: "Test Company",
@@ -74,10 +69,13 @@ describe("PSC Verified handler", () => {
                 referenceNumber: TRANSACTION_ID,
                 errors: {}
             });
-            expect(mockGetPscVerification).toHaveBeenCalledWith(request, TRANSACTION_ID, PSC_VERIFICATION_ID);
+            expect(mockGetPscVerification).not.toHaveBeenCalled();
+            expect(mockGetCompanyProfile).not.toHaveBeenCalled();
+            expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
             expect(mockGetPscIndividual).toHaveBeenCalledWith(request, COMPANY_NUMBER, PSC_VERIFICATION_ID);
-            expect(mockGetCompanyProfile).toHaveBeenCalledWith(request, COMPANY_NUMBER);
+            expect(mockCloseTransaction).toHaveBeenCalledTimes(1);
             expect(mockCloseTransaction).toHaveBeenCalledWith(request, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
         });
     });
 });

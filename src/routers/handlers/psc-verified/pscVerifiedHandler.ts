@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { getPscIndividual } from "../../../services/pscService";
-import { getPscVerification } from "../../../services/pscVerificationService";
-import { getCompanyProfile } from "../../../services/companyProfileService";
 import { closeTransaction } from "../../../services/transactionService";
 import { ExternalUrls, PrefixedUrls } from "../../../constants";
 import { logger } from "../../../lib/logger";
@@ -30,10 +28,11 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         const locales = getLocalesService();
         const transactionId = req.params.transactionId;
         const submissionId = req.params.submissionId;
-        const verificationResponse = await getPscVerification(req, transactionId, submissionId);
-        const companyNumber = verificationResponse.resource?.data.company_number as string;
-        const pscAppointmentId = verificationResponse.resource?.data.psc_appointment_id as string;
-        const [pscDetailsResponse, companyProfile] = await Promise.all([getPscIndividual(req, companyNumber, pscAppointmentId), getCompanyProfile(req, companyNumber)]);
+        const verification = res.locals.submission;
+        const companyNumber = verification?.data?.company_number as string;
+        const companyProfile = res.locals.companyProfile;
+        const pscAppointmentId = verification?.data.psc_appointment_id as string;
+        const pscDetailsResponse = await getPscIndividual(req, companyNumber, pscAppointmentId);
         const companyName = companyProfile.companyName as string;
         const forward = decodeURI(addSearchParams(ExternalUrls.COMPANY_LOOKUP_FORWARD, { companyNumber: "{companyNumber}", lang }));
 

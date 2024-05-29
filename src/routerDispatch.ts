@@ -20,7 +20,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.INDIVIDUAL_PSC_LIST, authenticate, fetchVerification, fetchCompany, IndividualPscListRouter);
     router.use(Urls.PERSONAL_CODE, authenticate, fetchVerification, PersonalCodeRouter);
     router.use(Urls.INDIVIDUAL_STATEMENT, authenticate, fetchVerification, IndividualStatementRouter);
-    router.use(Urls.PSC_VERIFIED, authenticate, PscVerifiedRouter);
+    router.use(Urls.PSC_VERIFIED, authenticate, fetchVerification, fetchCompany, PscVerifiedRouter);
     router.use(Urls.RLE_LIST, authenticate, RlePscListRouter);
     router.use(Urls.RLE_DETAILS, authenticate, RleDetailsRouter);
     router.use(Urls.RLE_DIRECTOR, authenticate, RleDirectorRouter);
