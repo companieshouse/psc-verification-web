@@ -15,9 +15,11 @@ router.get("/", handleExceptions(async (req: Request, res: Response) => {
 }));
 
 router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
-    const lang = selectLang(req.body.lang);
+    const handler = new PersonalCodeHandler();
+    await handler.executePost(req, res);
 
     const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, req.params.transactionId, req.params.submissionId);
+    const lang = selectLang(req.body.lang);
     res.redirect(addSearchParams(nextPageUrl, { lang }));
 }));
 
