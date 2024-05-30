@@ -52,7 +52,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         };
     }
 
-    public async executePost (req: Request, _response: Response) {
+    public async executePost (req: Request, res: Response) {
         const uvid = req.body.personalCode;
         const verification: PscVerification = {
             verification_details: {
