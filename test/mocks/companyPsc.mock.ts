@@ -13,6 +13,121 @@ export const EMPTY_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControl = {
     items: []
 };
 
+export const VALID_COMPANY_PSC_ITEMS = [
+    {
+        naturesOfControl: [
+            "ownership-of-shares-50-to-75-percent-as-trust",
+            "ownership-of-shares-50-to-75-percent",
+            "ownership-of-shares-25-to-50-percent-as-trust",
+            "ownership-of-shares-25-to-50-percent"
+        ],
+        kind: "corporate-entity-person-with-significant-control",
+        nameElements: {
+            forename: "",
+            otherForenames: "",
+            surname: "",
+            title: ""
+        },
+        name: "Racing Cars LTD",
+        notifiedOn: "2024-03-13",
+        address: {
+            postalCode: "CF14 3UZ",
+            premises: "1",
+            locality: "Cardiff",
+            addressLine1: "34 Silver Street",
+            addressLine2: "Silverstone",
+            careOf: "Care of",
+            poBox: "Po Box",
+            region: "UK"
+        },
+        countryOfResidence: "Wales",
+        nationality: "",
+        dateOfBirth: {
+            year: "",
+            month: ""
+        },
+        links: {
+            self: "/company/32518264/persons-with-significant-control/corporate-entity/NTgxNTQxMDg5NkVNUVI4QVdZ"
+        },
+        etag: "0bc48abc08dec4a6d4dc4c4b895a87d131926cb2",
+        identification: {
+            countryRegistered: "UK",
+            legalAuthority: "Legal Authority",
+            legalForm: "Legal Form",
+            placeRegistered: "Wales",
+            registrationNumber: "123456"
+        }
+    },
+    {
+        naturesOfControl: [
+            "ownership-of-shares-25-to-50-percent-as-trust"
+        ],
+        kind: "individual-person-with-significant-control",
+        nameElements: {
+            forename: "Jim",
+            surname: "Testerly",
+            title: "Mr"
+        },
+        name: "Mr Jim Testerly",
+        notifiedOn: "2024-03-13",
+        nationality: "British",
+        address: {
+            postalCode: "CF14 3UZ",
+            premises: "1",
+            locality: "Cardiff",
+            addressLine1: "34 Silver Street",
+            addressLine2: "Silverstone",
+            careOf: "Care of",
+            poBox: "Po Box",
+            region: "UK"
+        },
+        countryOfResidence: "Wales",
+        dateOfBirth: {
+            year: "1970",
+            month: "1"
+        },
+        links: {
+            self: "/company/123456/persons-with-significant-control/individual/Nzc2MDM0MzIyNlc3RktGR0I4"
+        },
+        etag: "223a177a441ad66021b14e22f1ed3e0060958761"
+    },
+    {
+        naturesOfControl: [
+            "ownership-of-shares-25-to-50-percent-as-trust"
+        ],
+        kind: "individual-person-with-significant-control",
+        nameElements: {
+            forename: "Test",
+            otherForenames: "Tester",
+            surname: "Testington",
+            title: "Mr"
+        },
+        name: "Mr Test Tester Testington",
+        notifiedOn: "2024-03-13",
+        nationality: "British",
+        address: {
+            postalCode: "CF14 3UZ",
+            premises: "1",
+            locality: "Cardiff",
+            addressLine1: "34 Silver Street",
+            addressLine2: "Silverstone",
+            careOf: "Care of",
+            poBox: "Po Box",
+            region: "UK"
+        },
+        countryOfResidence: "Wales",
+        ceasedOn: "2024-03-13",
+        dateOfBirth: {
+            year: "1997",
+            month: "12"
+        },
+        links: {
+            self: "/company/123456/persons-with-significant-control/individual/Nzc2MDM0MzIyNlc3RktGR0I5"
+        },
+        etag: "223a177a441ad66021b14e22f1ed3e0060958762"
+    }
+];
+
 export const VALID_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControl = {
     ceasedCount: "2",
     itemsPerPage: "25",
@@ -21,118 +136,5 @@ export const VALID_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControl = {
     links: {
         self: "company/123456/persons-with-significant-control"
     },
-    items: [
-        {
-            naturesOfControl: [
-                "ownership-of-shares-50-to-75-percent-as-trust",
-                "ownership-of-shares-50-to-75-percent",
-                "ownership-of-shares-25-to-50-percent-as-trust",
-                "ownership-of-shares-25-to-50-percent"
-            ],
-            kind: "corporate-entity-person-with-significant-control",
-            nameElements: {
-                forename: "",
-                otherForenames: "",
-                surname: "",
-                title: ""
-            },
-            name: "Racing Cars LTD",
-            notifiedOn: "2024-03-13",
-            address: {
-                postalCode: "CF14 3UZ",
-                premises: "1",
-                locality: "Cardiff",
-                addressLine1: "34 Silver Street",
-                addressLine2: "Silverstone",
-                careOf: "Care of",
-                poBox: "Po Box",
-                region: "UK"
-            },
-            countryOfResidence: "Wales",
-            nationality: "",
-            dateOfBirth: {
-                year: "",
-                month: ""
-            },
-            links: {
-                self: "/company/32518264/persons-with-significant-control/corporate-entity/NTgxNTQxMDg5NkVNUVI4QVdZ"
-            },
-            etag: "0bc48abc08dec4a6d4dc4c4b895a87d131926cb2",
-            identification: {
-                countryRegistered: "UK",
-                legalAuthority: "Legal Authority",
-                legalForm: "Legal Form",
-                placeRegistered: "Wales",
-                registrationNumber: "123456"
-            }
-        },
-        {
-            naturesOfControl: [
-                "ownership-of-shares-25-to-50-percent-as-trust"
-            ],
-            kind: "individual-person-with-significant-control",
-            nameElements: {
-                forename: "Jim",
-                surname: "Testerly",
-                title: "Mr"
-            },
-            name: "Mr Jim Testerly",
-            notifiedOn: "2024-03-13",
-            nationality: "British",
-            address: {
-                postalCode: "CF14 3UZ",
-                premises: "1",
-                locality: "Cardiff",
-                addressLine1: "34 Silver Street",
-                addressLine2: "Silverstone",
-                careOf: "Care of",
-                poBox: "Po Box",
-                region: "UK"
-            },
-            countryOfResidence: "Wales",
-            dateOfBirth: {
-                year: "2024",
-                month: "1"
-            },
-            links: {
-                self: "/company/123456/persons-with-significant-control/individual/Nzc2MDM0MzIyNlc3RktGR0I4"
-            },
-            etag: "223a177a441ad66021b14e22f1ed3e0060958761"
-        },
-        {
-            naturesOfControl: [
-                "ownership-of-shares-25-to-50-percent-as-trust"
-            ],
-            kind: "individual-person-with-significant-control",
-            nameElements: {
-                forename: "Test",
-                otherForenames: "Tester",
-                surname: "Testington",
-                title: "Mr"
-            },
-            name: "Mr Test Tester Testington",
-            notifiedOn: "2024-03-13",
-            nationality: "British",
-            address: {
-                postalCode: "CF14 3UZ",
-                premises: "1",
-                locality: "Cardiff",
-                addressLine1: "34 Silver Street",
-                addressLine2: "Silverstone",
-                careOf: "Care of",
-                poBox: "Po Box",
-                region: "UK"
-            },
-            countryOfResidence: "Wales",
-            ceasedOn: "2024-03-13",
-            dateOfBirth: {
-                year: "2024",
-                month: "1"
-            },
-            links: {
-                self: "/company/123456/persons-with-significant-control/individual/Nzc2MDM0MzIyNlc3RktGR0I5"
-            },
-            etag: "223a177a441ad66021b14e22f1ed3e0060958762"
-        }
-    ]
+    items: VALID_COMPANY_PSC_ITEMS
 };

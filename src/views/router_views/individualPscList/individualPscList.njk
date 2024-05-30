@@ -1,35 +1,28 @@
 {% extends "layouts/default.njk" %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% block main_content %}
 
     <form action="" method="post">
         <div class="govuk-form-group">
-            <fieldset class="govuk-fieldset" aria-describedby="pscIndividualList-hint">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                    {{ i18n.individual_psc_list_main_title }}
-                </legend>
-                <div id="pscIndividualList-hint" class="govuk-hint">
-                    {{ i18n.individual_psc_list_hint_1 }}
-                    {{companyName}}
-                    {{ i18n.individual_psc_list_hint_2 }}
-                </div>
-                <div class="govuk-radios example-class" data-module="govuk-radios">
-                    {% for pscIndividual in pscIndividuals %}
-                        <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="{{pscIndividual.pscId}}" name="pscId" type="radio" value={{pscIndividual.pscId}} aria-describedby="pscIndividualList-item-hint" 
-                                {% if pscIndividual.pscId == pscIndividual.selectedPscId %}
-                                    checked="true"
-                                {% endif %}>
-                            <label class="govuk-label govuk-radios__label" for="pscIndividualList">
-                                {{ pscIndividual.name }}
-                            </label>
-                            <div id="pscIndividualList-item-hint" class="govuk-hint govuk-radios__hint">
-                                {{ i18n.individual_psc_list_born_in }} {{ pscIndividual.dob.month }} {{ pscIndividual.dob.year }}
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </fieldset>
+            {{ govukRadios({
+                classes: "govuk-radios",
+                id: "psc-individual-radios",
+                name: "pscSelect",
+                fieldset: {
+                    legend: {
+                        text: i18n.individual_psc_list_main_title,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                hint: {
+                    text: [i18n.individual_psc_list_hint_1, companyName, i18n.individual_psc_list_hint_2] | join(" ")
+                },
+                items: pscRadioItems,
+                value: selectedPscId
+            })
+            }}
         </div>
         <button class="govuk-button" data-module="govuk-button" id="submit" data-event-id="confirm-and-continue-button">
             {{ i18n.global_continue_button }}
