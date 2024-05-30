@@ -39,12 +39,11 @@ describe("new submission handler tests", () => {
     });
 
     it("Should redirect with a temporary redirect status code", async () => {
-        const response = await request(app).get(createNewSubmissionUrl);
-        expect(response.status).toBe(302);
+        const response = await request(app).get(createNewSubmissionUrl).expect(HttpStatusCode.Found);
     });
 
     it("Should redirect to the psc_type screen", async () => {
-        const response = await request(app).get(createNewSubmissionUrl);
-        expect(response.header.location).toBe(`/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/psc-type?lang=en`);
+        const expectedRedirectUrl = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/psc-type?lang=en`;
+        const response = await request(app).get(createNewSubmissionUrl).expect("Location", expectedRedirectUrl);
     });
 });
