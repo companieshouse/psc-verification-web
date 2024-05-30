@@ -17,7 +17,7 @@ export class PscVerificationFormsValidator extends GenericValidator {
             // validate additional form fields here
 
             if (!Object.keys(this.errors.stack).length) {
-                return Promise.resolve(this.errors.stack);
+                return Promise.resolve({});
             } else {
                 return Promise.reject(this.errors);
             }
