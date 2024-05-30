@@ -28,14 +28,14 @@ export class PscVerificationFormsValidator extends GenericValidator {
     }
 
     validateRleVerificationStatus (payload: any): Promise<any> {
-        return Promise.resolve(true);
+        return Promise.resolve({});
     }
 
     validateRelevantOfficerDetails (payload: any): Promise<any> {
-        return Promise.resolve(true);
+        return Promise.resolve({});
     }
 
     validateRelevantOfficerConfirmationStatements (payload: any): Promise<any> {
-        return Promise.resolve(true);
+        return Promise.resolve({});
     }
 };
