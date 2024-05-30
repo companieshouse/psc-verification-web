@@ -11,6 +11,8 @@ import {
 } from "../generic";
 import { getPscIndividualDetails } from "../utils/pscIndividual";
 import { formatDateBorn } from "../../utils";
+import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { patchPscVerification } from "../../../services/pscVerificationService";
 
 interface PersonalCodeViewData extends BaseViewData {
     pscName: string,
@@ -50,4 +52,13 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         };
     }
 
+    public async executePost (req: Request, _response: Response) {
+        const uvid = req.body.personalCode;
+        const verification: PscVerification = {
+            verification_details: {
+                uvid: uvid
+            }
+        };
+        const resource = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
+    }
 }
