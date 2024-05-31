@@ -2,8 +2,8 @@ import { HttpStatusCode } from "axios";
 import { INDIVIDUAL_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import * as httpMocks from "node-mocks-http";
 import { PrefixedUrls } from "../../src/constants";
-import { fetchVerification } from "../../src/middleware/fetchVerification";
 import { getPscVerification } from "../../src/services/pscVerificationService";
+import { fetchVerification } from "../../src/middleware/fetchVerification";
 
 jest.mock("../../src/services/pscVerificationService");
 const mockGetPscVerification = getPscVerification as jest.Mock;
