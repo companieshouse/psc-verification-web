@@ -31,6 +31,12 @@ export const PATCH_INDIVIDUAL_DATA: PscVerification = {
     }
 };
 
+export const PATCH_INDIVIDUAL_STATEMENT_DATA: PscVerification = {
+    verification_details: {
+        verification_statements: [VerificationStatement.INDIVIDUAL_VERIFIED]
+    }
+};
+
 export const PATCHED_INDIVIDUAL_DATA: PscVerification = {
     company_number: COMPANY_NUMBER,
     psc_appointment_id: PSC_VERIFICATION_ID,

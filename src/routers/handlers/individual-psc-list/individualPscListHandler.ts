@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrefixedUrls } from "../../../constants";
+import { PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
@@ -18,9 +18,10 @@ interface IndividualPscData {
 interface RadioButtonData {
     text: string,
     value: string,
+    attributes: { [attr: string]: string},
     hint?: {
         text: string
-    }
+    },
 }
 interface IndividualPscListViewData extends BaseViewData {
     companyName: string,
@@ -63,7 +64,9 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             backURL: `${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, req.params.transactionId, req.params.submissionId)}?${queryParams}`,
             companyName,
             pscRadioItems: this.getPscIndividualRadioItems(individualPscList, lang),
-            selectedPscId
+            selectedPscId,
+            templateName: Urls.INDIVIDUAL_PSC_LIST,
+            backLinkDataEvent: "psc-list-back-link"
         };
     }
 
@@ -98,6 +101,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             return {
                 value: psc.links.self.split("/").pop() as string,
                 text: psc.name,
+                attributes: { "data-event-id": "selected-PSC-radio-option" },
                 hint: hintText ? {
                     text: hintText
                 } : undefined
