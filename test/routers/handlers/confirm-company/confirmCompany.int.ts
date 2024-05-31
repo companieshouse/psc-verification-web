@@ -1,27 +1,16 @@
-import { HttpStatusCode } from "axios";
 import request from "supertest";
 import * as cheerio from "cheerio";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
-import { postTransaction } from "../../../../src/services/transactionService";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
-import { CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
-
-jest.mock("../../../../src/services/companyProfileService");
-jest.mock("../../../../src/services/transactionService");
-jest.mock("../../../../src/services/pscVerificationService", () => ({
-    createPscVerification: () => ({
-        httpStatusCode: HttpStatusCode.Created,
-        resource: CREATED_RESOURCE
-    })
-}));
 
 const COMPANY_NUMBER = "12345678";
+
+jest.mock("../../../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
 mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
-const mockPostTransaction = postTransaction as jest.Mock;
 
 describe("confirm company tests", () => {
 
@@ -57,18 +46,5 @@ describe("confirm company tests", () => {
 
         const $ = cheerio.load(resp.text);
         expect($("a#select-different-company").attr("href")).toBe("/persons-with-significant-control-verification/company-number?lang=en");
-    });
-
-    it("Should create a transaction and redirect", async () => {
-        mockPostTransaction.mockReturnValueOnce({ id: TRANSACTION_ID });
-        const expectedRedirectUrl = `${PrefixedUrls.PSC_TYPE.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?lang=en`;
-
-        await request(app)
-            .post(PrefixedUrls.CONFIRM_COMPANY)
-            .query({ companyNumber: COMPANY_NUMBER })
-            .expect(HttpStatusCode.Found)
-            .expect("Location", expectedRedirectUrl);
-
-        expect(mockPostTransaction).toHaveBeenCalled();
     });
 });

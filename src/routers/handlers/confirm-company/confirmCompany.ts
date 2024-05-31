@@ -53,4 +53,11 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
             viewData
         };
     }
+
+    public async executePost (req: Request, res: Response) {
+
+        const companyNumber = req.query.companyNumber as string;
+        const lang = selectLang(req.body.lang);
+        return addSearchParams(PrefixedUrls.PSC_TYPE, { companyNumber, lang }); // TODO change this to PrefixedUrls.NEW_SUBMISSION once my pr is approved!!
+    }
 }
