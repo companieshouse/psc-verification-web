@@ -16,7 +16,7 @@
                 <div class="govuk-radios example-class" data-module="govuk-radios">
                     {% for pscIndividual in pscIndividuals %}
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="{{pscIndividual.pscId}}" name="pscId" type="radio" value={{pscIndividual.pscId}} aria-describedby="pscIndividualList-item-hint">
+                            <input class="govuk-radios__input" id="{{pscIndividual.pscId}}" name="pscId" type="radio" value={{pscIndividual.pscId}} aria-describedby="pscIndividualList-item-hint" data-event-id="selected-PSC-radio-option">
                             <label class="govuk-label govuk-radios__label" for="pscIndividualList">
                                 {{ pscIndividual.name }}
                             </label>
@@ -28,7 +28,7 @@
                 </div>
             </fieldset>
         </div>
-        <button class="govuk-button" data-module="govuk-button" id="submit" data-event-id="confirm-and-continue-button">
+        <button class="govuk-button" data-module="govuk-button" id="submit" data-event-id="psc-list-continue-button">
             {{ i18n.global_continue_button }}
         </button>
     </form>
