@@ -5,6 +5,7 @@ import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
+import { HttpStatusCode } from "axios";
 
 const COMPANY_NUMBER = "12345678";
 
@@ -46,5 +47,16 @@ describe("confirm company tests", () => {
 
         const $ = cheerio.load(resp.text);
         expect($("a#select-different-company").attr("href")).toBe("/persons-with-significant-control-verification/company-number?lang=en");
+    });
+
+    it("Should redirect to the new submission router with a temporary redirect status code", async () => {
+        const lang = "en";
+        const expectedRedirectUrl = `/persons-with-significant-control-verification/new-submission?companyNumber=${COMPANY_NUMBER}&lang=${lang}`;
+
+        await request(app)
+            .post(PrefixedUrls.CONFIRM_COMPANY)
+            .send({ lang: "en", companyNumber: `${COMPANY_NUMBER}` })
+            .expect(HttpStatusCode.Found)
+            .expect("Location", expectedRedirectUrl);
     });
 });

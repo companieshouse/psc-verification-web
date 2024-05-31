@@ -44,7 +44,7 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<ConfirmCompanyViewData>> {
-        logger.info(`ConfirmCompanyHandler execute called`);
+        logger.info(`ConfirmCompanyHandler executeGet called`);
 
         const viewData = await this.getViewData(req, res);
 
@@ -55,9 +55,10 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
     }
 
     public async executePost (req: Request, res: Response) {
-
-        const companyNumber = req.query.companyNumber as string;
+        logger.info(`ConfirmCompanyHandler executePost called`);
+        const companyNumber = req.body.companyNumber as string;
         const lang = selectLang(req.body.lang);
-        return addSearchParams(PrefixedUrls.PSC_TYPE, { companyNumber, lang }); // TODO change this to PrefixedUrls.NEW_SUBMISSION once my pr is approved!!
+        // return the url for createNewSubmission route
+        return addSearchParams(PrefixedUrls.NEW_SUBMISSION, { companyNumber, lang });
     }
 }

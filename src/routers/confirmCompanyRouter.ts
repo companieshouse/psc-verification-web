@@ -12,8 +12,8 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
 
 router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new ConfirmCompanyHandler();
-    const createNewSubmissionUrl = await handler.executePost(req, res);
-    res.redirect(createNewSubmissionUrl);
+    const redirectUrl = await handler.executePost(req, res);
+    res.redirect(redirectUrl);
 }));
 
 export default router;
