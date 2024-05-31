@@ -1,5 +1,3 @@
-// import { Resource } from "@companieshouse/api-sdk-node";
-// import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { HttpStatusCode } from "axios";
 import request from "supertest";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";

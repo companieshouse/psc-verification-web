@@ -37,9 +37,7 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
     public async createNewSubmission (request: Request, transaction: Transaction): Promise<Resource<PscVerificationResource>> {
         const companyNumber = request.query.companyNumber as string;
         const verification: PscVerification = {
-            company_number: companyNumber,
-            // TODO hardcoded value, remove when PSC Id is selected from the List screen
-            psc_appointment_id: "1kdaTltWeaP1EB70SSD9SLmiK5Y"
+            company_number: companyNumber
         };
         return await createPscVerification(request, transaction, verification);
     }
