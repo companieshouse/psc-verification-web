@@ -44,7 +44,8 @@ export const env = readEnv(process.env, {
         .describe("Link for the user to give feedback on the service")
         .default(""),
     IDV_PSC_IMPLEMENTATION_DATE: str
-        .describe("Date when IDV comes into effect for PSCs"),
+        .describe("Date when IDV comes into effect for PSCs")
+        .default(""),
     LOCALES_ENABLED: str
         .describe("feature flag that toggles localisation behaviour")
         .default("false"),
@@ -136,4 +137,5 @@ export const env = readEnv(process.env, {
     PORT: port.describe("Port to run the web server on").default(3000),
     SIGNIN_PATH: str
         .describe("Path to direct to Account service")
+        .default("")
 });
