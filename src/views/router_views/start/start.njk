@@ -21,7 +21,7 @@
 
         <p class="govuk-body">
             {{ i18n.start_service_new_pscs }}
-            <a href="{{ CHS_URL }}" title="{{ i18n.start_service_ch_link }}" class="govuk-link" data-event-id="when-to-verify-link">{{ i18n.start_service_ch_link}}</a>
+            <a href="{{ chsUrl }}" title="{{ i18n.start_service_ch_link }}" class="govuk-link" data-event-id="when-to-verify-link">{{ i18n.start_service_ch_link}}</a>
             {{ i18n.start_service_new_pscs_end }}
         </p>
         <p class="govuk-body">{{ i18n.start_service_restriction_description }}</p>
@@ -53,23 +53,23 @@
             }) }}
 
         <h2 class="govuk-heading-m">{{ i18n.start_when_to_verify_heading }}</h2>
-        <p class="govuk-body">{{ i18n.start_when_to_verify_description }}{{ IDV_PSC_IMPLEMENTATION_DATE }}</p>
+        <p class="govuk-body">{{ i18n.start_when_to_verify_description }}{{ idvImplementationDate }}</p>
         <p class="govuk-body">{{ i18n.start_when_to_verify_not_early }}</p>
 
-        <h3 class="govuk-heading-2">{{ i18n.start_when_individual_heading }}</h3>
+        <h3 class="govuk-heading-s">{{ i18n.start_when_individual_heading }}</h3>
         <p class="govuk-body">
-            {{ i18n.start_when_individual_before_date_1 }}{{ IDV_PSC_IMPLEMENTATION_DATE }}{{ i18n.start_when_individual_before_date_2 }}
+            {{ i18n.start_when_individual_before_date_1 }}{{ idvImplementationDate }}{{ i18n.start_when_individual_before_date_2 }}
         </p>
         <p class="govuk-body">
-            {{ i18n.start_when_individual_after_date_1 }}{{ IDV_PSC_IMPLEMENTATION_DATE }}{{ i18n.start_when_individual_after_date_2 }}
+            {{ i18n.start_when_individual_after_date_1 }}{{ idvImplementationDate }}{{ i18n.start_when_individual_after_date_2 }}
         </p>
 
-        <h3 class="govuk-heading-2">{{ i18n.start_when_rle_heading }}</h3>
+        <h3 class="govuk-heading-s">{{ i18n.start_when_rle_heading }}</h3>
         <p class="govuk-body">
-            {{ i18n.start_when_rle_before_date_1 }}{{ IDV_PSC_IMPLEMENTATION_DATE }}{{ i18n.start_when_rle_before_date_2 }}
+            {{ i18n.start_when_rle_before_date_1 }}{{ idvImplementationDate }}{{ i18n.start_when_rle_before_date_2 }}
         </p>
         <p class="govuk-body">
-            {{ i18n.start_when_rle_after_date_1 }}{{ IDV_PSC_IMPLEMENTATION_DATE }}{{ i18n.start_when_rle_after_date_2 }}
+            {{ i18n.start_when_rle_after_date_1 }}{{ idvImplementationDate }}{{ i18n.start_when_rle_after_date_2 }}
         </p>
 
         {{ govukInsetText({
@@ -78,7 +78,7 @@
 
         <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>
         <p class="govuk-body">{{ i18n.start_before_verify_description }}
-            <a href="{{ [CHS_URL, SIGNIN_PATH] | join  }}" title="{{ i18n.start_before_verify_link }}" class="govuk-link" data-event-id="before-verify-link">
+            <a href="{{ [chsUrl, verifyIdentityLink] | join  }}" title="{{ i18n.start_before_verify_link }}" class="govuk-link" data-event-id="before-verify-link">
                 {{ i18n.start_before_verify_link }}
             </a>
             {{i18n.start_before_verify_description2}}</p>

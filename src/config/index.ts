@@ -43,7 +43,7 @@ export const env = readEnv(process.env, {
     FEEDBACK_URL: str
         .describe("Link for the user to give feedback on the service")
         .default(""),
-    IDV_PSC_IMPLEMENTATION_DATE: str
+    IDV_IMPLEMENTATION_DATE: str
         .describe("Date when IDV comes into effect for PSCs")
         .default(""),
     LOCALES_ENABLED: str
@@ -135,7 +135,7 @@ export const env = readEnv(process.env, {
         .describe("Link to policies")
         .default("http://resources.companieshouse.gov.uk/legal/termsAndConditions.shtml"),
     PORT: port.describe("Port to run the web server on").default(3000),
-    SIGNIN_PATH: str
-        .describe("Path to direct to Account service")
+    VERIFY_IDENTITY_LINK: str
+        .describe("Path to guidance to Verify Identity")
         .default("")
 });

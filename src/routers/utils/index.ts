@@ -24,3 +24,12 @@ export function formatDateBorn (dateOfBirth: any, lang: string): string {
         return "Invalid date";
     }
 }
+
+export function internationaliseDate (date: string, lang: string): string {
+    try {
+        return Intl.DateTimeFormat(lang === "en" ? "en-GB" : lang, { dateStyle: "long" }).format(new Date(date));
+    } catch (error) {
+        console.error("Error internationalising date:", error);
+        return "Invalid date";
+    }
+}
