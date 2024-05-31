@@ -48,6 +48,8 @@ njk.addGlobal("PIWIK_SERVICE_NAME", process.env.PIWIK_SERVICE_NAME);
 njk.addGlobal("PIWIK_START_GOAL_ID", process.env.PIWIK_START_GOAL_ID);
 njk.addGlobal("PIWIK_SITE_ID", process.env.PIWIK_SITE_ID);
 njk.addGlobal("PIWIK_URL", process.env.PIWIK_URL);
+njk.addGlobal("SIGNIN_PATH", process.env.SIGNIN_PATH);
+njk.addGlobal("IDV_PSC_IMPLEMENTATION_DATE", process.env.IDV_PSC_IMPLEMENTATION_DATE);
 
 // If app is behind a front-facing proxy, and to use the X-Forwarded-* headers to determine the connection and the IP address of the client
 app.enable("trust proxy");
