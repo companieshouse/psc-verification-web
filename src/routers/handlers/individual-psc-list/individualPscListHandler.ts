@@ -7,12 +7,11 @@ import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { CompanyPersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 import { getCompanyIndividualPscList } from "../../../services/companyPscService";
 import { patchPscVerification } from "../../../services/pscVerificationService";
+import { formatDateBorn } from "../../utils";
 
-interface IndividualPscData {
-    pscId: string | any;
-    name: string;
-    dob: { year: number | any; month: string | any};
-    selectedPscId?: string;
+interface PartialDate {
+    year: string | number,
+    month: string | number
 }
 
 interface RadioButtonData {
@@ -95,8 +94,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
     private getPscIndividualRadioItems (individualPscList: CompanyPersonWithSignificantControl[], lang: string): RadioButtonData[] {
         return individualPscList.map(psc => {
-            const dob = new Date(parseInt(psc.dateOfBirth.year), parseInt(psc.dateOfBirth.month) - 1);
-            const hintText = this.formatHintText(dob, lang, psc);
+            const hintText = this.formatHintText(psc.dateOfBirth, lang, psc);
 
             return {
                 value: psc.links.self.split("/").pop() as string,
@@ -109,7 +107,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         });
     }
 
-    private formatHintText (dob: Date, lang: string, psc: CompanyPersonWithSignificantControl) {
-        return isNaN(dob.getTime()) ? undefined : `${getLocalesService().i18nCh.resolveSingleKey("individual_psc_list_born_in", lang)} ${new Intl.DateTimeFormat(lang, { month: "long" }).format(dob)} ${psc.dateOfBirth.year}`;
+    private formatHintText (dob: PartialDate, lang: string, psc: CompanyPersonWithSignificantControl) {
+        return `${getLocalesService().i18nCh.resolveSingleKey("individual_psc_list_born_in", lang)} ${formatDateBorn(dob, lang)}`;
     }
 }
