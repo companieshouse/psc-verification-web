@@ -1,6 +1,6 @@
 {
     "individual_psc_list_main_title": "Which PSC are you providing verification details for?",
-    "individual_psc_list_hint_1": "The following PSCs for ",
-    "individual_psc_list_hint_2": " still need to provide their identity verification details. We will not show PSCs whose identity has been confirmed. You can only provide verification details for one PSC at a time.",
-    "individual_psc_list_born_in": "Born in "
+    "individual_psc_list_hint_1": "The following PSCs for",
+    "individual_psc_list_hint_2": "still need to provide their identity verification details. We will not show PSCs whose identity has been confirmed. You can only provide verification details for one PSC at a time.",
+    "individual_psc_list_born_in": "Born in"
 }
