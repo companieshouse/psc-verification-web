@@ -12,6 +12,7 @@ import RleDirectorRouter from "./../rleDirectorRouter";
 import ConfirmRoStatementsRouter from "./../confirmRoStatementsRouter";
 import NotADirectorRouter from "./../notADirectorRouter";
 import RleVerifiedRouter from "./../rleVerifiedRouter";
+import { logger } from "../../lib/logger";
 export { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, NotADirectorRouter, PscVerifiedRouter, RlePscListRouter, RleDetailsRouter, RleDirectorRouter, RleVerifiedRouter, ConfirmRoStatementsRouter };
 
 export function formatDateBorn (dateOfBirth: any, lang: string): string {
@@ -20,7 +21,7 @@ export function formatDateBorn (dateOfBirth: any, lang: string): string {
         const formattedYear = dateOfBirth?.year?.toString() || ""; // Default to an empty string if year is null or undefined
         return `${formattedMonth} ${formattedYear}`;
     } catch (error) {
-        console.error("Error formatting date:", error);
+        logger.error(`Error formatting date: ${error}`);
         return "Invalid date";
     }
 }
@@ -29,7 +30,7 @@ export function internationaliseDate (date: string, lang: string): string {
     try {
         return Intl.DateTimeFormat(lang === "en" ? "en-GB" : lang, { dateStyle: "long" }).format(new Date(date));
     } catch (error) {
-        console.error("Error internationalising date:", error);
+        logger.error(`Error internationalising date: ${error}`);
         return "Invalid date";
     }
 }
