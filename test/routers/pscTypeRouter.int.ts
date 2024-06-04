@@ -35,12 +35,11 @@ describe("psc type tests", () => {
         expect(resp.status).toBe(200);
     });
 
-    it.each([["individual", PrefixedUrls.INDIVIDUAL_PSC_LIST], ["rle", PrefixedUrls.RLE_LIST], ["default", PrefixedUrls.INDIVIDUAL_PSC_LIST]])(
+    it.each([["individual", PrefixedUrls.INDIVIDUAL_PSC_LIST], ["rle", PrefixedUrls.RLE_LIST]])(
         "Should redirect to %s list page if selected",
         async (selectedType, expectedPage) => {
 
             const expectedRedirectUrl = `${expectedPage.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=${selectedType}`;
-
             await request(app)
                 .post(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, TRANSACTION_ID, PSC_VERIFICATION_ID))
                 .send({ pscType: selectedType })
@@ -50,4 +49,20 @@ describe("psc type tests", () => {
                 .expect("Location", expectedRedirectUrl);
         }
     );
+
+    it("Should fail validation and re-load PSC Type page with errors if no valid selection is made", async () => {
+
+        const selectedType = "invalid-option";
+        const expectedRedirectUrl = `${PrefixedUrls.INDIVIDUAL_PSC_LIST.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=${selectedType}`;
+        const resp = await request(app)
+            .post(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, TRANSACTION_ID, PSC_VERIFICATION_ID))
+            .send({ pscType: selectedType })
+            .set({ "Content-Type": "application/json" })
+            .query({ companyNumber: COMPANY_NUMBER, lang: "en", pscType: selectedType });
+
+        expect(resp.statusCode).toBe(HttpStatusCode.Ok);
+        expect(resp.text).toContain("There is a problem");
+        expect(resp.text).toContain("Select if you&#39;re providing verification details for a PSC or RLE");
+
+    });
 });
