@@ -41,7 +41,9 @@ describe("new submission handler tests", () => {
     });
 
     it("Should redirect to the psc_type screen", async () => {
-        const expectedRedirectUrl = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/psc-type?lang=en`;
-        const response = await request(app).get(createNewSubmissionUrl).expect("Location", expectedRedirectUrl);
+        const expectedRedirectUrl = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/psc-type?companyNumber=${COMPANY_NUMBER}&lang=en`;
+        await request(app).get(createNewSubmissionUrl)
+            .query({ companyNumber: `${COMPANY_NUMBER}`, lang: "en" })
+            .expect("Location", expectedRedirectUrl);
     });
 });
