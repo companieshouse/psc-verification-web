@@ -11,12 +11,13 @@ import {
 } from "../generic";
 import { getPscIndividualDetails } from "../utils/pscIndividual";
 import { formatDateBorn } from "../../utils";
-import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { PscVerification, PscVerificationResource } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { patchPscVerification } from "../../../services/pscVerificationService";
 
 interface PersonalCodeViewData extends BaseViewData {
     pscName: string,
-    monthBorn: string
+    monthBorn: string,
+    personalCode: string
 }
 
 export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
@@ -27,6 +28,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
         const baseViewData = await super.getViewData(req, res);
         const pscIndividual = await getPscIndividualDetails(req, req.params.transactionId, req.params.submissionId);
+        const verificationResource: PscVerificationResource = res.locals.submission;
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
@@ -35,6 +37,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             ...getLocaleInfo(locales, lang),
             pscName: pscIndividual.resource?.name!,
             monthBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
+            personalCode: verificationResource?.data?.verification_details?.uvid || "",
             currentUrl: addSearchParams(PrefixedUrls.PERSONAL_CODE, { lang }),
             backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId), { lang }),
             templateName: Urls.PERSONAL_CODE,
