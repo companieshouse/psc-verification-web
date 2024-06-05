@@ -133,7 +133,7 @@ export const env = readEnv(process.env, {
         .default("24"),
     POLICIES_LINK: str
         .describe("Link to policies")
-        .default("http://resources.companieshouse.gov.uk/legal/termsAndConditions.shtml"),
+        .default("https://resources.companieshouse.gov.uk/legal/termsAndConditions.shtml"),
     PORT: port.describe("Port to run the web server on").default(3000),
     VERIFY_IDENTITY_LINK: str
         .describe("Path to guidance to Verify Identity")
