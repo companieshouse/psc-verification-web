@@ -53,7 +53,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         logger.info(`PscVerifiedHandler execute called`);
         const viewData = await this.getViewData(req, res);
 
-        const closure = await closeTransaction(req, req.params.transactionId, req.params.submissionId)
+        await closeTransaction(req, req.params.transactionId, req.params.submissionId)
             .then((data) => {
                 console.log(data);
             })
