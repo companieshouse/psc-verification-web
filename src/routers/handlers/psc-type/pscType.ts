@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import { PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { addSearchParams } from "../../../utils/queryParams";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
+import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
+import { addSearchParams } from "../../../utils/queryParams";
 interface PscTypeViewData extends BaseViewData { pscType: string }
 
 export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
@@ -20,8 +21,12 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             title: "PSC type – Provide identity verification details for a PSC or relevant legal entity",
-            currentUrl: addSearchParams(PrefixedUrls.PSC_TYPE, { lang }),
-            backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang }),
+            currentUrl: addSearchParams(
+                getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, req.params.transactionId, req.params.submissionId),
+                { companyNumber, lang }),
+            backURL: addSearchParams(
+                getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.CONFIRM_COMPANY, req.params.transactionId, req.params.submissionId),
+                { companyNumber, lang }),
             templateName: Urls.PSC_TYPE,
             backLinkDataEvent: "psc-type-back-link"
         };

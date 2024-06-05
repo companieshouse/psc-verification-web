@@ -24,7 +24,7 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         logger.info(`CREATED New Resource ${resource?.resource?.links.self} `);
 
         // set up redirect to psc_type screen
-        const lang = selectLang(req.body.lang);
+        const lang = selectLang(req.query.lang);
         const regex = "significant-control-verification/(.*)$";
         const resourceId = resource.resource?.links.self.match(regex);
         const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, transaction.id!, resourceId![1]);

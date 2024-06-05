@@ -35,8 +35,12 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             ...getLocaleInfo(locales, lang),
             pscName: pscIndividual.resource?.name!,
             monthBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
-            currentUrl: addSearchParams(PrefixedUrls.PERSONAL_CODE, { lang }),
-            backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId), { lang }),
+            currentUrl: addSearchParams(
+                getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, req.params.transactionId, req.params.submissionId),
+                { lang }),
+            backURL: addSearchParams(
+                getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId),
+                { lang }),
             templateName: Urls.PERSONAL_CODE,
             backLinkDataEvent: "personal-code-back-link"
         };
