@@ -9,7 +9,7 @@ describe("start page tests", () => {
         jest.clearAllMocks();
     });
 
-    const HEADING = "PSC Verification";
+    const HEADING = "Provide identity verification details for a PSC or relevant legal entity";
     it("should render the start page for service root", async () => {
         const resp = await request(app).get(servicePathPrefix);
 
