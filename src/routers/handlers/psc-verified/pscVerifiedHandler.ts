@@ -9,12 +9,12 @@ import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 
 interface PscVerifiedViewData extends BaseViewData {
-    referenceNumber: String;
-    companyName: String;
-    companyNumber: String;
-    pscName: String;
-    companyLookupUrl: String;
-    createNewSubmissionUrl: String;
+    referenceNumber: string;
+    companyName: string;
+    companyNumber: string;
+    pscName: string;
+    companyLookupUrl: string;
+    createNewSubmissionUrl: string;
 }
 
 export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
