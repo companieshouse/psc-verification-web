@@ -30,7 +30,8 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, transaction.id!, resourceId![1]);
 
         // send the redirect
-        return res.redirect(addSearchParams(nextPageUrl, { lang }));
+        const companyNumber = req.query.companyNumber as string;
+        return res.redirect(addSearchParams(nextPageUrl, { companyNumber, lang }));
 
     }
 

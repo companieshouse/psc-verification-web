@@ -44,7 +44,7 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<ConfirmCompanyViewData>> {
-        logger.info(`ConfirmCompanyHandler execute called`);
+        logger.info(`ConfirmCompanyHandler executeGet called`);
 
         const viewData = await this.getViewData(req, res);
 
@@ -52,5 +52,13 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
             templatePath: ConfirmCompanyHandler.templatePath,
             viewData
         };
+    }
+
+    public async executePost (req: Request, res: Response) {
+        logger.info(`ConfirmCompanyHandler executePost called`);
+        const companyNumber = req.body.companyNumber as string;
+        const lang = selectLang(req.body.lang);
+        // return the url for createNewSubmission route
+        return addSearchParams(PrefixedUrls.NEW_SUBMISSION, { companyNumber, lang });
     }
 }
