@@ -11,15 +11,15 @@ import { addSearchParams } from "../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../utils/url";
 import { ConfirmCompanyHandler } from "./handlers/confirm-company/confirmCompany";
 
-const router: Router = Router({ mergeParams: true });
+const confirmCompanyRouter: Router = Router({ mergeParams: true });
 
-router.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+confirmCompanyRouter.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new ConfirmCompanyHandler();
     const { templatePath, viewData } = await handler.executeGet(req, res);
     res.render(templatePath, viewData);
 }));
 
-router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+confirmCompanyRouter.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
 
     const transaction: Transaction = await postTransaction(req);
 
@@ -39,4 +39,4 @@ router.post("/", handleExceptions(async (req: Request, res: Response, _next: Nex
     res.redirect(addSearchParams(nextPageUrl, { lang }));
 }));
 
-export default router;
+export default confirmCompanyRouter;
