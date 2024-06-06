@@ -17,13 +17,11 @@ export const getCompanyIndividualPscList = async (request: Request, companyNumbe
         return [];
     }
 
-    const companyPscList = companyPscs.items as CompanyPersonWithSignificantControl[];
+    const companyPscList = companyPscs.items;
 
-    const individualPscList = companyPscList.filter((psc) => {
+    return companyPscList.filter((psc) => {
         return psc.kind === IND_PSC_TYPE && (psc.ceasedOn === null || psc.ceasedOn === undefined);
     });
-
-    return individualPscList;
 };
 
 export const getCompanyPscList = async (request: Request, companyNumber: string): Promise<Resource<CompanyPersonsWithSignificantControl>> => {

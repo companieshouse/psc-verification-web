@@ -62,6 +62,6 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
                 uvid: uvid
             }
         };
-        const resource = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
+        await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
     }
 }

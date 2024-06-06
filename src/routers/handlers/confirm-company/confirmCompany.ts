@@ -10,7 +10,7 @@ import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 
 interface ConfirmCompanyViewData extends BaseViewData {
     company: CompanyProfile
-    address: String
+    address: string
 }
 
 export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData> {
