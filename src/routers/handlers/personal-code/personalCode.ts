@@ -46,7 +46,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<PersonalCodeViewData>> {
-        logger.info(`${PersonalCodeHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId}`);
+        logger.info(`${PersonalCodeHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         const viewData = await this.getViewData(req, res);
 
         return {
@@ -56,13 +56,15 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
     }
 
     public async executePost (req: Request, res: Response) {
-        logger.info(`${PersonalCodeHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId}`);
+        logger.info(`${PersonalCodeHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         const uvid = req.body.personalCode;
         const verification: PscVerification = {
             verification_details: {
                 uvid: uvid
             }
         };
+
+        logger.debug(`${PersonalCodeHandler.name} - ${this.executePost.name} - patching personal code for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         const resource = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
     }
 }

@@ -11,7 +11,7 @@ import { createOAuthApiClient } from "./apiClientService";
 export const createPscVerification = async (request: Request, transaction: Transaction, pscVerification: PscVerification): Promise<Resource<PscVerificationResource>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
 
-    logger.debug(`${createPscVerification.name} - Creating PSC verification resource for ${transaction.description} transaction ${transaction.id}`);
+    logger.debug(`${createPscVerification.name} - Creating PSC verification resource for ${transaction.description} ${transaction.id}`);
     const sdkResponse: Resource<PscVerificationResource> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.postPscVerification(transaction.id as string, pscVerification);
 
     if (!sdkResponse) {
@@ -33,7 +33,7 @@ export const createPscVerification = async (request: Request, transaction: Trans
 
 export const getPscVerification = async (request: Request, transactionId: string, pscVerificationId: string): Promise<Resource<PscVerificationResource>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
-    const logReference = `transaction ${transactionId}`;
+    const logReference = `transaction ${transactionId}, pscVerification ${pscVerificationId}`;
 
     logger.debug(`${getPscVerification.name} - Retrieving PSC verification for ${logReference}`);
     const sdkResponse: Resource<PscVerificationResource> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.getPscVerification(transactionId, pscVerificationId);
@@ -57,7 +57,7 @@ export const getPscVerification = async (request: Request, transactionId: string
 
 export const patchPscVerification = async (request: Request, transactionId: string, pscVerificationId: string, pscVerification: PscVerification): Promise<Resource<PscVerificationResource>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
-    const logReference = `transactionId ${transactionId} and pscVerificationId ${pscVerificationId}`;
+    const logReference = `transactionId ${transactionId}, pscVerificationId ${pscVerificationId}`;
 
     logger.debug(`${patchPscVerification.name} - Patching PSC verification resource with ${logReference}`);
     const sdkResponse: Resource<PscVerificationResource> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.patchPscVerification(transactionId as string, pscVerificationId as string, pscVerification);

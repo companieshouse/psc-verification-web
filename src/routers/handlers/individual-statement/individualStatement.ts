@@ -44,7 +44,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<IndividualStatementViewData>> {
-        logger.info(`${IndividualStatementHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId}`);
+        logger.info(`${IndividualStatementHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         const viewData = await this.getViewData(req, res);
 
         return {
@@ -54,7 +54,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
     }
 
     public async executePost (req: Request, res: Response) {
-        logger.info(`${IndividualStatementHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId}`);
+        logger.info(`${IndividualStatementHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         const statement: VerificationStatement = req.body.psc_individual_statement; // a single string rather than string[] is returned (because there is only 1 checkbox in the group?)
         const selectedStatements = [statement];
         const verification: PscVerification = {
@@ -62,6 +62,8 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
                 verification_statements: selectedStatements
             }
         };
-        const resource = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
+
+        logger.debug(`${IndividualStatementHandler.name} - ${this.executePost.name} - patching individual verification statement for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+        const response = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
     }
 }

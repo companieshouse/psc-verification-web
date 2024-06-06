@@ -71,7 +71,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<IndividualPscListViewData>> {
-        logger.info(`${IndividualPscListHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId}`);
+        logger.info(`${IndividualPscListHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         const viewData = await this.getViewData(req, res);
 
         return {
@@ -81,12 +81,12 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
     }
 
     public async executePost (req: Request, _response: Response) {
-        logger.info(`${IndividualPscListHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId}`);
+        logger.info(`${IndividualPscListHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
 
         const pscSelected = req.body.pscSelect;
 
         if (req.params.transactionId && req.params.submissionId && pscSelected) {
-            logger.debug(`${IndividualPscListHandler.name} - ${this.executePost.name} - patching submission resource for submissionId=${req.params.submissionId} with PSC ID: ${pscSelected}`);
+            logger.debug(`${IndividualPscListHandler.name} - ${this.executePost.name} - patching submission resource for transaction: ${req.params.transactionId} and submissionId: ${req.params.submissionId} with PSC ID: ${pscSelected}`);
             const response = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, { psc_appointment_id: pscSelected });
         }
 
