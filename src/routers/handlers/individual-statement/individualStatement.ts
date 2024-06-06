@@ -61,6 +61,6 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
                 verification_statements: selectedStatements
             }
         };
-        const resource = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
+        await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
     }
 }

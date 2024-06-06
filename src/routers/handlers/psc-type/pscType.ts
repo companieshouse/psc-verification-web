@@ -16,6 +16,7 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const companyNumber = req.query.companyNumber as string;
+        const pscType = req.query.pscType as string;
 
         return {
             ...baseViewData,
@@ -28,7 +29,7 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
         };
 
         function resolveUrlTemplate (prefixedUrl: string): string | null {
-            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { companyNumber, lang });
+            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { companyNumber, lang, pscType });
         }
     }
 

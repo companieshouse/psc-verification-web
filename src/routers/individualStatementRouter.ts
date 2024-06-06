@@ -6,15 +6,15 @@ import { addSearchParams } from "../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../utils/url";
 import { IndividualStatementHandler } from "./handlers/individual-statement/individualStatement";
 
-const router: Router = Router({ mergeParams: true });
+const individualStatementRouter: Router = Router({ mergeParams: true });
 
-router.get("/", handleExceptions(async (req: Request, res: Response) => {
+individualStatementRouter.get("/", handleExceptions(async (req: Request, res: Response) => {
     const handler = new IndividualStatementHandler();
     const { templatePath, viewData } = await handler.executeGet(req, res);
     res.render(templatePath, viewData);
 }));
 
-router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+individualStatementRouter.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new IndividualStatementHandler();
     await handler.executePost(req, res);
 
@@ -23,4 +23,4 @@ router.post("/", handleExceptions(async (req: Request, res: Response, _next: Nex
     res.redirect(addSearchParams(nextPageUrl, { lang }));
 }));
 
-export default router;
+export default individualStatementRouter;

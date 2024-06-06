@@ -9,12 +9,12 @@ import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 
 interface PscVerifiedViewData extends BaseViewData {
-    referenceNumber: String;
-    companyName: String;
-    companyNumber: String;
-    pscName: String;
-    companyLookupUrl: String;
-    createNewSubmissionUrl: String;
+    referenceNumber: string;
+    companyName: string;
+    companyNumber: string;
+    pscName: string;
+    companyLookupUrl: string;
+    createNewSubmissionUrl: string;
 }
 
 export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
@@ -53,7 +53,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         logger.info(`PscVerifiedHandler execute called`);
         const viewData = await this.getViewData(req, res);
 
-        const closure = await closeTransaction(req, req.params.transactionId, req.params.submissionId)
+        await closeTransaction(req, req.params.transactionId, req.params.submissionId)
             .then((data) => {
                 console.log(data);
             })
