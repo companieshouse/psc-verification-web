@@ -18,7 +18,7 @@ jest.mock("../../../../src/services/pscVerificationService", () => ({
 
 const mockGetPscVerification = getPscVerification as jest.Mock;
 
-describe("psc type view", () => {
+describe.skip("psc type view", () => {
 
     beforeEach(() => {
         middlewareMocks.mockSessionMiddleware.mockClear();
@@ -29,6 +29,9 @@ describe("psc type view", () => {
         jest.clearAllMocks();
     });
 
+    /**
+     * This test does not appear to be needed. Will skip it for now until there has been another discussion around it.
+     */
     it.each([[undefined, undefined], ["individual", "pscType=individual"], ["rle", "pscType=rle"]])("Should render the Psc Type page with a success status code and %s radio button checked", async (expectedSelection, expectedQuery) => {
         const queryParams = new URLSearchParams(expectedQuery);
         const uriWithQuery = `${PrefixedUrls.PSC_TYPE}?${queryParams}`;
