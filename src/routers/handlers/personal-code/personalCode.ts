@@ -63,8 +63,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
                 uvid: uvid
             }
         };
-
         logger.debug(`${PersonalCodeHandler.name} - ${this.executePost.name} - patching personal code for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
-        const resource = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
+        await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
     }
 }

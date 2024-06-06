@@ -60,7 +60,7 @@ export const patchPscVerification = async (request: Request, transactionId: stri
     const logReference = `transactionId ${transactionId}, pscVerificationId ${pscVerificationId}`;
 
     logger.debug(`${patchPscVerification.name} - Patching PSC verification resource with ${logReference}`);
-    const sdkResponse: Resource<PscVerificationResource> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.patchPscVerification(transactionId as string, pscVerificationId as string, pscVerification);
+    const sdkResponse: Resource<PscVerificationResource> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.patchPscVerification(transactionId, pscVerificationId, pscVerification);
 
     if (!sdkResponse) {
         throw createAndLogError(`${patchPscVerification.name} - PSC Verification PATCH request returned no response for resource with ${logReference}`);

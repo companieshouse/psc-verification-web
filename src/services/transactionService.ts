@@ -9,7 +9,7 @@ import { createOAuthApiClient } from "./apiClientService";
 
 export const REFERENCE = "PscVerificationReference";
 export const DESCRIPTION = "PSC Verification Transaction";
-export enum TransactionStatus { OPEN = "open", CLOSED = "closed" };
+export enum TransactionStatus { OPEN = "open", CLOSED = "closed" }
 
 export const postTransaction = async (req: Request): Promise<Transaction> => {
 

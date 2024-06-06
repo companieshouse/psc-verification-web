@@ -62,8 +62,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
                 verification_statements: selectedStatements
             }
         };
-
         logger.debug(`${IndividualStatementHandler.name} - ${this.executePost.name} - patching individual verification statement for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
-        const response = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
+        await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
     }
 }
