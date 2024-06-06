@@ -10,7 +10,7 @@ export const getCompanyProfile = async (req: Request, companyNumber: string): Pr
     const accessToken: string = getAccessToken(req.session as Session);
     const apiClient = createApiClient(undefined, accessToken, undefined);
 
-    logger.debug(`Looking for company profile with company number ${companyNumber}`);
+    logger.debug(`${getCompanyProfile.name} - Looking for company profile with company number ${companyNumber}`);
     const sdkResponse: Resource<CompanyProfile> = await apiClient.companyProfile.getCompanyProfile(companyNumber);
 
     if (!sdkResponse) {

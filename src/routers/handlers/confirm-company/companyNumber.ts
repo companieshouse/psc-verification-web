@@ -14,7 +14,7 @@ export class CompanyNumberHandler extends GenericHandler<BaseViewData> {
         const forward = decodeURI(addSearchParams(ExternalUrls.COMPANY_LOOKUP_FORWARD, { companyNumber: "{companyNumber}", lang }));
         // addSearchParams() encodes the URI, so need to decode value before second call
         const companyLookup = addSearchParams(ExternalUrls.COMPANY_LOOKUP, { forward });
-        logger.debug("Company number redirect: " + companyLookup);
+        logger.debug(`${CompanyNumberHandler.name} - ${this.execute.name}: Company number redirect: ` + companyLookup);
 
         return _response.redirect(companyLookup);
     }

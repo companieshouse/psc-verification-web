@@ -86,11 +86,11 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const pscSelected = req.body.pscSelect;
 
         if (req.params.transactionId && req.params.submissionId && pscSelected) {
-            logger.debug(`individualPscListRouter.executePost: patching submission resource for submissionId=${req.params.submissionId} with PSC ID: ${pscSelected}`);
+            logger.debug(`${IndividualPscListHandler.name} - ${this.executePost.name} - patching submission resource for submissionId=${req.params.submissionId} with PSC ID: ${pscSelected}`);
             const response = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, { psc_appointment_id: pscSelected });
         }
 
-        logger.debug(`IndividualPscListHandler.executePost exiting`);
+        logger.debug(`${IndividualPscListHandler.name} - ${this.executePost.name} - exiting`);
     }
 
     private getPscIndividualRadioItems (individualPscList: CompanyPersonWithSignificantControl[], lang: string): RadioButtonData[] {
