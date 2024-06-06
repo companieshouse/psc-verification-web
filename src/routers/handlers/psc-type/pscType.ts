@@ -21,15 +21,15 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             title: "PSC type – Provide identity verification details for a PSC or relevant legal entity",
-            currentUrl: addSearchParams(
-                getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, req.params.transactionId, req.params.submissionId),
-                { companyNumber, lang }),
-            backURL: addSearchParams(
-                getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.CONFIRM_COMPANY, req.params.transactionId, req.params.submissionId),
-                { companyNumber, lang }),
+            currentUrl: resolveUrlTemplate(PrefixedUrls.PSC_TYPE),
+            backURL: resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY),
             templateName: Urls.PSC_TYPE,
             backLinkDataEvent: "psc-type-back-link"
         };
+
+        function resolveUrlTemplate (prefixedUrl: string): string | null {
+            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { companyNumber, lang });
+        }
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<PscTypeViewData>> {
