@@ -50,7 +50,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<PscVerifiedViewData>> {
-        logger.info(`PscVerifiedHandler execute called`);
+        logger.info(`${PscVerifiedHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId}`);
         const viewData = await this.getViewData(req, res);
 
         const closure = await closeTransaction(req, req.params.transactionId, req.params.submissionId)

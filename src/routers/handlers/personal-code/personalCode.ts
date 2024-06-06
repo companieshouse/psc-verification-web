@@ -46,7 +46,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<PersonalCodeViewData>> {
-        logger.info(`PersonalCodeHandler execute called`);
+        logger.info(`${PersonalCodeHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId}`);
         const viewData = await this.getViewData(req, res);
 
         return {
@@ -56,6 +56,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
     }
 
     public async executePost (req: Request, res: Response) {
+        logger.info(`${PersonalCodeHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId}`);
         const uvid = req.body.personalCode;
         const verification: PscVerification = {
             verification_details: {

@@ -33,7 +33,7 @@ export class NotADirectorHandler extends GenericHandler<NotADirectorViewData> {
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<NotADirectorViewData>> {
-        logger.info(`NotADirectorHandler execute called`);
+        logger.info(`${NotADirectorHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId}`);
         const viewData = await this.getViewData(req, res);
 
         return {

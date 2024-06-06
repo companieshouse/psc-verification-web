@@ -35,7 +35,7 @@ export class RleListHandler extends GenericHandler<RleListViewData> {
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<RleListViewData>> {
-        logger.info(`RleListHandler execute called`);
+        logger.info(`${RleListHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId}`);
         const viewData = await this.getViewData(req, res);
 
         return {

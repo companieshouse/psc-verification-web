@@ -44,7 +44,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<IndividualStatementViewData>> {
-        logger.info(`IndividualStatementHandler execute called`);
+        logger.info(`${IndividualStatementHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId}`);
         const viewData = await this.getViewData(req, res);
 
         return {
@@ -54,6 +54,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
     }
 
     public async executePost (req: Request, res: Response) {
+        logger.info(`${IndividualStatementHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId}`);
         const statement: VerificationStatement = req.body.psc_individual_statement; // a single string rather than string[] is returned (because there is only 1 checkbox in the group?)
         const selectedStatements = [statement];
         const verification: PscVerification = {

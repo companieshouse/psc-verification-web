@@ -8,7 +8,7 @@ import { BaseViewData, GenericHandler } from "./../generic";
 export class CompanyNumberHandler extends GenericHandler<BaseViewData> {
 
     public execute (req: Request, _response: Response) {
-        logger.info(`CompanyNumberHandler execute called`);
+        logger.info(`${CompanyNumberHandler.name} - ${this.execute.name} called`);
 
         const lang = selectLang(req.query.lang);
         const forward = decodeURI(addSearchParams(ExternalUrls.COMPANY_LOOKUP_FORWARD, { companyNumber: "{companyNumber}", lang }));

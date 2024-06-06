@@ -71,7 +71,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<IndividualPscListViewData>> {
-        logger.info(`IndividualPscListHandler.executeGet called`);
+        logger.info(`${IndividualPscListHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId}`);
         const viewData = await this.getViewData(req, res);
 
         return {
@@ -81,7 +81,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
     }
 
     public async executePost (req: Request, _response: Response) {
-        logger.info(`IndividualPscListHandler.executePost called`);
+        logger.info(`${IndividualPscListHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId}`);
 
         const pscSelected = req.body.pscSelect;
 

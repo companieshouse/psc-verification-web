@@ -33,7 +33,7 @@ export class ConfirmRoStatementsHandler extends GenericHandler<RleListViewData> 
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<RleListViewData>> {
-        logger.info(`ConfirmRoStatementsHandler execute called`);
+        logger.info(`${ConfirmRoStatementsHandler.name} - ${this.executeGet.name} called`);
         const viewData = await this.getViewData(req, res);
 
         return {

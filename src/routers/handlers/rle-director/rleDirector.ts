@@ -33,7 +33,7 @@ export class RleDirectorHandler extends GenericHandler<RleListViewData> {
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<RleListViewData>> {
-        logger.info(`RleDirectorHandler execute called`);
+        logger.info(`${RleDirectorHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId}`);
         const viewData = await this.getViewData(req, res);
 
         return {
