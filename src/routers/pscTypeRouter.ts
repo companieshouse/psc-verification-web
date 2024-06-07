@@ -17,7 +17,7 @@ pscTypeRouter.get("/", handleExceptions(async (req: Request, res: Response, _nex
 }));
 
 pscTypeRouter.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
-    const lang = selectLang(req.body.lang);
+    const lang = selectLang(req.query.lang);
     const selectedType = req.body.pscType;
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
 
