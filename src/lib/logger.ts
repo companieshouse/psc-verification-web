@@ -6,7 +6,7 @@ import { env } from "../config";
 export const logger: ApplicationLogger = createLogger(env.APP_NAME ?? PSC_VERIFICATION_WEB_NAMESPACE);
 
 // tslint:disable-next-line:no-console
-console.log(`env.LOG_LEVEL set to ${process.env.LOG_LEVEL}`);
+console.log(`env.LOG_LEVEL set to ${env.LOG_LEVEL}`);
 
 export const createAndLogError = (description: string): Error => {
     const error = new Error(description);
