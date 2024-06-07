@@ -17,7 +17,7 @@ individualPscListRouter.post("/", handleExceptions(async (req: Request, res: Res
     const handler = new IndividualPscListHandler();
     await handler.executePost(req, res);
 
-    const lang = selectLang(req.body.lang);
+    const lang = selectLang(req.query.lang);
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
     queryParams.set("lang", lang);
 
