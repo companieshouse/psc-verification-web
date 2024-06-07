@@ -34,7 +34,8 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<PscTypeViewData>> {
-        logger.info(`PscTypeHandler execute called`);
+
+        logger.info(`${PscTypeHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         const viewData = await this.getViewData(req, res);
 
         viewData.pscType = req.query.pscType as string;

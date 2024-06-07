@@ -33,10 +33,10 @@ export class StartHandler extends GenericHandler<StartViewData> {
         };
     }
 
-    public async execute (req: Request, res: Response): Promise<ViewModel<StartViewData>> {
-        logger.info(`GET request to serve start page`);
-        // ...process request here and return data for the view
+    public async executeGet (req: Request, res: Response): Promise<ViewModel<StartViewData>> {
+        logger.info(`${StartHandler.name} - ${this.executeGet.name}: called to serve start page`);
 
+        // ...process request here and return data for the view
         return {
             templatePath: StartHandler.templatePath,
             viewData: await this.getViewData(req, res)

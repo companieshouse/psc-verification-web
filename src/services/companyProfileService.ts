@@ -10,22 +10,22 @@ export const getCompanyProfile = async (req: Request, companyNumber: string): Pr
     const accessToken: string = getAccessToken(req.session as Session);
     const apiClient = createApiClient(undefined, accessToken, undefined);
 
-    logger.debug(`Looking for company profile with company number ${companyNumber}`);
+    logger.debug(`${getCompanyProfile.name} - Looking for company profile with company number ${companyNumber}`);
     const sdkResponse: Resource<CompanyProfile> = await apiClient.companyProfile.getCompanyProfile(companyNumber);
 
     if (!sdkResponse) {
-        throw logger.info(`Company Profile API returned no response for company number ${companyNumber}`);
+        throw logger.info(`${getCompanyProfile.name} - Company Profile API returned no response for company number ${companyNumber}`);
     }
 
     if (sdkResponse.httpStatusCode >= 400) {
-        throw logger.info(`HTTP status code ${sdkResponse.httpStatusCode} - Failed to get company profile for company number ${companyNumber}`);
+        throw logger.info(`${getCompanyProfile.name} -HTTP status code ${sdkResponse.httpStatusCode} - Failed to get company profile for company number ${companyNumber}`);
     }
 
     if (!sdkResponse.resource) {
-        throw logger.info(`Company Profile API returned no resource for company number ${companyNumber}`);
+        throw logger.info(`${getCompanyProfile.name} - Company Profile API returned no resource for company number ${companyNumber}`);
     }
 
-    logger.debug(`Received company profile ${JSON.stringify(sdkResponse)}`);
+    logger.debug(`${getCompanyProfile.name} - Received company profile ${JSON.stringify(sdkResponse)}`);
 
     return sdkResponse.resource;
 };

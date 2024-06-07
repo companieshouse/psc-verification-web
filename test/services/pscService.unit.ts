@@ -67,7 +67,7 @@ describe("pscServiceIndividual", () => {
             await getPscIndividual(request, COMPANY_NUMBER, PSC_ID);
             throw new Error("invalid expecting getPscIndividual to throw error");
         } catch (error: any) {
-            expect(error.message).toBe("getPscIndividual returned no resource for PSC Id 67edfE436y35hetsie6zuAZtr");
+            expect(error.message).toBe("getPscIndividual - no resource returned for PSC Id 67edfE436y35hetsie6zuAZtr");
         }
     });
 });
