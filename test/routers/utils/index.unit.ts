@@ -22,13 +22,27 @@ describe("formatDateBorn tests", () => {
         const result = formatDateBorn(dateOfBirth, lang);
         expect(result).toBe("December 1995");
     });
+
+    it("should return Mehefin 2024 when the month is 6 and lang is cy", () => {
+        const dateOfBirth = { month: 6, year: 1995 };
+        const lang = "cy";
+        const result = formatDateBorn(dateOfBirth, lang);
+        expect(result).toBe("Mehefin 1995");
+    });
 });
 
 describe("internationaliseDate tests", () => {
-    test("formats date in en-GB when lang is en", () => {
+    it("formats date in en-GB when lang is en", () => {
         const date = "2024-06-06";
         const lang = "en";
         const formattedDate = internationaliseDate(date, lang);
         expect(formattedDate).toBe("6 June 2024");
+    });
+
+    it("formats date in Welsh when lang is cy", () => {
+        const date = "1995-06-06";
+        const lang = "cy";
+        const formattedDate = internationaliseDate(date, lang);
+        expect(formattedDate).toBe("6 Mehefin 1995");
     });
 });
