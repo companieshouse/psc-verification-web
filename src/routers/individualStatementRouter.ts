@@ -19,7 +19,7 @@ individualStatementRouter.post("/", handleExceptions(async (req: Request, res: R
     await handler.executePost(req, res);
 
     const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, req.params.transactionId, req.params.submissionId);
-    const lang = selectLang(req.body.lang);
+    const lang = selectLang(req.query.lang);
     res.redirect(addSearchParams(nextPageUrl, { lang }));
 }));
 

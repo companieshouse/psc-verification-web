@@ -38,15 +38,19 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             pscName: pscIndividual.resource?.name!,
             monthBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
             personalCode: verificationResource?.data?.verification_details?.uvid || "",
-            currentUrl: addSearchParams(PrefixedUrls.PERSONAL_CODE, { lang }),
-            backURL: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId), { lang }),
+            currentUrl: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
+            backURL: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_PSC_LIST),
             templateName: Urls.PERSONAL_CODE,
             backLinkDataEvent: "personal-code-back-link"
         };
+
+        function resolveUrlTemplate (prefixedUrl: string): string | null {
+            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { lang });
+        }
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<PersonalCodeViewData>> {
-        logger.info(`PersonalCodeHandler execute called`);
+        logger.info(`${PersonalCodeHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         const viewData = await this.getViewData(req, res);
 
         return {
@@ -56,12 +60,14 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
     }
 
     public async executePost (req: Request, res: Response) {
+        logger.info(`${PersonalCodeHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         const uvid = req.body.personalCode;
         const verification: PscVerification = {
             verification_details: {
                 uvid: uvid
             }
         };
+        logger.debug(`${PersonalCodeHandler.name} - ${this.executePost.name} - patching personal code for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
     }
 }

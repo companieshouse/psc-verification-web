@@ -19,7 +19,7 @@ personalCodeRouter.post("/", handleExceptions(async (req: Request, res: Response
     await handler.executePost(req, res);
 
     const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, req.params.transactionId, req.params.submissionId);
-    const lang = selectLang(req.body.lang);
+    const lang = selectLang(req.query.lang);
     res.redirect(addSearchParams(nextPageUrl, { lang }));
 }));
 
