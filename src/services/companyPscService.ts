@@ -13,34 +13,33 @@ export const getCompanyIndividualPscList = async (request: Request, companyNumbe
     const companyPscs = response.resource as CompanyPersonsWithSignificantControl;
 
     if (companyPscs === null || companyPscs.items === null) {
-        logger.info(`getCompanyIndividualPscList no pscs have been found for company ${companyNumber}`);
+        logger.info(`${getCompanyIndividualPscList.name} - no pscs have been found for company ${companyNumber}`);
+
         return [];
     }
 
-    const companyPscList = companyPscs.items as CompanyPersonWithSignificantControl[];
+    const companyPscList = companyPscs.items;
 
-    const individualPscList = companyPscList.filter((psc) => {
+    return companyPscList.filter((psc) => {
         return psc.kind === IND_PSC_TYPE && (psc.ceasedOn === null || psc.ceasedOn === undefined);
     });
-
-    return individualPscList;
 };
 
 export const getCompanyPscList = async (request: Request, companyNumber: string): Promise<Resource<CompanyPersonsWithSignificantControl>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
 
-    logger.debug(`getCompanyPscList for company number ${companyNumber}`);
+    logger.debug(`${getCompanyPscList.name} for company number ${companyNumber}`);
     const sdkResponse: Resource<CompanyPersonsWithSignificantControl> | ApiErrorResponse = await oAuthApiClient.companyPsc.getCompanyPsc(companyNumber);
 
     if (!sdkResponse || !sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
-        throw createAndLogError(`getCompanyPscList - Failed to get company psc list for company number ${companyNumber}`);
+        throw createAndLogError(`${getCompanyPscList.name} - Failed to get company psc list for company number ${companyNumber}`);
     }
 
-    logger.debug(`getCompanyPscList getCompanyPsc response company psc list ${JSON.stringify(sdkResponse)}`);
+    logger.debug(`${getCompanyPscList.name} - company psc list response for company number ${companyNumber}:  ${JSON.stringify(sdkResponse)}`);
     const companyPscsSdkResponse = sdkResponse as Resource<CompanyPersonsWithSignificantControl>;
 
     if (!companyPscsSdkResponse.resource) {
-        throw createAndLogError(`getCompanyPscList returned no resource for company number ${companyNumber}`);
+        throw createAndLogError(`${getCompanyPscList.name} returned no resource for company number ${companyNumber}`);
     }
 
     return companyPscsSdkResponse;

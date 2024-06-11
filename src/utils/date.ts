@@ -11,7 +11,7 @@ export const toReadableFormat = (dateToConvert: string | undefined, lang = "en")
     const convertedDate = dateTime.setLocale(lang || "en").toFormat("d MMMM yyyy");
 
     if (convertedDate === "Invalid DateTime") {
-        throw logger.info(`Unable to convert provided date ${dateToConvert}`);
+        throw logger.info(`${toReadableFormat.name} - Unable to convert provided date ${dateToConvert}`);
     }
 
     return convertedDate;

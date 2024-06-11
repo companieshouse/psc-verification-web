@@ -33,7 +33,7 @@ export class RleVerifiedHandler extends GenericHandler<RleVerifiedViewData> {
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<RleVerifiedViewData>> {
-        logger.info(`RleVerifiedHandler execute called`);
+        logger.info(`${RleVerifiedHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         const viewData = await this.getViewData(req, res);
 
         return {

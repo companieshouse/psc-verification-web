@@ -5,9 +5,9 @@ import { selectLang } from "../utils/localise";
 import { getUrlWithTransactionIdAndSubmissionId } from "../utils/url";
 import { PscTypeHandler } from "./handlers/psc-type/pscType";
 
-const router: Router = Router({ mergeParams: true });
+const pscTypeRouter: Router = Router({ mergeParams: true });
 
-router.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+pscTypeRouter.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new PscTypeHandler();
     const params = await handler.executeGet(req, res);
 
@@ -16,8 +16,8 @@ router.get("/", handleExceptions(async (req: Request, res: Response, _next: Next
     }
 }));
 
-router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
-    const lang = selectLang(req.body.lang);
+pscTypeRouter.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
     const selectedType = req.body.pscType;
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
 
@@ -37,4 +37,4 @@ const selectPscType = (pscType: any): string => {
     }
 };
 
-export default router;
+export default pscTypeRouter;

@@ -7,7 +7,7 @@ import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddlewar
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
-import { CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { VALID_COMPANY_PSC_ITEMS } from "../../../mocks/companyPsc.mock";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
@@ -53,7 +53,7 @@ describe("individual PSC list view", () => {
         console.log(resp.text);
 
         expect(resp.status).toBe(HttpStatusCode.Ok);
-        expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/psc-type?lang=en&pscType=individual");
+        expect($("a.govuk-back-link").attr("href")).toBe(`/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/psc-type?lang=en&pscType=individual&companyNumber=${COMPANY_NUMBER}`);
         // check page contents
         expect($("div#pscSelect-hint").text()).toContain(` ${validCompanyProfile.companyName} `);
         // radios for individual PSCs only
