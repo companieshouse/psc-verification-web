@@ -27,7 +27,7 @@ jest.mock("../../../../src/services/pscService", () => ({
     })
 }));
 
-describe("individual statement view", () => {
+describe("personal code view", () => {
 
     beforeEach(() => {
         mockSessionMiddleware.mockClear();

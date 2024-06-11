@@ -30,7 +30,7 @@ beforeEach(() => {
     jest.clearAllMocks();
 });
 
-describe("personal code router tests", () => {
+describe("personal code handler tests", () => {
 
     beforeEach(() => {
         middlewareMocks.mockSessionMiddleware.mockClear();
