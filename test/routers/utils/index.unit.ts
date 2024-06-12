@@ -45,4 +45,11 @@ describe("internationaliseDate tests", () => {
         const formattedDate = internationaliseDate(date, lang);
         expect(formattedDate).toBe("6 Mehefin 1995");
     });
+
+    it("should return Invalid date when date is invalid", () => {
+        const date = "Invalid date";
+        const lang = "en";
+        const formattedDate = internationaliseDate(date, lang);
+        expect(formattedDate).toBe("Invalid date");
+    });
 });
