@@ -45,4 +45,25 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
             viewData
         };
     }
+
+    public executePost (req: Request, res: Response): string {
+        const lang = selectLang(req.query.lang);
+        const selectedType = req.body.pscType;
+
+        const queryParams = new URLSearchParams(req.url.split("?")[1]);
+        queryParams.set("lang", lang);
+        queryParams.set("pscType", selectedType);
+
+        const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(selectPscType(selectedType), req.params.transactionId, req.params.submissionId);
+        return `${nextPageUrl}?${queryParams}`;
+    }
 }
+
+// TODO update default when error page available.
+const selectPscType = (pscType: any): string => {
+    switch (pscType) {
+    case "individual": return PrefixedUrls.INDIVIDUAL_PSC_LIST;
+    case "rle": return PrefixedUrls.RLE_LIST;
+    default: return PrefixedUrls.INDIVIDUAL_PSC_LIST;
+    }
+};

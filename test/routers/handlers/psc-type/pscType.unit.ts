@@ -3,7 +3,7 @@ import * as httpMocks from "node-mocks-http";
 import { PscTypeHandler } from "../../../../src/routers/handlers/psc-type/pscTypeHandler";
 import { Urls } from "../../../../src/constants";
 
-describe("start handler", () => {
+describe("psc type handler", () => {
     describe("executeGet", () => {
 
         it("should return the correct template path", async () => {
@@ -46,18 +46,28 @@ describe("start handler", () => {
 
         });
     });
+    // describe("executePost", () => {
+    //     const req = httpMocks.createRequest({
+    //         method: "POST",
+    //         url: Urls.PSC_TYPE,
+    //         params: {
+    //             transactionId: TRANSACTION_ID,
+    //             submissionId: PSC_VERIFICATION_ID
+    //         },
+    //         query: {
+    //             lang: "en",
+    //             companyNumber: COMPANY_NUMBER
+    //         },
+    //         body: {
+    //             pscType: "individual"
+    //         }
+    //     });
 
-    // it.each([[undefined, undefined], ["individual", "pscType=individual"], ["rle", "pscType=rle"]])("Should render the Psc Type page with a success status code and %s radio button checked", async (expectedSelection, expectedQuery) => {
-    //     const queryParams = new URLSearchParams(expectedQuery);
-    //     const uriWithQuery = `${PrefixedUrls.PSC_TYPE}?${queryParams}`;
-    //     const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
+    //     const res = httpMocks.createResponse({});
+    //     const handler = new PscTypeHandler();
 
-    //     const resp = await request(app).get(uri);
+    //     const redirectUrl = handler.executePost(req, res);
 
-    //     const $ = cheerio.load(resp.text);
-
-    //     expect(resp.status).toBe(HttpStatusCode.Ok);
-    //     expect($("input[name=pscType]:checked").val()).toBe(expectedSelection);
+    //     expect(redirectUrl).toBe(`/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-list?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=individual`);
     // });
-
 });
