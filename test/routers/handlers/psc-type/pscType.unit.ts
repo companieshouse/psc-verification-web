@@ -1,18 +1,7 @@
-import { HttpStatusCode } from "axios";
-import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
-import { getPscVerification } from "../../../../src/services/pscVerificationService";
+import { COMPANY_NUMBER, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import * as httpMocks from "node-mocks-http";
 import { PscTypeHandler } from "../../../../src/routers/handlers/psc-type/pscTypeHandler";
 import { Urls } from "../../../../src/constants";
-
-jest.mock("../../../../src/services/pscVerificationService", () => ({
-    getPscVerification: () => ({
-        httpStatusCode: HttpStatusCode.Ok,
-        resource: CREATED_RESOURCE
-    })
-}));
-
-const mockGetPscVerification = getPscVerification as jest.Mock;
 
 describe("start handler", () => {
     describe("executeGet", () => {
