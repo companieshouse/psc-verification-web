@@ -43,6 +43,9 @@ export const env = readEnv(process.env, {
     FEEDBACK_URL: str
         .describe("Link for the user to give feedback on the service")
         .default(""),
+    FOOTER_URL: str
+        .describe("Link for find and update company")
+        .default("https://find-and-update.company-information.service.gov.uk"),
     IDV_IMPLEMENTATION_DATE: str
         .describe("Date when IDV comes into effect for PSCs")
         .default(""),
