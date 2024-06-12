@@ -1,5 +1,5 @@
 import { HttpStatusCode } from "axios";
-import { CREATED_RESOURCE } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
 import * as httpMocks from "node-mocks-http";
 import { PscTypeHandler } from "../../../../src/routers/handlers/psc-type/pscTypeHandler";
@@ -33,7 +33,15 @@ describe("start handler", () => {
         it("should return the correct view data", async () => {
             const req = httpMocks.createRequest({
                 method: "GET",
-                url: Urls.PSC_TYPE
+                url: Urls.PSC_TYPE,
+                params: {
+                    transactionId: TRANSACTION_ID,
+                    submissionId: PSC_VERIFICATION_ID
+                },
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    lang: "en"
+                }
             });
 
             const res = httpMocks.createResponse({});
@@ -41,10 +49,10 @@ describe("start handler", () => {
 
             const { templatePath, viewData } = await handler.executeGet(req, res);
 
-            expect.objectContaining({
+            expect(viewData).toMatchObject({
                 title: "PSC type – Provide identity verification details for a PSC or relevant legal entity",
-                backURL: "/persons-with-significant-control-verification/confirm-company?companyNumber=00006400&lang=en&pscType=undefined",
-                currentUrl: "/persons-with-significant-control-verification/transaction/078558-347217-181206/submission/666870f238427b57591b9ef7/psc-type?companyNumber=00006400&lang=en&pscType=undefined"
+                backURL: `/persons-with-significant-control-verification/confirm-company?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=undefined`,
+                currentUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/psc-type?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=undefined`
             });
 
         });
