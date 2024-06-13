@@ -6,7 +6,8 @@ const newSubmissionRouter: Router = Router({ mergeParams: true });
 
 newSubmissionRouter.all("/", handleExceptions(async (req: Request, res: Response) => {
     const handler = new NewSubmissionHandler();
-    await handler.execute(req, res);
+    const redirectUrl = await handler.execute(req, res);
+    res.redirect(redirectUrl);
 }));
 
 export default newSubmissionRouter;

@@ -69,5 +69,23 @@ describe("new submission handler tests", () => {
             expect(mockCreatePscVerification).toHaveBeenCalledTimes(1);
             expect(mockCreatePscVerification).toHaveBeenCalledWith(request, expect.objectContaining({ transaction: CREATED_PSC_TRANSACTION }), expect.objectContaining({ company_number: COMPANY_NUMBER }));
         });
+
+        // it("should redirect to the psc type router", async () => {
+
+        //     const req = httpMocks.createRequest({
+        //         method: "GET",
+        //         url: Urls.NEW_SUBMISSION,
+        //         query: {
+        //             lang: "en",
+        //             companyNumber: COMPANY_NUMBER
+        //         }
+        //     })
+
+        //     const res = httpMocks.createResponse({});
+        //     const handler = new NewSubmissionHandler();
+
+        //     const redirectUrl = await handler.execute(request, response);
+        //     expect(redirectUrl).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/psc-type?lang=en");
+        // });
     });
 });
