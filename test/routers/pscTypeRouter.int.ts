@@ -3,19 +3,9 @@ import middlewareMocks from "../mocks/allMiddleware.mock";
 import request from "supertest";
 import { PrefixedUrls } from "../../src/constants";
 import app from "../../src/app";
-import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { HttpStatusCode } from "axios";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../src/utils/url";
-import { getPscVerification } from "../../src/services/pscVerificationService";
-
-jest.mock("../../src/services/pscVerificationService", () => ({
-    getPscVerification: () => ({
-        httpStatusCode: HttpStatusCode.Ok,
-        resource: CREATED_RESOURCE
-    })
-}));
-
-const mockGetPscVerification = getPscVerification as jest.Mock;
 
 beforeEach(() => {
     jest.clearAllMocks();

@@ -15,7 +15,8 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
         const baseViewData = await super.getViewData(req, res);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const companyNumber = req.query.companyNumber as string;
+        const verificationResource = res.locals.submission;
+        const companyNumber = verificationResource?.data.company_number as string;
         const pscType = req.query.pscType as string;
 
         return {
