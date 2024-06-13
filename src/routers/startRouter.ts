@@ -1,17 +1,14 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { handleExceptions } from "../utils/asyncHandler";
-import { StartHandler } from "./handlers/start/start";
+import { StartHandler } from "./handlers/start/startHandler";
 
 const startRouter: Router = Router();
 
 startRouter.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
 
     const handler = new StartHandler();
-    const params = await handler.executeGet(req, res);
-
-    if (params.templatePath && params.viewData) {
-        res.render(params.templatePath, params.viewData);
-    }
+    const { templatePath, viewData } = await handler.executeGet(req, res);
+    res.render(templatePath, viewData);
 }));
 
 export default startRouter;

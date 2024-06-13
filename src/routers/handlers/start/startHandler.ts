@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
+import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { addSearchParams } from "../../../utils/queryParams";
 import { internationaliseDate } from "../../utils";
 import { env } from "../../../config";
