@@ -6,7 +6,7 @@ import { HttpStatusCode } from "axios";
 import { getCompanyProfile } from "../../src/services/companyProfileService";
 import { validCompanyProfile } from "../mocks/companyProfile.mock";
 import { VALID_COMPANY_PSC_LIST } from "../mocks/companyPsc.mock";
-import { CREATED_RESOURCE, PATCHED_INDIVIDUAL_RESOURCE_PSC_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { CREATED_RESOURCE, PATCHED_RLE_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../src/utils/url";
 import { PSC_ID } from "../mocks/psc.mock";
 import { getPscVerification, patchPscVerification } from "../../src/services/pscVerificationService";
@@ -51,7 +51,7 @@ describe("psc individual list post tests", () => {
     });
 
     it.skip("Should redirect to the personal code (psc details) page when a PSC is selected", async () => {
-        mockPatchPscVerification.mockResolvedValueOnce(PATCHED_INDIVIDUAL_RESOURCE_PSC_ID);
+        mockPatchPscVerification.mockResolvedValueOnce(PATCHED_RLE_RESOURCE);
         const expectedPage = PrefixedUrls.PERSONAL_CODE;
         const expectedRedirectUrl = `${expectedPage.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?lang=en&pscType=individual`;
 

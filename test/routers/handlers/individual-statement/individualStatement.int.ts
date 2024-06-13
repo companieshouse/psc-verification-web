@@ -10,7 +10,7 @@ import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { INDIVIDUAL_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
-import { PscVerification, VerificationStatement } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { PscVerificationData, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { IncomingMessage } from "http";
 
 jest.mock("../../../../src/services/pscVerificationService");
@@ -62,9 +62,9 @@ describe("individual statement view", () => {
 
     it("Should redirect to the PSC verified page with a redirect status code", async () => {
         const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID);
-        const verification: PscVerification = {
-            verification_details: {
-                verification_statements: [VerificationStatement.INDIVIDUAL_VERIFIED]
+        const verification: PscVerificationData = {
+            verificationDetails: {
+                verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
             }
         };
         mockPatchPscVerification.mockResolvedValueOnce({
@@ -76,7 +76,7 @@ describe("individual statement view", () => {
 
         const resp = await request(app)
             .post(uri)
-            .send({ psc_individual_statement: VerificationStatement.INDIVIDUAL_VERIFIED });
+            .send({ psc_individual_statement: VerificationStatementEnum.INDIVIDUAL_VERIFIED });
 
         expect(resp.status).toBe(HttpStatusCode.Found);
         expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);

@@ -6,10 +6,10 @@ import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddlewar
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { INDIVIDUAL_RESOURCE, PATCHED_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { INDIVIDUAL_RESOURCE, PATCH_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
-import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { IncomingMessage } from "http";
 
 jest.mock("../../../../src/services/pscVerificationService");
@@ -57,15 +57,15 @@ describe("personal code view", () => {
 
     it("Should redirect to the PSC individual statement page with a redirect status code", async () => {
         const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
-        const verification: PscVerification = {
-            verification_details: {
+        const verification: PscVerificationData = {
+            verificationDetails: {
                 uvid: "123abc456edf"
             }
         };
         mockPatchPscVerification.mockResolvedValueOnce({
             HttpStatusCode: HttpStatusCode.Ok,
             resource: {
-                ...PATCHED_INDIVIDUAL_DATA, ...verification
+                ...PATCH_INDIVIDUAL_DATA, ...verification
             }
         });
 
