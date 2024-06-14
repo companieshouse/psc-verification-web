@@ -1,16 +1,15 @@
 import { HttpStatusCode } from "axios";
-import * as cheerio from "cheerio";
 import request from "supertest";
-import { URLSearchParams } from "url";
+import * as cheerio from "cheerio";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { INDIVIDUAL_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { INDIVIDUAL_RESOURCE, PATCHED_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
-import { PscVerification, VerificationStatement } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { IncomingMessage } from "http";
 
 jest.mock("../../../../src/services/pscVerificationService");
@@ -28,7 +27,7 @@ jest.mock("../../../../src/services/pscService", () => ({
     })
 }));
 
-describe("individual statement view", () => {
+describe("personal code view", () => {
 
     beforeEach(() => {
         mockSessionMiddleware.mockClear();
@@ -41,9 +40,10 @@ describe("individual statement view", () => {
         jest.clearAllMocks();
     });
 
-    it.each(["en", "cy"])(`Should render the Individual Statement page with a success status code, correct (%s) links , and correct statement selected`, async (lang) => {
-        const queryParams = new URLSearchParams(`lang=${lang}`);
-        const uriWithQuery = `${PrefixedUrls.INDIVIDUAL_STATEMENT}?${queryParams}`;
+    it("Should render the Personal code page with a success status code and correct links", async () => {
+
+        const queryParams = new URLSearchParams("lang=en");
+        const uriWithQuery = `${PrefixedUrls.PERSONAL_CODE}?${queryParams}`;
         const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
         const resp = await request(app).get(uri);
@@ -51,38 +51,31 @@ describe("individual statement view", () => {
         const $ = cheerio.load(resp.text);
 
         expect(resp.status).toBe(HttpStatusCode.Ok);
-        expect($("a.govuk-back-link").attr("href")).toBe(`/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/personal-code?lang=${lang}`);
-        if (lang === "en") {
-            expect($("div#nameAndDateOfBirth").text()).toBe("Sir Forename Middlename Surname (Born April 2000)");
-            // expect emphasis applied to PSC name
-            expect(normalizeWhitespace($("label.govuk-checkboxes__label[for='psc_individual_statement']").html())).toBe("<label>I confirm that <strong>Sir Forename Middlename Surname</strong> has verified their identity.</label>");
-        }
-        expect($("input.govuk-checkboxes__input[name=psc_individual_statement]").prop("checked")).toBe(true);
+
+        expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/psc-list?lang=en");
     });
 
-    it("Should redirect to the PSC verified page with a redirect status code", async () => {
-        const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID);
+    it("Should redirect to the PSC individual statement page with a redirect status code", async () => {
+        const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
         const verification: PscVerification = {
             verification_details: {
-                verification_statements: [VerificationStatement.INDIVIDUAL_VERIFIED]
+                uvid: "123abc456edf"
             }
         };
         mockPatchPscVerification.mockResolvedValueOnce({
             HttpStatusCode: HttpStatusCode.Ok,
             resource: {
-                ...INDIVIDUAL_RESOURCE, ...verification
+                ...PATCHED_INDIVIDUAL_DATA, ...verification
             }
         });
 
         const resp = await request(app)
             .post(uri)
-            .send({ psc_individual_statement: VerificationStatement.INDIVIDUAL_VERIFIED });
+            .send({ personalCode: "123abc456edf" });
 
         expect(resp.status).toBe(HttpStatusCode.Found);
         expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
         expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
-        expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
+        expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
     });
 });
-
-const normalizeWhitespace = (html: string | null): string | null => html?.replace(/[\r\n\t]+/gm, "").replace(/\s+/g, " ").trim() || null;

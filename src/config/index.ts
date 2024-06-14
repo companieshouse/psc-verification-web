@@ -8,7 +8,7 @@ export const env = readEnv(process.env, {
         .describe("API base URL for service interaction"),
     APP_NAME: str
         .describe("Name of the application")
-        .default("persons-with-significant-control-verification"),
+        .default("psc-verification-web"),
     APPLICATION_FORM_LINK: str
         .default(
             "https://www.gov.uk/government/publications/apply-for-a-companies-house-online-filing-presenter-account"

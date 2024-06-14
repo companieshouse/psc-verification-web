@@ -5,6 +5,7 @@ export const DOB_DATE = new Date("1970-01-01");
 export const COMPANY_NUMBER = "12345678";
 export const TRANSACTION_ID = "11111-22222-33333";
 export const PSC_VERIFICATION_ID = "662a0de6a2c6f9aead0f32ab";
+export const UVID = "123abc456edf";
 export const SELF_URI = `/transactions/${TRANSACTION_ID}/persons-with-significant-control-verification/${PSC_VERIFICATION_ID}`;
 
 export const INITIAL_DATA: PscVerification = {
@@ -42,7 +43,8 @@ export const PATCHED_INDIVIDUAL_DATA: PscVerification = {
     psc_appointment_id: PSC_VERIFICATION_ID,
     verification_details: {
         name_mismatch_reason: NameMismatchReason.PREFERRED_NAME,
-        verification_statements: [VerificationStatement.INDIVIDUAL_VERIFIED]
+        verification_statements: [VerificationStatement.INDIVIDUAL_VERIFIED],
+        uvid: UVID
     }
 };
 
