@@ -27,6 +27,7 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         const lang = selectLang(req.query.lang);
         const regex = "significant-control-verification/(.*)$";
         const resourceId = resource.resource?.links.self.match(regex);
+        const transactionId = transaction.id;
         const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, transaction.id!, resourceId![1]);
 
         // send the redirect
@@ -38,7 +39,6 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         const verification: PscVerification = {
             company_number: companyNumber
         };
-        const pscVerifcation: Resource<PscVerificationResource> = await createPscVerification(request, transaction, verification);
-        return pscVerifcation;
+        return await createPscVerification(request, transaction, verification);
     }
 }
