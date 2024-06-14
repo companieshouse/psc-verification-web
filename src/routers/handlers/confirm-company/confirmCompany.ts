@@ -45,9 +45,7 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<ConfirmCompanyViewData>> {
         logger.info(`ConfirmCompanyHandler executeGet called`);
-
         const viewData = await this.getViewData(req, res);
-
         return {
             templatePath: ConfirmCompanyHandler.templatePath,
             viewData
