@@ -10,7 +10,7 @@ import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 
 interface ConfirmCompanyViewData extends BaseViewData {
     company: CompanyProfile
-    address: String
+    address: string
 }
 
 export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData> {
@@ -44,7 +44,8 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<ConfirmCompanyViewData>> {
-        logger.info(`ConfirmCompanyHandler executeGet called`);
+        logger.info(`${ConfirmCompanyHandler.name} - ${this.executeGet.name} called`);
+
         const viewData = await this.getViewData(req, res);
         return {
             templatePath: ConfirmCompanyHandler.templatePath,
@@ -53,7 +54,7 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
     }
 
     public async executePost (req: Request, res: Response) {
-        logger.info(`ConfirmCompanyHandler executePost called`);
+        logger.info(`${ConfirmCompanyHandler.name} - ${this.executePost.name} called`);
         const companyNumber = req.body.companyNumber as string;
         const lang = selectLang(req.body.lang);
         // return the url for createNewSubmission route

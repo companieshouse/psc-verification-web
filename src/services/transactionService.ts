@@ -9,7 +9,7 @@ import { createOAuthApiClient } from "./apiClientService";
 
 export const REFERENCE = "PscVerificationReference";
 export const DESCRIPTION = "PSC Verification Transaction";
-export enum TransactionStatus { OPEN = "open", CLOSED = "closed" };
+export enum TransactionStatus { OPEN = "open", CLOSED = "closed" }
 
 export const postTransaction = async (req: Request): Promise<Transaction> => {
 
@@ -21,25 +21,25 @@ export const postTransaction = async (req: Request): Promise<Transaction> => {
         description: DESCRIPTION
     };
 
-    logger.debug(`Creating transaction with company number ${companyNumber}`);
+    logger.debug(`${postTransaction.name} - Creating transaction with company number ${companyNumber}`);
     const sdkResponse: Resource<Transaction> | ApiErrorResponse = await oAuthApiClient.transaction.postTransaction(transaction);
 
     if (!sdkResponse) {
-        logger.error(`Transaction API POST request returned no response for company number ${companyNumber}`);
+        logger.error(`${postTransaction.name} - Transaction API POST request returned no response for company number ${companyNumber}`);
         return Promise.reject(sdkResponse);
     }
     if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= 400) {
-        logger.error(`HTTP status code ${sdkResponse.httpStatusCode} - Failed to post transaction for company number ${companyNumber}`);
+        logger.error(`${postTransaction.name} - HTTP status code ${sdkResponse.httpStatusCode} - Failed to post transaction for company number ${companyNumber}`);
         return Promise.reject(sdkResponse);
     }
 
     const castedSdkResponse: Resource<Transaction> = sdkResponse as Resource<Transaction>;
 
     if (!castedSdkResponse.resource) {
-        logger.error(`Transaction API POST request returned no resource for company number ${companyNumber}`);
+        logger.error(`${postTransaction.name} - Transaction API POST request returned no resource for company number ${companyNumber}`);
         return Promise.reject(sdkResponse);
     }
-    logger.debug(`Received transaction ${JSON.stringify(sdkResponse)}`);
+    logger.debug(`${postTransaction.name} - Received transaction: ${JSON.stringify(sdkResponse)}`);
 
     return Promise.resolve(castedSdkResponse.resource);
 };
@@ -58,34 +58,34 @@ export const putTransaction = async (req: Request,
         status: transactionStatus
     };
 
-    logger.debug(`Updating transaction id ${transactionId} with status ${transactionStatus}`);
+    logger.debug(`${putTransaction.name} - Updating transaction id ${transactionId} with status ${transactionStatus}`);
     const sdkResponse: ApiResponse<Transaction> | ApiErrorResponse = await apiClient.transaction.putTransaction(transaction);
 
     if (!sdkResponse) {
-        logger.error(`Transaction API PUT request returned no response for transaction id ${transactionId}`);
+        logger.error(`${putTransaction.name} - Transaction API PUT request returned no response for transaction id ${transactionId}`);
         return Promise.reject(sdkResponse);
     }
 
     if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== StatusCodes.NO_CONTENT) {
-        logger.error(`HTTP status code ${sdkResponse.httpStatusCode} - Failed to put transaction for transaction id ${transactionId}`);
+        logger.error(`${putTransaction.name} - HTTP status code ${sdkResponse.httpStatusCode} - Failed to put transaction for transaction id ${transactionId}`);
         return Promise.reject(sdkResponse);
     }
 
     const castedSdkResponse: ApiResponse<Transaction> = sdkResponse as ApiResponse<Transaction>;
 
-    logger.debug(`Received transaction ${JSON.stringify(sdkResponse)}`);
+    logger.debug(`${putTransaction.name} - Received transaction: ${JSON.stringify(sdkResponse)}`);
 
     return Promise.resolve(castedSdkResponse);
 };
 
 export const closeTransaction = async (req: Request, transactionId: string, objectId: string|undefined): Promise<Resource<Transaction> | ApiErrorResponse> => {
-    logger.debug(`Closing transaction id ${transactionId}, updating reference`);
+    logger.debug(`${closeTransaction.name} - Closing transaction id ${transactionId}, updating reference`);
 
     const putResponse: ApiResponse<Transaction> = await putTransaction(req, transactionId, DESCRIPTION, TransactionStatus.CLOSED, objectId)
         .catch((sdkResponse) => {
             return Promise.reject(sdkResponse);
         });
-    logger.debug(`Closed transaction ${JSON.stringify(putResponse)}`);
+    logger.debug(`${closeTransaction.name} - Closed transaction: ${JSON.stringify(putResponse)}`);
 
     return Promise.resolve(putResponse);
 

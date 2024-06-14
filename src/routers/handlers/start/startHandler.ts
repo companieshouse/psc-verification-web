@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { BaseViewData, GenericHandler, ViewModel } from "./../generic";
+import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { addSearchParams } from "../../../utils/queryParams";
 import { internationaliseDate } from "../../utils";
 import { env } from "../../../config";
@@ -33,10 +33,10 @@ export class StartHandler extends GenericHandler<StartViewData> {
         };
     }
 
-    public async execute (req: Request, res: Response): Promise<ViewModel<StartViewData>> {
-        logger.info(`GET request to serve start page`);
-        // ...process request here and return data for the view
+    public async executeGet (req: Request, res: Response): Promise<ViewModel<StartViewData>> {
+        logger.info(`${StartHandler.name} - ${this.executeGet.name}: called to serve start page`);
 
+        // ...process request here and return data for the view
         return {
             templatePath: StartHandler.templatePath,
             viewData: await this.getViewData(req, res)

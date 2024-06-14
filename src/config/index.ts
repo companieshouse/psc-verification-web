@@ -8,7 +8,7 @@ export const env = readEnv(process.env, {
         .describe("API base URL for service interaction"),
     APP_NAME: str
         .describe("Name of the application")
-        .default("persons-with-significant-control-verification"),
+        .default("psc-verification-web"),
     APPLICATION_FORM_LINK: str
         .default(
             "https://www.gov.uk/government/publications/apply-for-a-companies-house-online-filing-presenter-account"
@@ -133,7 +133,7 @@ export const env = readEnv(process.env, {
         .default("24"),
     POLICIES_LINK: str
         .describe("Link to policies")
-        .default("http://resources.companieshouse.gov.uk/legal/termsAndConditions.shtml"),
+        .default("https://resources.companieshouse.gov.uk/legal/termsAndConditions.shtml"),
     PORT: port.describe("Port to run the web server on").default(3000),
     VERIFY_IDENTITY_LINK: str
         .describe("Path to guidance to Verify Identity")

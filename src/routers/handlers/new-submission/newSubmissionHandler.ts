@@ -14,17 +14,17 @@ import { addSearchParams } from "../../../utils/queryParams";
 export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
 
     public async execute (req: Request, res: Response) {
-        logger.info(`New SubmissionHandler execute called`);
+        logger.info(`${NewSubmissionHandler.name} - ${this.execute.name} called`);
         // create a new transaction
         const transaction: Transaction = await postTransaction(req);
-        logger.info(`CREATED Transaction ${transaction.id!} `);
+        logger.info(`${NewSubmissionHandler.name} - ${this.execute.name} - CREATED Transaction ${transaction.id!}`);
 
         // create a new submission for the company number provided
         const resource = await this.createNewSubmission(req, transaction);
-        logger.info(`CREATED New Resource ${resource?.resource?.links.self} `);
+        logger.info(`${NewSubmissionHandler.name} - ${this.execute.name} - CREATED New Resource ${resource?.resource?.links.self}`);
 
         // set up redirect to psc_type screen
-        const lang = selectLang(req.body.lang);
+        const lang = selectLang(req.query.lang);
         const regex = "significant-control-verification/(.*)$";
         const resourceId = resource.resource?.links.self.match(regex);
         const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, transaction.id!, resourceId![1]);
@@ -40,6 +40,6 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         const verification: PscVerification = {
             company_number: companyNumber
         };
-        return await createPscVerification(request, transaction, verification);
+        return createPscVerification(request, transaction, verification);
     }
 }
