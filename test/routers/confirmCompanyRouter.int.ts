@@ -6,8 +6,7 @@ import { PrefixedUrls } from "../../src/constants";
 import { getCompanyProfile } from "../../src/services/companyProfileService";
 import { validCompanyProfile } from "../mocks/companyProfile.mock";
 import { HttpStatusCode } from "axios";
-
-const COMPANY_NUMBER = "12345678";
+import { COMPANY_NUMBER } from "../mocks/companyPsc.mock";
 
 jest.mock("../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
