@@ -30,9 +30,7 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, transaction.id!, resourceId![1]);
 
         // send the redirect
-        const companyNumber = req.query.companyNumber as string;
-        return res.redirect(addSearchParams(nextPageUrl, { companyNumber, lang }));
-
+        return addSearchParams(nextPageUrl, { lang });
     }
 
     public async createNewSubmission (request: Request, transaction: Transaction): Promise<Resource<PscVerificationResource>> {
@@ -40,6 +38,6 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         const verification: PscVerification = {
             company_number: companyNumber
         };
-        return createPscVerification(request, transaction, verification);
+        return await createPscVerification(request, transaction, verification);
     }
 }
