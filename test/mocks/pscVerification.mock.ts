@@ -21,17 +21,6 @@ export const LINKS: Links = {
     validationStatus: ""
 };
 
-// //export const INITIAL_DATA: PscVerification = {
-//     company_number: COMPANY_NUMBER
-// };
-
-// export const INITIAL_CREATED_PSC: PscVerification = {
-//     data: INITIAL_PSC_DATA,
-//     createdAt: FIRST_DATE,
-//     updatedAt: FIRST_DATE,
-//     links: LINKS
-// };
-
 export const INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscAppointmentId: PSC_VERIFICATION_ID,
@@ -50,13 +39,6 @@ export const INDIVIDUAL_DATA_RESOURCE: PscVerificationDataResource = {
     }
 };
 
-// export const INDIVIDUAL_PSC_VERIFICATION: PscVerification = {
-//     data: INDIVIDUAL_DATA,
-//     createdAt: FIRST_DATE,
-//     updatedAt: FIRST_DATE,
-//     links: LINKS
-// };
-
 export const PATCH_INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscAppointmentId: PSC_VERIFICATION_ID
@@ -66,13 +48,6 @@ export const PATCH_INDIVIDUAL_DATA_RESOURCE: PscVerificationDataResource = {
     company_number: COMPANY_NUMBER,
     psc_appointment_id: PSC_VERIFICATION_ID
 };
-
-// export const PATCHED_INDIVIDUAL_VERIFICATION: PscVerification = {
-//     data: PATCH_INDIVIDUAL_DATA,
-//     createdAt: FIRST_DATE,
-//     updatedAt: FIRST_DATE,
-//     links: LINKS
-// };
 
 export const PATCH_RLE_DATA: PscVerificationData = {
     verificationDetails: {
@@ -85,13 +60,6 @@ export const PATCH_RLE_DATA_RESOURCE: PscVerificationDataResource = {
         name_mismatch_reason: NameMismatchReasonEnum.PREFERRED_NAME
     }
 };
-
-// export const PATCHED_RLE_VERIFICATION_DETAILS: PscVerification = {
-//     data: PATCH_RLE_VERIFICATION_DETAILS_DATA,
-//     createdAt: FIRST_DATE,
-//     updatedAt: FIRST_DATE,
-//     links: LINKS
-// };
 
 export const PATCH_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
     verificationDetails: {
@@ -161,13 +129,6 @@ export const RLE_DATA_RESOURCE: PscVerificationDataResource = {
         verification_statements: [VerificationStatementEnum.RO_DECLARATION, VerificationStatementEnum.RO_IDENTIFIED, VerificationStatementEnum.RO_VERIFIED]
     }
 };
-
-// export const RLE_VERIFICATION: PscVerification = {
-//     data: RLE_DATA,
-//     createdAt: FIRST_DATE,
-//     updatedAt: FIRST_DATE,
-//     links: LINKS
-// };
 
 function initPscVerification (data: PscVerificationDataResource) {
     return {
