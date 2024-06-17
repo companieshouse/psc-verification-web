@@ -20,11 +20,13 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
 
         const baseViewData = await super.getViewData(req, res);
         const verificationResource = res.locals.submission;
-        const pscDetailsResponse = await getPscIndividual(req, verificationResource?.data.company_number as string,
-                                                verificationResource?.data.psc_appointment_id as string);
+        const pscDetailsResponse = await getPscIndividual(req, verificationResource?.data.companyNumber as string,
+                                                verificationResource?.data.pscAppointmentId as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const selectedStatements = verificationResource?.data?.verification_details?.verification_statements || [];
+        // TODO
+        // const selectedStatements = verificationResource?.data?.verificationDetails?.verificationStatements || [];
 
         return {
             ...baseViewData,

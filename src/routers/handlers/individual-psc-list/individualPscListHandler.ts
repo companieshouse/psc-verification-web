@@ -38,7 +38,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const verification = res.locals.submission;
-        const companyNumber = verification?.data?.company_number as string;
+        const companyNumber = verification?.data?.companyNumber as string;
         const companyProfile = res.locals.companyProfile;
 
         let companyName: string = "";
