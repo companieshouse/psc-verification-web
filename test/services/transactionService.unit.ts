@@ -3,11 +3,16 @@ import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transact
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createOAuthApiClient } from "../../src/services/apiClientService";
+import { getCompanyProfile } from "../../src/services/companyProfileService";
 import { DESCRIPTION, TransactionStatus, closeTransaction, postTransaction, putTransaction } from "../../src/services/transactionService";
+import { validCompanyProfile } from "../mocks/companyProfile.mock";
 import { CLOSED_PSC_TRANSACTION, COMPANY_NUMBER, CREATED_PSC_TRANSACTION, OPEN_PSC_TRANSACTION, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/transaction.mock";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../src/services/apiClientService");
+jest.mock("../../src/services/companyProfileService");
+const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
+mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 
 const mockCreateOAuthApiClient = createOAuthApiClient as jest.Mock;
 const mockPostTransaction = jest.fn();
