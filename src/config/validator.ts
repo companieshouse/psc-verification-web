@@ -32,6 +32,7 @@ class ValidatorBuilder<T> {
         private description: string = ""
     ) {}
 
+    // @ts-ignore: 'T' is already declared in upper scope
     static from<T> (validateFn: Validator<T>): ValidatorBuilder<T> {
         return new ValidatorBuilder(validateFn);
     }
