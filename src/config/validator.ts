@@ -53,7 +53,7 @@ class ValidatorBuilder<T> {
                 return new Just(defaultValue);
             }
             const maybe = this.validateFn(s);
-            return maybe.isJust() ? new Just(maybe.value as T) : new Nothing();
+            return maybe.isJust() ? new Just(maybe.value) : new Nothing();
         });
     }
 
