@@ -32,7 +32,7 @@ class ValidatorBuilder<T> {
         private description: string = ""
     ) {}
 
-    static from<T> (validateFn: Validator<T>): ValidatorBuilder<T> { // 'T' is already declared in the upper scope. NOSONAR
+    static from<T> (validateFn: Validator<T>): ValidatorBuilder<T> { // NOSONAR
         return new ValidatorBuilder(validateFn);
     }
 
