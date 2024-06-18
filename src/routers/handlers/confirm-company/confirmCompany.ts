@@ -38,7 +38,6 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
             backURL: companyLookup,
             company,
             address,
-            title: "Confirm this is the correct company - Provide identity verification details for a PSC or relevant legal entity",
             templateName: Urls.CONFIRM_COMPANY,
             backLinkDataEvent: "confirm-company-back-link"
         };

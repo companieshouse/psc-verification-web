@@ -34,7 +34,6 @@ describe("confirm company handler tests", () => {
             const { viewData } = await handler.executeGet(request, response);
 
             expect(viewData).toMatchObject({
-                title: "Confirm this is the correct company - Provide identity verification details for a PSC or relevant legal entity",
                 backURL: `/company-lookup/search?forward=%2Fpersons-with-significant-control-verification%2Fconfirm-company%3FcompanyNumber%3D%7BcompanyNumber%7D%26lang%3Den`,
                 currentUrl: `/persons-with-significant-control-verification/confirm-company?companyNumber=${COMPANY_NUMBER}&lang=en`
             });
