@@ -32,8 +32,7 @@ class ValidatorBuilder<T> {
         private description: string = ""
     ) {}
 
-    // eslint-disable no-shadow NOSONAR
-    static from<T> (validateFn: Validator<T>): ValidatorBuilder<T> {
+    static from<T> (validateFn: Validator<T>): ValidatorBuilder<T> { // 'T' is already declared in the upper scope. NOSONAR
         return new ValidatorBuilder(validateFn);
     }
 
