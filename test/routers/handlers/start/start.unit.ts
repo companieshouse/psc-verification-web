@@ -5,7 +5,7 @@ import { Urls } from "../../../../src/constants";
 describe("start handler", () => {
     describe("executeGet", () => {
 
-        it("should return the correct template path", async () => {
+        it("should return the correct template path and view data", async () => {
             const req = httpMocks.createRequest({
                 method: "GET",
                 url: Urls.START
@@ -17,24 +17,8 @@ describe("start handler", () => {
             const { templatePath, viewData } = await handler.executeGet(req, res);
 
             expect(templatePath).toBe("router_views/start/start");
-        });
-        it("should return the correct view data", async () => {
-            const req = httpMocks.createRequest({
-                method: "GET",
-                url: Urls.START
-            });
-
-            const res = httpMocks.createResponse({});
-            const handler = new StartHandler();
-
-            const { templatePath, viewData } = await handler.executeGet(req, res);
-
-            expect.objectContaining({
-                title: "PSC Verification",
-                currentUrl: "/persons-with-significant-control-verification/start?lang=en",
-                idvImplementationDate: "1 September 2025"
-            });
-
+            expect(viewData.currentUrl).toBe("/persons-with-significant-control-verification/start?lang=en");
+            expect(viewData.idvImplementationDate).toBe("1 September 2025");
         });
     });
 });
