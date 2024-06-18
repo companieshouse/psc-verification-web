@@ -32,7 +32,7 @@ class ValidatorBuilder<T> {
         private description: string = ""
     ) {}
 
-    // eslint-disable-next-line no-shadow
+    // eslint-disable no-shadow NOSONAR
     static from<T> (validateFn: Validator<T>): ValidatorBuilder<T> {
         return new ValidatorBuilder(validateFn);
     }
