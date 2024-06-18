@@ -32,7 +32,7 @@ class ValidatorBuilder<T> {
         private description: string = ""
     ) {}
 
-    // @ts-ignore: 'T' is already declared in upper scope
+    // eslint-disable-next-line no-shadow
     static from<T> (validateFn: Validator<T>): ValidatorBuilder<T> {
         return new ValidatorBuilder(validateFn);
     }
