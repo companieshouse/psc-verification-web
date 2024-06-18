@@ -23,12 +23,12 @@ class Nothing {
 // Simple Maybe Monad
 type Maybe<T> = Just<T> | Nothing;
 
-type Validator<T> = (input: string | null | undefined) => Maybe<T>;
+type Validator<T> = (input?: string | null) => Maybe<T>;
 
 class ValidatorBuilder<T> {
     // eslint-disable-next-line no-useless-constructor
     constructor (
-        private validateFn: (input: string | undefined | null) => Maybe<T>,
+        private validateFn: (input?: string | null) => Maybe<T>,
         private description: string = ""
     ) {}
 
@@ -37,7 +37,7 @@ class ValidatorBuilder<T> {
     }
 
     map<R> (f: (wrapped: T) => R): ValidatorBuilder<R> {
-        return new ValidatorBuilder<R>((s: string | undefined | null) => {
+        return new ValidatorBuilder<R>((s?: string | null) => {
             const maybe = this.validateFn(s);
             return maybe.isJust() ? new Just(f(maybe.value)) : new Nothing();
         });
@@ -48,7 +48,7 @@ class ValidatorBuilder<T> {
     }
 
     default<R> (defaultValue: R): ValidatorBuilder<R | T> {
-        return new ValidatorBuilder<R | T>((s: string | undefined | null) => {
+        return new ValidatorBuilder<R | T>((s?: string | null) => {
             if (s === undefined || s === null) {
                 return new Just(defaultValue);
             }
@@ -58,7 +58,7 @@ class ValidatorBuilder<T> {
     }
 
     in (validOptions: T[]): ValidatorBuilder<T> {
-        return new ValidatorBuilder<T>((s: string | undefined | null) => {
+        return new ValidatorBuilder<T>((s?: string | null) => {
             const maybe = this.validateFn(s);
             if (maybe.isJust()) {
                 if (validOptions.includes(maybe.value)) {
@@ -72,7 +72,7 @@ class ValidatorBuilder<T> {
         });
     }
 
-    validate (s: string | undefined | null): Maybe<T> {
+    validate (s?: string | null): Maybe<T> {
         const maybe = this.validateFn(s);
         if (maybe.isNothing() && this.description) {
             throw new Error(`Validation failed for variable: ${this.description}`);
@@ -82,7 +82,7 @@ class ValidatorBuilder<T> {
 }
 
 const strValidator = ValidatorBuilder.from<string>(
-    (s: string | undefined | null) => {
+    (s?: string | null) => {
         if (s === undefined || s === null) {
             throw new Error("Value is undefined or null.");
         }
