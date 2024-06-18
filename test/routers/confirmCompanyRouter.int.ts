@@ -1,15 +1,14 @@
 import request from "supertest";
 import * as cheerio from "cheerio";
-import middlewareMocks from "../../../mocks/allMiddleware.mock";
-import app from "../../../../src/app";
-import { PrefixedUrls } from "../../../../src/constants";
-import { getCompanyProfile } from "../../../../src/services/companyProfileService";
-import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
+import middlewareMocks from "../mocks/allMiddleware.mock";
+import app from "../../src/app";
+import { PrefixedUrls } from "../../src/constants";
+import { getCompanyProfile } from "../../src/services/companyProfileService";
+import { validCompanyProfile } from "../mocks/companyProfile.mock";
 import { HttpStatusCode } from "axios";
+import { COMPANY_NUMBER } from "../mocks/companyPsc.mock";
 
-const COMPANY_NUMBER = "12345678";
-
-jest.mock("../../../../src/services/companyProfileService");
+jest.mock("../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
 mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 
