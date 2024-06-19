@@ -55,16 +55,16 @@ describe("individual statement view", () => {
         if (lang === "en") {
             expect($("div#nameAndDateOfBirth").text()).toBe("Sir Forename Middlename Surname (Born April 2000)");
             // expect emphasis applied to PSC name
-            expect(normalizeWhitespace($("label.govuk-checkboxes__label[for='psc_individual_statement']").html())).toBe("<label>I confirm that <strong>Sir Forename Middlename Surname</strong> has verified their identity.</label>");
+            expect(normalizeWhitespace($("label.govuk-checkboxes__label[for='pscIndividualStatement']").html())).toBe("<label>I confirm that <strong>Sir Forename Middlename Surname</strong> has verified their identity.</label>");
         }
-        expect($("input.govuk-checkboxes__input[name=psc_individual_statement]").prop("checked")).toBe(true);
+        expect($("input.govuk-checkboxes__input[name=pscIndividualStatement]").prop("checked")).toBe(true);
     });
 
     it("Should redirect to the PSC verified page with a redirect status code", async () => {
         const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID);
         const verification: PscVerificationData = {
             verificationDetails: {
-                verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
+                statements: [VerificationStatementEnum.individualVerified]
             }
         };
         mockPatchPscVerification.mockResolvedValueOnce({
@@ -76,7 +76,7 @@ describe("individual statement view", () => {
 
         const resp = await request(app)
             .post(uri)
-            .send({ psc_individual_statement: VerificationStatementEnum.INDIVIDUAL_VERIFIED });
+            .send({ psc_individual_statement: VerificationStatementEnum.individualVerified });
 
         expect(resp.status).toBe(HttpStatusCode.Found);
         expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);

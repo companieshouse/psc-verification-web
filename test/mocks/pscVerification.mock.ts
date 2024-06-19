@@ -1,4 +1,4 @@
-import { Links, NameMismatchReasonEnum, PscVerification, PscVerificationData, PscVerificationDataResource, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { Links, NameMismatchReasonEnum, NameMismatchReasonEnumResource, PscVerification, PscVerificationData, PscVerificationDataResource, VerificationStatementEnum, VerificationStatementEnumResource } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 
 export const FIRST_DATE = new Date(2024, 0, 2, 3, 4, 5, 6);
 export const DOB_DATE = new Date("1970-01-01");
@@ -25,8 +25,8 @@ export const INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscAppointmentId: PSC_VERIFICATION_ID,
     verificationDetails: {
-        nameMismatchReason: NameMismatchReasonEnum.MAIDEN_NAME,
-        verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
+        nameMismatchReason: NameMismatchReasonEnum.maidenName,
+        statements: [VerificationStatementEnum.individualVerified]
     }
 };
 
@@ -34,8 +34,8 @@ export const INDIVIDUAL_DATA_RESOURCE: PscVerificationDataResource = {
     company_number: COMPANY_NUMBER,
     psc_appointment_id: PSC_VERIFICATION_ID,
     verification_details: {
-        name_mismatch_reason: NameMismatchReasonEnum.MAIDEN_NAME,
-        verification_statements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
+        name_mismatch_reason: NameMismatchReasonEnumResource.maiden_name,
+        statements: [VerificationStatementEnumResource.individual_verified]
     }
 };
 
@@ -51,19 +51,19 @@ export const PATCH_INDIVIDUAL_DATA_RESOURCE: PscVerificationDataResource = {
 
 export const PATCH_RLE_DATA: PscVerificationData = {
     verificationDetails: {
-        nameMismatchReason: NameMismatchReasonEnum.PREFERRED_NAME
+        nameMismatchReason: NameMismatchReasonEnum.preferredName
     }
 };
 
 export const PATCH_RLE_DATA_RESOURCE: PscVerificationDataResource = {
     verification_details: {
-        name_mismatch_reason: NameMismatchReasonEnum.PREFERRED_NAME
+        name_mismatch_reason: NameMismatchReasonEnumResource.preferred_name
     }
 };
 
 export const PATCH_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
     verificationDetails: {
-        verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
+        statements: [VerificationStatementEnum.individualVerified]
     }
 };
 
@@ -78,8 +78,8 @@ export const PATCHED_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscAppointmentId: PSC_VERIFICATION_ID,
     verificationDetails: {
-        nameMismatchReason: NameMismatchReasonEnum.PREFERRED_NAME,
-        verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
+        nameMismatchReason: NameMismatchReasonEnum.preferredName,
+        statements: [VerificationStatementEnum.individualVerified]
     }
 };
 
@@ -105,8 +105,8 @@ export const RLE_DATA: PscVerificationData = {
         isEmployee: true
     },
     verificationDetails: {
-        nameMismatchReason: NameMismatchReasonEnum.MAIDEN_NAME,
-        verificationStatements: [VerificationStatementEnum.RO_DECLARATION, VerificationStatementEnum.RO_IDENTIFIED, VerificationStatementEnum.RO_VERIFIED]
+        nameMismatchReason: NameMismatchReasonEnum.maidenName,
+        statements: [VerificationStatementEnum.roDeclaration, VerificationStatementEnum.roIdentified, VerificationStatementEnum.roVerified]
     }
 };
 
@@ -125,8 +125,8 @@ export const RLE_DATA_RESOURCE: PscVerificationDataResource = {
         is_employee: true
     },
     verification_details: {
-        name_mismatch_reason: NameMismatchReasonEnum.MAIDEN_NAME,
-        verification_statements: [VerificationStatementEnum.RO_DECLARATION, VerificationStatementEnum.RO_IDENTIFIED, VerificationStatementEnum.RO_VERIFIED]
+        name_mismatch_reason: NameMismatchReasonEnumResource.maiden_name,
+        statements: [VerificationStatementEnumResource.ro_declaration, VerificationStatementEnumResource.ro_identified, VerificationStatementEnumResource.ro_verified]
     }
 };
 

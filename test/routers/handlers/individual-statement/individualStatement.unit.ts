@@ -55,7 +55,7 @@ describe("Individual statement handler", () => {
             expect(resp.templatePath).toBe("router_views/individual_statement/individual_statement");
             expect(resp.viewData).toMatchObject({
                 currentUrl: `${expectedPrefix}/individual/psc-statement?lang=en`,
-                selectedStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED],
+                selectedStatements: [VerificationStatementEnum.individualVerified],
                 pscName: "Sir Forename Middlename Surname",
                 dateOfBirth: "April 2000",
                 errors: {}
@@ -76,7 +76,7 @@ describe("Individual statement handler", () => {
                     pscType: "individual"
                 },
                 body: {
-                    psc_individual_statement: VerificationStatementEnum.INDIVIDUAL_VERIFIED
+                    psc_individual_statement: VerificationStatementEnum.individualVerified
                 }
             });
             const res = httpMocks.createResponse();
