@@ -24,7 +24,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
                                                 verificationResource?.data.pscAppointmentId as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const selectedStatements = verificationResource?.data?.verification_details?.statements || [];
+        const selectedStatements = verificationResource?.data?.verificationDetails?.statements || [];
         // TODO
         // const selectedStatements = verificationResource?.data?.verificationDetails?.verificationStatements || [];
 
@@ -57,12 +57,12 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
 
     public async executePost (req: Request, res: Response) {
         logger.info(`${IndividualStatementHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
-        // const statement: VerificationStatementEnum = req.body.pscIndividualStatement; // a single string rather than string[] is returned (because there is only 1 checkbox in the group?)
-        // const selectedStatements = [statement];
+        const statement: VerificationStatementEnum = req.body.pscIndividualStatement; // a single string rather than string[] is returned (because there is only 1 checkbox in the group?)
+        const selectedStatements = [statement];
 
         const verification: PscVerificationData = {
             verificationDetails: {
-                verificationStatements: [VerificationStatementEnum.individualVerified]
+                verificationStatements: selectedStatements
             }
         };
 

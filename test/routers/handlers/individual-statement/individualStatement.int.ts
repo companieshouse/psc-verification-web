@@ -41,7 +41,7 @@ describe("individual statement view", () => {
         jest.clearAllMocks();
     });
 
-    it.skip.each(["en", "cy"])(`Should render the Individual Statement page with a success status code, correct (%s) links , and correct statement selected`, async (lang) => {
+    it.skip.each(["en", "cy"])(`Should render the Individual Statement page with a success status code, correct (%s) links, and correct statement selected`, async (lang) => {
         const queryParams = new URLSearchParams(`lang=${lang}`);
         const uriWithQuery = `${PrefixedUrls.INDIVIDUAL_STATEMENT}?${queryParams}`;
         const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
@@ -76,7 +76,7 @@ describe("individual statement view", () => {
 
         const resp = await request(app)
             .post(uri)
-            .send({ psc_individual_statement: VerificationStatementEnum.individualVerified });
+            .send({ pscIndividualStatement: VerificationStatementEnum.individualVerified });
 
         expect(resp.status).toBe(HttpStatusCode.Found);
         expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
