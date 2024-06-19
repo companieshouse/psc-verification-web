@@ -62,7 +62,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
 
         const verification: PscVerificationData = {
             verificationDetails: {
-                statements: [VerificationStatementEnum.individualVerified]
+                verificationStatements: [VerificationStatementEnum.individualVerified]
             }
         };
 

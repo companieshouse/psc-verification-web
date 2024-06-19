@@ -26,7 +26,7 @@ export const INDIVIDUAL_DATA: PscVerificationData = {
     pscAppointmentId: PSC_VERIFICATION_ID,
     verificationDetails: {
         nameMismatchReason: NameMismatchReasonEnum.maidenName,
-        statements: [VerificationStatementEnum.individualVerified]
+        verificationStatements: [VerificationStatementEnum.individualVerified]
     }
 };
 
@@ -35,7 +35,7 @@ export const INDIVIDUAL_DATA_RESOURCE: PscVerificationDataResource = {
     psc_appointment_id: PSC_VERIFICATION_ID,
     verification_details: {
         name_mismatch_reason: NameMismatchReasonEnumResource.maiden_name,
-        statements: [VerificationStatementEnumResource.individual_verified]
+        verification_statements: [VerificationStatementEnumResource.individual_verified]
     }
 };
 
@@ -63,7 +63,7 @@ export const PATCH_RLE_DATA_RESOURCE: PscVerificationDataResource = {
 
 export const PATCH_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
     verificationDetails: {
-        statements: [VerificationStatementEnum.individualVerified]
+        verificationStatements: [VerificationStatementEnum.individualVerified]
     }
 };
 
@@ -79,7 +79,7 @@ export const PATCHED_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
     pscAppointmentId: PSC_VERIFICATION_ID,
     verificationDetails: {
         nameMismatchReason: NameMismatchReasonEnum.preferredName,
-        statements: [VerificationStatementEnum.individualVerified]
+        verificationStatements: [VerificationStatementEnum.individualVerified]
     }
 };
 
@@ -106,7 +106,7 @@ export const RLE_DATA: PscVerificationData = {
     },
     verificationDetails: {
         nameMismatchReason: NameMismatchReasonEnum.maidenName,
-        statements: [VerificationStatementEnum.roDeclaration, VerificationStatementEnum.roIdentified, VerificationStatementEnum.roVerified]
+        verificationStatements: [VerificationStatementEnum.roDeclaration, VerificationStatementEnum.roIdentified, VerificationStatementEnum.roVerified]
     }
 };
 
@@ -126,7 +126,7 @@ export const RLE_DATA_RESOURCE: PscVerificationDataResource = {
     },
     verification_details: {
         name_mismatch_reason: NameMismatchReasonEnumResource.maiden_name,
-        statements: [VerificationStatementEnumResource.ro_declaration, VerificationStatementEnumResource.ro_identified, VerificationStatementEnumResource.ro_verified]
+        verification_statements: [VerificationStatementEnumResource.ro_declaration, VerificationStatementEnumResource.ro_identified, VerificationStatementEnumResource.ro_verified]
     }
 };
 
