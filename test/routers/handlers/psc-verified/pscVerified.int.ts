@@ -7,7 +7,7 @@ import { PrefixedUrls } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { closeTransaction } from "../../../../src/services/transactionService";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { COMPANY_NUMBER, INDIVIDUAL_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
@@ -18,7 +18,7 @@ jest.mock("../../../../src/services/pscVerificationService");
 const mockGetPscVerification = getPscVerification as jest.Mock;
 mockGetPscVerification.mockResolvedValueOnce({
     httpStatusCode: HttpStatusCode.Ok,
-    resource: INDIVIDUAL_RESOURCE
+    resource: INDIVIDUAL_VERIFICATION_DATA
 });
 
 jest.mock("../../../../src/services/pscService");
@@ -49,7 +49,7 @@ describe("psc verified view tests", () => {
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
     });
 
-    it.skip("Should render the PSC Verified Confirmation page with a success status code", async () => {
+    it("Should render the PSC Verified Confirmation page with a success status code", async () => {
         const queryParams = new URLSearchParams("lang=en");
         const uriWithQuery = `${PrefixedUrls.PSC_VERIFIED}?${queryParams}`;
         const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);

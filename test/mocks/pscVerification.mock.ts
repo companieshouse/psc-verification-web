@@ -166,4 +166,5 @@ export const PATCHED_INDIVIDUAL_RESOURCE: PscVerification = initPscVerificationR
 export const PATCHED_RLE_RESOURCE: PscVerification = initPscVerificationResource(PATCH_RLE_DATA_RESOURCE);
 export const INDIVIDUAL_RESOURCE: PscVerification = initPscVerificationResource(INDIVIDUAL_DATA_RESOURCE);
 export const RLE_RESOURCE: PscVerification = initPscVerificationResource(RLE_DATA_RESOURCE);
+export const CREATED_INDIVIDUAL: PscVerification = initPscVerification(INITIAL_PSC_DATA);
 export const INDIVIDUAL_VERIFICATION_DATA: PscVerification = initPscVerification(INDIVIDUAL_DATA);

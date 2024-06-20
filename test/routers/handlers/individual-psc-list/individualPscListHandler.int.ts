@@ -7,7 +7,7 @@ import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddlewar
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
-import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, CREATED_INDIVIDUAL, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { VALID_COMPANY_PSC_ITEMS } from "../../../mocks/companyPsc.mock";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
@@ -18,7 +18,7 @@ jest.mock("../../../../src/services/pscVerificationService");
 const mockGetPscVerification = getPscVerification as jest.Mock;
 mockGetPscVerification.mockResolvedValueOnce({
     httpStatusCode: HttpStatusCode.Ok,
-    resource: CREATED_RESOURCE
+    resource: CREATED_INDIVIDUAL
 });
 
 jest.mock("../../../../src/services/companyProfileService");
@@ -41,11 +41,11 @@ describe("individual PSC list view", () => {
     });
 
     // TODO - fixme
-    it.skip("Should render the Individual PSC List page with a success status code and correct links", async () => {
+    it("Should render the Individual PSC List page with a success status code and correct links", async () => {
         const queryParams = new URLSearchParams("lang=en&pscType=individual");
         const uriWithQuery = `${PrefixedUrls.INDIVIDUAL_PSC_LIST}?${queryParams}`;
         const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
-        mockGetPscVerification.mockResolvedValue(CREATED_RESOURCE);
+        mockGetPscVerification.mockResolvedValue(CREATED_INDIVIDUAL);
 
         const resp = await request(app).get(uri);
 
