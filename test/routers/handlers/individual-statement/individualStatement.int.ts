@@ -64,7 +64,7 @@ describe("individual statement view", () => {
         const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID);
         const verification: PscVerificationData = {
             verificationDetails: {
-                verificationStatements: [VerificationStatementEnum.individualVerified]
+                verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
             }
         };
         mockPatchPscVerification.mockResolvedValueOnce({
@@ -76,7 +76,7 @@ describe("individual statement view", () => {
 
         const resp = await request(app)
             .post(uri)
-            .send({ pscIndividualStatement: VerificationStatementEnum.individualVerified });
+            .send({ pscIndividualStatement: VerificationStatementEnum.INDIVIDUAL_VERIFIED });
 
         expect(resp.status).toBe(HttpStatusCode.Found);
         expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);

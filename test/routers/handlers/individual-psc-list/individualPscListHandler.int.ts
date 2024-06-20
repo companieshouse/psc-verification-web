@@ -51,8 +51,6 @@ describe("individual PSC list view", () => {
 
         const $ = cheerio.load(resp.text);
 
-        console.log(resp.text);
-
         expect(resp.status).toBe(HttpStatusCode.Ok);
         expect($("a.govuk-back-link").attr("href")).toBe(`/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/psc-type?lang=en&pscType=individual&companyNumber=${COMPANY_NUMBER}`);
         // check page contents
