@@ -17,7 +17,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.COMPANY_NUMBER, authenticate, CompanyNumberRouter);
     router.use(Urls.CONFIRM_COMPANY, authenticate, ConfirmCompanyRouter);
     router.use(Urls.NEW_SUBMISSION, authenticate, NewSubmissionRouter);
-    router.use(Urls.PSC_TYPE, authenticate, PscTypeRouter);
+    router.use(Urls.PSC_TYPE, authenticate, fetchVerification, PscTypeRouter);
     router.use(Urls.INDIVIDUAL_PSC_LIST, authenticate, fetchVerification, fetchCompany, IndividualPscListRouter);
     router.use(Urls.PERSONAL_CODE, authenticate, fetchVerification, PersonalCodeRouter);
     router.use(Urls.INDIVIDUAL_STATEMENT, authenticate, fetchVerification, IndividualStatementRouter);

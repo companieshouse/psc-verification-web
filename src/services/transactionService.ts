@@ -1,11 +1,13 @@
 import { Resource } from "@companieshouse/api-sdk-node";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { Request } from "express";
 import { StatusCodes } from "http-status-codes";
 import { logger } from "../lib/logger";
 import { createOAuthApiClient } from "./apiClientService";
+import { getCompanyProfile } from "./companyProfileService";
 
 export const REFERENCE = "PscVerificationReference";
 export const DESCRIPTION = "PSC Verification Transaction";
@@ -14,11 +16,14 @@ export enum TransactionStatus { OPEN = "open", CLOSED = "closed" }
 export const postTransaction = async (req: Request): Promise<Transaction> => {
 
     const companyNumber = req.query.companyNumber as string;
+    const companyProfile: CompanyProfile = await getCompanyProfile(req, companyNumber);
+    const companyName: string = companyProfile.companyName;
     const oAuthApiClient = createOAuthApiClient(req.session);
 
     const transaction: Transaction = {
         reference: REFERENCE,
-        description: DESCRIPTION
+        description: DESCRIPTION,
+        companyName: companyName
     };
 
     logger.debug(`${postTransaction.name} - Creating transaction with company number ${companyNumber}`);

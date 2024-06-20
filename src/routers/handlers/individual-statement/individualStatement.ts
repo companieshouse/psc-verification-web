@@ -24,9 +24,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
                                                 verificationResource?.data.pscAppointmentId as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const selectedStatements = verificationResource?.data?.verificationDetails?.statements || [];
-        // TODO
-        // const selectedStatements = verificationResource?.data?.verificationDetails?.verificationStatements || [];
+        const selectedStatements = verificationResource?.data?.verificationDetails?.verificationStatements || [];
 
         return {
             ...baseViewData,
