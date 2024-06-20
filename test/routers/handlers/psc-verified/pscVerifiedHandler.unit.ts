@@ -8,7 +8,7 @@ import { getCompanyProfile } from "../../../../src/services/companyProfileServic
 import { closeTransaction } from "../../../../src/services/transactionService";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { COMPANY_NUMBER, INDIVIDUAL_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
 
 jest.mock("../../../../src/services/pscService");
@@ -41,7 +41,7 @@ describe("PSC Verified handler", () => {
 
     describe("executeGet", () => {
 
-        it.skip("Should close the transaction and resolve correct view data", async () => {
+        it("Should close the transaction and resolve correct view data", async () => {
             mockCloseTransaction.mockResolvedValueOnce(undefined);
             const request = httpMocks.createRequest({
                 method: "GET",
@@ -54,7 +54,7 @@ describe("PSC Verified handler", () => {
                     pscType: "individual"
                 }
             });
-            const response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_RESOURCE, companyProfile: validCompanyProfile } });
+            const response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_DATA, companyProfile: validCompanyProfile } });
             const handler = new PscVerifiedHandler();
             const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
 

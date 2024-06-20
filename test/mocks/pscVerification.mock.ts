@@ -131,7 +131,7 @@ export const RLE_DATA_RESOURCE: PscVerificationDataResource = {
     }
 };
 
-function initPscVerification (data: PscVerificationDataResource) {
+function initPscVerificationResource (data: PscVerificationDataResource) {
     return {
         createdAt: FIRST_DATE,
         updatedAt: FIRST_DATE,
@@ -146,8 +146,24 @@ function initPscVerification (data: PscVerificationDataResource) {
     } as PscVerification;
 }
 
-export const CREATED_RESOURCE: PscVerification = initPscVerification(INITIAL_PSC_DATA_RESOURCE);
-export const PATCHED_INDIVIDUAL_RESOURCE: PscVerification = initPscVerification(PATCH_INDIVIDUAL_DATA_RESOURCE);
-export const PATCHED_RLE_RESOURCE: PscVerification = initPscVerification(PATCH_RLE_DATA_RESOURCE);
-export const INDIVIDUAL_RESOURCE: PscVerification = initPscVerification(INDIVIDUAL_DATA_RESOURCE);
-export const RLE_RESOURCE: PscVerification = initPscVerification(RLE_DATA_RESOURCE);
+function initPscVerification (data: PscVerificationData) {
+    return {
+        createdAt: FIRST_DATE,
+        updatedAt: FIRST_DATE,
+        data: {
+            ...data
+        },
+        links: {
+            self: SELF_URI,
+            validationStatus: `${SELF_URI}/validation_status`
+        }
+
+    } as PscVerification;
+}
+
+export const CREATED_RESOURCE: PscVerification = initPscVerificationResource(INITIAL_PSC_DATA_RESOURCE);
+export const PATCHED_INDIVIDUAL_RESOURCE: PscVerification = initPscVerificationResource(PATCH_INDIVIDUAL_DATA_RESOURCE);
+export const PATCHED_RLE_RESOURCE: PscVerification = initPscVerificationResource(PATCH_RLE_DATA_RESOURCE);
+export const INDIVIDUAL_RESOURCE: PscVerification = initPscVerificationResource(INDIVIDUAL_DATA_RESOURCE);
+export const RLE_RESOURCE: PscVerification = initPscVerificationResource(RLE_DATA_RESOURCE);
+export const INDIVIDUAL_VERIFICATION_DATA: PscVerification = initPscVerification(INDIVIDUAL_DATA);

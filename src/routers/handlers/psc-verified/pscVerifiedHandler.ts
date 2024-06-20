@@ -7,8 +7,6 @@ import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/loc
 import { addSearchParams } from "../../../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
-import { getCompanyProfile } from "../../../services/companyProfileService";
-import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 
 interface PscVerifiedViewData extends BaseViewData {
     referenceNumber: string;
@@ -32,7 +30,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         const submissionId = req.params.submissionId;
         const verification = res.locals.submission;
         const companyNumber = verification?.data?.companyNumber as string;
-        const companyProfile: CompanyProfile = await getCompanyProfile(req, companyNumber);
+        const companyProfile = res.locals.companyProfile;
         const pscAppointmentId = verification?.data.pscAppointmentId as string;
         const pscDetailsResponse = await getPscIndividual(req, companyNumber, pscAppointmentId);
         const companyName = companyProfile.companyName as string;

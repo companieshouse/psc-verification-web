@@ -34,7 +34,7 @@ describe("Individual statement handler", () => {
 
     describe("executeGet", () => {
 
-        it.skip("should resolve correct view data", async () => {
+        it("should resolve correct view data", async () => {
             const req = httpMocks.createRequest({
                 method: "GET",
                 url: Urls.PSC_VERIFIED,

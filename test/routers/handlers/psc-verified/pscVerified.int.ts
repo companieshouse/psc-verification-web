@@ -63,7 +63,7 @@ describe("psc verified view tests", () => {
         // TODO: replace expectations below with checks on page HTML contents
         expect(mockGetPscVerification).toHaveBeenCalledTimes(1);
         expect(mockGetPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID);
-        expect(mockGetCompanyProfile).toHaveBeenCalledTimes(2);
+        expect(mockGetCompanyProfile).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyProfile).toHaveBeenCalledWith(expect.any(IncomingMessage), COMPANY_NUMBER);
         expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
         expect(mockGetPscIndividual).toHaveBeenCalledWith(expect.any(IncomingMessage), COMPANY_NUMBER, PSC_VERIFICATION_ID);
