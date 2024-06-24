@@ -7,7 +7,7 @@ import { createPscVerification } from "../../../../src/services/pscVerificationS
 import { CREATED_PSC_TRANSACTION } from "../../../mocks/transaction.mock";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-import { COMPANY_NUMBER, CREATED_RESOURCE } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED } from "../../../mocks/pscVerification.mock";
 
 jest.mock("../../../../src/services/transactionService");
 const mockPostTransaction = postTransaction as jest.Mock;
@@ -19,7 +19,7 @@ jest.mock("../../../../src/services/pscVerificationService");
 const mockCreatePscVerification = createPscVerification as jest.Mock;
 mockCreatePscVerification.mockResolvedValue({
     httpStatusCode: HttpStatusCode.Created,
-    resource: CREATED_RESOURCE
+    resource: INDIVIDUAL_VERIFICATION_CREATED
 });
 
 const request = httpMocks.createRequest({

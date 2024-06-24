@@ -54,6 +54,7 @@ describe("psc individual list post tests", () => {
         mockPatchPscVerification.mockReset();
     });
 
+    // TODO
     it.skip("Should redirect to the personal code (uvid) page when a PSC is selected", async () => {
         mockPatchPscVerification.mockResolvedValueOnce(PATCHED_INDIVIDUAL_RESOURCE);
         const expectedPage = PrefixedUrls.PERSONAL_CODE;

@@ -4,7 +4,7 @@ import { Urls } from "../../../../src/constants";
 import { IndividualStatementHandler } from "../../../../src/routers/handlers/individual-statement/individualStatement";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { INDIVIDUAL_VERIFICATION_DATA, PATCH_INDIVIDUAL_STATEMENT_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { INDIVIDUAL_VERIFICATION_FULL, PATCH_INDIVIDUAL_STATEMENT_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { patchPscVerification } from "../../../../src/services/pscVerificationService";
 
@@ -46,7 +46,7 @@ describe("Individual statement handler", () => {
                     pscType: "individual"
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_DATA } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL } });
             const handler = new IndividualStatementHandler();
             const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
 

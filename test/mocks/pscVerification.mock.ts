@@ -26,7 +26,6 @@ export const INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscAppointmentId: PSC_VERIFICATION_ID,
     verificationDetails: {
-        nameMismatchReason: NameMismatchReasonEnum.MAIDEN_NAME,
         verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
     }
 };
@@ -35,7 +34,6 @@ export const INDIVIDUAL_DATA_RESOURCE: PscVerificationDataResource = {
     company_number: COMPANY_NUMBER,
     psc_appointment_id: PSC_VERIFICATION_ID,
     verification_details: {
-        name_mismatch_reason: NameMismatchReasonEnum.MAIDEN_NAME,
         verification_statements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
     }
 };
@@ -91,7 +89,7 @@ export const PATCHED_INDIVIDUAL_STATEMENT: PscVerification = {
     links: LINKS
 };
 
-export const RLE_DATA: PscVerificationData = {
+export const RLE_DATA_FULL: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscAppointmentId: PSC_VERIFICATION_ID,
     relevantOfficer: {
@@ -143,7 +141,7 @@ function initPscVerificationResource (data: PscVerificationDataResource) {
             validationStatus: `${SELF_URI}/validation_status`
         }
 
-    } as PscVerification;
+    } as PscVerificationDataResource;
 }
 
 function initPscVerification (data: PscVerificationData) {
@@ -161,10 +159,16 @@ function initPscVerification (data: PscVerificationData) {
     } as PscVerification;
 }
 
-export const CREATED_RESOURCE: PscVerification = initPscVerificationResource(INITIAL_PSC_DATA_RESOURCE);
-export const PATCHED_INDIVIDUAL_RESOURCE: PscVerification = initPscVerificationResource(PATCH_INDIVIDUAL_DATA_RESOURCE);
-export const PATCHED_RLE_RESOURCE: PscVerification = initPscVerificationResource(PATCH_RLE_DATA_RESOURCE);
-export const INDIVIDUAL_RESOURCE: PscVerification = initPscVerificationResource(INDIVIDUAL_DATA_RESOURCE);
-export const RLE_RESOURCE: PscVerification = initPscVerificationResource(RLE_DATA_RESOURCE);
-export const CREATED_INDIVIDUAL: PscVerification = initPscVerification(INITIAL_PSC_DATA);
-export const INDIVIDUAL_VERIFICATION_DATA: PscVerification = initPscVerification(INDIVIDUAL_DATA);
+// Raw PSC verification data - in snake case
+export const CREATED_RESOURCE: PscVerificationDataResource = initPscVerificationResource(INITIAL_PSC_DATA_RESOURCE);
+export const PATCHED_INDIVIDUAL_RESOURCE: PscVerificationDataResource = initPscVerificationResource(PATCH_INDIVIDUAL_DATA_RESOURCE);
+export const PATCHED_RLE_RESOURCE: PscVerificationDataResource = initPscVerificationResource(PATCH_RLE_DATA_RESOURCE);
+export const INDIVIDUAL_RESOURCE: PscVerificationDataResource = initPscVerificationResource(INDIVIDUAL_DATA_RESOURCE);
+export const RLE_RESOURCE: PscVerificationDataResource = initPscVerificationResource(RLE_DATA_RESOURCE);
+
+// Rendered PSC verification data - in camel case
+export const INDIVIDUAL_VERIFICATION_CREATED: PscVerification = initPscVerification(INITIAL_PSC_DATA);
+export const INDIVIDUAL_VERIFICATION_FULL: PscVerification = initPscVerification(INDIVIDUAL_DATA);
+export const INDIVIDUAL_VERIFICATION_PATCH: PscVerification = initPscVerification(PATCH_INDIVIDUAL_DATA);
+export const RLE_VERIFICATION_PATCH: PscVerification = initPscVerification(PATCH_RLE_DATA);
+export const RLE_VERIFICATION_FULL: PscVerification = initPscVerification(RLE_DATA_FULL);
