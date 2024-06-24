@@ -19,12 +19,12 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
     public async getViewData (req: Request, res: Response): Promise<IndividualStatementViewData> {
 
         const baseViewData = await super.getViewData(req, res);
-        const verificationResource = res.locals.submission;
-        const pscDetailsResponse = await getPscIndividual(req, verificationResource?.data.companyNumber as string,
-                                                verificationResource?.data.pscAppointmentId as string);
+        const verification = res.locals.submission;
+        const pscDetailsResponse = await getPscIndividual(req, verification?.data.companyNumber as string,
+                                                verification?.data.pscAppointmentId as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const selectedStatements = verificationResource?.data?.verificationDetails?.verificationStatements || [];
+        const selectedStatements = verification?.data?.verificationDetails?.verificationStatements || [];
 
         return {
             ...baseViewData,

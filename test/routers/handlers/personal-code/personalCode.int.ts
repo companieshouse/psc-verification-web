@@ -6,7 +6,7 @@ import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddlewar
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { INDIVIDUAL_RESOURCE, PATCH_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { INDIVIDUAL_VERIFICATION_FULL, PATCH_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
 import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
@@ -16,7 +16,7 @@ jest.mock("../../../../src/services/pscVerificationService");
 const mockGetPscVerification = getPscVerification as jest.Mock;
 mockGetPscVerification.mockResolvedValue({
     httpStatusCode: HttpStatusCode.Ok,
-    resource: INDIVIDUAL_RESOURCE
+    resource: INDIVIDUAL_VERIFICATION_FULL
 });
 const mockPatchPscVerification = patchPscVerification as jest.Mock;
 

@@ -6,13 +6,13 @@ import { HttpStatusCode } from "axios";
 import { getCompanyProfile } from "../../src/services/companyProfileService";
 import { validCompanyProfile } from "../mocks/companyProfile.mock";
 import { VALID_COMPANY_PSC_LIST } from "../mocks/companyPsc.mock";
-import { COMPANY_NUMBER, PATCHED_INDIVIDUAL_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_PATCH, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../src/utils/url";
 import { PSC_ID } from "../mocks/psc.mock";
 import { getPscVerification, patchPscVerification } from "../../src/services/pscVerificationService";
 
 const mockGetPscVerification = getPscVerification as jest.Mock;
-mockGetPscVerification.mockResolvedValue(PATCHED_INDIVIDUAL_RESOURCE);
+mockGetPscVerification.mockResolvedValue(INDIVIDUAL_VERIFICATION_PATCH);
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -56,7 +56,7 @@ describe("psc individual list post tests", () => {
 
     // FIXME when the middleware is mocked
     it.skip("Should redirect to the personal code (uvid) page when a PSC is selected", async () => {
-        mockPatchPscVerification.mockResolvedValueOnce(PATCHED_INDIVIDUAL_RESOURCE);
+        mockPatchPscVerification.mockResolvedValueOnce(INDIVIDUAL_VERIFICATION_PATCH);
         const expectedPage = PrefixedUrls.PERSONAL_CODE;
         const expectedRedirectUrl = `${expectedPage.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=individual`;
 

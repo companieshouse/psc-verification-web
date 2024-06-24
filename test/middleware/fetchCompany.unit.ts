@@ -1,4 +1,4 @@
-import { INDIVIDUAL_DATA, INDIVIDUAL_DATA_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import * as httpMocks from "node-mocks-http";
 import { PrefixedUrls } from "../../src/constants";
 import { getCompanyProfile } from "../../src/services/companyProfileService";
@@ -42,7 +42,7 @@ describe("fetchCompany", () => {
 
     it("should skip retrieval if companyNumber is missing", async () => {
         const req = httpMocks.createRequest(VALID_REQ);
-        const res = httpMocks.createResponse({ locals: { submission: { data: { ...INDIVIDUAL_DATA_RESOURCE, company_number: undefined } } } });
+        const res = httpMocks.createResponse({ locals: { submission: { data: { ...INDIVIDUAL_DATA, companyNumber: undefined } } } });
 
         await fetchCompany(req, res, mockNext);
 
