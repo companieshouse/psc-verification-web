@@ -4,7 +4,6 @@ import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/compa
 import { getCompanyProfile } from "../services/companyProfileService";
 
 export const fetchCompany = async (req: Request, res: Response, next: NextFunction) => {
-    // TODO - check if camel case works
     const companyNumber = res.locals.submission?.data?.companyNumber;
 
     if (companyNumber) {
