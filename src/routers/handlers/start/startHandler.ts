@@ -25,7 +25,6 @@ export class StartHandler extends GenericHandler<StartViewData> {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             isSignedIn: false,
-            title: "PSC Verification",
             idvImplementationDate: internationaliseDate(idvDateFormatted, lang),
             currentUrl: addSearchParams(PrefixedUrls.START, { lang }),
             backURL: null,
