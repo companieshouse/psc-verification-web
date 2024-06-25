@@ -64,7 +64,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             }
         };
 
-        console.log(`${verification}`);
+        logger.info(`Updating resource with verification statements: ${selectedStatements} for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
 
         logger.debug(`${IndividualStatementHandler.name} - ${this.executePost.name} - patching individual verification statement for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);

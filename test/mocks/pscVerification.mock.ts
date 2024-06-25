@@ -1,5 +1,4 @@
 import { Links, NameMismatchReasonEnum, PscVerification, PscVerificationData, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-import { PSC_ID } from "./psc.mock";
 
 export const FIRST_DATE = new Date(2024, 0, 2, 3, 4, 5, 6);
 export const DOB_DATE = new Date("1970-01-01");
@@ -28,7 +27,7 @@ export const INDIVIDUAL_DATA: PscVerificationData = {
 
 export const PATCH_INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_ID
+    pscAppointmentId: PSC_VERIFICATION_ID
 };
 
 export const PATCH_RLE_DATA: PscVerificationData = {
