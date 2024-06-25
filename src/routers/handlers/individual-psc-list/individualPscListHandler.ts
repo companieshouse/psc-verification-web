@@ -84,7 +84,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
         const pscSelected = req.body.pscSelect;
         logger.debug(`${IndividualPscListHandler.name} - ${this.executePost.name} - patching submission resource for transaction: ${req.params.transactionId} and submissionId: ${req.params.submissionId} with PSC ID: ${pscSelected}`);
-        await patchPscVerification(req, req.params.transactionId, req.params.submissionId, { psc_appointment_id: pscSelected });
+        await patchPscVerification(req, req.params.transactionId, req.params.submissionId, { pscAppointmentId: pscSelected });
 
         const lang = selectLang(req.query.lang);
         const queryParams = new URLSearchParams(req.url.split("?")[1]);
