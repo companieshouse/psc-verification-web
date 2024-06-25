@@ -53,7 +53,6 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
         const selectedPscId = verification?.data?.psc_appointment_id as string;
         const queryParams = new URLSearchParams(req.url.split("?")[1]);
-        queryParams.set("companyNumber", companyNumber);
         queryParams.set("lang", lang);
         queryParams.set("pscType", "individual");
 
@@ -84,13 +83,15 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         logger.info(`${IndividualPscListHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
 
         const pscSelected = req.body.pscSelect;
+        logger.debug(`${IndividualPscListHandler.name} - ${this.executePost.name} - patching submission resource for transaction: ${req.params.transactionId} and submissionId: ${req.params.submissionId} with PSC ID: ${pscSelected}`);
+        await patchPscVerification(req, req.params.transactionId, req.params.submissionId, { psc_appointment_id: pscSelected });
 
-        if (req.params.transactionId && req.params.submissionId && pscSelected) {
-            logger.debug(`${IndividualPscListHandler.name} - ${this.executePost.name} - patching submission resource for transaction: ${req.params.transactionId} and submissionId: ${req.params.submissionId} with PSC ID: ${pscSelected}`);
-            await patchPscVerification(req, req.params.transactionId, req.params.submissionId, { psc_appointment_id: pscSelected });
-        }
+        const lang = selectLang(req.query.lang);
+        const queryParams = new URLSearchParams(req.url.split("?")[1]);
+        queryParams.set("lang", lang);
 
-        logger.debug(`${IndividualPscListHandler.name} - ${this.executePost.name} - exiting`);
+        const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, req.params.transactionId, req.params.submissionId);
+        return (`${nextPageUrl}?${queryParams}`);
     }
 
     private getPscIndividualRadioItems (individualPscList: CompanyPersonWithSignificantControl[], lang: string): RadioButtonData[] {
