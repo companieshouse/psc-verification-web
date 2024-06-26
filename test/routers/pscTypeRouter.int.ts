@@ -1,48 +1,64 @@
 import * as cheerio from "cheerio";
-import middlewareMocks from "../mocks/allMiddleware.mock";
-import request from "supertest";
-import { PrefixedUrls } from "../../src/constants";
-import app from "../../src/app";
-import { COMPANY_NUMBER, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { HttpStatusCode } from "axios";
+import mockAuthenticationMiddleware from "../mocks/authenticationMiddleware.mock";
+import mockSessionMiddleware from "../mocks/sessionMiddleware.mock";
+import { PrefixedUrls } from "../../src/constants";
+import request from "supertest";
+import app from "../../src/app";
+import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../src/utils/url";
+import { getPscVerification } from "../../src/services/pscVerificationService";
 
-beforeEach(() => {
-    jest.clearAllMocks();
-});
+jest.mock("../../src/services/pscVerificationService");
 
-describe("psc type router tests", () => {
+const mockGetPscVerification = getPscVerification as jest.Mock;
+
+describe("PscType router/handler integration tests", () => {
 
     beforeEach(() => {
-        middlewareMocks.mockSessionMiddleware.mockClear();
+        jest.clearAllMocks();
+        mockGetPscVerification.mockResolvedValueOnce({
+            httpStatusCode: HttpStatusCode.Ok,
+            resource: CREATED_RESOURCE
+        });
     });
 
     afterEach(() => {
-        expect(middlewareMocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
+        expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
+        expect(mockSessionMiddleware).toHaveBeenCalledTimes(1);
+        expect(mockGetPscVerification).toHaveBeenCalledTimes(1);
     });
 
-    describe("Test router.get", () => {
+    describe("GET method", () => {
 
-        it("Should render the PSC Type page with a successful status code", async () => {
-            const resp = await request(app).get(PrefixedUrls.PSC_TYPE);
-            expect(resp.status).toBe(200);
+        it("Should render the PSC Type page with a successful status code and back-link", async () => {
+            const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            const resp = await request(app).get(uri)
+                .expect(HttpStatusCode.Ok);
+
+            const $ = cheerio.load(resp.text);
+            expect($("a.govuk-back-link").attr("href")).toBe(`/persons-with-significant-control-verification/confirm-company?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=undefined`);
         });
 
-        it.each([[undefined, undefined], ["individual", "pscType=individual"], ["rle", "pscType=rle"]])("Should render the Psc Type page with a success status code and %s radio button checked", async (expectedSelection, expectedQuery) => {
-            const queryParams = new URLSearchParams(expectedQuery);
+        it.each([["no", undefined], ["PSC", "individual"], ["RLE", "rle"]])("Should render '%s' radio button checked when 'pscType=%s'", async (expectedButton, pscType) => {
+            const queryParams = new URLSearchParams();
+            queryParams.set("lang", "en");
+            if (pscType) {
+                queryParams.set("pscType", pscType);
+            }
             const uriWithQuery = `${PrefixedUrls.PSC_TYPE}?${queryParams}`;
             const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
-            const resp = await request(app).get(uri);
+            const resp = await request(app).get(uri)
+                .expect(HttpStatusCode.Ok);
 
             const $ = cheerio.load(resp.text);
-
-            expect(resp.status).toBe(HttpStatusCode.Ok);
-            expect($("input[name=pscType]:checked").val()).toBe(expectedSelection);
+            expect($("input[name=pscType]:checked").val()).toBe(pscType);
         });
     });
 
-    describe("Test router.post", () => {
+    describe("POST method", () => {
 
         it.each([["individual", PrefixedUrls.INDIVIDUAL_PSC_LIST], ["rle", PrefixedUrls.RLE_LIST], ["default", PrefixedUrls.INDIVIDUAL_PSC_LIST]])(
             "Should redirect the post request to %s list page if selected",
@@ -60,4 +76,5 @@ describe("psc type router tests", () => {
             }
         );
     });
+
 });
