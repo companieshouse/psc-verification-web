@@ -5,7 +5,7 @@ import { selectLang } from "../../../utils/localise";
 import { BaseViewData, GenericHandler } from "../generic";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { postTransaction } from "../../../services/transactionService";
-import { PscVerification, PscVerificationResource } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { PscVerification, PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { createPscVerification } from "../../../services/pscVerificationService";
 import { Resource } from "@companieshouse/api-sdk-node";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
@@ -33,10 +33,10 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         return addSearchParams(nextPageUrl, { lang });
     }
 
-    public async createNewSubmission (request: Request, transaction: Transaction): Promise<Resource<PscVerificationResource>> {
+    public async createNewSubmission (request: Request, transaction: Transaction): Promise<Resource<PscVerification>> {
         const companyNumber = request.query.companyNumber as string;
-        const verification: PscVerification = {
-            company_number: companyNumber
+        const verification: PscVerificationData = {
+            companyNumber: companyNumber
         };
         return await createPscVerification(request, transaction, verification);
     }

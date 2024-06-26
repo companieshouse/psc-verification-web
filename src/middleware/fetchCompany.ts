@@ -4,7 +4,7 @@ import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/compa
 import { getCompanyProfile } from "../services/companyProfileService";
 
 export const fetchCompany = async (req: Request, res: Response, next: NextFunction) => {
-    const companyNumber = res.locals.submission?.data?.company_number;
+    const companyNumber = res.locals.submission?.data?.companyNumber;
 
     if (companyNumber) {
         logger.debug(`${fetchCompany.name} - Retrieving company profile for company number ${companyNumber} ...`);

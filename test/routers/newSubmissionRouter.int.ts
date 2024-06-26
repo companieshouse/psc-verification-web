@@ -6,7 +6,7 @@ import app from "../../src/app";
 import { PrefixedUrls } from "../../src/constants";
 import { postTransaction } from "../../src/services/transactionService";
 import { createPscVerification } from "../../src/services/pscVerificationService";
-import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID } from "../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED, PSC_VERIFICATION_ID } from "../mocks/pscVerification.mock";
 import { CREATED_PSC_TRANSACTION, TRANSACTION_ID } from "../mocks/transaction.mock";
 
 jest.mock("../../src/services/transactionService");
@@ -18,7 +18,7 @@ jest.mock("../../src/services/pscVerificationService");
 const mockCreatePscVerification = createPscVerification as jest.Mock;
 mockCreatePscVerification.mockResolvedValue({
     httpStatusCode: HttpStatusCode.Created,
-    resource: CREATED_RESOURCE
+    resource: INDIVIDUAL_VERIFICATION_CREATED
 });
 
 describe("new submission handler tests", () => {

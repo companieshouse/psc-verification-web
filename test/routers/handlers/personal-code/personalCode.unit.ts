@@ -4,14 +4,14 @@ import * as cheerio from "cheerio";
 import request from "supertest";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
-import { COMPANY_NUMBER, CREATED_RESOURCE, PATCH_INDIVIDUAL_STATEMENT_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED, PATCH_INDIVIDUAL_STATEMENT_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 
 jest.mock("../../../../src/services/pscVerificationService", () => ({
     getPscVerification: () => ({
         httpStatusCode: HttpStatusCode.Ok,
-        resource: CREATED_RESOURCE
+        resource: INDIVIDUAL_VERIFICATION_CREATED
     }),
     patchPscVerification: () => ({
         httpStatusCode: HttpStatusCode.Ok,

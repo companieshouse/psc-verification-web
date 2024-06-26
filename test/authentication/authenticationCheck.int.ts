@@ -1,12 +1,12 @@
 import middlewareMocks from "../mocks/allMiddleware.mock";
 import app from ".../../../src/app";
 import { PrefixedUrls } from ".../../../src/constants";
-import { PscVerificationResource } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
 import request from "supertest";
 import { createOAuthApiClient } from "../../src/services/apiClientService";
-import { CREATED_RESOURCE, INDIVIDUAL_RESOURCE } from "../mocks/pscVerification.mock";
+import { INDIVIDUAL_VERIFICATION_CREATED } from "../mocks/pscVerification.mock";
 
 jest.mock(".../../../src/services/companyProfileService");
 jest.mock("../../src/services/apiClientService");
@@ -21,13 +21,13 @@ mockCreateOAuthApiClient.mockReturnValue({
         getPscVerification: mockGetPscVerification
     }
 });
-const mockCreate: Resource<PscVerificationResource> = {
+const mockCreate: Resource<PscVerification> = {
     httpStatusCode: HttpStatusCode.Created,
-    resource: CREATED_RESOURCE
+    resource: INDIVIDUAL_VERIFICATION_CREATED
 };
-const mockGet: Resource<PscVerificationResource> = {
+const mockGet: Resource<PscVerification> = {
     httpStatusCode: HttpStatusCode.Ok,
-    resource: INDIVIDUAL_RESOURCE
+    resource: INDIVIDUAL_VERIFICATION_CREATED
 };
 mockCreatePscVerification.mockResolvedValueOnce(mockCreate);
 mockGetPscVerification.mockResolvedValueOnce(mockGet);

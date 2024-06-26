@@ -1,5 +1,5 @@
 import { HttpStatusCode } from "axios";
-import { INDIVIDUAL_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { INDIVIDUAL_VERIFICATION_FULL, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import * as httpMocks from "node-mocks-http";
 import { PrefixedUrls } from "../../src/constants";
 import { getPscVerification } from "../../src/services/pscVerificationService";
@@ -9,7 +9,7 @@ jest.mock("../../src/services/pscVerificationService");
 const mockGetPscVerification = getPscVerification as jest.Mock;
 mockGetPscVerification.mockResolvedValueOnce({
     httpStatusCode: HttpStatusCode.Ok,
-    resource: INDIVIDUAL_RESOURCE
+    resource: INDIVIDUAL_VERIFICATION_FULL
 });
 
 const mockNext = jest.fn();
@@ -37,7 +37,7 @@ describe("fetchVerification", () => {
 
         await fetchVerification(req, res, mockNext);
 
-        expect(res.locals?.submission).toBe(INDIVIDUAL_RESOURCE);
+        expect(res.locals?.submission).toBe(INDIVIDUAL_VERIFICATION_FULL);
         expect(mockNext).toHaveBeenCalled();
         expect(mockGetPscVerification).toHaveBeenCalled();
 
