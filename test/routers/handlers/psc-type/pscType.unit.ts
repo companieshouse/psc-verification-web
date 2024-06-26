@@ -41,7 +41,7 @@ describe("psc type handler", () => {
             expect(viewData).toMatchObject({
                 title: "PSC type – Provide identity verification details for a PSC or relevant legal entity",
                 backURL: `/persons-with-significant-control-verification/confirm-company?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=undefined`,
-                currentUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/psc-type?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=undefined`
+                currentUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/psc-type?lang=en&pscType=undefined`
             });
 
         });
