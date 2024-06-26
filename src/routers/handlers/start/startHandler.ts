@@ -41,4 +41,4 @@ export class StartHandler extends GenericHandler<StartViewData> {
             viewData: await this.getViewData(req, res)
         };
     }
-};
+}

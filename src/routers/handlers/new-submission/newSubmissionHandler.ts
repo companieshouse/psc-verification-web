@@ -38,6 +38,6 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         const verification: PscVerificationData = {
             companyNumber: companyNumber
         };
-        return await createPscVerification(request, transaction, verification);
+        return createPscVerification(request, transaction, verification);
     }
 }

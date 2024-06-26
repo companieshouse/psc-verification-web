@@ -2,7 +2,7 @@
     "name": "psc-verification-web",
     "version": "1.0.0",
     "description": "A starter web application for Node.js with Typescript",
-    "main": "dist/server.js",
+    "main": "dist/httpServer.js",
     "engines": {
         "node": ">=20.0.0",
         "npm": "^10"
@@ -17,7 +17,7 @@
         "coverage": "jest --coverage",
         "test": "jest",
         "test:coverage": "sh ./scripts/jest_coverage.sh",
-        "start": "npm run build && source ./dist/config/.env && node dist/server.js",
+        "start": "npm run build && source ./dist/config/.env && node dist/httpServer.js",
         "start:watch": "nodemon",
         "sonarqube-base-branch": "sonar-scanner",
         "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main",
@@ -115,7 +115,7 @@
         "ignore": [
             "**/*.test.ts"
         ],
-        "exec": "npm run build && node --inspect=0.0.0.0:9229 dist/server.js"
+        "exec": "npm run build && node --inspect=0.0.0.0:9229 dist/httpServer.js"
     },
     "directories": {
         "test": "test"
