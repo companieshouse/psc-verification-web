@@ -2,8 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import { logger } from "../lib/logger";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { getCompanyProfile } from "../services/companyProfileService";
+import { handleExceptions } from "../utils/asyncHandler";
 
-export const fetchCompany = async (req: Request, res: Response, next: NextFunction) => {
+export const fetchCompany = handleExceptions(async (req: Request, res: Response, next: NextFunction) => {
     const companyNumber = res.locals.submission?.data?.companyNumber;
 
     if (companyNumber) {
@@ -16,4 +17,4 @@ export const fetchCompany = async (req: Request, res: Response, next: NextFuncti
         logger.error(`${fetchCompany.name} -  Cannot retrieve company profile: No company number found in submission resource`);
     }
     next();
-};
+});
