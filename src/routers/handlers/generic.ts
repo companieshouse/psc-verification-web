@@ -3,7 +3,7 @@
 
 import { Request, Response } from "express";
 import { ExternalUrls, PrefixedUrls, servicePathPrefix } from "../../constants";
-import errorManifest from "../../lib/utils/error-manifests/default";
+import errorManifest from "../../lib/utils/error-manifests/errorManifest";
 
 export interface BaseViewData {
     errors: any
