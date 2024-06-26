@@ -42,7 +42,7 @@ describe("fetchCompany", () => {
 
     it("should skip retrieval if companyNumber is missing", async () => {
         const req = httpMocks.createRequest(VALID_REQ);
-        const res = httpMocks.createResponse({ locals: { submission: { data: { ...INDIVIDUAL_DATA, company_number: undefined } } } });
+        const res = httpMocks.createResponse({ locals: { submission: { data: { ...INDIVIDUAL_DATA, companyNumber: undefined } } } });
 
         await fetchCompany(req, res, mockNext);
 

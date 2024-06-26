@@ -1,4 +1,4 @@
-import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import * as httpMocks from "node-mocks-http";
 import { PscTypeHandler } from "../../../../src/routers/handlers/psc-type/pscTypeHandler";
 import { Urls } from "../../../../src/constants";
@@ -12,7 +12,7 @@ describe("psc type handler", () => {
                 url: Urls.PSC_TYPE
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: CREATED_RESOURCE } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_CREATED } });
             const handler = new PscTypeHandler();
 
             const { templatePath, viewData } = await handler.executeGet(req, res);
@@ -33,7 +33,7 @@ describe("psc type handler", () => {
                 }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: CREATED_RESOURCE } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_CREATED } });
             const handler = new PscTypeHandler();
 
             const { templatePath, viewData } = await handler.executeGet(req, res);
@@ -46,6 +46,7 @@ describe("psc type handler", () => {
 
         });
     });
+
     describe("executePost", () => {
         const req = httpMocks.createRequest({
             method: "POST",

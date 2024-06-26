@@ -6,13 +6,17 @@ import { HttpStatusCode } from "axios";
 import { getCompanyProfile } from "../../src/services/companyProfileService";
 import { validCompanyProfile } from "../mocks/companyProfile.mock";
 import { VALID_COMPANY_PSC_LIST } from "../mocks/companyPsc.mock";
-import { CREATED_RESOURCE, PATCHED_INDIVIDUAL_RESOURCE_PSC_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_PATCH, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../src/utils/url";
 import { PSC_ID } from "../mocks/psc.mock";
 import { getPscVerification, patchPscVerification } from "../../src/services/pscVerificationService";
 
 const mockGetPscVerification = getPscVerification as jest.Mock;
-mockGetPscVerification.mockResolvedValue(CREATED_RESOURCE);
+mockGetPscVerification.mockResolvedValue(INDIVIDUAL_VERIFICATION_PATCH);
+
+beforeEach(() => {
+    jest.clearAllMocks();
+});
 
 jest.mock("../../src/services/pscVerificationService");
 const mockPatchPscVerification = patchPscVerification as jest.Mock;
@@ -50,19 +54,19 @@ describe("psc individual list post tests", () => {
         mockPatchPscVerification.mockReset();
     });
 
-    it.skip("Should redirect to the personal code (psc details) page when a PSC is selected", async () => {
-        mockPatchPscVerification.mockResolvedValueOnce(PATCHED_INDIVIDUAL_RESOURCE_PSC_ID);
+    // FIXME when the middleware is mocked
+    it.skip("Should redirect to the personal code (uvid) page when a PSC is selected", async () => {
+        mockPatchPscVerification.mockResolvedValueOnce(INDIVIDUAL_VERIFICATION_PATCH);
         const expectedPage = PrefixedUrls.PERSONAL_CODE;
-        const expectedRedirectUrl = `${expectedPage.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?lang=en&pscType=individual`;
+        const expectedRedirectUrl = `${expectedPage.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=individual`;
 
-        const resp = await request(app)
+        await request(app)
             .post(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, TRANSACTION_ID, PSC_VERIFICATION_ID))
             .send({ pscId: PSC_ID })
             .set({ "Content-Type": "application/json-patch+json" })
-            .query({ lang: "en", pscType: "individual" });
-
-        expect(resp.status).toBe(HttpStatusCode.Found);
-        expect("Location").toBe(expectedRedirectUrl);
+            .query({ companyNumber: COMPANY_NUMBER, lang: "en", pscType: "individual", pscId: PSC_ID })
+            .expect(HttpStatusCode.Ok)
+            .expect("Location", expectedRedirectUrl);
 
     });
 
