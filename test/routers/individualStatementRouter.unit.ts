@@ -7,19 +7,19 @@ import middlewareMocks from "./../mocks/allMiddleware.mock";
 import app from "./../../src/app";
 import { PSC_INDIVIDUAL } from "../mocks/psc.mock";
 
-jest.mock("../../src/services/pscVerificationService", () => ({
-    getPscVerification: () => ({
-        httpStatusCode: HttpStatusCode.Ok,
-        resource: CREATED_RESOURCE
-    })
-}));
+jest.mock("../../src/services/pscVerificationService");
+const mockGetPscVerification = getPscVerification as jest.Mock;
+mockGetPscVerification.mockResolvedValueOnce({
+    httpStatusCode: HttpStatusCode.Ok,
+    resource: CREATED_RESOURCE
+});
+
 jest.mock("../../src/services/pscService", () => ({
     getPscIndividual: () => ({
         httpStatusCode: HttpStatusCode.Ok,
         resource: PSC_INDIVIDUAL
     })
 }));
-const mockGetPscVerification = getPscVerification as jest.Mock;
 
 beforeEach(() => {
     jest.clearAllMocks();
