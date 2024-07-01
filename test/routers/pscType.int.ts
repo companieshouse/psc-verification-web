@@ -70,6 +70,7 @@ describe("PscType router/handler integration tests", () => {
                     .post(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, TRANSACTION_ID, PSC_VERIFICATION_ID))
                     .send({ pscType: selectedType })
                     .set({ "Content-Type": "application/json" })
+                    // if present in the request the "companyNumber" query param is passed on to the redirect URL
                     .query({ companyNumber: COMPANY_NUMBER, lang: "en", pscType: selectedType })
                     .expect(HttpStatusCode.Found)
                     .expect("Location", expectedRedirectUrl);
