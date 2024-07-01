@@ -29,9 +29,9 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
             backLinkDataEvent: "psc-type-back-link"
         };
 
-        function resolveUrlTemplate (prefixedUrl: string, companyNumber?: string): string | null {
+        function resolveUrlTemplate (prefixedUrl: string, companyNum?: string): string | null {
             const query = { lang, pscType };
-            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), companyNumber ? { companyNumber, ...query } : query);
+            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), companyNum ? { companyNumber: companyNum, ...query } : query);
         }
     }
 
