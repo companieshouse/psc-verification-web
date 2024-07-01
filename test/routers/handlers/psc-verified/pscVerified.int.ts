@@ -7,7 +7,7 @@ import { PrefixedUrls } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { closeTransaction } from "../../../../src/services/transactionService";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { COMPANY_NUMBER, INDIVIDUAL_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_FULL, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
@@ -18,7 +18,7 @@ jest.mock("../../../../src/services/pscVerificationService");
 const mockGetPscVerification = getPscVerification as jest.Mock;
 mockGetPscVerification.mockResolvedValueOnce({
     httpStatusCode: HttpStatusCode.Ok,
-    resource: INDIVIDUAL_RESOURCE
+    resource: INDIVIDUAL_VERIFICATION_FULL
 });
 
 jest.mock("../../../../src/services/pscService");

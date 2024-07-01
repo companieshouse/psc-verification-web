@@ -7,6 +7,6 @@ import { PersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/
 export const getPscIndividualDetails = async (req: Request, transactionId: string, submissionId: string): Promise<Resource<PersonWithSignificantControl>> => {
 
     const verificationResponse = await getPscVerification(req, transactionId, submissionId);
-    return getPscIndividual(req, verificationResponse.resource?.data.company_number as string,
-                                            verificationResponse.resource?.data.psc_appointment_id as string);
+    return getPscIndividual(req, verificationResponse.resource?.data.companyNumber as string,
+                                            verificationResponse.resource?.data.pscAppointmentId as string);
 };

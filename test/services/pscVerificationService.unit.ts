@@ -1,9 +1,9 @@
-import { PscVerificationResource } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createOAuthApiClient } from "../../src/services/apiClientService";
 import { createPscVerification, getPscVerification, patchPscVerification } from "../../src/services/pscVerificationService";
-import { CREATED_RESOURCE, INDIVIDUAL_RESOURCE, INITIAL_DATA, PATCHED_INDIVIDUAL_RESOURCE, PATCH_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { CREATED_PSC_TRANSACTION } from "../mocks/transaction.mock";
 import { Resource } from "@companieshouse/api-sdk-node";
 
@@ -32,36 +32,36 @@ describe("pscVerificationService", () => {
 
     describe("createPscVerification", () => {
         it("should return the created initial resource on success", async () => {
-            const mockCreate: Resource<PscVerificationResource> = {
+            const mockCreate: Resource<PscVerification> = {
                 httpStatusCode: HttpStatusCode.Created,
-                resource: CREATED_RESOURCE
+                resource: INDIVIDUAL_VERIFICATION_CREATED
             };
             mockCreatePscVerification.mockResolvedValueOnce(mockCreate);
 
-            const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_DATA);
+            const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA);
 
             expect(response.httpStatusCode).toBe(HttpStatusCode.Created);
-            const castedResource = response.resource as PscVerificationResource;
-            expect(castedResource).toEqual(CREATED_RESOURCE);
+            const castedResource = response.resource as PscVerification;
+            expect(castedResource).toEqual(INDIVIDUAL_VERIFICATION_CREATED);
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockCreatePscVerification).toHaveBeenCalledTimes(1);
-            expect(mockCreatePscVerification).toHaveBeenCalledWith(TRANSACTION_ID, INITIAL_DATA);
+            expect(mockCreatePscVerification).toHaveBeenCalledWith(TRANSACTION_ID, INITIAL_PSC_DATA);
         });
     });
 
     describe("getPscVerification", () => {
         it("should retrieve the resource by its id", async () => {
-            const mockGet: Resource<PscVerificationResource> = {
+            const mockGet: Resource<PscVerification> = {
                 httpStatusCode: HttpStatusCode.Ok,
-                resource: INDIVIDUAL_RESOURCE
+                resource: INDIVIDUAL_VERIFICATION_FULL
             };
             mockGetPscVerification.mockResolvedValueOnce(mockGet);
 
             const response = await getPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
             expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
-            const castedResource = response.resource as PscVerificationResource;
-            expect(castedResource).toEqual(INDIVIDUAL_RESOURCE);
+            const castedResource = response.resource as PscVerification;
+            expect(castedResource).toEqual(INDIVIDUAL_VERIFICATION_FULL);
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetPscVerification).toHaveBeenCalledTimes(1);
             expect(mockGetPscVerification).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
@@ -70,17 +70,17 @@ describe("pscVerificationService", () => {
 
     describe("patchPscVerification", () => {
         it("should return the patched resource on success", async () => {
-            const mockPatch: Resource<PscVerificationResource> = {
+            const mockPatch: Resource<PscVerification> = {
                 httpStatusCode: HttpStatusCode.Ok,
-                resource: PATCHED_INDIVIDUAL_RESOURCE
+                resource: INDIVIDUAL_VERIFICATION_PATCH
             };
             mockPatchPscVerification.mockResolvedValueOnce(mockPatch);
 
             const response = await patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA);
 
             expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
-            const castedResource = response.resource as PscVerificationResource;
-            expect(castedResource).toEqual(PATCHED_INDIVIDUAL_RESOURCE);
+            const castedResource = response.resource as PscVerification;
+            expect(castedResource).toEqual(INDIVIDUAL_VERIFICATION_PATCH);
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA);

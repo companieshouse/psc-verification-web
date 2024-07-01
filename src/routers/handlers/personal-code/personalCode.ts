@@ -11,7 +11,7 @@ import {
 } from "../generic";
 import { getPscIndividualDetails } from "../utils/pscIndividual";
 import { formatDateBorn } from "../../utils";
-import { PscVerification, PscVerificationResource } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { PscVerification, PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { patchPscVerification } from "../../../services/pscVerificationService";
 
 interface PersonalCodeViewData extends BaseViewData {
@@ -28,7 +28,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
         const baseViewData = await super.getViewData(req, res);
         const pscIndividual = await getPscIndividualDetails(req, req.params.transactionId, req.params.submissionId);
-        const verificationResource: PscVerificationResource = res.locals.submission;
+        const verification: PscVerification = res.locals.submission;
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
@@ -37,7 +37,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             ...getLocaleInfo(locales, lang),
             pscName: pscIndividual.resource?.name!,
             monthBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
-            personalCode: verificationResource?.data?.verification_details?.uvid || "",
+            personalCode: verification?.data?.verificationDetails?.uvid || "",
             currentUrl: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
             backURL: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_PSC_LIST),
             templateName: Urls.PERSONAL_CODE,
@@ -62,8 +62,8 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
     public async executePost (req: Request, res: Response) {
         logger.info(`${PersonalCodeHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         const uvid = req.body.personalCode;
-        const verification: PscVerification = {
-            verification_details: {
+        const verification: PscVerificationData = {
+            verificationDetails: {
                 uvid: uvid
             }
         };
