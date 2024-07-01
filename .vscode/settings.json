@@ -3,6 +3,7 @@
         "njk": "html",
         "nunjucks": "html"
     },
+    "jest.runMode": "on-save",
     "javascript.preferences.importModuleSpecifier": "relative",
     "typescript.preferences.importModuleSpecifier": "relative"
 }

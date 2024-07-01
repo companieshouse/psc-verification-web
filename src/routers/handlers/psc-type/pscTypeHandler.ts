@@ -24,13 +24,14 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
             ...getLocaleInfo(locales, lang),
             title: "PSC type – Provide identity verification details for a PSC or relevant legal entity",
             currentUrl: resolveUrlTemplate(PrefixedUrls.PSC_TYPE),
-            backURL: resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY),
+            backURL: resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY, companyNumber),
             templateName: Urls.PSC_TYPE,
             backLinkDataEvent: "psc-type-back-link"
         };
 
-        function resolveUrlTemplate (prefixedUrl: string): string | null {
-            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { companyNumber, lang, pscType });
+        function resolveUrlTemplate (prefixedUrl: string, companyNumber?: string): string | null {
+            const query = { lang, pscType };
+            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), companyNumber ? { companyNumber, ...query } : query);
         }
     }
 

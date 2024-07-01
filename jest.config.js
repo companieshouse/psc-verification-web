@@ -6,7 +6,7 @@ module.exports = {
         "/node_modules/",
         "/dist/"
     ],
-    collectCoverage: true,
+    collectCoverage: false,
     collectCoverageFrom: [
         "./src/**/*.ts"
     ],
