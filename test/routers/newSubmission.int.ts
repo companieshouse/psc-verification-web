@@ -21,7 +21,7 @@ mockCreatePscVerification.mockResolvedValue({
     resource: INDIVIDUAL_VERIFICATION_CREATED
 });
 
-describe("new submission handler tests", () => {
+describe("NewSubmission router/handler integration tests", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -32,14 +32,15 @@ describe("new submission handler tests", () => {
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
     });
 
-    it("Should redirect with a temporary redirect status code", async () => {
-        const response = await request(app).get(PrefixedUrls.NEW_SUBMISSION).expect(HttpStatusCode.Found);
-    });
+    describe("GET method`", () => {
 
-    it.each(["en", "cy"])("Should redirect to the psc_type screen with lang query set to %s", async (lang) => {
-        const expectedRedirectUrl = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/psc-type?lang=${lang}`;
-        await request(app).get(PrefixedUrls.NEW_SUBMISSION)
-            .query({ companyNumber: `${COMPANY_NUMBER}`, lang: lang })
-            .expect("Location", expectedRedirectUrl);
+        it.each(["en", "cy"])("Should redirect to the PSC_TYPE screen with query param lang=\"%s\"", async (lang) => {
+            const expectedRedirectUrl = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/psc-type?lang=${lang}`;
+
+            await request(app).get(PrefixedUrls.NEW_SUBMISSION)
+                .query({ companyNumber: `${COMPANY_NUMBER}`, lang })
+                .expect(HttpStatusCode.Found)
+                .expect("Location", expectedRedirectUrl);
+        });
     });
 });

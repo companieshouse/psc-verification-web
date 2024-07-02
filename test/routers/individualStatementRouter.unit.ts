@@ -1,7 +1,6 @@
 import { HttpStatusCode } from "axios";
 import request from "supertest";
 import { PrefixedUrls } from "../../src/constants";
-import { getPscVerification } from "../../src/services/pscVerificationService";
 import { INDIVIDUAL_VERIFICATION_CREATED } from "../mocks/pscVerification.mock";
 import middlewareMocks from "./../mocks/allMiddleware.mock";
 import app from "./../../src/app";
@@ -19,7 +18,6 @@ jest.mock("../../src/services/pscService", () => ({
         resource: PSC_INDIVIDUAL
     })
 }));
-const mockGetPscVerification = getPscVerification as jest.Mock;
 
 beforeEach(() => {
     jest.clearAllMocks();
