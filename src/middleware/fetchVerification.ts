@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { logger } from "../lib/logger";
 import { getPscVerification } from "../services/pscVerificationService";
+import { handleExceptions } from "../utils/asyncHandler";
 
-export const fetchVerification = async (req: Request, res: Response, next: NextFunction) => {
+export const fetchVerification = handleExceptions(async (req: Request, res: Response, next: NextFunction) => {
     const resourceId = req.params.submissionId;
     const transactionId = req.params.transactionId;
 
@@ -16,4 +17,4 @@ export const fetchVerification = async (req: Request, res: Response, next: NextF
         logger.error(`${fetchVerification.name} - No transactionId or submissionId found in request path parameters`);
     }
     next();
-};
+});

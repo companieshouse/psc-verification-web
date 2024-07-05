@@ -29,9 +29,9 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         const transactionId = req.params.transactionId;
         const submissionId = req.params.submissionId;
         const verification = res.locals.submission;
-        const companyNumber = verification?.data?.company_number as string;
+        const companyNumber = verification?.data?.companyNumber as string;
         const companyProfile = res.locals.companyProfile;
-        const pscAppointmentId = verification?.data.psc_appointment_id as string;
+        const pscAppointmentId = verification?.data.pscAppointmentId as string;
         const pscDetailsResponse = await getPscIndividual(req, companyNumber, pscAppointmentId);
         const companyName = companyProfile.companyName as string;
         const forward = decodeURI(addSearchParams(ExternalUrls.COMPANY_LOOKUP_FORWARD, { companyNumber: "{companyNumber}", lang }));

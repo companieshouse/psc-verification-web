@@ -4,8 +4,8 @@ import { Urls } from "../../../../src/constants";
 import { IndividualStatementHandler } from "../../../../src/routers/handlers/individual-statement/individualStatement";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { INDIVIDUAL_RESOURCE, PATCH_INDIVIDUAL_STATEMENT_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
-import { VerificationStatement } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { INDIVIDUAL_VERIFICATION_FULL, PATCH_INDIVIDUAL_STATEMENT_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { patchPscVerification } from "../../../../src/services/pscVerificationService";
 
 jest.mock("../../../../src/services/pscVerificationService", () => ({
@@ -46,7 +46,7 @@ describe("Individual statement handler", () => {
                     pscType: "individual"
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_RESOURCE } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL } });
             const handler = new IndividualStatementHandler();
             const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
 
@@ -55,7 +55,7 @@ describe("Individual statement handler", () => {
             expect(resp.templatePath).toBe("router_views/individual_statement/individual_statement");
             expect(resp.viewData).toMatchObject({
                 currentUrl: `${expectedPrefix}/individual/psc-statement?lang=en`,
-                selectedStatements: [VerificationStatement.INDIVIDUAL_VERIFIED],
+                selectedStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED],
                 pscName: "Sir Forename Middlename Surname",
                 dateOfBirth: "April 2000",
                 errors: {}
@@ -76,7 +76,7 @@ describe("Individual statement handler", () => {
                     pscType: "individual"
                 },
                 body: {
-                    psc_individual_statement: VerificationStatement.INDIVIDUAL_VERIFIED
+                    pscIndividualStatement: VerificationStatementEnum.INDIVIDUAL_VERIFIED
                 }
             });
             const res = httpMocks.createResponse();
