@@ -11,17 +11,14 @@ import { getPscVerification, patchPscVerification } from "../../../../src/servic
 import app from "../../../../src/app";
 import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { IncomingMessage } from "http";
+import { getPscIndividual } from "../../../../src/services/pscService";
 
 jest.mock("../../../../src/services/pscVerificationService");
+jest.mock("../../../../src/services/pscService");
+
 const mockGetPscVerification = getPscVerification as jest.Mock;
 const mockPatchPscVerification = patchPscVerification as jest.Mock;
-
-jest.mock("../../../../src/services/pscService", () => ({
-    getPscIndividual: () => ({
-        httpStatusCode: HttpStatusCode.Ok,
-        resource: PSC_INDIVIDUAL
-    })
-}));
+const mockGetPscIndividual = getPscIndividual as jest.Mock;
 
 describe("personal code router/handler integration tests", () => {
 
@@ -31,15 +28,24 @@ describe("personal code router/handler integration tests", () => {
             httpStatusCode: HttpStatusCode.Ok,
             resource: INDIVIDUAL_VERIFICATION_PATCH
         });
+
+        mockGetPscIndividual.mockResolvedValue({
+            httpStatusCode: HttpStatusCode.Ok,
+            resource: PSC_INDIVIDUAL
+        });
     });
 
     afterEach(() => {
         expect(mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
-        expect(mockGetPscVerification).toHaveBeenCalled();
+        expect(mockGetPscVerification).toHaveBeenCalledTimes(1);
     });
 
     describe("GET method", () => {
+
+        afterEach(() => {
+            expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
+        });
 
         it("Should render the Personal code page with a success status code and correct links", async () => {
 
@@ -51,6 +57,7 @@ describe("personal code router/handler integration tests", () => {
                 .expect(HttpStatusCode.Ok);
 
             const $ = cheerio.load(resp.text);
+            console.log($);
 
             expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/psc-list?lang=en");
         });
@@ -78,7 +85,6 @@ describe("personal code router/handler integration tests", () => {
 
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
-            expect(mockGetPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
             expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
         });
