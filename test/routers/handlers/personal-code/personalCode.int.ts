@@ -60,6 +60,19 @@ describe("personal code router/handler integration tests", () => {
             expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/psc-list?lang=en");
         });
 
+        it("Should display the PSC inidividual's name and DOB on the Personal Code page", async () => {
+
+            const queryParams = new URLSearchParams("lang=en");
+            const uriWithQuery = `${PrefixedUrls.PERSONAL_CODE}?${queryParams}`;
+            const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            const resp = await request(app).get(uri);
+
+            const $ = cheerio.load(resp.text);
+            expect($("span").text()).toContain("Sir Forename Middlename Surname (Born April 2000)");
+
+        });
+
         it("Should display 'What is their Companies House personal code?' message on the Personal Code page", async () => {
 
             const queryParams = new URLSearchParams("lang=en");
@@ -68,13 +81,64 @@ describe("personal code router/handler integration tests", () => {
 
             const resp = await request(app).get(uri);
 
-            // WIP
             const $ = cheerio.load(resp.text);
-            console.log("Content text for H1 is...");
-            console.log($("h1").text());
             expect($("h1").text().trim()).toBe("What is their Companies House personal code?");
 
         });
+
+        it("Should display an input box for the user to enter their personal code", async () => {
+
+            const queryParams = new URLSearchParams("lang=en");
+            const uriWithQuery = `${PrefixedUrls.PERSONAL_CODE}?${queryParams}`;
+            const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            const resp = await request(app).get(uri);
+
+            const $ = cheerio.load(resp.text);
+            expect($("#personalCode").length > 0);
+
+        });
+
+        it("Should display an input box for the user to enter their personal code", async () => {
+
+            const queryParams = new URLSearchParams("lang=en");
+            const uriWithQuery = `${PrefixedUrls.PERSONAL_CODE}?${queryParams}`;
+            const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            const resp = await request(app).get(uri);
+
+            const $ = cheerio.load(resp.text);
+            expect($("#personalCode").length > 0);
+
+        });
+
+        it("Should display a drop down with further information about the CH personal code", async () => {
+
+            const queryParams = new URLSearchParams("lang=en");
+            const uriWithQuery = `${PrefixedUrls.PERSONAL_CODE}?${queryParams}`;
+            const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            const resp = await request(app).get(uri);
+
+            const $ = cheerio.load(resp.text);
+            expect($("details").text()).toContain("Where to find the Companies House personal code");
+            expect($("details").text()).toContain("This is an 11 character code that is given to a person after they have verified their identity with Companies House.");
+
+        });
+
+        it("Should display a 'Continue' button", async () => {
+
+            const queryParams = new URLSearchParams("lang=en");
+            const uriWithQuery = `${PrefixedUrls.PERSONAL_CODE}?${queryParams}`;
+            const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            const resp = await request(app).get(uri);
+
+            const $ = cheerio.load(resp.text);
+            expect($("button#submit").text()).toContain("Continue");
+
+        });
+
     });
 
     describe("POST method", () => {
