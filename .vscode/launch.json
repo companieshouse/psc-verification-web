@@ -9,7 +9,7 @@
             "port": 9229,
             "restart": true,
             "sourceMaps": true,
-            "remoteRoot": "/app",
+            "remoteRoot": "/opt",
             "localRoot": "${workspaceFolder}",
             "resolveSourceMapLocations": [
                 "${workspaceFolder}/**",
