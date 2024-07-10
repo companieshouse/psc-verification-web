@@ -47,19 +47,33 @@ describe("personal code router/handler integration tests", () => {
             expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
         });
 
-        it("Should render the Personal code page with a success status code and correct links", async () => {
+        it("Should render the Personal Code page with a success status code and the correct links and content", async () => {
 
             const queryParams = new URLSearchParams("lang=en");
             const uriWithQuery = `${PrefixedUrls.PERSONAL_CODE}?${queryParams}`;
             const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
-            const resp = await request(app).get(uri)
-                .expect(HttpStatusCode.Ok);
+            const resp = await request(app).get(uri).expect(HttpStatusCode.Ok);
 
             const $ = cheerio.load(resp.text);
-            console.log($);
 
             expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/psc-list?lang=en");
+        });
+
+        it("Should display 'What is their Companies House personal code?' message on the Personal Code page", async () => {
+
+            const queryParams = new URLSearchParams("lang=en");
+            const uriWithQuery = `${PrefixedUrls.PERSONAL_CODE}?${queryParams}`;
+            const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            const resp = await request(app).get(uri);
+
+            // WIP
+            const $ = cheerio.load(resp.text);
+            console.log("Content text for H1 is...");
+            console.log($("h1").text());
+            expect($("h1").text().trim()).toBe("What is their Companies House personal code?");
+
         });
     });
 
