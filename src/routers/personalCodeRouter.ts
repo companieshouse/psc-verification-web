@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { PrefixedUrls } from "../constants";
 import { handleExceptions } from "../utils/asyncHandler";
-import { PersonalCodeHandler } from "./handlers/personal-code/personalCode";
+import { PersonalCodeHandler } from "./handlers/personal-code/personalCodeHandler";
 import { selectLang } from "../utils/localise";
 import { getUrlWithTransactionIdAndSubmissionId } from "../utils/url";
 import { addSearchParams } from "../utils/queryParams";
