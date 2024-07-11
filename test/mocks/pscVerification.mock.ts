@@ -42,6 +42,12 @@ export const PATCH_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
     }
 };
 
+export const PATCH_PERSONAL_CODE_DATA: PscVerificationData = {
+    verificationDetails: {
+        uvid: UVID
+    }
+};
+
 export const PATCH_INDIVIDUAL_STATEMENT: PscVerification = {
     data: PATCH_INDIVIDUAL_STATEMENT_DATA,
     createdAt: FIRST_DATE,
