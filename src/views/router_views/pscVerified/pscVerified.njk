@@ -12,6 +12,7 @@
   </div>
  {% endset %}
 {% block main_content %}
+
       {{ govukPanel({
         titleText: i18n.psc_verified_main_title,
         html: panel
@@ -53,10 +54,10 @@
        <h1 class="govuk-heading-m">{{i18n.psc_verified_next_heading}}</h1>
 
        <p class="govuk-body">
-       <a href="{{createNewSubmissionUrl}}" class="govuk-link" data-event-id="same-company-verification-link">{{i18n.psc_verified_verification_details_link}} {{companyName}}</a>.
+       <a href="{{ createNewSubmissionUrl }} class="govuk-link" data-event-id="same-company-verification-link">{{ i18n.psc_verified_verification_details_link }} {{ companyName }}</a>.
 </p>
 
        <p class="govuk-body">
-       <a href="{{companyLookupUrl}}" class="govuk-link" data-event-id="another-company-verification-link">{{i18n.psc_verified_another_company_verification_link}}</a>.
+       <a href="{{ companyLookupUrl }} class="govuk-link" data-event-id="another-company-verification-link">{{ i18n.psc_verified_another_company_verification_link }}</a>.
 </p>
 {% endblock %}
