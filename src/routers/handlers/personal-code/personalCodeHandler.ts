@@ -4,15 +4,11 @@ import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
-import {
-    BaseViewData,
-    GenericHandler,
-    ViewModel
-} from "../generic";
-import { getPscIndividualDetails } from "../utils/pscIndividual";
+import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn } from "../../utils";
 import { PscVerification, PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { patchPscVerification } from "../../../services/pscVerificationService";
+import { getPscIndividual } from "../../../services/pscService";
 
 interface PersonalCodeViewData extends BaseViewData {
     pscName: string,
@@ -27,8 +23,8 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
     public async getViewData (req: Request, res: Response): Promise<PersonalCodeViewData> {
 
         const baseViewData = await super.getViewData(req, res);
-        const pscIndividual = await getPscIndividualDetails(req, req.params.transactionId, req.params.submissionId);
         const verification: PscVerification = res.locals.submission;
+        const pscIndividual = await getPscIndividual(req, verification.data.companyNumber as string, verification.data.pscAppointmentId as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 

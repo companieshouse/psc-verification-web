@@ -51,7 +51,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             individualPscList = await getCompanyIndividualPscList(req, companyNumber);
         }
 
-        const selectedPscId = verification?.data?.psc_appointment_id as string;
+        const selectedPscId = verification?.data?.pscAppointmentId as string;
         const queryParams = new URLSearchParams(req.url.split("?")[1]);
         queryParams.set("lang", lang);
         queryParams.set("pscType", "individual");
