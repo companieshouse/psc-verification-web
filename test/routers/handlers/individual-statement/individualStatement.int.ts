@@ -55,7 +55,7 @@ describe("individual statement view", () => {
         if (lang === "en") {
             expect($("div#nameAndDateOfBirth").text()).toBe("Sir Forename Middlename Surname (Born April 2000)");
             // expect emphasis applied to PSC name
-            expect(normalizeWhitespace($("label.govuk-checkboxes__label[for='pscIndividualStatement']").html())).toBe("<label>I confirm that <strong>Sir Forename Middlename Surname</strong> has verified their identity.</label>");
+            expect(normalizeWhitespace($("label.govuk-checkboxes__label[for='pscIndividualStatement']").html())).toBe("<label for=\"pscIndividualStatement\">I confirm that <strong>Sir Forename Middlename Surname</strong> has verified their identity.</label>");
         }
 
         expect($("input.govuk-checkboxes__input[name=pscIndividualStatement]").prop("checked")).toBe(true);
