@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { getPscIndividual } from "../../../services/pscService";
 import { closeTransaction } from "../../../services/transactionService";
-import { ExternalUrls, PrefixedUrls } from "../../../constants";
+import { ExternalUrls, PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
@@ -45,7 +45,8 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
             pscName: pscDetailsResponse.resource?.name!,
             referenceNumber: transactionId,
             createNewSubmissionUrl: addSearchParams(PrefixedUrls.NEW_SUBMISSION, { companyNumber, lang }),
-            companyLookupUrl: addSearchParams(ExternalUrls.COMPANY_LOOKUP, { forward })
+            companyLookupUrl: addSearchParams(ExternalUrls.COMPANY_LOOKUP, { forward }),
+            templateName: Urls.PSC_VERIFIED
         };
     }
 
