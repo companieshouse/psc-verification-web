@@ -1,7 +1,7 @@
 import { HttpStatusCode } from "axios";
 import * as httpMocks from "node-mocks-http";
 import { Urls } from "../../../../src/constants";
-import { IndividualStatementHandler } from "../../../../src/routers/handlers/individual-statement/individualStatement";
+import { IndividualStatementHandler } from "../../../../src/routers/handlers/individual-statement/individualStatementHandler";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { INDIVIDUAL_VERIFICATION_FULL, PATCH_INDIVIDUAL_STATEMENT_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";

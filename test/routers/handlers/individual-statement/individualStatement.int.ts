@@ -41,7 +41,7 @@ describe("individual statement view", () => {
         jest.clearAllMocks();
     });
 
-    it.skip.each(["en", "cy"])(`Should render the Individual Statement page with a success status code, correct (%s) links, and correct statement selected`, async (lang) => {
+    it.each(["en", "cy"])(`Should render the Individual Statement page with a success status code, correct (%s) links, and correct statement selected`, async (lang) => {
         const queryParams = new URLSearchParams(`lang=${lang}`);
         const uriWithQuery = `${PrefixedUrls.INDIVIDUAL_STATEMENT}?${queryParams}`;
         const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
@@ -55,9 +55,9 @@ describe("individual statement view", () => {
         if (lang === "en") {
             expect($("div#nameAndDateOfBirth").text()).toBe("Sir Forename Middlename Surname (Born April 2000)");
             // expect emphasis applied to PSC name
-            expect(normalizeWhitespace($("label.govuk-checkboxes__label[for='pscIndividualStatement']").html())).toBe("<label>I confirm that <strong>Sir Forename Middlename Surname</strong> has verified their identity.</label>");
+            expect(normalizeWhitespace($("label.govuk-checkboxes__label[for='pscIndividualStatement']").html())).toBe("<label for=\"pscIndividualStatement\">I confirm that <strong>Sir Forename Middlename Surname</strong> has verified their identity.</label>");
         }
-        // FIXME once middleware is mocked - expect check box to be selected with individual verified statement
+
         expect($("input.govuk-checkboxes__input[name=pscIndividualStatement]").prop("checked")).toBe(true);
     });
 
