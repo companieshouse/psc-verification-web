@@ -5,12 +5,16 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
 {% set title = i18n.psc_verified_main_title %}
- {% set panel%}
-  <div>{{i18n.psc_verified_reference_number_statement}}
-    <br>
-    <strong>{{referenceNumber}}</strong>
-  </div>
- {% endset %}
+{% set panel %}
+<div>
+  {{ i18n.psc_verified_reference_number_statement }}
+</div>
+<strong>
+<div id="psc-verified-reference-number">
+    {{ referenceNumber }}
+</div>
+</strong>
+{% endset %}
 {% block main_content %}
 
       {{ govukPanel({
