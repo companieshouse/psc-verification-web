@@ -6,8 +6,10 @@ import { ExternalUrls, servicePathPrefix } from "./constants";
 import { logger } from "./lib/logger";
 import { sessionMiddleware } from "./middleware/session";
 import routerDispatch from "./routerDispatch";
+import { isLive } from "./middleware/serviceLive";
 
 const app = express();
+app.use(isLive);
 
 app.set("views", [
     path.join(__dirname, "views"),
