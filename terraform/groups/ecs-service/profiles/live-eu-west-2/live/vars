@@ -3,3 +3,4 @@ aws_profile = "live-eu-west-2"
 
 # service configs
 log_level = "info"
+use_set_environment_files = true
