@@ -47,6 +47,6 @@ describe("Service not live integration tests", () => {
 
         expect(resp.status).toBe(HttpStatusCode.Ok);
         const $ = cheerio.load(resp.text);
-        expect($("p.govuk-body").text()).toContain("Use this service");
+        expect($("p.govuk-body-l").text()).toContain("Use this service");
     });
 });

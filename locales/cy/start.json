@@ -9,7 +9,7 @@
     "start_when_to_verify_description3": "to be translated",
     "start_warning_text": "to be translated",
     "start_before_heading": "to be translated",
-    "start_before_verify_description": "to be translated",
+    "start_before_verify_link_text": "to be translated",
     "start_before_verify_link": "to be translated",
     "start_before_verify_description2": "to be translated",
     "start_before_list": "to be translated",
@@ -20,9 +20,9 @@
     "start_personal_code_details_main_link": "to be translated",
     "start_personal_code_details_description": "to be translated",
     "start_providing_details_for_rle": "to be translated",
-    "start_deatils_for_rle_description1": "to be translated",
-    "start_deatils_for_rle_description2": "to be translated",
-    "start_deatils_for_rle_description3": "to be translated",
+    "start_details_for_rle_description1": "to be translated",
+    "start_details_for_rle_description2": "to be translated",
+    "start_details_for_rle_description3": "to be translated",
     "start_guidance_on_psc_link": "to be translated",
     "start_button": "to be translated"
 }
