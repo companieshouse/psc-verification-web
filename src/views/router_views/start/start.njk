@@ -28,12 +28,14 @@
     }) }}
 
         <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>
-    <p class="govuk-body">{{ i18n.start_before_verify_link }}
-    <a href="{{ [chsUrl, verifyIdentityLink] | join  }}" title="{{ i18n.start_verify_link_text }}" class="govuk-link" data-event-id="before-verify-link">
-        {{ i18n.start_verify_link_text }}
-    </a>
-    {{i18n.start_after_verify_link}}</p>
-    <p class="govuk-body">{{ i18n.start_before_list }}</p>
+        <p class="govuk-body">
+        {{ i18n.start_before_verify_link }}
+        <a href="{{ chsUrl }}" title="{{ i18n.start_service_ch_link }}" title="{{ i18n.start_after_verify_link }}" class="govuk-link" data-event-id="when-to-verify-link">
+            {{ i18n.start_after_verify_link_text }}
+            {{ i18n.start_verify_link_text }}
+        </a>
+        {{ i18n.start_after_verify_link }}
+        </p>
     <ul class="govuk-list govuk-list--bullet">
         <li>{{ i18n.start_before_list_item1 }}</li>
         <li>{{ i18n.start_before_list_item2 }}</li>
