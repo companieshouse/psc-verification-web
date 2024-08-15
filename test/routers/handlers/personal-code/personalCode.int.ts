@@ -135,7 +135,7 @@ describe("personal code router/handler integration tests", () => {
             const resp = await request(app).get(uri);
 
             const $ = cheerio.load(resp.text);
-            expect($("button#submit").text()).toContain("Continue");
+            expect($("button#submit").text()).toContain("Save and continue");
 
         });
 
