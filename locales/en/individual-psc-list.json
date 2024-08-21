@@ -1,6 +1,17 @@
 {
-    "individual_psc_list_main_title": "Which PSC are you providing verification details for?",
-    "individual_psc_list_hint_1": "The following PSCs for",
-    "individual_psc_list_hint_2": "still need to provide their identity verification details. We will not show PSCs whose identity has been confirmed. You can only provide verification details for one PSC at a time.",
-    "individual_psc_list_born_in": "Born in"
+    "individual_psc_list_main_title": "PSC identity verification status",
+    "individual_psc_list_description_title": "An overview of which PSCs still need to provide their verification details, and who has done it already.",
+    "individaul_psc_list_description": "These PSCs for ",
+    "individual_psc_list_description1": " can provide their verification details now. You can only provide details for one PSC at a time.",
+    "individual_psc_list_dob": "Date of birth",
+    "individual_psc_list_verification_deadline": "Verification deadline",
+    "individual_psc_list_verification_status": "Verification status",
+    "individual_psc_list_cannot_provide_details_title": "PSCs that cannot provide verification details yet",
+    "individual_psc_list_cannot_provide_details_description": "These PSCs for ",
+    "individual_psc_list_cannot_provide_details_description1": " must wait until ",
+    "individual_psc_list_cannot_provide_details_description2": ", which is the company's confirmation statement date. They will have 14 days from this date to provide their verification details.",
+    "individual_psc_list_why_need_to_wait_title": "Why do these PSCs need to wait?",
+    "individual_psc_list_why_need_to_wait_description": "These PSCs were registered with Companies House before the new identity verification requirements were introduced. We are not able to accept their verification details until the company has reached its confirmation statement date.",
+    "individual_psc_list_cant_find_psc_title": "I can't find the PSC I'm looking for",
+    "individual_psc_list_cant_find_psc_description": "You can only use this service to provide verification details for PSCs that are shown on the Companies House register. If the company has recently notified Companies House of a new PSC, you must wait until that filing is accepted and the new PSC appears on the public register. If a PSC has their personal information protected from being shown on the Companies House register, they will not be shown in this service. They must..."
 }

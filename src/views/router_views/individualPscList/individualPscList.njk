@@ -1,5 +1,6 @@
 {% extends "layouts/default.njk" %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
 {% set title = i18n.individual_psc_list_main_title %}
 
@@ -30,5 +31,39 @@
             {{ i18n.global_continue_button }}
         </button>
     </form>
+
+    {{ govukSummaryList({
+  card: {
+    title: {
+      text: "example"
+    }
+  },
+  rows: [
+    {
+      key: {
+        text: i18n.individual_psc_list_dob
+      },
+      value: {
+        html: "?"
+      }
+    },
+    {
+      key: {
+        text: i18n.individual_psc_list_verification_deadline
+      },
+      value: {
+        html: "?"
+      }
+    },
+    {
+      key: {
+        text: i18n.individual_psc_list_verification_status
+      },
+      value: {
+        html: "?"
+      }
+    }
+  ]
+}) }}
 
 {% endblock %}
