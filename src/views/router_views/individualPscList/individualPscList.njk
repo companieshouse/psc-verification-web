@@ -1,36 +1,17 @@
 {% extends "layouts/default.njk" %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% set title = i18n.individual_psc_list_main_title %}
 
 {% block main_content %}
 
-    <form action="" method="post">
-        <div class="govuk-form-group">
-            {{ govukRadios({
-                classes: "govuk-radios",
-                id: "psc-individual-radios",
-                name: "pscSelect",
-                fieldset: {
-                    legend: {
-                        text: i18n.individual_psc_list_main_title,
-                        isPageHeading: true,
-                        classes: "govuk-fieldset__legend--l"
-                    }
-                },
-                hint: {
-                    text: [i18n.individual_psc_list_hint_1, companyName, i18n.individual_psc_list_hint_2] | join(" ")
-                },
-                items: pscRadioItems,
-                value: selectedPscId
-            })
-            }}
-        </div>
-        <button class="govuk-button" data-module="govuk-button" id="submit" data-event-id="psc-list-continue-button">
-            {{ i18n.global_continue_button }}
-        </button>
-    </form>
+    <h1 class="govuk-heading-l">{{ i18n.individual_psc_list_main_title }}</h1>
+    <p class="govuk-body">{{ i18n.individual_psc_list_overview }}</p>
+    <h1 class="govuk-heading-m">{{ i18n.individaul_psc_list_description_title }}</h1>
+    <p class="govuk-body">{{ i18n.individaul_psc_list_description }} <strong companyName </strong> {{  i18n.individual_psc_list_description1 }}</p>
+
 
     {{ govukSummaryList({
   card: {
@@ -44,7 +25,7 @@
         text: i18n.individual_psc_list_dob
       },
       value: {
-        html: "?"
+        html: "April 1989"
       }
     },
     {
@@ -52,7 +33,7 @@
         text: i18n.individual_psc_list_verification_deadline
       },
       value: {
-        html: "?"
+        html: "	22 July 2024"
       }
     },
     {
@@ -60,10 +41,24 @@
         text: i18n.individual_psc_list_verification_status
       },
       value: {
-        html: "?"
+        html: "Unverified"
       }
     }
   ]
 }) }}
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-7"> {{ i18n.individual_psc_list_cannot_provide_details_title }}</h2>
+    <p class="govuk-body">{{ i18n.individual_psc_list_cannot_provide_details_description }} <strong companyName  </strong> {{  i18n.individual_psc_list_cannot_provide_details_description1 }} Date {{ i18n.individual_psc_list_cannot_provide_details_description2 }}</p>
+
+    {{ govukDetails({
+  summaryText: i18n.individual_psc_list_why_need_to_wait_title ,
+  text: i18n.individual_psc_list_why_need_to_wait_description
+}) }}
+
+{{ govukDetails({
+  summaryText: i18n.individual_psc_list_cant_find_psc_title ,
+  text: i18n.individual_psc_list_cant_find_psc_description
+}) }}
+
 
 {% endblock %}

@@ -1,6 +1,7 @@
 {
     "individual_psc_list_main_title": "PSC identity verification status",
-    "individual_psc_list_description_title": "An overview of which PSCs still need to provide their verification details, and who has done it already.",
+    "individual_psc_list_overview": "An overview of which PSCs still need to provide their verification details, and who has done it already.",
+    "individaul_psc_list_description_title": "PSCs that need to provide verification details",
     "individaul_psc_list_description": "These PSCs for ",
     "individual_psc_list_description1": " can provide their verification details now. You can only provide details for one PSC at a time.",
     "individual_psc_list_dob": "Date of birth",
