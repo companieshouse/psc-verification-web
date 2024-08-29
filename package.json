@@ -37,7 +37,7 @@
         "@companieshouse/structured-logging-node": "^2.0.1",
         "@companieshouse/web-security-node": "^2.0.5",
         "@types/supertest": "^6.0.2",
-        "axios": "^1.6.7",
+        "axios": "^1.7.5",
         "cookie-parser": "1.4.5",
         "express": "^4.19.2",
         "govuk_frontend_toolkit": "^9.0.1",
@@ -103,7 +103,8 @@
     },
     "overrides": {
         "chokidar": "3.5.3",
-        "glob-parent": "6.0.2"
+        "glob-parent": "6.0.2",
+        "micromatch":"4.0.8"
     },
     "nodemonConfig": {
         "watch": [
