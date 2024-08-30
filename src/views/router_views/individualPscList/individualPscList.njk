@@ -13,39 +13,11 @@
     <p class="govuk-body">{{ i18n.individaul_psc_list_description }} <strong companyName </strong> {{  i18n.individual_psc_list_description1 }}</p>
 
 
-    {{ govukSummaryList({
-  card: {
-    title: {
-      text: "example"
-    }
-  },
-  rows: [
-    {
-      key: {
-        text: i18n.individual_psc_list_dob
-      },
-      value: {
-        html: "April 1989"
-      }
-    },
-    {
-      key: {
-        text: i18n.individual_psc_list_verification_deadline
-      },
-      value: {
-        html: "	22 July 2024"
-      }
-    },
-    {
-      key: {
-        text: i18n.individual_psc_list_verification_status
-      },
-      value: {
-        html: "Unverified"
-      }
-    }
-  ]
-}) }}
+    {% for pscCard in pscCardItems %}
+
+    {% include "includes/pscSummaryCard.njk" %}
+    
+    {% endfor %}
 
     <h2 class="govuk-heading-m govuk-!-margin-top-7"> {{ i18n.individual_psc_list_cannot_provide_details_title }}</h2>
     <p class="govuk-body">{{ i18n.individual_psc_list_cannot_provide_details_description }} <strong companyName  </strong> {{  i18n.individual_psc_list_cannot_provide_details_description1 }} Date {{ i18n.individual_psc_list_cannot_provide_details_description2 }}</p>

@@ -14,7 +14,7 @@ interface PartialDate {
     month: string | number
 }
 
-interface RadioButtonData {
+interface PscCardData {
     text: string,
     value: string,
     attributes: { [attr: string]: string},
@@ -24,7 +24,7 @@ interface RadioButtonData {
 }
 interface IndividualPscListViewData extends BaseViewData {
     companyName: string,
-    pscRadioItems: RadioButtonData[],
+    pscCardItems: PscCardData[],
     selectedPscId: string
 }
 
@@ -62,7 +62,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             currentUrl: `${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, req.params.transactionId, req.params.submissionId)}?${queryParams}`,
             backURL: `${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, req.params.transactionId, req.params.submissionId)}?${queryParams}`,
             companyName,
-            pscRadioItems: this.getPscIndividualRadioItems(individualPscList, lang),
+            pscCardItems: this.getPscIndividualCardDataList(individualPscList, lang),
             selectedPscId,
             templateName: Urls.INDIVIDUAL_PSC_LIST,
             backLinkDataEvent: "psc-list-back-link"
@@ -94,7 +94,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         return (`${nextPageUrl}?${queryParams}`);
     }
 
-    private getPscIndividualRadioItems (individualPscList: CompanyPersonWithSignificantControl[], lang: string): RadioButtonData[] {
+    private getPscIndividualCardDataList (individualPscList: CompanyPersonWithSignificantControl[], lang: string): PscCardData[] {
         return individualPscList.map(psc => {
             const hintText = this.formatHintText(psc.dateOfBirth, lang, psc);
 
