@@ -1,0 +1,35 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{{ govukSummaryList({
+  card: {
+    title: {
+      text: pscCard.text 
+    }
+  },
+  rows: [
+    {
+      key: {
+        text: i18n.individual_psc_list_dob 
+      },
+      value: {
+        html: "38"
+      }
+    },
+    {
+      key: {
+        text: i18n.individual_psc_list_verification_deadline 
+      },
+      value: {
+        html: "39"
+      }
+    },
+    {
+      key: {
+        text: i18n.individual_psc_list_verification_status 
+      },
+      value: {
+        html: "40"
+      }
+    }
+    ]
+}) }}
