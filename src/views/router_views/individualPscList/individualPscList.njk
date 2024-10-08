@@ -6,6 +6,7 @@
 {% block main_content %}
 
     <form action="" method="post">
+        {% include "includes/csrf_token.html" %}
         <div class="govuk-form-group">
             {{ govukRadios({
                 classes: "govuk-radios",
