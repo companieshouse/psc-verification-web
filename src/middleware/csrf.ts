@@ -4,8 +4,6 @@ import { env } from "../config";
 
 export const csrfProtectionMiddleware = CsrfProtectionMiddleware({
     sessionStore,
-    enabled: false,
+    enabled: true,
     sessionCookieName: env.COOKIE_NAME
 });
-
-console.log(env.COOKIE_NAME);

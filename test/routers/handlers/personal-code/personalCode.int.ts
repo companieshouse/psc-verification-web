@@ -54,6 +54,7 @@ describe("personal code router/handler integration tests", () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
             const resp = await request(app).get(uri).expect(HttpStatusCode.Ok);
+            console.log(resp);
 
             const $ = cheerio.load(resp.text);
 
