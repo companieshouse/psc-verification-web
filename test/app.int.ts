@@ -4,6 +4,7 @@ import request from "supertest";
 import app from "../src/app";
 import * as config from "../src/config";
 import { servicePathPrefix } from "../src/constants";
+import mockCsrfProtectionMiddleware from "./mocks/csrfProtectionMiddleware.mock";
 
 jest.mock("ioredis");
 jest.mock("../src/config", () => ({
@@ -31,6 +32,9 @@ const mockConfig = config as { env: {
 }};
 
 describe("Service not live integration tests", () => {
+    beforeEach(() => {
+        mockCsrfProtectionMiddleware.mockClear();
+    });
 
     it("should render the Service not live page when SERVICE_LEVEL is false", async () => {
         mockConfig.env.SERVICE_LIVE = "false";

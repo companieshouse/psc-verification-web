@@ -7,8 +7,6 @@ import { logger } from "./lib/logger";
 import { sessionMiddleware } from "./middleware/session";
 import routerDispatch from "./routerDispatch";
 import { isLive } from "./middleware/serviceLive";
-import { csrfProtectionMiddleware } from "./middleware/csrf";
-import csrfErrorHandler from "./middleware/csrfError";
 
 const app = express();
 
@@ -44,10 +42,6 @@ app.use(express.urlencoded({ extended: false }));
 
 // initiate session and attach to middleware
 app.use(servicePathPrefix, sessionMiddleware);
-
-// attach csrf protection to middleware
-app.use(csrfProtectionMiddleware);
-app.use(csrfErrorHandler);
 
 // serve static files
 app.use(express.static(path.join(__dirname, "./../assets/public")));

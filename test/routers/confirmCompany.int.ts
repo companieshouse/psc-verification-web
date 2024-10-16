@@ -14,6 +14,10 @@ mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 
 describe("ConfirmCompany router/handler integration tests", () => {
 
+    beforeAll(() => {
+        // middlewareMocks.mockCsrfProtectionMiddleware.mockClear();
+    });
+
     beforeEach(() => {
         middlewareMocks.mockSessionMiddleware.mockClear();
     });
