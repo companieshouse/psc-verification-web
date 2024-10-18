@@ -2,6 +2,7 @@ import { HttpStatusCode } from "axios";
 import request from "supertest";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
+import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
@@ -42,6 +43,7 @@ describe("psc verified view tests", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        mockCsrfProtectionMiddleware.mockClear();
     });
 
     afterEach(() => {

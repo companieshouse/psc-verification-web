@@ -16,6 +16,7 @@
 
 {% block main_content %}
     <form action="" method="post">
+        {% include "includes/csrf_token.njk" %}
         <span class="govuk-caption-xl">
             {{ nameAndDateBirthText }}
         </span>

@@ -2,6 +2,7 @@ import * as cheerio from "cheerio";
 import { HttpStatusCode } from "axios";
 import mockAuthenticationMiddleware from "../mocks/authenticationMiddleware.mock";
 import mockSessionMiddleware from "../mocks/sessionMiddleware.mock";
+import mockCsrfProtectionMiddleware from "../mocks/csrfProtectionMiddleware.mock";
 import { PrefixedUrls } from "../../src/constants";
 import request from "supertest";
 import app from "../../src/app";
@@ -14,6 +15,9 @@ jest.mock("../../src/services/pscVerificationService");
 const mockGetPscVerification = getPscVerification as jest.Mock;
 
 describe("PscType router/handler integration tests", () => {
+    beforeAll(() => {
+        mockCsrfProtectionMiddleware.mockClear();
+    });
 
     beforeEach(() => {
         jest.clearAllMocks();

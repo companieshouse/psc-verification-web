@@ -3,7 +3,7 @@ import Redis from "ioredis";
 import { env } from "../config";
 
 const redis = new Redis(env.CACHE_SERVER);
-const sessionStore = new SessionStore(redis);
+export const sessionStore = new SessionStore(redis);
 
 export const sessionMiddleware = SessionMiddleware({
     cookieDomain: env.COOKIE_DOMAIN,

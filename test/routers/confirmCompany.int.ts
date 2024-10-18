@@ -29,8 +29,6 @@ describe("ConfirmCompany router/handler integration tests", () => {
                 .expect(HttpStatusCode.Ok);
         });
 
-        // FIXME: Merge tests?
-
         it("Should display 'Confirm this is the correct company' message on the Confirm Company page", async () => {
             const resp = await request(app).get(PrefixedUrls.CONFIRM_COMPANY);
 

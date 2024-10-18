@@ -4,6 +4,9 @@ import { ConfirmCompanyHandler } from "../../../../src/routers/handlers/confirm-
 import { COMPANY_NUMBER } from "../../../mocks/companyPsc.mock";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
+import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
+
+mockCsrfProtectionMiddleware.mockClear();
 
 jest.mock("../../../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;

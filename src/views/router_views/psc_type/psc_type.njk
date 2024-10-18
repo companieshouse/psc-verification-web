@@ -8,6 +8,7 @@
 
 {% block main_content %}
     <form action="" method="post">
+        {% include "includes/csrf_token.njk" %}
         {{ govukRadios({
             idPrefix: "pscType",
             name: "pscType",
@@ -26,7 +27,7 @@
                     attributes:{
                         "data-event-id": "psc-type-radio-option"
                     }
-                    
+
                 },
                 {
                     value: "rle",
@@ -53,7 +54,7 @@
 
         {{ govukButton({
             attributes: {
-                id: "submit", 
+                id: "submit",
                 "data-event-id": "psc-type-continue-button"
             },
             text: i18n.global_continue_button
