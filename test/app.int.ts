@@ -1,10 +1,10 @@
 import { HttpStatusCode } from "axios";
 import * as cheerio from "cheerio";
 import request from "supertest";
+import mockCsrfProtectionMiddleware from "./mocks/csrfProtectionMiddleware.mock";
 import app from "../src/app";
 import * as config from "../src/config";
 import { servicePathPrefix } from "../src/constants";
-import mockCsrfProtectionMiddleware from "./mocks/csrfProtectionMiddleware.mock";
 
 jest.mock("ioredis");
 jest.mock("../src/config", () => ({

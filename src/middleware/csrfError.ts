@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { CsrfError } from "@companieshouse/web-security-node";
 import { StatusCodes } from "http-status-codes";
 
-const csrfErrorTemplateName = "403";
+const csrfErrorTemplateName = "error/403";
 
 const csrfErrorHandler = (
     err: CsrfError | Error,

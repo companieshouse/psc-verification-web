@@ -2,6 +2,7 @@ import { HttpStatusCode } from "axios";
 import request from "supertest";
 import mockSessionMiddleware from "../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../mocks/authenticationMiddleware.mock";
+import mockCsrfProtectionMiddleware from "../mocks/csrfProtectionMiddleware.mock";
 import app from "../../src/app";
 import { PrefixedUrls } from "../../src/constants";
 import { postTransaction } from "../../src/services/transactionService";
@@ -25,6 +26,7 @@ describe("NewSubmission router/handler integration tests", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        mockCsrfProtectionMiddleware.mockClear();
     });
 
     afterEach(() => {
