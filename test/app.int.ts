@@ -1,6 +1,7 @@
 import { HttpStatusCode } from "axios";
 import * as cheerio from "cheerio";
 import request from "supertest";
+import mockCsrfProtectionMiddleware from "./mocks/csrfProtectionMiddleware.mock";
 import app from "../src/app";
 import * as config from "../src/config";
 import { servicePathPrefix } from "../src/constants";
@@ -31,6 +32,9 @@ const mockConfig = config as { env: {
 }};
 
 describe("Service not live integration tests", () => {
+    beforeEach(() => {
+        mockCsrfProtectionMiddleware.mockClear();
+    });
 
     it("should render the Service not live page when SERVICE_LEVEL is false", async () => {
         mockConfig.env.SERVICE_LIVE = "false";

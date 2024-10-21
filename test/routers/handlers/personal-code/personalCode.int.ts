@@ -3,6 +3,7 @@ import request from "supertest";
 import * as cheerio from "cheerio";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
+import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
@@ -21,6 +22,9 @@ const mockPatchPscVerification = patchPscVerification as jest.Mock;
 const mockGetPscIndividual = getPscIndividual as jest.Mock;
 
 describe("personal code router/handler integration tests", () => {
+    beforeAll(() => {
+        mockCsrfProtectionMiddleware.mockClear();
+    });
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -54,6 +58,7 @@ describe("personal code router/handler integration tests", () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
             const resp = await request(app).get(uri).expect(HttpStatusCode.Ok);
+            console.log(resp);
 
             const $ = cheerio.load(resp.text);
 
