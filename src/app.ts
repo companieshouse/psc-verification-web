@@ -17,9 +17,12 @@ app.use(isLive);
 
 app.set("views", [
     path.join(__dirname, "views"),
-    path.join(__dirname, "./../node_modules/govuk-frontend"), // This if for when using ts-node since the working directory is src
-    path.join(__dirname, "./../node_modules/@companieshouse/ch-node-utils/templates/"),
-    path.join(__dirname, "./../node_modules/@companieshouse/web-security-node/components")
+    path.join(__dirname, "../node_modules/govuk-frontend"), // This if for when using ts-node since the working directory is src
+    path.join(__dirname, "node_modules/govuk-frontend"),
+    path.join(__dirname, "../node_modules/@companieshouse/ch-node-utils/templates/"),
+    path.join(__dirname, "node_modules/@companieshouse/ch-node-utils/templates/"),
+    path.join(__dirname, "../node_modules/@companieshouse/web-security-node/components"),
+    path.join(__dirname, "node_modules/@companieshouse/web-security-node/components")
 ]);
 
 const nunjucksLoaderOpts = {
