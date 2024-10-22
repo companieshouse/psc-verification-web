@@ -3,6 +3,7 @@ const urlWithTransactionIdAndSubmissionId = "/transaction/:transactionId/submiss
 
 export const Urls = {
     ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
+    HEALTHCHECK: "/healthcheck",
     START: "/start",
     COMPANY_NUMBER: "/company-number",
     CONFIRM_COMPANY: "/confirm-company",
@@ -23,6 +24,7 @@ export const Urls = {
 export const PrefixedUrls = {
     ACCESSIBILITY_STATEMENT: servicePathPrefix + Urls.ACCESSIBILITY_STATEMENT,
     START: servicePathPrefix + Urls.START,
+    HEALTHCHECK: servicePathPrefix + Urls.HEALTHCHECK,
     COMPANY_NUMBER: servicePathPrefix + Urls.COMPANY_NUMBER,
     CONFIRM_COMPANY: servicePathPrefix + Urls.CONFIRM_COMPANY,
     NEW_SUBMISSION: servicePathPrefix + Urls.NEW_SUBMISSION,

@@ -1,4 +1,5 @@
 import StartRouter from "./../startRouter";
+import HealthCheckRouter from "./../healthCheckRouter";
 import CompanyNumberRouter from "./../companyNumberRouter";
 import ConfirmCompanyRouter from "./../confirmCompanyRouter";
 import NewSubmissionRouter from "./../newSubmissionRouter";
@@ -14,7 +15,7 @@ import ConfirmRoStatementsRouter from "./../confirmRoStatementsRouter";
 import NotADirectorRouter from "./../notADirectorRouter";
 import RleVerifiedRouter from "./../rleVerifiedRouter";
 import { logger } from "../../lib/logger";
-export { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, NewSubmissionRouter, NotADirectorRouter, PscVerifiedRouter, RlePscListRouter, RleDetailsRouter, RleDirectorRouter, RleVerifiedRouter, ConfirmRoStatementsRouter };
+export { StartRouter, HealthCheckRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, NewSubmissionRouter, NotADirectorRouter, PscVerifiedRouter, RlePscListRouter, RleDetailsRouter, RleDirectorRouter, RleVerifiedRouter, ConfirmRoStatementsRouter };
 
 export function formatDateBorn (dateOfBirth: any, lang: string): string {
     try {
