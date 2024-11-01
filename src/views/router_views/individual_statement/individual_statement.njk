@@ -14,19 +14,20 @@
 ] | join %}
 
 {% set statementText %}
-<label>{{ i18n.individual_statement_part1 }}
+<label for="pscIndividualStatement">{{ i18n.individual_statement_part1 }}
     <strong>{{ pscName }}</strong>
     {{ i18n.individual_statement_part2 }}</label>
 {% endset %}
 
 {% block main_content %}
     <form action="" method="post">
+        {% include "includes/csrf_token.njk" %}
         <span class="govuk-caption-xl">
             <div class="govuk-!-padding-bottom-1" id="nameAndDateOfBirth">{{ nameAndDateBirthText }}</div>
         </span>
 
         {{ govukCheckboxes({
-            name: "psc_individual_statement",
+            name: "pscIndividualStatement",
             values: selectedStatements,
             fieldset: {
                 legend: {
@@ -51,7 +52,7 @@
             attributes: {
                 id: "submit", "data-event-id": "psc-statement-continue-button"
             },
-            text: i18n.global_continue_button
+            text: i18n.individual_statement_button
             })
         }}
     </form>

@@ -1,11 +1,11 @@
 {
-    "psc_verified_title": "Psc Verified",
     "psc_verified_main_title": "Identity verification details submitted",
     "psc_verified_reference_number_statement": "Your reference number",
     "psc_verified_company_number": "Company number",
     "psc_verified_company_name": "Company name",
     "psc_verified_psc_name": "PSC name",
     "psc_verified_confirmation_email_text": "We have sent a confirmation email to ",
+    "psc_verified_process_submission_text": "We'll process the submission as soon as possible, and email you to let you know if it is accepted or rejected.",
     "psc_verified_next_heading": "What do you want to do next?",
     "psc_verified_verification_details_link": "Provide verification details for a PSC or RLE of ",
     "psc_verified_another_company_verification_link": "Provide verification details for a PSC of another company"

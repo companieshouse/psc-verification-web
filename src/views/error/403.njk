@@ -1,0 +1,26 @@
+{% extends "layouts/default.njk" %}
+{% from "csrf-error/macro.njk" import csrfError %}
+
+{% set title = "Forbidden" %}
+
+{% if errors and errors.errorList and errors.errorList.length > 0 %}
+Error:
+{% endif %}
+{{ title }} - {{ "Provide identity verification details for a PSC or relevant legal entity" }}
+
+{% block main_content %}
+  {% if csrfErrors %}
+    {{
+      csrfError({})
+    }}
+  {% else %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Sorry, the service can not be accessed</h1>
+
+        <p class="govuk-body">Email <a class="govuk-link" href="mailto: enquiries@companieshouse.gov.uk">enquiries@companieshouse.gov.uk</a> if you need more information.</p>
+      </div>
+    </div>
+  {% endif %}
+
+{% endblock %}

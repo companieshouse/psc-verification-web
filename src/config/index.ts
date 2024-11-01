@@ -8,7 +8,7 @@ export const env = readEnv(process.env, {
         .describe("API base URL for service interaction"),
     APP_NAME: str
         .describe("Name of the application")
-        .default("persons-with-significant-control-verification"),
+        .default("psc-verification-web"),
     APPLICATION_FORM_LINK: str
         .default(
             "https://www.gov.uk/government/publications/apply-for-a-companies-house-online-filing-presenter-account"
@@ -42,6 +42,9 @@ export const env = readEnv(process.env, {
         .default("https://developer.companieshouse.gov.uk/"),
     FEEDBACK_URL: str
         .describe("Link for the user to give feedback on the service")
+        .default(""),
+    IDV_IMPLEMENTATION_DATE: str
+        .describe("Date when IDV comes into effect for PSCs")
         .default(""),
     LOCALES_ENABLED: str
         .describe("feature flag that toggles localisation behaviour")
@@ -130,6 +133,12 @@ export const env = readEnv(process.env, {
         .default("24"),
     POLICIES_LINK: str
         .describe("Link to policies")
-        .default("http://resources.companieshouse.gov.uk/legal/termsAndConditions.shtml"),
-    PORT: port.describe("Port to run the web server on").default(3000)
+        .default("https://resources.companieshouse.gov.uk/legal/termsAndConditions.shtml"),
+    PORT: port.describe("Port to run the web server on").default(3000),
+    SERVICE_LIVE: str
+        .describe("Prevent use of service until Implementation")
+        .default("false"),
+    VERIFY_IDENTITY_LINK: str
+        .describe("Path to guidance to Verify Identity")
+        .default("")
 });

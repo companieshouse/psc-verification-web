@@ -2,98 +2,81 @@
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+
+{% set title = i18n.start_main_title %}
 
 {% block main_content %}
-    <div class="govuk-grid-row">
 
-            <h1 class="govuk-heading-l">{{ i18n.start_main_title }}</h1>
-            <p class="govuk-body">{{ i18n.start_service_description }}</p>
-            
-            <h2 class="govuk-heading-m">{{ i18n.start_service_user }}</h2>
-            <p class="govuk-body">{{ i18n.start_service_user_list }}</p>
-            
-            <ul class="govuk-list govuk-list--bullet">
-                <li>{{ i18n.start_service_user_list_item1 }}</li>
-                <li>{{ i18n.start_service_user_list_item2 }}</li>
-                <li>{{ i18n.start_service_user_list_item3 }}</li>
-                <li>{{ i18n.start_service_user_list_item4 }}</li>
-                <li>{{ i18n.start_service_user_list_item5 }}</li>
-            </ul>
+    <h1 class="govuk-heading-l">{{ i18n.start_main_title }}</h1>
+    <p class="govuk-body-l">{{ i18n.start_service_description }}</p>
 
-            <p class="govuk-body">{{ i18n.start_service_restriction_description }}</>
-            
-            {% set startLearnDetailsText %}
-                    <h3 class="govuk-heading-s">{{ i18n.start_learn_details_psc_heading }}</h3>
-                    <p class="govuk-body">{{ i18n.start_learn_details_psc_description }}</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>{{ i18n.start_learn_details_psc_list_item1 }}</li>
-                        <li>{{ i18n.start_learn_details_psc_list_item2 }}</li>
-                        <li>{{ i18n.start_learn_details_psc_list_item3 }}</li>
-                    </ul>
+    {{ govukInsetText({
+        text: i18n.start_inset_text
+    }) }}
 
-                    <h3 class="govuk-heading-s">{{ i18n.start_learn_details_rle_heading }}</h3>
-                    <p class="govuk-body">{{ i18n.start_learn_details_rle_description }}</p>
-                    <p class="govuk-body">{{ i18n.start_learn_details_rle_list }}</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>{{ i18n.start_learn_details_rle_list_item1 }}</li>
-                        <li>{{ i18n.start_learn_details_rle_list_item2 }}</li>
-                        <li>{{ i18n.start_learn_details_rle_list_item3 }}</li>
-                    </ul>
+    <p class="govuk-body">{{ i18n.start_service_restriction_description }}</p>
 
-                    <h3 class="govuk-heading-s">{{ i18n.start_learn_details_ro_heading }}</h3>
-                    <p class="govuk-body">{{ i18n.start_learn_details_ro_description }}</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>{{ i18n.start_learn_details_ro_list_item1 }}</li>
-                        <li>{{ i18n.start_learn_details_ro_list_item2 }}</li>
-                        <li>{{ i18n.start_learn_details_ro_list_item3 }}</li>
-                    </ul>
-            {% endset %}
+    <h2 class="govuk-heading-m">{{ i18n.start_when_to_verify_heading }}</h2>
+     <p class="govuk-body">{{ i18n.start_when_to_verify_description1 }}</p>
+     <p class="govuk-body">{{ i18n.start_when_to_verify_description2 }}</p>
+     <p class="govuk-body">{{ i18n.start_when_to_verify_description3 }}</p>
 
-            {{ govukDetails({
-                summaryText: i18n.start_learn_details_main_link,
-                html: startLearnDetailsText,
-                attributes: {
-                    "data-event-id": "learn-more-about-dropdown"
-                }
-            }) }}
+     {{ govukWarningText({
+        text: i18n.start_warning_text
+    }) }}
 
-            <h2 class="govuk-heading-m">{{ i18n.start_learn_when_to_verify_heading }}</h2>
-            <p class="govuk-body">{{ i18n.start_learn_when_to_verify_description }} <a href="#" title="{{ i18n.start_learn_when_to_verify_link }}" class="govuk-link" data-event-id="when-to-verify-link">{{ i18n.start_learn_when_to_verify_link}}</a></p>
+        <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>
+        <p class="govuk-body">
+        {{ i18n.start_before_verify_link }}
+        <a href="{{ chsUrl }}" title="{{ i18n.start_service_ch_link }}" title="{{ i18n.start_after_verify_link }}" class="govuk-link" data-event-id="when-to-verify-link">
+            {{ i18n.start_after_verify_link_text }}
+            {{ i18n.start_verify_link_text }}
+        </a>
+        {{ i18n.start_after_verify_link }}
+        </p>
 
-            <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>
-            <p class="govuk-body">{{ i18n.start_before_verify_description }} <a href="#" title="{{ i18n.start_before_verify_link }}" class="govuk-link" data-event-id="before-verify-link"> {{ i18n.start_before_verify_link }} </a> {{i18n.start_before_verify_description2}}</p>
-            <p class="govuk-body">{{ i18n.start_before_list }}</p>
-            <ul class="govuk-list govuk-list--bullet">
-                <li>{{ i18n.start_before_list_item1 }}</li>
-                <li>{{ i18n.start_before_list_item2 }}</li>
-            </ul>
-            <p class="govuk-body">{{ i18n.start_before_required_description }} </p>
+    <p class="govuk-body"> {{i18n.start_before_list}} </p>
 
-            {% set startPersonalCodeDetailsText %}
-                <p class="govuk-body">{{ i18n.start_personal_code_details_description }}</p>
-             {% endset %}
 
-            {{ govukDetails({
-                summaryText: i18n.start_personal_code_details_main_link,
-                html: startPersonalCodeDetailsText,
-                attributes: {
-                    "data-event-id": "what-is-ch-personal-code-dropdown"
-                }
-            }) }}
+    <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.start_before_list_item1 }}</li>
+        <li>{{ i18n.start_before_list_item2 }}</li>
+        <li>{{ i18n.start_before_list_item3 }}</li>
+    </ul>
+    <p class="govuk-body">{{ i18n.start_before_required_description }}
+    </p>
 
-            
-            {{ govukButton({
-                text: i18n.start_button,
-                href: Urls.COMPANY_NUMBER + "?lang=" +lang,
-                classes: "govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8",
-                id: "start-button" ,
-                isStartButton: true,
-                attributes: {
-                    "onclick": "_paq.push(['trackGoal', '" + PIWIK_START_GOAL_ID + "'])",
-                    "data-event-id": "start-now-start-button"
-                }         
-            }) }}
+    {% set startPersonalCodeDetailsText %}
+    <p class="govuk-body">{{ i18n.start_personal_code_details_description }}</p>
+    {% endset %}
 
-    </div>
+    {{ govukDetails({
+            summaryText: i18n.start_personal_code_details_main_link,
+            text: i18n.start_personal_code_details_description,
+            attributes: {
+                "data-event-id": "what-is-ch-personal-code-dropdown"
+            }
+        }) }}
+
+    <h3 class="govuk-heading-s">{{ i18n.start_providing_details_for_rle }}</h3>
+    <p class="govuk-body">{{ i18n.start_details_for_rle_description1 }}</p>
+    <p class="govuk-body">{{ i18n.start_details_for_rle_description2 }}</p>
+    <p class="govuk-body">{{ i18n.start_details_for_rle_description3 }}
+     <a href="{{ [chsUrl, verifyIdentityLink] | join  }}" title="{{ i18n.start_guidance_on_psc_link }}" class="govuk-link" data-event-id="guidance-on-psc-link">
+            {{ i18n.start_guidance_on_psc_link }}
+        </a>
+    </p>
+    {{ govukButton({
+            text: i18n.start_button,
+            href: Urls.COMPANY_NUMBER + "?lang=" +lang,
+            id: "start-button" ,
+            isStartButton: true,
+            attributes: {
+                "onclick": "_paq.push(['trackGoal', '" + PIWIK_START_GOAL_ID + "'])",
+                "data-event-id": "start-now-start-button"
+            }
+        }) }}
 
 {% endblock %}

@@ -1,7 +1,7 @@
 // Single field validators that are called by the form validators or "field-group" validators
 
 import { logger } from "./../logger";
-import errorManifest from "./../utils/error-manifests/default";
+import errorManifest from "../utils/error-manifests/errorManifest";
 
 export class GenericValidator {
 

@@ -1,52 +1,70 @@
 {% extends "layouts/default.njk" %}
 
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set title = i18n.psc_type_title %}
+
 {% block main_content %}
 
     <form action="" method="post">
         <div class="govuk-form-group{{ ' govuk-form-group--error' if errors.pscType is not undefined }}">
-            <fieldset class="govuk-fieldset">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                    <h1 class="govuk-fieldset__heading">
-                        {{ i18n.psc_type_title }}
-                    </h1>
-                </legend>
-                {% if errors.pscType is not undefined %}
-                    <p id="psc-type-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span>{{ errors.pscType.inline }}
-                    </p>
-                {% endif %}
-                <div class="govuk-radios" data-module="govuk-radios">
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="pscType" name="pscType" type="radio" value="individual" data-event-id="psc-type-radio-option">
-                        <label class="govuk-label govuk-radios__label" for="pscType">
-                            {{ i18n.psc_type_individual }}
-                        </label>
-                    </div>
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" id="pscType-2" name="pscType" type="radio" value="rle" aria-describedby="pscType-2-item-hint" data-event-id="rle-type-radio-option">
-                        <label class="govuk-label govuk-radios__label" for="pscType-2">
-                            {{ i18n.psc_type_rle }}
-                        </label>
-                        <div id="pscType-2-item-hint" class="govuk-hint govuk-radios__hint">
-                            {{ i18n.psc_type_hint | safe }}
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
+        {{ govukRadios({
+            idPrefix: "pscType",
+            name: "pscType",
+            value: pscType,
+            fieldset: {
+                legend: {
+                    text: i18n.psc_type_title,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                }
+            },
+            errorMessage: {
+                text: "{{ errors.pscType.inline }}"
+            },
+            items: [
+                {
+                    value: "individual",
+                    text: i18n.psc_type_individual,
+                    attributes:{
+                        "data-event-id": "psc-type-radio-option"
+                    }
+
+                },
+                {
+                    value: "rle",
+                    text: i18n.psc_type_rle,
+                    hint: {
+                        text: i18n.psc_type_hint | safe
+                    },
+                    attributes:{
+                        "data-event-id": "rle-type-radio-option"
+                    }
+                }
+            ]
+        })
+        }}
         </div>
-        <details class="govuk-details" data-module="govuk-details" data-event-id="what-is-the-difference-dropdown">
-            <summary class="govuk-details__summary">
-                <span class="govuk-details__summary-text">
-                    {{ i18n.psc_type_details_title }}
-                </span>
-            </summary>
-            <div class="govuk-details__text">
-                {{ i18n.psc_type_details_text }}
-            </div>
-        </details>
-        <button type="submit" class="govuk-button" data-module="govuk-button" id="submit" data-event-id="psc-type-continue-button">
-            {{  i18n.global_continue_button }}
-        </button>
+
+        {{ govukDetails({
+            summaryText: i18n.psc_type_details_title,
+            text: i18n.psc_type_details_text,
+            attributes:{
+                "data-event-id": "what-is-the-difference-dropdown"
+            }
+            })
+        }}
+
+        {{ govukButton({
+            attributes: {
+                id: "submit",
+                "data-event-id": "psc-type-continue-button"
+            },
+            text: i18n.global_continue_button
+            })
+        }}
     </form>
 
 {% endblock %}

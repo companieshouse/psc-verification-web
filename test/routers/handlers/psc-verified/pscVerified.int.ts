@@ -2,12 +2,13 @@ import { HttpStatusCode } from "axios";
 import request from "supertest";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
+import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { closeTransaction } from "../../../../src/services/transactionService";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { COMPANY_NUMBER, INDIVIDUAL_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_FULL, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
@@ -18,7 +19,7 @@ jest.mock("../../../../src/services/pscVerificationService");
 const mockGetPscVerification = getPscVerification as jest.Mock;
 mockGetPscVerification.mockResolvedValueOnce({
     httpStatusCode: HttpStatusCode.Ok,
-    resource: INDIVIDUAL_RESOURCE
+    resource: INDIVIDUAL_VERIFICATION_FULL
 });
 
 jest.mock("../../../../src/services/pscService");
@@ -42,6 +43,7 @@ describe("psc verified view tests", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        mockCsrfProtectionMiddleware.mockClear();
     });
 
     afterEach(() => {

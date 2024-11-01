@@ -42,7 +42,7 @@ describe("fetchCompany", () => {
 
     it("should skip retrieval if companyNumber is missing", async () => {
         const req = httpMocks.createRequest(VALID_REQ);
-        const res = httpMocks.createResponse({ locals: { submission: { data: { ...INDIVIDUAL_DATA, company_number: undefined } } } });
+        const res = httpMocks.createResponse({ locals: { submission: { data: { ...INDIVIDUAL_DATA, companyNumber: undefined } } } });
 
         await fetchCompany(req, res, mockNext);
 
@@ -58,8 +58,6 @@ describe("fetchCompany", () => {
 
         await fetchCompany(req, res, mockNext);
 
-        await fetchCompany(req, res, mockNext);
-
         expect(res.locals?.companyProfile).toBeUndefined();
         expect(mockNext).toHaveBeenCalled();
         expect(mockGetCompanyProfile).not.toHaveBeenCalled();
@@ -69,8 +67,6 @@ describe("fetchCompany", () => {
     it("should skip retrieval if submission is missing", async () => {
         const req = httpMocks.createRequest(VALID_REQ);
         const res = httpMocks.createResponse();
-
-        await fetchCompany(req, res, mockNext);
 
         await fetchCompany(req, res, mockNext);
 

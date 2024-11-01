@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { getPscIndividual } from "../../../services/pscService";
 import { closeTransaction } from "../../../services/transactionService";
-import { ExternalUrls, PrefixedUrls } from "../../../constants";
+import { ExternalUrls, PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
@@ -9,12 +9,12 @@ import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 
 interface PscVerifiedViewData extends BaseViewData {
-    referenceNumber: String;
-    companyName: String;
-    companyNumber: String;
-    pscName: String;
-    companyLookupUrl: String;
-    confirmCompanyUrl: String;
+    referenceNumber: string;
+    companyName: string;
+    companyNumber: string;
+    pscName: string;
+    companyLookupUrl: string;
+    createNewSubmissionUrl: string;
 }
 
 export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
@@ -29,9 +29,9 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         const transactionId = req.params.transactionId;
         const submissionId = req.params.submissionId;
         const verification = res.locals.submission;
-        const companyNumber = verification?.data?.company_number as string;
+        const companyNumber = verification?.data?.companyNumber as string;
         const companyProfile = res.locals.companyProfile;
-        const pscAppointmentId = verification?.data.psc_appointment_id as string;
+        const pscAppointmentId = verification?.data.pscAppointmentId as string;
         const pscDetailsResponse = await getPscIndividual(req, companyNumber, pscAppointmentId);
         const companyName = companyProfile.companyName as string;
         const forward = decodeURI(addSearchParams(ExternalUrls.COMPANY_LOOKUP_FORWARD, { companyNumber: "{companyNumber}", lang }));
@@ -44,16 +44,17 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
             companyNumber: companyNumber,
             pscName: pscDetailsResponse.resource?.name!,
             referenceNumber: transactionId,
-            confirmCompanyUrl: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang }),
-            companyLookupUrl: addSearchParams(ExternalUrls.COMPANY_LOOKUP, { forward })
+            createNewSubmissionUrl: addSearchParams(PrefixedUrls.NEW_SUBMISSION, { companyNumber, lang }),
+            companyLookupUrl: addSearchParams(ExternalUrls.COMPANY_LOOKUP, { forward }),
+            templateName: Urls.PSC_VERIFIED
         };
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<PscVerifiedViewData>> {
-        logger.info(`PscVerifiedHandler execute called`);
+        logger.info(`${PscVerifiedHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId} and ${req.params?.submissionId}`);
         const viewData = await this.getViewData(req, res);
 
-        const closure = await closeTransaction(req, req.params.transactionId, req.params.submissionId)
+        await closeTransaction(req, req.params.transactionId, req.params.submissionId)
             .then((data) => {
                 console.log(data);
             })

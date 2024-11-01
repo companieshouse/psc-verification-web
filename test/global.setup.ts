@@ -11,4 +11,6 @@ export default () => {
     process.env.INTERNAL_API_URL = "http://api.chs.local";
     process.env.LOG_LEVEL = "DEBUG";
     process.env.NUNJUCKS_LOADER_WATCH = "false";
+    process.env.IDV_IMPLEMENTATION_DATE = "20250901";
+    process.env.SERVICE_LIVE = "true";
 };

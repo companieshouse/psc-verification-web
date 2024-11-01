@@ -16,6 +16,7 @@
 
 {% block main_content %}
     <form action="" method="post">
+        {% include "includes/csrf_token.njk" %}
         <span class="govuk-caption-xl">
             {{ nameAndDateBirthText }}
         </span>
@@ -27,7 +28,7 @@
                     id: "personalCode",
                     classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
                     name: "personalCode",
-                    value: ""
+                    value: personalCode
                 })
             }}
 
@@ -45,7 +46,7 @@
                     attributes: {
                         id: "submit", "data-event-id": "personal-code-continue-button"
                     },
-                    text: i18n.global_continue_button
+                    text: i18n.personal_code_button
                 })
             }}
         </div>

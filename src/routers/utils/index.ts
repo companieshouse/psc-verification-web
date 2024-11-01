@@ -1,6 +1,8 @@
 import StartRouter from "./../startRouter";
+import HealthCheckRouter from "./../healthCheckRouter";
 import CompanyNumberRouter from "./../companyNumberRouter";
 import ConfirmCompanyRouter from "./../confirmCompanyRouter";
+import NewSubmissionRouter from "./../newSubmissionRouter";
 import IndividualPscListRouter from "./../individualPscListRouter";
 import PscTypeRouter from "./../pscTypeRouter";
 import PersonalCodeRouter from "../personalCodeRouter";
@@ -12,7 +14,8 @@ import RleDirectorRouter from "./../rleDirectorRouter";
 import ConfirmRoStatementsRouter from "./../confirmRoStatementsRouter";
 import NotADirectorRouter from "./../notADirectorRouter";
 import RleVerifiedRouter from "./../rleVerifiedRouter";
-export { StartRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, NotADirectorRouter, PscVerifiedRouter, RlePscListRouter, RleDetailsRouter, RleDirectorRouter, RleVerifiedRouter, ConfirmRoStatementsRouter };
+import { logger } from "../../lib/logger";
+export { StartRouter, HealthCheckRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, NewSubmissionRouter, NotADirectorRouter, PscVerifiedRouter, RlePscListRouter, RleDetailsRouter, RleDirectorRouter, RleVerifiedRouter, ConfirmRoStatementsRouter };
 
 export function formatDateBorn (dateOfBirth: any, lang: string): string {
     try {
@@ -20,7 +23,16 @@ export function formatDateBorn (dateOfBirth: any, lang: string): string {
         const formattedYear = dateOfBirth?.year?.toString() || ""; // Default to an empty string if year is null or undefined
         return `${formattedMonth} ${formattedYear}`;
     } catch (error) {
-        console.error("Error formatting date:", error);
+        logger.error(`${formatDateBorn.name} - Error formatting date: ${error}`);
+        return "Invalid date";
+    }
+}
+
+export function internationaliseDate (date: string, lang: string): string {
+    try {
+        return Intl.DateTimeFormat(lang === "en" ? "en-GB" : lang, { dateStyle: "long" }).format(new Date(date));
+    } catch (error) {
+        logger.error(`${internationaliseDate.name} - Error internationalising date: ${error}`);
         return "Invalid date";
     }
 }

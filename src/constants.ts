@@ -3,9 +3,11 @@ const urlWithTransactionIdAndSubmissionId = "/transaction/:transactionId/submiss
 
 export const Urls = {
     ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
+    HEALTHCHECK: "/healthcheck",
     START: "/start",
     COMPANY_NUMBER: "/company-number",
     CONFIRM_COMPANY: "/confirm-company",
+    NEW_SUBMISSION: "/new-submission",
     PSC_TYPE: `${urlWithTransactionIdAndSubmissionId}/psc-type`,
     INDIVIDUAL_PSC_LIST: `${urlWithTransactionIdAndSubmissionId}/individual/psc-list`,
     PERSONAL_CODE: `${urlWithTransactionIdAndSubmissionId}/individual/personal-code`,
@@ -22,8 +24,10 @@ export const Urls = {
 export const PrefixedUrls = {
     ACCESSIBILITY_STATEMENT: servicePathPrefix + Urls.ACCESSIBILITY_STATEMENT,
     START: servicePathPrefix + Urls.START,
+    HEALTHCHECK: servicePathPrefix + Urls.HEALTHCHECK,
     COMPANY_NUMBER: servicePathPrefix + Urls.COMPANY_NUMBER,
     CONFIRM_COMPANY: servicePathPrefix + Urls.CONFIRM_COMPANY,
+    NEW_SUBMISSION: servicePathPrefix + Urls.NEW_SUBMISSION,
     INDIVIDUAL_PSC_LIST: servicePathPrefix + Urls.INDIVIDUAL_PSC_LIST,
     PSC_TYPE: servicePathPrefix + Urls.PSC_TYPE,
     PERSONAL_CODE: servicePathPrefix + Urls.PERSONAL_CODE,

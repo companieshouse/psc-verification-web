@@ -1,18 +1,18 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { handleExceptions } from "../utils/asyncHandler";
-import { PscTypeHandler } from "./handlers/psc-type/pscType";
+import { PscTypeHandler } from "./handlers/psc-type/pscTypeHandler";
 
-const router: Router = Router({ mergeParams: true });
+const pscTypeRouter: Router = Router({ mergeParams: true });
 
-router.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+pscTypeRouter.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new PscTypeHandler();
-    const params = await handler.execute(req, res);
-    res.render(params.templatePath, params.viewData);
+    const { templatePath, viewData } = await handler.executeGet(req, res);
+    res.render(templatePath, viewData);
 }));
 
-router.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+pscTypeRouter.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new PscTypeHandler();
-    const params = await handler.execute(req, res);
+    const params = await handler.executePost(req, res);
     if (!Object.keys(params.viewData.errors).length) {
         res.redirect(params.viewData.nextPageUrl);
     } else {
@@ -20,4 +20,4 @@ router.post("/", handleExceptions(async (req: Request, res: Response, _next: Nex
     }
 }));
 
-export default router;
+export default pscTypeRouter;
