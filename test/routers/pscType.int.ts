@@ -93,9 +93,10 @@ describe("PscType router/handler integration tests", () => {
                     .query({ companyNumber: COMPANY_NUMBER, lang: "en", pscType: undefined })
                     .expect(HttpStatusCode.Ok);
 
-                // FIXME: check error content! (How?)
                 const $ = cheerio.load(posted.text);
 
+                expect($("div.govuk-form-group--error")).toBeDefined();
+                expect($("a[href='#err-id-pscType']").text()).toBe("Select if you're providing verification details for a PSC or RLE");
             }
         );
     });
