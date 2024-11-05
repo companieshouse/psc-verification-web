@@ -5,7 +5,8 @@ import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/loc
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { addSearchParams } from "../../../utils/queryParams";
-interface PscTypeViewData extends BaseViewData { pscType: string }
+import { PscVerificationFormsValidator } from "../../../lib/validation/form-validators/pscVerification";
+interface PscTypeViewData extends BaseViewData { pscType: string, nextPageUrl: string }
 
 export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
 
@@ -48,17 +49,40 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
         };
     }
 
-    public executePost (req: Request, res: Response): string {
-        const lang = selectLang(req.query.lang);
-        const selectedType = req.body.pscType;
+    public async executePost (req: Request, res: Response): Promise<ViewModel<PscTypeViewData>> {
+        const viewData = await this.getViewData(req, res);
+        try {
+            const lang = selectLang(req.query.lang);
+            const selectedType = req.body.pscType;
 
-        const queryParams = new URLSearchParams(req.url.split("?")[1]);
-        queryParams.set("lang", lang);
-        queryParams.set("pscType", selectedType);
+            const queryParams = new URLSearchParams(req.url.split("?")[1]);
+            queryParams.set("lang", lang);
+            queryParams.set("pscType", selectedType);
+            const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(selectPscType(selectedType), req.params.transactionId, req.params.submissionId);
 
-        const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(selectPscType(selectedType), req.params.transactionId, req.params.submissionId);
-        return `${nextPageUrl}?${queryParams}`;
+            viewData.pscType = req.query.pscType as string;
+            viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
+
+            const validator = new PscVerificationFormsValidator();
+
+            viewData.errors = await validator.validatePscType(req.body);
+            await this.save(req.body);
+        } catch (err: any) {
+            logger.error(`${req.method} error: problem handling PSC type request: ${err.message}`);
+            viewData.errors = this.processHandlerException(err);
+        }
+
+        return {
+            templatePath: PscTypeHandler.templatePath,
+            viewData
+        };
     }
+
+    // call API service to save data here
+    private save (payload: any): Object {
+        return Promise.resolve(true);
+    }
+
 }
 
 // TODO update default when error page available.
