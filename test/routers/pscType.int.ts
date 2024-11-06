@@ -64,7 +64,7 @@ describe("PscType router/handler integration tests", () => {
 
     describe("POST method", () => {
 
-        it.each([["individual", PrefixedUrls.INDIVIDUAL_PSC_LIST], ["rle", PrefixedUrls.RLE_LIST], ["default", PrefixedUrls.INDIVIDUAL_PSC_LIST]])(
+        it.each([["individual", PrefixedUrls.INDIVIDUAL_PSC_LIST], ["rle", PrefixedUrls.RLE_LIST]])(
             "Should redirect the post request to %s list page if selected",
             async (selectedType, expectedPage) => {
 
@@ -78,6 +78,25 @@ describe("PscType router/handler integration tests", () => {
                     .query({ companyNumber: COMPANY_NUMBER, lang: "en", pscType: selectedType })
                     .expect(HttpStatusCode.Found)
                     .expect("Location", expectedRedirectUrl);
+            }
+        );
+
+        it("Should render same page with errors in pscType not selected",
+            async () => {
+                const expectedPageUrl = `${PrefixedUrls.PSC_TYPE.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=undefined`;
+
+                const posted = await request(app)
+                    .post(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_TYPE, TRANSACTION_ID, PSC_VERIFICATION_ID))
+                    .send({ pscType: undefined })
+                    .set({ "Content-Type": "application/json" })
+                    // if present in the request the "companyNumber" query param is passed on to the redirect URL
+                    .query({ companyNumber: COMPANY_NUMBER, lang: "en", pscType: undefined })
+                    .expect(HttpStatusCode.Ok);
+
+                const $ = cheerio.load(posted.text);
+
+                expect($("div.govuk-form-group--error")).toBeDefined();
+                expect($("a[href='#err-id-pscType']").text()).toBe("Select if you're providing verification details for a PSC or RLE");
             }
         );
     });

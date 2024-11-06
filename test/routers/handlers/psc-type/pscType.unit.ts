@@ -48,27 +48,30 @@ describe("psc type handler", () => {
     });
 
     describe("executePost", () => {
-        const req = httpMocks.createRequest({
-            method: "POST",
-            url: Urls.PSC_TYPE,
-            params: {
-                transactionId: TRANSACTION_ID,
-                submissionId: PSC_VERIFICATION_ID
-            },
-            query: {
-                lang: "en",
-                companyNumber: COMPANY_NUMBER
-            },
-            body: {
-                pscType: "individual"
-            }
+        it("should return the correct next page", async () => {
+
+            const req = httpMocks.createRequest({
+                method: "POST",
+                url: Urls.PSC_TYPE,
+                params: {
+                    transactionId: TRANSACTION_ID,
+                    submissionId: PSC_VERIFICATION_ID
+                },
+                query: {
+                    lang: "en",
+                    companyNumber: COMPANY_NUMBER
+                },
+                body: {
+                    pscType: "individual"
+                }
+            });
+
+            const res = httpMocks.createResponse({});
+            const handler = new PscTypeHandler();
+
+            const model = await handler.executePost(req, res);
+
+            expect(model.viewData.nextPageUrl).toBe(`/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-list?lang=en&pscType=individual`);
         });
-
-        const res = httpMocks.createResponse({});
-        const handler = new PscTypeHandler();
-
-        const redirectUrl = handler.executePost(req, res);
-
-        expect(redirectUrl).toBe(`/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-list?lang=en&pscType=individual`);
     });
 });

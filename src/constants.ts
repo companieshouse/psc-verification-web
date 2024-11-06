@@ -44,6 +44,11 @@ export const ExternalUrls = {
 //     POLICIES: env.POLICIES_LINK,
 } as const;
 
+// used as Session keys (Redis)
+export const SessionKeys = {
+    COMPANY_NUMBER: "companyNumber"
+} as const;
+
 //  For use by Matomo
 export const Ids = {
     BUTTON_ID_INDIVIDUAL_STATEMENT: "continue_button_ind_statement"
