@@ -9,35 +9,97 @@ const errorManifest = {
             summary: "Your request contains validation errors",
             inline: "Your request contains validation errors"
         },
-        email: {
+        firstName: {
             blank: {
-                summary: "Enter an email address",
-                inline: "Enter an email address"
+                summary: "Enter the first name",
+                inline: "Enter the first name"
             },
             incorrect: {
-                summary: "Email is not valid",
-                inline: "Enter an email address in the correct format, like name@example.com"
+                summary: "Enter a valid firstname",
+                inline: "Enter a valid firstname"
             }
         },
-        companyName: {
-            blank: {
-                summary: "Enter a company name",
-                inline: "Enter a company name"
-            },
+        middleName: {
+            blank: {},
             incorrect: {
-                summary: "Company name is not valid",
-                inline: "Enter a valid company name"
+                summary: "Enter a valid middle name",
+                inline: "Enter a valid middle name"
             }
         },
-        description: {
+        lastName: {
             blank: {
-                summary: "Enter a company description",
-                inline: "Enter a company description"
+                summary: "Enter the last name",
+                inline: "Enter the last name"
             },
             incorrect: {
-                summary: "Company description is not valid",
-                inline: "Enter a valid company description; 120 max characters"
+                summary: "Enter a valid last name",
+                inline: "Enter a valid last name"
             }
+        },
+        dateOfBirth: {
+            blank: {
+                summary: "Enter the date of birth",
+                inline: "Enter the date of birth"
+            },
+            incorrect: {
+                summary: "Enter a valid date of birth",
+                inline: "Enter a valid  date of birth"
+            }
+        },
+        pscType: {
+            blank: {
+                summary: "Select if you're providing verification details for a PSC or RLE",
+                inline: "Select if you're providing verification details for a PSC or RLE"
+            },
+            incorrect: {}
+        },
+        pscVerificationStatus: {
+            blank: {
+                summary: "Select the PSC you're providing verification details for",
+                inline: "Select the PSC you're providing verification details for"
+            },
+            incorrect: {}
+        },
+        relevantOfficerConfirmation: {
+            blank: {
+                summary: "Confirm if the relevant officer is a director of the relevant legal entity, or someone whose roles and responsibilities correspond to that of a company director.",
+                inline: "Confirm if the relevant officer is a director of the relevant legal entity, or someone whose roles and responsibilities correspond to that of a company director."
+            },
+            incorrect: {}
+        },
+        relevantOfficerPersonalCode: {
+            blank: {
+                summary: "Enter the personal code for the relevant officer",
+                inline: "Enter the personal code for the relevant officer"
+            },
+            incorrect: {
+                summary: "Enter a valid personal code for the relevant officer",
+                inline: "Enter a valid personal code for the relevant officer"
+            }
+        },
+        pscPersonalCode: {
+            blank: {
+                summary: "Enter the personal code for the PSC",
+                inline: "Enter the personal code for the PSC"
+            },
+            incorrect: {
+                summary: "Enter a valid personal code for the PSC",
+                inline: "Enter a valid personal code for the PSC"
+            }
+        },
+        pscIdentityVerificationStatement: {
+            blank: {
+                summary: "Confirm if the identity verification statement is correct",
+                inline: "Confirm if the identity verification statement is correct"
+            },
+            incorrect: {}
+        },
+        relevantOfficerStatementConfirmation: {
+            blank: {
+                summary: "Summary error text for relevantOfficerStatementConfirmation to be provided",
+                inline: "Inline error text for relevantOfficerStatementConfirmation to be provided"
+            },
+            incorrect: {}
         }
     }
 };
