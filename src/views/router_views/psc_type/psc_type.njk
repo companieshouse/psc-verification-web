@@ -10,8 +10,7 @@
 
     <form action="" method="post">
         {% include "includes/csrf_token.njk" %}
-        <div class="govuk-form-group{{ ' govuk-form-group--error' if errors.pscType is not undefined }}">
-            {{ govukRadios({
+        {{ govukRadios({
             idPrefix: "pscType",
             name: "pscType",
             value: pscType,
@@ -22,7 +21,9 @@
                     classes: "govuk-fieldset__legend--l"
                 }
             },
-            errorMessage: errors.pscType.inline if errors.pscType,
+            errorMessage: {
+                text: errors.pscType.inline
+            } if errors.pscType,
             items: [
                 {
                     value: "individual",
@@ -45,7 +46,6 @@
             ]
         })
         }}
-        </div>
 
         {{ govukDetails({
             summaryText: i18n.psc_type_details_title,
