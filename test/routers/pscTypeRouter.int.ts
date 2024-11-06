@@ -2,7 +2,7 @@ import middlewareMocks from "../mocks/allMiddleware.mock";
 import request from "supertest";
 import { PrefixedUrls } from "../../src/constants";
 import app from "../../src/app";
-import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { HttpStatusCode } from "axios";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../src/utils/url";
 import { getPscVerification } from "../../src/services/pscVerificationService";
@@ -10,7 +10,7 @@ import { getPscVerification } from "../../src/services/pscVerificationService";
 jest.mock("../../src/services/pscVerificationService", () => ({
     getPscVerification: () => ({
         httpStatusCode: HttpStatusCode.Ok,
-        resource: CREATED_RESOURCE
+        resource: INDIVIDUAL_VERIFICATION_CREATED
     })
 }));
 
