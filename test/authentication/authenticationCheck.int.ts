@@ -48,7 +48,6 @@ describe("Authentication checked on all pages except for the start page", () => 
         expect(middlewareMocks.mockAuthenticationMiddleware).not.toHaveBeenCalled();
     });
 
-    // TODO -  Add tests for the RLE journey pages
     it.each([PrefixedUrls.CONFIRM_COMPANY,
         PrefixedUrls.PSC_TYPE,
         PrefixedUrls.INDIVIDUAL_PSC_LIST,

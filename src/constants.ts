@@ -13,12 +13,7 @@ export const Urls = {
     PERSONAL_CODE: `${urlWithTransactionIdAndSubmissionId}/individual/personal-code`,
     INDIVIDUAL_STATEMENT: `${urlWithTransactionIdAndSubmissionId}/individual/psc-statement`,
     PSC_VERIFIED: `${urlWithTransactionIdAndSubmissionId}/psc-verified`,
-    RLE_LIST: `${urlWithTransactionIdAndSubmissionId}/rle/rle-list`,
-    RLE_DETAILS: "/rle/ro-details",
-    RLE_DIRECTOR: "/rle/ro-director",
-    CONFIRM_RO_STATEMENTS: "/rle/ro-statements",
-    NOT_A_DIRECTOR: "/rle/not-director-stop",
-    RLE_VERIFIED: "/rle/rle-verified"
+    RLE_LIST: `${urlWithTransactionIdAndSubmissionId}/rle/rle-list`
 } as const;
 
 export const PrefixedUrls = {
@@ -34,11 +29,6 @@ export const PrefixedUrls = {
     INDIVIDUAL_STATEMENT: servicePathPrefix + Urls.INDIVIDUAL_STATEMENT,
     PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
     RLE_LIST: servicePathPrefix + Urls.RLE_LIST,
-    RLE_DETAILS: servicePathPrefix + Urls.RLE_DETAILS,
-    RLE_DIRECTOR: servicePathPrefix + Urls.RLE_DIRECTOR,
-    CONFIRM_RO_STATEMENTS: servicePathPrefix + Urls.CONFIRM_RO_STATEMENTS,
-    NOT_A_DIRECTOR: servicePathPrefix + Urls.NOT_A_DIRECTOR,
-    RLE_VERIFIED: servicePathPrefix + Urls.RLE_VERIFIED,
     COOKIES: "/help/cookies"
 } as const;
 
