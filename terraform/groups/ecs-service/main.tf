@@ -47,6 +47,7 @@ module "ecs-service" {
   docker_repo       = local.docker_repo
   container_version = var.psc_verification_web_version
   container_port    = local.container_port
+  read_only_root_filesystem = true
 
   # Service configuration
   service_name = local.service_name
