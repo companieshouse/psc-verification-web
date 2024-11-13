@@ -7,7 +7,7 @@
       <ul class="govuk-list govuk-error-summary__list">
         {% if errors.serverError is not undefined %}
           <li>
-            {{ errors.serverError.summary }}
+            {{ i18n.server_error_summary }}
           </li>
         {% else %}
           {% for key,err in errors %}

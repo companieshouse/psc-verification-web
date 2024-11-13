@@ -29,5 +29,5 @@ export const getLocaleInfo = (locales: LocalesService, lang: string) => {
     };
 };
 
-const localesSevice = LocalesService.getInstance(env.LOCALES_PATH, env.LOCALES_ENABLED === "true");
-export const getLocalesService = () => localesSevice;
+const localesService = LocalesService.getInstance(env.LOCALES_PATH, env.LOCALES_ENABLED === "true");
+export const getLocalesService = () => localesService;

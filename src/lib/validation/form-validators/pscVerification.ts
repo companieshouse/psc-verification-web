@@ -1,21 +1,24 @@
 import { logger } from "./../../logger";
 import { GenericValidator } from "./../../validation/generic";
+import errorManifest from "../../utils/error-manifests/errorManifest";
 
 export class PscVerificationFormsValidator extends GenericValidator {
 
-    constructor (classParam?: string) {
+    constructor (lang: string = "en") {
         super();
+        this.lang = lang;
     }
 
-    validatePscType (payload: any): Promise<Object> {
+    validatePscType (payload: any, _lang: string): Promise<Object> {
         logger.info(`Request to validate PSC-Type form`);
+        this.errorManifest = errorManifest(this.lang);
+
         try {
             if (typeof payload.pscType === "undefined" || !this.isValidPscType(payload.pscType)) {
                 this.errors.stack.pscType = this.errorManifest.validation.pscType.blank;
             }
 
             // validate additional form fields here
-
             if (!Object.keys(this.errors.stack).length) {
                 return Promise.resolve({});
             } else {
