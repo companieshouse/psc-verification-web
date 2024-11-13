@@ -16,7 +16,7 @@ describe("Start router/handler integration tests", () => {
         expect(middlewareMocks.mockFetchVerificationMiddleware).not.toHaveBeenCalled();
     });
 
-    const HEADING = "Provide identity verification details for a PSC or relevant legal entity";
+    const HEADING = "Provide identity verification details for a person with significant control";
 
     describe("GET method", () => {
 
