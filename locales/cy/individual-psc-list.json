@@ -1,6 +1,23 @@
 {
-    "individual_psc_list_main_title": "To be translated",
-    "individual_psc_list_hint_1": "To be translated",
-    "individual_psc_list_hint_2": "To be translated",
-    "individual_psc_list_born_in": "To be translated"
+    "ind_psc_list_main_title": "To be translated",
+    "ind_psc_list_description": "To be translated",
+    "ind_psc_list_can_verify_heading": "To be translated",
+    "ind_psc_list_can_verify_description": "To be translated ",
+    "ind_psc_list_can_verify_description2": " To be translated",
+    "ind_psc_list_summary_card_key1": "To be translated",
+    "ind_psc_list_summary_card_key2": "To be translated",
+    "ind_psc_list_summary_card_key3": "To be translated",
+    "ind_psc_list_summary_card_verify_link": "To be translated",
+    "ind_psc_list_cannot_verify_heading": "To be translated",
+    "ind_psc_list_cannot_verify_description": "To be translated ",
+    "ind_psc_list_cannot_verify_description2": "To be translated ",
+    "ind_psc_list_cannot_verify_description3": ", To be translated",
+    "ind_psc_list_cannot_verify_details_main_link": "To be translated",
+    "ind_psc_list_cannot_verify_details_description": "To be translated",
+    "ind_psc_list_not_found_details_main_link": "To be translated",
+    "ind_psc_list_not_found_details_description": "To be translated",
+    "ind_psc_list_not_found_details_description2": "To be translated",
+    "ind_psc_list_not_found_details_description3": "To be translated ",
+    "ind_psc_list_not_found_details_description4": "To be translated ",
+    "ind_psc_list_not_found_details_description5": ", To be translated"
 }
