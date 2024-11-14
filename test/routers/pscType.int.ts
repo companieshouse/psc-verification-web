@@ -96,7 +96,7 @@ describe("PscType router/handler integration tests", () => {
                 const $ = cheerio.load(posted.text);
 
                 expect($("div.govuk-form-group--error")).toBeDefined();
-                expect($("a[href='#err-id-pscType']").text()).toBe("Select if you're providing verification details for a PSC or RLE");
+                expect($("a[href='#pscType-error']").text()).toBe("Select if you're providing verification details for a PSC or RLE");
             }
         );
     });
