@@ -40,6 +40,12 @@ export const env = readEnv(process.env, {
     DEVELOPERS_LINK: str
         .describe("Link for developers")
         .default("https://developer.companieshouse.gov.uk/"),
+    DSR_EMAIL_ADDRESS: str
+        .describe("Email Address for DSR team")
+        .default("dsr@companieshouse.gov.uk"),
+    DSR_PHONE_NUMBER: str
+        .describe("Telephone number for the DSR team")
+        .default("02921 507 370"),
     FEEDBACK_URL: str
         .describe("Link for the user to give feedback on the service")
         .default(""),

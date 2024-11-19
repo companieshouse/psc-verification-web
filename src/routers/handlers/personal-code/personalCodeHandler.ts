@@ -13,7 +13,8 @@ import { getPscIndividual } from "../../../services/pscService";
 interface PersonalCodeViewData extends BaseViewData {
     pscName: string,
     monthBorn: string,
-    personalCode: string
+    personalCode: string,
+    selectedPscId: string
 }
 
 export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
@@ -24,7 +25,8 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
         const baseViewData = await super.getViewData(req, res);
         const verification: PscVerification = res.locals.submission;
-        const pscIndividual = await getPscIndividual(req, verification.data.companyNumber as string, verification.data.pscAppointmentId as string);
+        const selectedPscId = req.query?.selectedPscId as string;
+        const pscIndividual = await getPscIndividual(req, verification.data.companyNumber as string, selectedPscId);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
@@ -41,7 +43,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         };
 
         function resolveUrlTemplate (prefixedUrl: string): string | null {
-            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { lang });
+            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { lang, selectedPscId });
         }
     }
 
@@ -59,11 +61,16 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         logger.info(`${PersonalCodeHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         const uvid = req.body.personalCode;
         const verification: PscVerificationData = {
+            pscAppointmentId: req.query?.selectedPscId as string,
             verificationDetails: {
                 uvid: uvid
             }
         };
         logger.debug(`${PersonalCodeHandler.name} - ${this.executePost.name} - patching personal code for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
+
+        const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, req.params.transactionId, req.params.submissionId);
+        const lang = selectLang(req.query.lang);
+        return (addSearchParams(nextPageUrl, { lang }));
     }
 }

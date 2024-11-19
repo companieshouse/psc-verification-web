@@ -10,7 +10,7 @@ import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn } from "../../utils";
 import { PscVerificationData, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 
-interface IndividualStatementViewData extends BaseViewData {pscName: string, selectedStatements: string[], dateOfBirth: string}
+interface IndividualStatementViewData extends BaseViewData {pscName: string, selectedStatements: string[], dateOfBirth: string, selectedPscId: string}
 
 export class IndividualStatementHandler extends GenericHandler<IndividualStatementViewData> {
 
@@ -25,6 +25,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const selectedStatements = verification?.data?.verificationDetails?.verificationStatements || [];
+        const selectedPscId = verification?.data?.pscAppointmentId;
 
         return {
             ...baseViewData,
@@ -35,11 +36,12 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             currentUrl: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_STATEMENT),
             backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
             templateName: Urls.INDIVIDUAL_STATEMENT,
-            backLinkDataEvent: "psc-statement-back-link"
+            backLinkDataEvent: "psc-statement-back-link",
+            selectedPscId: selectedPscId
         };
 
         function resolveUrlTemplate (prefixedUrl: string): string | null {
-            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { lang });
+            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { lang, selectedPscId });
         }
     }
 

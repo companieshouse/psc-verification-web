@@ -13,20 +13,25 @@
     <p class="govuk-body">{{ i18n.ind_psc_list_description }}</p>
     
     <h2 class="govuk-heading-m">{{ i18n.ind_psc_list_can_verify_heading }}</h2>
-    <p class="govuk-body">{{ i18n.ind_psc_list_can_verify_description }}<b>[company_name]</b>{{ i18n.ind_psc_list_can_verify_description2 }}</p>
+    <p class="govuk-body">{{ i18n.ind_psc_list_can_verify_description }}<b>{{ companyName }}</b>{{ i18n.ind_psc_list_can_verify_description2 }}</p>
     
+{% for psc in pscDetails | sort(attribute = 'pscName') %}
+
+{% set pscStatusText %}
+  <strong class="govuk-tag govuk-tag--red"> {{ i18n.ind_psc_list_status_unverified }} </strong> 
+{% endset %}
 
     {{ govukSummaryList({
     card: {
         title: {
-        text: "[Name of the psc]"
+        text: psc.pscName
     },
     actions: {
         items: [
             {
-            href: "#",
+            href: [nextPageUrl+psc.pscId ],
             text: i18n.ind_psc_list_summary_card_verify_link,
-            visuallyHiddenText: "[do we need this?]"
+            visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link
             }
         ]
     }
@@ -37,7 +42,7 @@
         text: i18n.ind_psc_list_summary_card_key1
       },
       value: {
-        html: "[partial_dob]"
+        text: psc.pscDob
       }
     },
     {
@@ -45,7 +50,7 @@
         text: i18n.ind_psc_list_summary_card_key2
       },
       value: {
-        html: "[verification_deadline]"
+        text: psc.pscVerificationDeadlineDate
       }
     },
     {
@@ -53,14 +58,17 @@
         text: i18n.ind_psc_list_summary_card_key3
       },
       value: {
-        html: '<strong class="govuk-tag govuk-tag--red">[Unverified]</strong>'
+        html: pscStatusText
       }
     }
   ]
 }) }}
 
+{% endfor %}
+
 <h2 class="govuk-heading-m">{{ i18n.ind_psc_list_cannot_verify_heading }}</h2>
-<p class="govuk-body">{{ i18n.ind_psc_list_cannot_verify_description }}<b>[company_name]</b>{{ i18n.ind_psc_list_cannot_verify_description2 }}<b>[confirmation_statement_date]</>{{ i18n.ind_psc_list_cannot_verify_description3 }}</p>
+<p class="govuk-body">{{ i18n.ind_psc_list_cannot_verify_description }}<b>{{ companyName }}</b>
+{{ i18n.ind_psc_list_cannot_verify_description2 }}<b>{{ confirmationStatementDate }}</b>{{ i18n.ind_psc_list_cannot_verify_description3 }}</p>
 
 {{ govukDetails({
     summaryText: i18n.ind_psc_list_cannot_verify_details_main_link,
@@ -69,6 +77,10 @@
         "data-event-id": "why-do-pscs-need-to-wait-dropdown"
     }
 }) }}
+
+{% set unverifiablePscStatusText %}
+  <strong class="govuk-tag govuk-tag--red"> {{ i18n.ind_psc_list_status_unverified }} </strong> 
+{% endset %}
 
 {{ govukSummaryList({
     card: {
@@ -98,7 +110,7 @@
         text: i18n.ind_psc_list_summary_card_key3
       },
       value: {
-        html: '<strong class="govuk-tag govuk-tag--red">[Unverified]</strong>'
+        html: unverifiablePscStatusText
       }
     }
   ]
@@ -107,8 +119,8 @@
 {% set pscNotFoundDetails %}
         <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description }}</p>
         <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description2 }}</p>
-        <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description3 }}[dsr_email_address]
-            {{ i18n.ind_psc_list_not_found_details_description4 }}[dsr_phone_number]
+        <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description3 }}{{ dsrEmailAddress }}
+            {{ i18n.ind_psc_list_not_found_details_description4 }}{{ dsrPhoneNumber }}
             {{ i18n.ind_psc_list_not_found_details_description5 }}</p>
     {% endset %}
 
