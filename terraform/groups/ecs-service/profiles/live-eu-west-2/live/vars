@@ -3,4 +3,5 @@ aws_profile = "live-eu-west-2"
 
 # service configs
 log_level = "info"
-use_set_environment_files = true
+desired_task_count = 2
+min_task_count = 2
