@@ -1,6 +1,7 @@
 {% extends "layouts/default.njk" %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
 
 {% set title = i18n.ind_psc_list_main_title %}
 
@@ -18,7 +19,10 @@
 {% for psc in pscDetails | sort(attribute = 'pscName') %}
 
 {% set pscStatusText %}
-  <strong class="govuk-tag govuk-tag--red"> {{ i18n.ind_psc_list_status_unverified }} </strong> 
+  {{ govukTag({
+      text: i18n.ind_psc_list_status_unverified,
+      classes: "govuk-tag--red"
+  }) }}
 {% endset %}
 
     {{ govukSummaryList({
@@ -79,7 +83,10 @@
 }) }}
 
 {% set unverifiablePscStatusText %}
-  <strong class="govuk-tag govuk-tag--red"> {{ i18n.ind_psc_list_status_unverified }} </strong> 
+ {{ govukTag({
+      text: i18n.ind_psc_list_status_unverified,
+      classes: "govuk-tag--red"
+  }) }}
 {% endset %}
 
 {{ govukSummaryList({
