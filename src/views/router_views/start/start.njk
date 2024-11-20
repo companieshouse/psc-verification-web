@@ -19,55 +19,41 @@
     <p class="govuk-body">{{ i18n.start_service_restriction_description }}</p>
 
     <h2 class="govuk-heading-m">{{ i18n.start_when_to_verify_heading }}</h2>
-     <p class="govuk-body">{{ i18n.start_when_to_verify_description1 }}</p>
-     <p class="govuk-body">{{ i18n.start_when_to_verify_description2 }}</p>
-     <p class="govuk-body">{{ i18n.start_when_to_verify_description3 }}</p>
+     <p class="govuk-body">{{ i18n.start_when_to_verify_description1 }}{{idvImplementationDate}}.</p>
+     <p class="govuk-body">{{ i18n.start_when_to_verify_description2 }}{{idvImplementationDate}}{{ i18n.start_when_to_verify_description3 }}</p>
+     <p class="govuk-body">{{ i18n.start_when_to_verify_description4 }}{{idvImplementationDate}}{{ i18n.start_when_to_verify_description5 }}</p>
 
      {{ govukWarningText({
         text: i18n.start_warning_text
     }) }}
 
-        <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>
-        <p class="govuk-body">
-        {{ i18n.start_before_verify_link }}
-        <a href="{{ chsUrl }}" title="{{ i18n.start_service_ch_link }}" title="{{ i18n.start_after_verify_link }}" class="govuk-link" data-event-id="when-to-verify-link">
-            {{ i18n.start_after_verify_link_text }}
-            {{ i18n.start_verify_link_text }}
-        </a>
-        {{ i18n.start_after_verify_link }}
-        </p>
+    <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>   
 
     <p class="govuk-body"> {{i18n.start_before_list}} </p>
-
 
     <ul class="govuk-list govuk-list--bullet">
         <li>{{ i18n.start_before_list_item1 }}</li>
         <li>{{ i18n.start_before_list_item2 }}</li>
         <li>{{ i18n.start_before_list_item3 }}</li>
     </ul>
-    <p class="govuk-body">{{ i18n.start_before_required_description }}
-    </p>
 
-    {% set startPersonalCodeDetailsText %}
-    <p class="govuk-body">{{ i18n.start_personal_code_details_description }}</p>
+    {% set startPersonalCodeDetails %}
+        <p class="govuk-body">{{ i18n.start_personal_code_details_description }}</p>
+        <p class="govuk-body">{{ i18n.start_personal_code_details_before_link }}
+            <a href="{{ [chsUrl, verifyIdentityLink] | join  }}" title="{{ i18n.start_personal_code_details_link }}" class="govuk-link" data-event-id="guidance-on-psc-link">
+            {{ i18n.start_personal_code_details_link }} </a></p>
     {% endset %}
 
     {{ govukDetails({
-            summaryText: i18n.start_personal_code_details_main_link,
-            text: i18n.start_personal_code_details_description,
+        summaryText: i18n.start_personal_code_details_main_link,
+        html: startPersonalCodeDetails,
             attributes: {
                 "data-event-id": "what-is-ch-personal-code-dropdown"
             }
         }) }}
 
-    <h3 class="govuk-heading-s">{{ i18n.start_providing_details_for_rle }}</h3>
-    <p class="govuk-body">{{ i18n.start_details_for_rle_description1 }}</p>
-    <p class="govuk-body">{{ i18n.start_details_for_rle_description2 }}</p>
-    <p class="govuk-body">{{ i18n.start_details_for_rle_description3 }}
-     <a href="{{ [chsUrl, verifyIdentityLink] | join  }}" title="{{ i18n.start_guidance_on_psc_link }}" class="govuk-link" data-event-id="guidance-on-psc-link">
-            {{ i18n.start_guidance_on_psc_link }}
-        </a>
-    </p>
+    <p class="govuk-body">{{ i18n.start_guidance_duration_description }}</p>
+    
     {{ govukButton({
             text: i18n.start_button,
             href: Urls.COMPANY_NUMBER + "?lang=" +lang,
@@ -78,5 +64,6 @@
                 "data-event-id": "start-now-start-button"
             }
         }) }}
+
 
 {% endblock %}
