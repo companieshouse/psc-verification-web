@@ -114,7 +114,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             return {
                 pscId: psc.links.self.split("/").pop() as string,
                 pscName: psc.name,
-                pscDob: pscFormattedDob as string,
+                pscDob: pscFormattedDob,
                 pscVerificationDeadlineDate: "[pscVerificationDate]"
             };
         });
