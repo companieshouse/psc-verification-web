@@ -1,5 +1,5 @@
 import { HttpStatusCode } from "axios";
-import { COMPANY_NUMBER, CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { VALID_COMPANY_PSC_ITEMS } from "../../../mocks/companyPsc.mock";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
@@ -13,7 +13,7 @@ jest.mock("../../../../src/services/pscVerificationService");
 const mockGetPscVerification = getPscVerification as jest.Mock;
 mockGetPscVerification.mockResolvedValueOnce({
     httpStatusCode: HttpStatusCode.Ok,
-    resource: CREATED_RESOURCE
+    resource: INDIVIDUAL_VERIFICATION_CREATED
 });
 
 jest.mock("../../../../src/services/companyProfileService");
@@ -45,7 +45,7 @@ describe("psc type handler", () => {
                 }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: CREATED_RESOURCE } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_CREATED } });
             const handler = new IndividualPscListHandler();
 
             const { templatePath, viewData } = await handler.executeGet(req, res);
