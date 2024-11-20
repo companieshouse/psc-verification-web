@@ -1,13 +1,18 @@
-const errorManifest = {
+import { getLocalesService } from "../../../utils/localise";
+
+const localesService = getLocalesService();
+
+const errorManifest = (lang: string = "en") => ({
     generic: {
         serverError: {
-            summary: "There was an error processing your request. Please try again."
+            summary: localesService.i18nCh.resolveSingleKey("server_error_summary", lang) || "There was an error processing your request. Please try again."
         }
     },
+
     validation: {
         default: {
-            summary: "Your request contains validation errors",
-            inline: "Your request contains validation errors"
+            summary: localesService.i18nCh.resolveSingleKey("validation_error_summary", lang) || "Your request contains validation errors",
+            inline: localesService.i18nCh.resolveSingleKey("validation_error_inline", lang) || "Your request contains validation errors"
         },
         firstName: {
             blank: {
@@ -48,8 +53,8 @@ const errorManifest = {
         },
         pscType: {
             blank: {
-                summary: "Select if you're providing verification details for a PSC or RLE",
-                inline: "Select if you're providing verification details for a PSC or RLE"
+                summary: localesService.i18nCh.resolveSingleKey("psc_type_error_summary", lang) || "Select if you're providing verification details for a PSC or RLE",
+                inline: localesService.i18nCh.resolveSingleKey("psc_type_error_inline", lang) || "Inline: Select if you're providing verification details for a PSC or RLE"
             },
             incorrect: {}
         },
@@ -102,6 +107,6 @@ const errorManifest = {
             incorrect: {}
         }
     }
-};
+});
 
 export default errorManifest;

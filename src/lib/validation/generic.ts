@@ -8,17 +8,20 @@ export class GenericValidator {
     errors: any;
     payload: any;
     errorManifest: any;
+    lang: string;
 
-    constructor () {
+    constructor (lang: string = "en") {
+        this.lang = lang;
+        this.errorManifest = errorManifest(this.lang);
         this.errors = this.getErrorSignature();
-        this.errorManifest = errorManifest;
     }
 
     protected getErrorSignature () {
+        this.errorManifest = errorManifest(this.lang);
         return {
             status: 400,
             name: "VALIDATION_ERRORS",
-            message: errorManifest.validation.default.summary,
+            message: this.errorManifest.validation.default.summary,
             stack: {}
         };
     }

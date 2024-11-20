@@ -1,22 +1,26 @@
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
 {% if errors is not undefined and errors is not null and errors | length %}
-  <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-    <h2 class="govuk-error-summary__title" id="error-summary-title">
-      There is a problem
+<div class="govuk-error-summary" data-module="govuk-error-summary">
+  <div role="alert">
+    <h2 class="govuk-error-summary__title">
+      {{ i18n.error_summary_title }}
     </h2>
     <div class="govuk-error-summary__body">
       <ul class="govuk-list govuk-error-summary__list">
         {% if errors.serverError is not undefined %}
           <li>
-            {{ errors.serverError.summary }}
+            {{ i18n.server_error_summary }}
           </li>
         {% else %}
           {% for key,err in errors %}
-            <li>
-              <a href="#err-id-{{ key }}">{{ err.summary }}</a>
-            </li>
+        <li>
+          <a href="#{{ key }}-error">{{ err.summary }}</a>
+        </li>
           {% endfor %}
         {% endif %}
       </ul>
     </div>
   </div>
+</div>
 {% endif %}
