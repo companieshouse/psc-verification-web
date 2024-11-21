@@ -1,7 +1,7 @@
 import * as httpMocks from "node-mocks-http";
 import { Urls } from "../../../../src/constants";
 import { PersonalCodeHandler } from "../../../../src/routers/handlers/personal-code/personalCodeHandler";
-import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_PATCH, PATCH_PERSONAL_CODE_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_PATCH, PATCH_PERSONAL_CODE_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { getPscIndividual } from "../../../../src/services/pscService";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { HttpStatusCode } from "axios";
@@ -34,7 +34,8 @@ describe("personal code handler tests", () => {
 
             const req = httpMocks.createRequest({
                 method: "GET",
-                url: Urls.PERSONAL_CODE
+                url: Urls.PERSONAL_CODE,
+                query: { selectedPscId: PSC_APPOINTMENT_ID }
             });
 
             const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_PATCH } });
@@ -55,7 +56,7 @@ describe("personal code handler tests", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_VERIFICATION_ID,
+                    pscAppointmentId: PSC_APPOINTMENT_ID,
                     lang: "en"
                 }
             });
@@ -71,7 +72,7 @@ describe("personal code handler tests", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_VERIFICATION_ID,
+                    selectedPscId: PSC_APPOINTMENT_ID,
                     lang: "en"
                 }
             });
@@ -81,35 +82,35 @@ describe("personal code handler tests", () => {
             const { templatePath, viewData } = await handler.executeGet(req, res);
 
             expect(viewData).toMatchObject({
-                backURL: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-list?lang=en`,
-                currentUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code?lang=en`
+                backURL: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-list?lang=en&selectedPscId=123456`,
+                currentUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code?lang=en&selectedPscId=123456`
             });
         });
     });
 
-    describe.skip("executePost", () => {
-        const req = httpMocks.createRequest({
-            method: "POST",
-            url: Urls.PERSONAL_CODE,
-            params: {
-                transactionId: TRANSACTION_ID,
-                submissionId: PSC_VERIFICATION_ID
-            },
-            query: {
-                lang: "en",
-                companyNumber: COMPANY_NUMBER,
-                pscAppointmentId: PSC_VERIFICATION_ID
-            },
-            body: {
-                PscVerificationData: PATCH_PERSONAL_CODE_DATA
-            }
+    describe("executePost", () => {
+        it("should return the correct next page", async () => {
+            const req = httpMocks.createRequest({
+                method: "POST",
+                url: Urls.PERSONAL_CODE,
+                params: {
+                    transactionId: TRANSACTION_ID,
+                    submissionId: PSC_VERIFICATION_ID
+                },
+                query: {
+                    lang: "en",
+                    selectedPscId: PSC_APPOINTMENT_ID
+                },
+                body: {
+                    PscVerificationData: PATCH_PERSONAL_CODE_DATA
+                }
+            });
+
+            const res = httpMocks.createResponse({});
+            const handler = new PersonalCodeHandler();
+
+            const nextPage = await handler.executePost(req, res);
+            expect(nextPage).toBe(`/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-statement?lang=en`);
         });
-
-        const res = httpMocks.createResponse({});
-        const handler = new PersonalCodeHandler();
-
-        const redirectUrl = handler.executePost(req, res);
-
-        // expect(redirectUrl).toBe(`persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-statement?lang=en`);
     });
 });

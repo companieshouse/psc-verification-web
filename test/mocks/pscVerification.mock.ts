@@ -4,6 +4,7 @@ export const FIRST_DATE = new Date(2024, 0, 2, 3, 4, 5, 6);
 export const DOB_DATE = new Date("1970-01-01");
 export const COMPANY_NUMBER = "12345678";
 export const TRANSACTION_ID = "11111-22222-33333";
+export const PSC_APPOINTMENT_ID = "123456";
 export const PSC_VERIFICATION_ID = "662a0de6a2c6f9aead0f32ab";
 export const UVID = "123abc456edf";
 export const SELF_URI = `/transactions/${TRANSACTION_ID}/persons-with-significant-control-verification/${PSC_VERIFICATION_ID}`;
@@ -19,7 +20,7 @@ export const LINKS: Links = {
 
 export const INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_VERIFICATION_ID,
+    pscAppointmentId: PSC_APPOINTMENT_ID,
     verificationDetails: {
         verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
     }
@@ -27,7 +28,7 @@ export const INDIVIDUAL_DATA: PscVerificationData = {
 
 export const PATCH_INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_VERIFICATION_ID
+    pscAppointmentId: PSC_APPOINTMENT_ID
 };
 
 export const PATCH_RLE_DATA: PscVerificationData = {
@@ -43,6 +44,7 @@ export const PATCH_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
 };
 
 export const PATCH_PERSONAL_CODE_DATA: PscVerificationData = {
+    pscAppointmentId: PSC_APPOINTMENT_ID,
     verificationDetails: {
         uvid: UVID
     }
@@ -57,7 +59,7 @@ export const PATCH_INDIVIDUAL_STATEMENT: PscVerification = {
 
 export const PATCHED_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_VERIFICATION_ID,
+    pscAppointmentId: PSC_APPOINTMENT_ID,
     verificationDetails: {
         nameMismatchReason: NameMismatchReasonEnum.PREFERRED_NAME,
         verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
@@ -73,7 +75,7 @@ export const PATCHED_INDIVIDUAL_STATEMENT: PscVerification = {
 
 export const RLE_DATA_FULL: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_VERIFICATION_ID,
+    pscAppointmentId: PSC_APPOINTMENT_ID,
     relevantOfficer: {
         nameElements: {
             title: "Sir",

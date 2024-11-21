@@ -8,7 +8,7 @@ import { PrefixedUrls } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { closeTransaction } from "../../../../src/services/transactionService";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_FULL, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_FULL, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
@@ -68,7 +68,7 @@ describe("psc verified view tests", () => {
         expect(mockGetCompanyProfile).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyProfile).toHaveBeenCalledWith(expect.any(IncomingMessage), COMPANY_NUMBER);
         expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
-        expect(mockGetPscIndividual).toHaveBeenCalledWith(expect.any(IncomingMessage), COMPANY_NUMBER, PSC_VERIFICATION_ID);
+        expect(mockGetPscIndividual).toHaveBeenCalledWith(expect.any(IncomingMessage), COMPANY_NUMBER, PSC_APPOINTMENT_ID);
 
     });
 });
