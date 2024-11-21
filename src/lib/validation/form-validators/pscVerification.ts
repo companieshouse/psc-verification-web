@@ -30,12 +30,12 @@ export class PscVerificationFormsValidator extends GenericValidator {
         }
     }
 
-    validatePersonalCode (payload: any, _lang: string): Promise<Object> {
+    validatePersonalCode (payload: any, _lang: string, pscName: string): Promise<Object> {
         logger.info(`Request to validate Personal Code form`);
-        this.errorManifest = errorManifest(this.lang);
+        this.errorManifest = errorManifest(this.lang, pscName);
 
         try {
-            if (typeof payload.personalCode === "undefined") {
+            if (typeof payload.personalCode === "undefined" || payload.personalCode === "") {
                 this.errors.stack.personalCode = this.errorManifest.validation.personalCode.blank;
             }
 

@@ -24,6 +24,20 @@
             {{title}}
         </h1>
         <div class="govuk-form-group">
+
+            {% if errors is not undefined and errors is not null and errors | length %}
+            {{ govukInput({
+                    id: "personalCode",
+                    classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
+                    name: "personalCode",
+                    value: personalCode,
+                    errorMessage: {
+                        text: i18n.personal_code_error_inline + pscName
+                    }
+                })
+            }}
+
+            {% else %}
             {{ govukInput({
                     id: "personalCode",
                     classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
@@ -31,6 +45,7 @@
                     value: personalCode
                 })
             }}
+            {% endif %}
 
             {{ govukDetails({
                     summaryText: i18n.personal_code_details_summaryText,

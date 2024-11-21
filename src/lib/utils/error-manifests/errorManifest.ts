@@ -2,7 +2,7 @@ import { getLocalesService } from "../../../utils/localise";
 
 const localesService = getLocalesService();
 
-const errorManifest = (lang: string = "en") => ({
+const errorManifest = (lang: string = "en", attribute: string = "") => ({
     generic: {
         serverError: {
             summary: localesService.i18nCh.resolveSingleKey("server_error_summary", lang) || "There was an error processing your request. Please try again."
@@ -74,8 +74,8 @@ const errorManifest = (lang: string = "en") => ({
         },
         personalCode: {
             blank: {
-                summary: localesService.i18nCh.resolveSingleKey("personal_code_error_summary", lang) || "Enter the Companies House personal code for ",
-                inline: localesService.i18nCh.resolveSingleKey("personal_code_error_inline", lang) || "Inline: Enter the Companies House personal code for "
+                summary: (localesService.i18nCh.resolveSingleKey("personal_code_error_summary", lang) + attribute || "Enter the Companies House personal code for " + attribute),
+                inline: (localesService.i18nCh.resolveSingleKey("personal_code_error_inline", lang) + attribute || "Inline: Enter the Companies House personal code for " + attribute)
             },
             incorrect: {}
         },
