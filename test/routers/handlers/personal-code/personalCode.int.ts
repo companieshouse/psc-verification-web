@@ -7,7 +7,7 @@ import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddlewar
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
 import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
@@ -54,8 +54,6 @@ describe("personal code router/handler integration tests", () => {
         it("Should render the Personal Code page with a success status code and the correct links and content", async () => {
 
             const queryParams = new URLSearchParams("lang=en");
-            queryParams.set("selectedPscId", PSC_APPOINTMENT_ID);
-
             const uriWithQuery = `${PrefixedUrls.PERSONAL_CODE}?${queryParams}`;
             const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
@@ -64,7 +62,7 @@ describe("personal code router/handler integration tests", () => {
 
             const $ = cheerio.load(resp.text);
 
-            expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/psc-list?lang=en&selectedPscId=123456");
+            expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/individual/psc-list?companyNumber=12345678&lang=en");
         });
 
         it("Should display the PSC inidividual's name and DOB on the Personal Code page", async () => {

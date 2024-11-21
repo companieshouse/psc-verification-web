@@ -55,7 +55,7 @@ describe("confirm company handler tests", () => {
             const response = httpMocks.createResponse();
             const handler = new ConfirmCompanyHandler();
             const redirectUrl = await handler.executePost(request, response);
-            expect(redirectUrl).toBe(`${PrefixedUrls.NEW_SUBMISSION}?companyNumber=${COMPANY_NUMBER}&lang=en`);
+            expect(redirectUrl).toBe(`${PrefixedUrls.INDIVIDUAL_PSC_LIST}?companyNumber=${COMPANY_NUMBER}&lang=en`);
 
         });
     });

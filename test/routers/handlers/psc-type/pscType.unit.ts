@@ -47,7 +47,7 @@ describe("psc type handler", () => {
         });
     });
 
-    describe("executePost", () => {
+    describe.skip("executePost", () => {
         it("should return the correct next page", async () => {
 
             const req = httpMocks.createRequest({

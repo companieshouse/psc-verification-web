@@ -57,7 +57,6 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
         logger.info(`${ConfirmCompanyHandler.name} - ${this.executePost.name} called`);
         const companyNumber = req.body.companyNumber as string;
         const lang = selectLang(req.body.lang);
-        // return the url for createNewSubmission route
-        return addSearchParams(PrefixedUrls.NEW_SUBMISSION, { companyNumber, lang });
+        return addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang });
     }
 }
