@@ -72,25 +72,12 @@ const errorManifest = (lang: string = "en") => ({
             },
             incorrect: {}
         },
-        relevantOfficerPersonalCode: {
+        personalCode: {
             blank: {
-                summary: "Enter the personal code for the relevant officer",
-                inline: "Enter the personal code for the relevant officer"
+                summary: localesService.i18nCh.resolveSingleKey("personal_code_error_summary", lang) || "Enter the Companies House personal code for ",
+                inline: localesService.i18nCh.resolveSingleKey("personal_code_error_inline", lang) || "Inline: Enter the Companies House personal code for "
             },
-            incorrect: {
-                summary: "Enter a valid personal code for the relevant officer",
-                inline: "Enter a valid personal code for the relevant officer"
-            }
-        },
-        pscPersonalCode: {
-            blank: {
-                summary: "Enter the personal code for the PSC",
-                inline: "Enter the personal code for the PSC"
-            },
-            incorrect: {
-                summary: "Enter a valid personal code for the PSC",
-                inline: "Enter a valid personal code for the PSC"
-            }
+            incorrect: {}
         },
         pscIdentityVerificationStatement: {
             blank: {
