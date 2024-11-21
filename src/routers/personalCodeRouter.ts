@@ -15,7 +15,7 @@ personalCodeRouter.post("/", handleExceptions(async (req: Request, res: Response
     const params = await handler.executePost(req, res);
 
     if (!Object.keys(params.viewData.errors).length) {
-       res.redirect(params.viewData.nextPageUrl);
+        res.redirect(params.viewData.nextPageUrl);
     } else {
         res.render(params.templatePath, params.viewData);
     }

@@ -61,14 +61,14 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         logger.info(`${PersonalCodeHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
         const viewData = await this.getViewData(req, res);
 
-        try{
+        try {
             const lang = selectLang(req.query.lang);
             const uvid = req.body.personalCode;
 
             const queryParams = new URLSearchParams(req.url.split("?")[1]);
             const verification: PscVerificationData = {
-            verificationDetails: {
-                uvid: uvid
+                verificationDetails: {
+                    uvid: uvid
                 }
             };
 
@@ -78,21 +78,20 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             const validator = new PscVerificationFormsValidator(lang);
             viewData.errors = await validator.validatePersonalCode(req.body, lang, viewData.pscName);
 
-        logger.debug(`${PersonalCodeHandler.name} - ${this.executePost.name} - patching personal code for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
-        await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
-    
+            logger.debug(`${PersonalCodeHandler.name} - ${this.executePost.name} - patching personal code for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+            await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
+
         } catch (err: any) {
             logger.error(`${req.method} error: problem handling PSC details (personal code) request: ${err.message}`);
             viewData.errors = this.processHandlerException(err);
         }
 
-    return {
-        templatePath: PersonalCodeHandler.templatePath,
-        viewData
-    };
+        return {
+            templatePath: PersonalCodeHandler.templatePath,
+            viewData
+        };
 
         // call API service to patch data here?
-
-    }       
+    }
 
 }
