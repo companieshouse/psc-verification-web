@@ -13,7 +13,7 @@ import { PscVerificationFormsValidator } from "../../../lib/validation/form-vali
 
 interface PersonalCodeViewData extends BaseViewData {
     pscName: string,
-    monthBorn: string,
+    monthYearBorn: string,
     personalCode: string,
     nextPageUrl: string
 }
@@ -34,7 +34,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             pscName: pscIndividual.resource?.name!,
-            monthBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
+            monthYearBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
             personalCode: verification?.data?.verificationDetails?.uvid || "",
             currentUrl: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
             backURL: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_PSC_LIST),
@@ -90,8 +90,6 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             templatePath: PersonalCodeHandler.templatePath,
             viewData
         };
-
-        // call API service to patch data here?
     }
 
 }
