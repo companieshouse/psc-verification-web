@@ -1,115 +1,112 @@
+import { HttpStatusCode } from "axios";
 import * as httpMocks from "node-mocks-http";
 import { Urls } from "../../../../src/constants";
-import { PersonalCodeHandler } from "../../../../src/routers/handlers/personal-code/personalCodeHandler";
-import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_PATCH, PATCH_PERSONAL_CODE_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
-import { getPscIndividual } from "../../../../src/services/pscService";
+import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { HttpStatusCode } from "axios";
-import { getPscVerification } from "../../../../src/services/pscVerificationService";
+import { COMPANY_NUMBER, IND_VERIFICATION_PERSONAL_CODE, PATCH_PERSONAL_CODE_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID } from "../../../mocks/pscVerification.mock";
+import { patchPscVerification } from "../../../../src/services/pscVerificationService";
+import { PersonalCodeHandler } from "../../../../src/routers/handlers/personal-code/personalCodeHandler";
 
-jest.mock("../../../../src/services/pscVerificationService");
-jest.mock("../../../../src/services/pscService");
+jest.mock("../../../../src/services/pscVerificationService", () => ({
+    getPscVerification: jest.fn(),
+    patchPscVerification: jest.fn(),
+    getPscIndividual: jest.fn()
+}));
 
-const mockGetPscVerification = getPscVerification as jest.Mock;
-const mockGetPscIndividual = getPscIndividual as jest.Mock;
+jest.mock("../../../../src/services/pscService", () => ({
+    getPscIndividual: () => ({
+        httpStatusCode: HttpStatusCode.Ok,
+        resource: PSC_INDIVIDUAL
+    }),
+    patchPscVerification: () => ({
+        httpStatusCode: HttpStatusCode.Ok,
+        resource: PATCH_PERSONAL_CODE_DATA
+    })
+}));
 
-describe("personal code handler tests", () => {
+jest.mock("../../../../src/lib/validation/form-validators/pscVerification");
 
+describe("Personal code handler", () => {
     beforeEach(() => {
-        jest.clearAllMocks();
-        mockGetPscVerification.mockResolvedValue({
-            httpStatusCode: HttpStatusCode.Ok,
-            resource: INDIVIDUAL_VERIFICATION_PATCH
-        });
+        middlewareMocks.mockSessionMiddleware.mockClear();
+    });
 
-        mockGetPscIndividual.mockResolvedValue({
-            httpStatusCode: HttpStatusCode.Ok,
-            resource: PSC_INDIVIDUAL
-        });
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     describe("executeGet", () => {
 
-        it("should return the correct template path", async () => {
-
+        it("should resolve correct view data", async () => {
             const req = httpMocks.createRequest({
                 method: "GET",
-                url: Urls.PERSONAL_CODE
-            });
-
-            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_PATCH } });
-            const handler = new PersonalCodeHandler();
-
-            const { templatePath, viewData } = await handler.executeGet(req, res);
-
-            expect(templatePath).toBe("router_views/personal_code/personal_code");
-        });
-
-        it("should return the correct view data", async () => {
-            const req = httpMocks.createRequest({
-                method: "GET",
-                url: Urls.PSC_TYPE,
+                url: Urls.PSC_VERIFIED,
                 params: {
                     transactionId: TRANSACTION_ID,
                     submissionId: PSC_VERIFICATION_ID
                 },
                 query: {
-                    companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_VERIFICATION_ID,
-                    lang: "en"
+                    lang: "en",
+                    pscType: "individual"
                 }
+
+            });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE } });
+            const handler = new PersonalCodeHandler();
+            const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
+
+            const resp = await handler.executeGet(req, res);
+
+            expect(resp.templatePath).toBe("router_views/personal_code/personal_code");
+            expect(resp.viewData).toMatchObject({
+                currentUrl: `${expectedPrefix}/individual/personal-code?lang=en`,
+                personalCode: "123abc456edf",
+                pscName: "Sir Forename Middlename Surname",
+                monthYearBorn: "April 2000",
+                backURL: `${expectedPrefix}/individual/psc-list?lang=en`,
+                backLinkDataEvent: "personal-code-back-link",
+                errors: {}
             });
         });
+    });
 
-        it("should have the correct page URLs", async () => {
+    describe("executePost", () => {
+        it("should patch the submission data", async () => {
             const req = httpMocks.createRequest({
-                method: "GET",
-                url: Urls.PSC_TYPE,
+                method: "POST",
+                url: Urls.INDIVIDUAL_STATEMENT,
                 params: {
                     transactionId: TRANSACTION_ID,
                     submissionId: PSC_VERIFICATION_ID
                 },
                 query: {
-                    companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_VERIFICATION_ID,
-                    lang: "en"
+                    lang: "en",
+                    pscType: "individual"
+                },
+                body: {
+                    personalCode: UVID
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_PATCH } });
+
+            const res = httpMocks.createResponse();
+            res.locals.submission = {
+                data: {
+                    companyNumber: COMPANY_NUMBER,
+                    pscAppointmentId: PSC_VERIFICATION_ID
+                }
+            };
+
             const handler = new PersonalCodeHandler();
 
-            const { templatePath, viewData } = await handler.executeGet(req, res);
+            const model = await handler.executePost(req, res);
 
-            expect(viewData).toMatchObject({
-                backURL: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-list?lang=en`,
-                currentUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code?lang=en`
+            expect(patchPscVerification).toHaveBeenCalledTimes(1);
+            expect(patchPscVerification).toHaveBeenCalledWith(req, TRANSACTION_ID, PSC_VERIFICATION_ID, {
+                verificationDetails: {
+                    uvid: UVID
+                }
             });
         });
     });
 
-    describe.skip("executePost", () => {
-        const req = httpMocks.createRequest({
-            method: "POST",
-            url: Urls.PERSONAL_CODE,
-            params: {
-                transactionId: TRANSACTION_ID,
-                submissionId: PSC_VERIFICATION_ID
-            },
-            query: {
-                lang: "en",
-                companyNumber: COMPANY_NUMBER,
-                pscAppointmentId: PSC_VERIFICATION_ID
-            },
-            body: {
-                PscVerificationData: PATCH_PERSONAL_CODE_DATA
-            }
-        });
-
-        const res = httpMocks.createResponse({});
-        const handler = new PersonalCodeHandler();
-
-        const redirectUrl = handler.executePost(req, res);
-
-        // expect(redirectUrl).toBe(`persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-statement?lang=en`);
-    });
 });

@@ -25,6 +25,14 @@ export const INDIVIDUAL_DATA: PscVerificationData = {
     }
 };
 
+export const PATCHED_PERSONAL_CODE_DATA: PscVerificationData = {
+    companyNumber: COMPANY_NUMBER,
+    pscAppointmentId: PSC_VERIFICATION_ID,
+    verificationDetails: {
+        uvid: UVID
+    }
+};
+
 export const PATCH_INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscAppointmentId: PSC_VERIFICATION_ID
@@ -109,6 +117,7 @@ function initPscVerification (data: PscVerificationData) {
 // Returns the PSC verification with data fields in camel case
 export const INDIVIDUAL_VERIFICATION_CREATED: PscVerification = initPscVerification(INITIAL_PSC_DATA);
 export const INDIVIDUAL_VERIFICATION_FULL: PscVerification = initPscVerification(INDIVIDUAL_DATA);
+export const IND_VERIFICATION_PERSONAL_CODE: PscVerification = initPscVerification(PATCHED_PERSONAL_CODE_DATA);
 export const INDIVIDUAL_VERIFICATION_PATCH: PscVerification = initPscVerification(PATCH_INDIVIDUAL_DATA);
 export const RLE_VERIFICATION_PATCH: PscVerification = initPscVerification(PATCH_RLE_DATA);
 export const RLE_VERIFICATION_FULL: PscVerification = initPscVerification(RLE_DATA_FULL);
