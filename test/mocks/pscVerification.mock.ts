@@ -33,6 +33,14 @@ export const PATCHED_PERSONAL_CODE_DATA: PscVerificationData = {
     }
 };
 
+export const BLANK_PERSONAL_CODE_DATA: PscVerificationData = {
+    companyNumber: COMPANY_NUMBER,
+    pscAppointmentId: PSC_VERIFICATION_ID,
+    verificationDetails: {
+        uvid: ""
+    }
+};
+
 export const PATCH_INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscAppointmentId: PSC_VERIFICATION_ID
@@ -53,6 +61,12 @@ export const PATCH_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
 export const PATCH_PERSONAL_CODE_DATA: PscVerificationData = {
     verificationDetails: {
         uvid: UVID
+    }
+};
+
+export const PATCH_BLANK_PERSONAL_CODE_DATA: PscVerificationData = {
+    verificationDetails: {
+        uvid: ""
     }
 };
 

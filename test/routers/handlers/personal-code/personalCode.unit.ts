@@ -24,7 +24,13 @@ jest.mock("../../../../src/services/pscService", () => ({
     })
 }));
 
-jest.mock("../../../../src/lib/validation/form-validators/pscVerification");
+const mockValidatePersonalCode = jest.fn();
+
+jest.mock("../../../../src/lib/validation/form-validators/pscVerification", () => ({
+    PscVerificationFormsValidator: jest.fn().mockImplementation(() => ({
+        validatePersonalCode: mockValidatePersonalCode
+    }))
+}));
 
 describe("Personal code handler", () => {
     beforeEach(() => {
@@ -72,6 +78,7 @@ describe("Personal code handler", () => {
 
     describe("executePost", () => {
         it("should patch the submission data", async () => {
+
             const req = httpMocks.createRequest({
                 method: "POST",
                 url: Urls.INDIVIDUAL_STATEMENT,
@@ -107,6 +114,60 @@ describe("Personal code handler", () => {
                 }
             });
         });
+
+        it("should handle errors and return the correct view data with errors", async () => {
+
+            const req = httpMocks.createRequest({
+                method: "POST",
+                url: Urls.INDIVIDUAL_STATEMENT,
+                params: {
+                    transactionId: TRANSACTION_ID,
+                    submissionId: PSC_VERIFICATION_ID
+                },
+                query: {
+                    lang: "en",
+                    pscType: "individual"
+                },
+                body: {
+                    personalCode: ""
+                }
+            });
+
+            // create an error response
+            const res = httpMocks.createResponse();
+            res.locals.submission = {
+                data: {
+                    companyNumber: COMPANY_NUMBER,
+                    pscAppointmentId: PSC_VERIFICATION_ID
+                }
+            };
+
+            const errors = {
+                status: 400,
+                name: "VALIDATION_ERRORS",
+                message: "validation_error_summary",
+                stack: {
+                    personalCode: {
+                        summary: "Enter the Companies House personal code for Ralph Tudor",
+                        inline: "Enter the Companies House personal code for Ralph Tudor"
+                    }
+                }
+            };
+
+            mockValidatePersonalCode.mockImplementationOnce(() => Promise.reject(errors));
+
+            const handler = new PersonalCodeHandler();
+            const result = await handler.executePost(req, res);
+
+            expect(patchPscVerification).toHaveBeenCalledTimes(0);
+            expect(result.viewData.errors).toBeDefined();
+            expect(result.viewData.errors.personalCode).toEqual({
+                summary: "Enter the Companies House personal code for Ralph Tudor",
+                inline: "Enter the Companies House personal code for Ralph Tudor"
+            });
+
+        });
+
     });
 
 });
