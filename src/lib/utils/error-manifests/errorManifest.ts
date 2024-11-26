@@ -21,20 +21,6 @@ const errorManifest = (lang: string = "en", attribute: string = "") => ({
             },
             incorrect: {}
         },
-        pscVerificationStatus: {
-            blank: {
-                summary: "Select the PSC you're providing verification details for",
-                inline: "Select the PSC you're providing verification details for"
-            },
-            incorrect: {}
-        },
-        relevantOfficerConfirmation: {
-            blank: {
-                summary: "Confirm if the relevant officer is a director of the relevant legal entity, or someone whose roles and responsibilities correspond to that of a company director.",
-                inline: "Confirm if the relevant officer is a director of the relevant legal entity, or someone whose roles and responsibilities correspond to that of a company director."
-            },
-            incorrect: {}
-        },
         personalCode: {
             blank: {
                 summary: (localesService.i18nCh.resolveSingleKey("personal_code_error_summary", lang) + attribute),
