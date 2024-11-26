@@ -171,6 +171,33 @@ describe("personal code router/handler integration tests", () => {
             expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
             expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
         });
+
+        it("Should handle errors and return the correct view data with errors", async () => {
+            const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
+            const verification: PscVerificationData = {
+                verificationDetails: {
+                    uvid: ""
+                }
+            };
+
+            mockPatchPscVerification.mockResolvedValueOnce({
+                HttpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    ...PATCH_INDIVIDUAL_DATA, ...verification
+                }
+            });
+
+            const resp = await request(app)
+                .post(uri)
+                .send({ personalCode: "" });
+
+            const $ = cheerio.load(resp.text);
+
+            expect(mockPatchPscVerification).toHaveBeenCalledTimes(0);
+            // Note is a validation error
+            expect(resp.status).toBe(HttpStatusCode.Ok);
+
+        });
     });
 
 });

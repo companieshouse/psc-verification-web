@@ -23,29 +23,28 @@
         <h1 class="govuk-heading-l" id="personal-code--title">
             {{title}}
         </h1>
+        
         <div class="govuk-form-group">
+            {% set inputOptions = {
+                id: "personalCode",
+                classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
+                name: "personalCode",
+                value: personalCode
+            } %}
 
             {% if errors is not undefined and errors is not null and errors | length %}
-            {{ govukInput({
-                    id: "personalCode",
-                    classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
-                    name: "personalCode",
-                    value: personalCode,
+                {% set inputOptions = {
+                    id: inputOptions.id,
+                    classes: inputOptions.classes,
+                    name: inputOptions.name,
+                    value: inputOptions.value,
                     errorMessage: {
                         text: i18n.personal_code_error_inline + pscName
                     }
-                })
-            }}
-
-            {% else %}
-            {{ govukInput({
-                    id: "personalCode",
-                    classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
-                    name: "personalCode",
-                    value: personalCode
-                })
-            }}
+                } %}
             {% endif %}
+
+            {{ govukInput(inputOptions) }}
 
             {{ govukDetails({
                     summaryText: i18n.personal_code_details_summaryText,
