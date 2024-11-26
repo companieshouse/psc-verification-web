@@ -15,12 +15,12 @@ jest.mock("../../../../src/services/companyPscService");
 const mockGetCompanyIndividualPscList = getCompanyIndividualPscList as jest.Mock;
 mockGetCompanyIndividualPscList.mockResolvedValueOnce(VALID_COMPANY_PSC_ITEMS.filter(psc => /^individual/.test(psc.kind)));
 
-describe("psc type handler", () => {
+describe("psc list handler", () => {
 
     afterEach(() => {
         jest.clearAllMocks();
     });
-    describe("execute", () => {
+    describe("executeGet", () => {
         it("should return the correct template path and view data", async () => {
             const req = httpMocks.createRequest({
                 method: "GET",
@@ -34,7 +34,7 @@ describe("psc type handler", () => {
             const res = httpMocks.createResponse({});
             const handler = new IndividualPscListHandler();
 
-            const { templatePath, viewData } = await handler.execute(req, res);
+            const { templatePath, viewData } = await handler.executeGet(req, res);
 
             expect(templatePath).toBe("router_views/individualPscList/individualPscList");
             expect(viewData).toMatchObject({

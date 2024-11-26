@@ -75,8 +75,8 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         }
     }
 
-    public async execute (req: Request, res: Response): Promise<ViewModel<IndividualPscListViewData>> {
-        logger.info(`${IndividualPscListHandler.name} - ${this.execute.name} `);
+    public async executeGet (req: Request, res: Response): Promise<ViewModel<IndividualPscListViewData>> {
+        logger.info(`${IndividualPscListHandler.name} - ${this.executeGet.name} `);
         const viewData = await this.getViewData(req, res);
 
         return {
