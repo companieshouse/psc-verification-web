@@ -1,6 +1,10 @@
 export const servicePathPrefix = "/persons-with-significant-control-verification";
 const urlWithTransactionIdAndSubmissionId = "/transaction/:transactionId/submission/:submissionId";
 
+export enum STOP_TYPE {
+    DOB_MISMATCH = "dob_mismatch"
+};
+
 export const Urls = {
     ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
     HEALTHCHECK: "/healthcheck",
@@ -13,7 +17,8 @@ export const Urls = {
     PERSONAL_CODE: `${urlWithTransactionIdAndSubmissionId}/individual/personal-code`,
     INDIVIDUAL_STATEMENT: `${urlWithTransactionIdAndSubmissionId}/individual/psc-statement`,
     PSC_VERIFIED: `${urlWithTransactionIdAndSubmissionId}/psc-verified`,
-    RLE_LIST: `${urlWithTransactionIdAndSubmissionId}/rle/rle-list`
+    RLE_LIST: `${urlWithTransactionIdAndSubmissionId}/rle/rle-list`,
+    STOP_SCREEN_DOB_MISMATCH: `${urlWithTransactionIdAndSubmissionId}/dob-mismatch`
 } as const;
 
 export const PrefixedUrls = {
@@ -29,6 +34,7 @@ export const PrefixedUrls = {
     INDIVIDUAL_STATEMENT: servicePathPrefix + Urls.INDIVIDUAL_STATEMENT,
     PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
     RLE_LIST: servicePathPrefix + Urls.RLE_LIST,
+    STOP_SCREEN_DOB_MISMATCH: servicePathPrefix + Urls.STOP_SCREEN_DOB_MISMATCH,
     COOKIES: "/help/cookies"
 } as const;
 
