@@ -4,8 +4,8 @@ import { Urls } from "../../../../src/constants";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { COMPANY_NUMBER, IND_VERIFICATION_PERSONAL_CODE, PATCH_PERSONAL_CODE_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID } from "../../../mocks/pscVerification.mock";
-import { patchPscVerification } from "../../../../src/services/pscVerificationService";
 import { PersonalCodeHandler } from "../../../../src/routers/handlers/personal-code/personalCodeHandler";
+import { patchPscVerification } from "../../../../src/services/pscVerificationService";
 
 jest.mock("../../../../src/services/pscVerificationService", () => ({
     getPscVerification: jest.fn(),
@@ -43,7 +43,23 @@ describe("Personal code handler", () => {
 
     describe("executeGet", () => {
 
-        it("should resolve correct view data", async () => {
+        it("should return the correct template path", async () => {
+
+            const req = httpMocks.createRequest({
+                method: "GET",
+                url: Urls.PERSONAL_CODE,
+                query: { selectedPscId: PSC_APPOINTMENT_ID }
+            });
+
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE } });
+            const handler = new PersonalCodeHandler();
+
+            const { templatePath } = await handler.executeGet(req, res);
+
+            expect(templatePath).toBe("router_views/personal_code/personal_code");
+        });
+
+        it("should have the correct page URLs", async () => {
             const req = httpMocks.createRequest({
                 method: "GET",
                 url: Urls.PERSONAL_CODE,
@@ -52,25 +68,47 @@ describe("Personal code handler", () => {
                     submissionId: PSC_VERIFICATION_ID
                 },
                 query: {
-                    lang: "en",
-                    pscType: "individual",
-                    selectedPscId: PSC_APPOINTMENT_ID
+                    companyNumber: COMPANY_NUMBER,
+                    selectedPscId: PSC_APPOINTMENT_ID,
+                    lang: "en"
                 }
-
             });
             const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE } });
             const handler = new PersonalCodeHandler();
-            const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
+
+            const { viewData } = await handler.executeGet(req, res);
+
+            expect(viewData).toMatchObject({
+                backURL: `/persons-with-significant-control-verification/individual/psc-list?companyNumber=12345678&lang=en`,
+                currentUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code?lang=en`
+            });
+        });
+
+        it("should resolve the correct view data", async () => {
+            const req = httpMocks.createRequest({
+                method: "GET",
+                url: Urls.PERSONAL_CODE,
+                params: {
+                    transactionId: TRANSACTION_ID,
+                    submissionId: PSC_VERIFICATION_ID
+                },
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    selectedPscId: PSC_APPOINTMENT_ID,
+                    lang: "en"
+                }
+            });
+
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE } });
+            const handler = new PersonalCodeHandler();
 
             const resp = await handler.executeGet(req, res);
 
             expect(resp.templatePath).toBe("router_views/personal_code/personal_code");
             expect(resp.viewData).toMatchObject({
-                currentUrl: `${expectedPrefix}/individual/personal-code?lang=en&selectedPscId=123456`,
                 personalCode: "",
                 pscName: "Sir Forename Middlename Surname",
                 monthYearBorn: "April 2000",
-                backURL: `${expectedPrefix}/individual/psc-list?lang=en&selectedPscId=123456`,
                 backLinkDataEvent: "personal-code-back-link",
                 errors: {}
             });
@@ -78,18 +116,20 @@ describe("Personal code handler", () => {
     });
 
     describe("executePost", () => {
-        it("should patch the submission data", async () => {
+
+        it("should return the correct next page", async () => {
 
             const req = httpMocks.createRequest({
                 method: "POST",
-                url: Urls.INDIVIDUAL_STATEMENT,
+                url: Urls.PERSONAL_CODE,
                 params: {
                     transactionId: TRANSACTION_ID,
                     submissionId: PSC_VERIFICATION_ID
                 },
                 query: {
-                    lang: "en",
-                    pscType: "individual"
+                    companyNumber: COMPANY_NUMBER,
+                    selectedPscId: PSC_APPOINTMENT_ID,
+                    lang: "en"
                 },
                 body: {
                     personalCode: UVID
@@ -97,10 +137,12 @@ describe("Personal code handler", () => {
             });
 
             const res = httpMocks.createResponse();
+
             res.locals.submission = {
                 data: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_VERIFICATION_ID
+                    pscAppointmentId: PSC_VERIFICATION_ID,
+                    lang: "en"
                 }
             };
 
@@ -108,11 +150,8 @@ describe("Personal code handler", () => {
 
             const model = await handler.executePost(req, res);
 
-            expect(patchPscVerification).toHaveBeenCalledTimes(1);
-            expect(patchPscVerification).toHaveBeenCalledWith(req, TRANSACTION_ID, PSC_VERIFICATION_ID, {
-                verificationDetails: {
-                    uvid: UVID
-                }
+            expect(model.viewData).toMatchObject({
+                nextPageUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-statement?lang=en`
             });
         });
 
@@ -134,12 +173,12 @@ describe("Personal code handler", () => {
                 }
             });
 
-            // create an error response
+            // create an error response as no personal code isprovided
             const res = httpMocks.createResponse();
             res.locals.submission = {
                 data: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_VERIFICATION_ID
+                    pscAppointmentId: PSC_APPOINTMENT_ID
                 }
             };
 

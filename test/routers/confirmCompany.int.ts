@@ -53,9 +53,9 @@ describe("ConfirmCompany router/handler integration tests", () => {
 
     describe("POST method", () => {
 
-        it("Should redirect to the new submission router with a temporary redirect status code", async () => {
+        it("Should redirect to the psc-list router with a temporary redirect status code", async () => {
             const lang = "en";
-            const expectedRedirectUrl = `/persons-with-significant-control-verification/new-submission?companyNumber=${COMPANY_NUMBER}&lang=${lang}`;
+            const expectedRedirectUrl = `/persons-with-significant-control-verification/individual/psc-list?companyNumber=${COMPANY_NUMBER}&lang=${lang}`;
 
             await request(app)
                 .post(PrefixedUrls.CONFIRM_COMPANY)

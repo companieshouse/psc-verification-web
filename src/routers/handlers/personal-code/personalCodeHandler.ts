@@ -27,8 +27,8 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
         const baseViewData = await super.getViewData(req, res);
         const verification: PscVerification = res.locals.submission;
-        const selectedPscId = req.query?.selectedPscId as string;
-        const pscIndividual = await getPscIndividual(req, verification.data.companyNumber as string, selectedPscId);
+        const companyNumber = verification.data.companyNumber as string;
+        const pscIndividual = await getPscIndividual(req, companyNumber, verification.data.pscAppointmentId as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
@@ -39,13 +39,13 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             monthYearBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
             personalCode: verification?.data?.verificationDetails?.uvid || "",
             currentUrl: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
-            backURL: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_PSC_LIST),
+            backURL: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang }),
             templateName: Urls.PERSONAL_CODE,
             backLinkDataEvent: "personal-code-back-link"
         };
 
         function resolveUrlTemplate (prefixedUrl: string): string | null {
-            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { lang, selectedPscId });
+            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { lang });
         }
     }
 

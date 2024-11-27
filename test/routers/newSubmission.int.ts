@@ -36,8 +36,8 @@ describe("NewSubmission router/handler integration tests", () => {
 
     describe("GET method`", () => {
 
-        it.each(["en", "cy"])("Should redirect to the PSC_TYPE screen with query param lang=\"%s\"", async (lang) => {
-            const expectedRedirectUrl = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/psc-type?lang=${lang}`;
+        it.each(["en", "cy"])("Should redirect to the PERSONAL_CODE screen with query param lang=\"%s\"", async (lang) => {
+            const expectedRedirectUrl = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code?lang=${lang}`;
 
             await request(app).get(PrefixedUrls.NEW_SUBMISSION)
                 .query({ companyNumber: `${COMPANY_NUMBER}`, lang })

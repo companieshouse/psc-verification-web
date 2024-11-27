@@ -45,6 +45,21 @@
             {% endif %}
 
             {{ govukInput(inputOptions) }}
+            {{ govukInput({
+                    id: "selectedPscId",
+                    type:"hidden",
+                    name: "selectedPscId",
+                    value: selectedPscId
+                })
+            }}
+
+            {{ govukInput({
+                    id: "selectedPscId",
+                    type:"hidden",
+                    name: "selectedPscId",
+                    value: selectedPscId
+                })
+            }}
 
             {{ govukDetails({
                     summaryText: i18n.personal_code_details_summaryText,
@@ -55,7 +70,7 @@
                     }
                 })
             }}
-
+            
             {{ govukButton({
                     attributes: {
                         id: "submit", "data-event-id": "personal-code-continue-button"

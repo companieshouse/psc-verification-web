@@ -64,7 +64,7 @@ describe("personal code router/handler integration tests", () => {
 
             const $ = cheerio.load(resp.text);
 
-            expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/psc-list?lang=en&selectedPscId=123456");
+            expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/individual/psc-list?companyNumber=12345678&lang=en");
         });
 
         it("Should display the PSC inidividual's name and DOB on the Personal Code page", async () => {
