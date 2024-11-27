@@ -14,7 +14,7 @@ interface PscVerifiedViewData extends BaseViewData {
     companyNumber: string;
     pscName: string;
     companyLookupUrl: string;
-    createNewSubmissionUrl: string;
+    pscListUrl: string;
 }
 
 export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
@@ -44,7 +44,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
             companyNumber: companyNumber,
             pscName: pscDetailsResponse.resource?.name!,
             referenceNumber: transactionId,
-            createNewSubmissionUrl: addSearchParams(PrefixedUrls.NEW_SUBMISSION, { companyNumber, lang }),
+            pscListUrl: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang }),
             companyLookupUrl: addSearchParams(ExternalUrls.COMPANY_LOOKUP, { forward }),
             templateName: Urls.PSC_VERIFIED
         };
