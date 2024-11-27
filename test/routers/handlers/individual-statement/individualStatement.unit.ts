@@ -54,7 +54,7 @@ describe("Individual statement handler", () => {
 
             expect(resp.templatePath).toBe("router_views/individual_statement/individual_statement");
             expect(resp.viewData).toMatchObject({
-                currentUrl: `${expectedPrefix}/individual/psc-statement?lang=en`,
+                currentUrl: `${expectedPrefix}/individual/psc-statement?lang=en&selectedPscId=123456`,
                 selectedStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED],
                 pscName: "Sir Forename Middlename Surname",
                 dateOfBirth: "April 2000",

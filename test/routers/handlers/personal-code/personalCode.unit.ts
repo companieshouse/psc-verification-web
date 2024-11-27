@@ -3,7 +3,7 @@ import * as httpMocks from "node-mocks-http";
 import { Urls } from "../../../../src/constants";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { COMPANY_NUMBER, IND_VERIFICATION_PERSONAL_CODE, PATCH_PERSONAL_CODE_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, IND_VERIFICATION_PERSONAL_CODE, PATCH_PERSONAL_CODE_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID } from "../../../mocks/pscVerification.mock";
 import { patchPscVerification } from "../../../../src/services/pscVerificationService";
 import { PersonalCodeHandler } from "../../../../src/routers/handlers/personal-code/personalCodeHandler";
 
@@ -46,14 +46,15 @@ describe("Personal code handler", () => {
         it("should resolve correct view data", async () => {
             const req = httpMocks.createRequest({
                 method: "GET",
-                url: Urls.PSC_VERIFIED,
+                url: Urls.PERSONAL_CODE,
                 params: {
                     transactionId: TRANSACTION_ID,
                     submissionId: PSC_VERIFICATION_ID
                 },
                 query: {
                     lang: "en",
-                    pscType: "individual"
+                    pscType: "individual",
+                    selectedPscId: PSC_APPOINTMENT_ID
                 }
 
             });
@@ -65,11 +66,11 @@ describe("Personal code handler", () => {
 
             expect(resp.templatePath).toBe("router_views/personal_code/personal_code");
             expect(resp.viewData).toMatchObject({
-                currentUrl: `${expectedPrefix}/individual/personal-code?lang=en`,
-                personalCode: "123abc456edf",
+                currentUrl: `${expectedPrefix}/individual/personal-code?lang=en&selectedPscId=123456`,
+                personalCode: "",
                 pscName: "Sir Forename Middlename Surname",
                 monthYearBorn: "April 2000",
-                backURL: `${expectedPrefix}/individual/psc-list?lang=en`,
+                backURL: `${expectedPrefix}/individual/psc-list?lang=en&selectedPscId=123456`,
                 backLinkDataEvent: "personal-code-back-link",
                 errors: {}
             });

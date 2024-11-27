@@ -15,6 +15,7 @@ interface PersonalCodeViewData extends BaseViewData {
     pscName: string,
     monthYearBorn: string,
     personalCode: string,
+    selectedPscId: string,
     nextPageUrl: string
 }
 
@@ -26,7 +27,8 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
         const baseViewData = await super.getViewData(req, res);
         const verification: PscVerification = res.locals.submission;
-        const pscIndividual = await getPscIndividual(req, verification.data.companyNumber as string, verification.data.pscAppointmentId as string);
+        const selectedPscId = req.query?.selectedPscId as string;
+        const pscIndividual = await getPscIndividual(req, verification.data.companyNumber as string, selectedPscId);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
@@ -43,7 +45,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         };
 
         function resolveUrlTemplate (prefixedUrl: string): string | null {
-            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { lang });
+            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { lang, selectedPscId });
         }
     }
 
@@ -67,6 +69,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
             const queryParams = new URLSearchParams(req.url.split("?")[1]);
             const verification: PscVerificationData = {
+                pscAppointmentId: req.query?.selectedPscId as string,
                 verificationDetails: {
                     uvid: uvid
                 }
