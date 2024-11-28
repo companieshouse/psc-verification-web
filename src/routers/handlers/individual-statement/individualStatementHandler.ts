@@ -9,9 +9,15 @@ import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn } from "../../utils";
 import { PscVerificationData, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { PscVerificationFormsValidator } from "../../../lib/validation/form-validators/pscVerification";
 
-interface IndividualStatementViewData extends BaseViewData {pscName: string, selectedStatements: string[], dateOfBirth: string, selectedPscId: string}
-
+interface IndividualStatementViewData extends BaseViewData {
+    pscName: string,
+    selectedStatements: string[],
+    dateOfBirth: string,
+    selectedPscId: string,
+    nextPageUrl: string
+}
 export class IndividualStatementHandler extends GenericHandler<IndividualStatementViewData> {
 
     private static templatePath = "router_views/individual_statement/individual_statement";
@@ -20,8 +26,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
 
         const baseViewData = await super.getViewData(req, res);
         const verification = res.locals.submission;
-        const pscDetailsResponse = await getPscIndividual(req, verification?.data.companyNumber as string,
-                                                verification?.data.pscAppointmentId as string);
+        const pscDetailsResponse = await getPscIndividual(req, verification?.data.companyNumber as string, verification?.data.pscAppointmentId as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const selectedStatements = verification?.data?.verificationDetails?.verificationStatements || [];
@@ -55,24 +60,42 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
         };
     }
 
-    public async executePost (req: Request, res: Response) {
+    public async executePost (req: Request, res: Response): Promise<ViewModel<IndividualStatementViewData>> {
         logger.info(`${IndividualStatementHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
-        const statement: VerificationStatementEnum = req.body.pscIndividualStatement; // a single string rather than string[] is returned (because there is only 1 checkbox in the group?)
-        const selectedStatements = [statement];
+        const viewData = await this.getViewData(req, res);
 
-        const verification: PscVerificationData = {
-            verificationDetails: {
-                verificationStatements: selectedStatements
-            }
+        try {
+            const lang = selectLang(req.query.lang);
+            const statement: VerificationStatementEnum = req.body.pscIndividualStatement; // a single string rather than string[] is returned (because there is only 1 checkbox in the group?)
+            const selectedStatements = [statement];
+
+            const verification: PscVerificationData = {
+                verificationDetails: {
+                    verificationStatements: selectedStatements
+                }
+            };
+
+            const queryParams = new URLSearchParams(req.url.split("?")[1]);
+            queryParams.set("lang", lang);
+            queryParams.set("selectedStatements", selectedStatements[0]);
+
+            const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, req.params.transactionId, req.params.submissionId);
+            viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
+            const validator = new PscVerificationFormsValidator(lang);
+            viewData.errors = await validator.validateIndividualStatement(req.body, lang, viewData.pscName);
+
+            logger.debug(`${IndividualStatementHandler.name} - ${this.executePost.name} - patching individual verification statement for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+            await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
+
+        } catch (err: any) {
+            logger.error(`${req.method} error: problem handling PSC details (personal code) request: ${err.message}`);
+            viewData.errors = this.processHandlerException(err);
+        }
+
+        return {
+            templatePath: IndividualStatementHandler.templatePath,
+            viewData
         };
-
-        logger.info(`Updating resource with verification statements: ${selectedStatements} for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
-
-        logger.debug(`${IndividualStatementHandler.name} - ${this.executePost.name} - patching individual verification statement for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
-        await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
-
-        const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, req.params.transactionId, req.params.submissionId);
-        const lang = selectLang(req.query.lang);
-        return (addSearchParams(nextPageUrl, { lang }));
     }
+
 }

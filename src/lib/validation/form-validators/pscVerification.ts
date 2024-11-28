@@ -30,15 +30,47 @@ export class PscVerificationFormsValidator extends GenericValidator {
         }
     }
 
-    validateRleVerificationStatus (payload: any): Promise<any> {
-        return Promise.resolve({});
+    validatePersonalCode (payload: any, _lang: string, pscName: string): Promise<Object> {
+        logger.info(`Request to validate Personal Code form`);
+        this.errorManifest = errorManifest(this.lang, pscName);
+
+        try {
+            if (typeof payload.personalCode === "undefined" || payload.personalCode === "") {
+                this.errors.stack.personalCode = this.errorManifest.validation.personalCode.blank;
+            }
+
+            // validate additional form fields here
+            if (!Object.keys(this.errors.stack).length) {
+                return Promise.resolve({});
+            } else {
+                return Promise.reject(this.errors);
+            }
+        } catch (err) {
+            this.errors.serverError = this.errorManifest.generic.serverError;
+            return Promise.reject(this.errors);
+        }
     }
 
-    validateRelevantOfficerDetails (payload: any): Promise<any> {
-        return Promise.resolve({});
+    validateIndividualStatement (payload: any, _lang: string, pscName: string): Promise<Object> {
+        logger.info(`Request to validate Individual Statement form`);
+        this.errorManifest = errorManifest(this.lang, pscName);
+
+        try {
+            if (typeof payload.pscIndividualStatement === "undefined" || payload.pscIndividualStatement === "") {
+                this.errors.stack.individualStatement = this.errorManifest.validation.individualStatement.blank;
+            }
+
+            // validate additional form fields here
+            if (!Object.keys(this.errors.stack).length) {
+                return Promise.resolve({});
+            } else {
+                return Promise.reject(this.errors);
+            }
+        } catch (err) {
+            this.errors.serverError = this.errorManifest.generic.serverError;
+            return Promise.reject(this.errors);
+        }
     }
 
-    validateRelevantOfficerConfirmationStatements (payload: any): Promise<any> {
-        return Promise.resolve({});
-    }
+
 };
