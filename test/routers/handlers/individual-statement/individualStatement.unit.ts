@@ -24,10 +24,10 @@ jest.mock("../../../../src/services/pscService", () => ({
     })
 }));
 
-const  mockValidateIndividualStatement = jest.fn();
+const mockValidateIndividualStatement = jest.fn();
 jest.mock("../../../../src/lib/validation/form-validators/pscVerification", () => ({
     PscVerificationFormsValidator: jest.fn().mockImplementation(() => ({
-        validateIndividualStatement:  mockValidateIndividualStatement
+        validateIndividualStatement: mockValidateIndividualStatement
     }))
 }));
 
@@ -174,7 +174,7 @@ describe("Individual statement handler", () => {
                     }
                 }
             };
-            
+
             mockValidateIndividualStatement.mockImplementationOnce(() => Promise.reject(errors));
 
             const handler = new IndividualStatementHandler();
