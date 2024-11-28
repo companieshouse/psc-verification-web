@@ -1,0 +1,16 @@
+{% extends "layouts/default.njk" %}
+
+{% set title = i18n.super_secure_main_title %}
+
+{% block main_content %}
+
+    <h1 class="govuk-heading-l">{{ i18n.super_secure_main_title }}</h1>
+    <p class="govuk-body">{{ i18n.super_secure_statement_1 }}{{startDate}}</p>
+    <p class="govuk-body">{{ i18n.super_secure_statement_2 }}</p>
+    <p class="govuk-body">{{ i18n.super_secure_statement_3_1 }}
+        <a href="mailto:{{ dsrEmailAddress }}" class="govuk-link" target="_blank" data-event-id="-link">{{ dsrEmailAddress}}</a>
+        {{ i18n.super_secure_statement_3_2 }}
+        {{ dsrPhoneNumber }}{{ i18n.super_secure_statement_3_3 }}
+    </p>
+
+{% endblock %}

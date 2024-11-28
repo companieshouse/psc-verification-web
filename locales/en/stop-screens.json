@@ -9,5 +9,11 @@
     "dob_mismatch_corrections_link_text": "submit the paper corrections forms with the correct date of birth.",
     "dob_mismatch_up_to_date": "When the details are up to date on the register, you will be able to return to this service and provide your Companies House personal code.",
     "dob_mismatch_authorised_agent": "If you verififed using an authroised agent, check they entered the correct date of birth",
-    "dob_mismatch_verified_identity": "If you verififed your identity through an authorised agent (such as an accountant), confirm that they typed your details in correctly when they verified your identity."
+    "dob_mismatch_verified_identity": "If you verififed your identity through an authorised agent (such as an accountant), confirm that they typed your details in correctly when they verified your identity.",
+    "super_secure_main_title": "You cannot provide verification details for this company's PSCs online",
+    "super_secure_statement_1": "The details of this company and its people with significant control (PSC) are protected from being shown on the Companies House register.",
+    "super_secure_statement_2": "This means you'll need to provide the verification details of the company's PSCs using a paper form.",
+    "super_secure_statement_3_1": "To request a paper form, email",
+    "super_secure_statement_3_2": "or call",
+    "super_secure_statement_3_3": ", and provide the company name and number."
 }
