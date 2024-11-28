@@ -84,8 +84,7 @@ describe("individual statement view", () => {
         expect(resp.status).toBe(HttpStatusCode.Found);
         expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
         expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
-        // FIXME
-        // expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
+        expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
     });
 });
 

@@ -79,16 +79,18 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             queryParams.set("lang", lang);
             queryParams.set("selectedStatements", selectedStatements[0]);
 
-            const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, req.params.transactionId, req.params.submissionId);
-            viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
             const validator = new PscVerificationFormsValidator(lang);
             viewData.errors = await validator.validateIndividualStatement(req.body, lang, viewData.pscName);
+
+            queryParams.delete("selectedStatements");
+            const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, req.params.transactionId, req.params.submissionId);
+            viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
 
             logger.debug(`${IndividualStatementHandler.name} - ${this.executePost.name} - patching individual verification statement for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
             await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
 
         } catch (err: any) {
-            logger.error(`${req.method} error: problem handling PSC details (personal code) request: ${err.message}`);
+            logger.info(`${req.method} there was a problem processing the individual statement request for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
             viewData.errors = this.processHandlerException(err);
         }
 
