@@ -71,7 +71,7 @@ describe("companyPscService", () => {
             expect(error.message).toBe("getCompanyPscList returned no resource for company number 12345678");
         }
     });
-    it("getCompanyIndividualPscList should return only individual pscs", async () => {
+    it("getCompanyIndividualPscList should return only individual PSCs", async () => {
         const mockResponse: ApiResponse<CompanyPersonsWithSignificantControl> = {
             httpStatusCode: HttpStatusCode.Ok,
             resource: VALID_COMPANY_PSC_LIST
@@ -86,7 +86,7 @@ describe("companyPscService", () => {
             expect(item.kind).toEqual("individual-person-with-significant-control");
         });
     });
-    it("getCompanyIndividualPscList should return an empty list if no individual pscs exist for the company", async () => {
+    it("getCompanyIndividualPscList should return an empty list if no individual PSCs exist for the company", async () => {
         const mockResponse: ApiResponse<CompanyPersonsWithSignificantControl> = {
             httpStatusCode: HttpStatusCode.Ok,
             resource: EMPTY_COMPANY_PSC_LIST

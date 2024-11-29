@@ -88,8 +88,8 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
 // TODO update default when error page available.
 const selectPscType = (pscType: any): string => {
     switch (pscType) {
-    case "individual": return PrefixedUrls.INDIVIDUAL_PSC_LIST;
-    case "rle": return PrefixedUrls.RLE_LIST;
-    default: return PrefixedUrls.INDIVIDUAL_PSC_LIST;
+        case "individual": return PrefixedUrls.INDIVIDUAL_PSC_LIST;
+        case "rle": return PrefixedUrls.RLE_LIST;
+        default: return PrefixedUrls.INDIVIDUAL_PSC_LIST;
     }
 };
