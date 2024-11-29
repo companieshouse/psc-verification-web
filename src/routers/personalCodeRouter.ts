@@ -12,7 +12,14 @@ personalCodeRouter.get("/", handleExceptions(async (req: Request, res: Response)
 
 personalCodeRouter.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new PersonalCodeHandler();
-    res.redirect(await handler.executePost(req, res));
+    const params = await handler.executePost(req, res);
+
+    if (!Object.keys(params.viewData.errors).length) {
+        res.redirect(params.viewData.nextPageUrl);
+    } else {
+        res.render(params.templatePath, params.viewData);
+    }
+
 }));
 
 export default personalCodeRouter;
