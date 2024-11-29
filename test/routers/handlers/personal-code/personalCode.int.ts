@@ -4,8 +4,8 @@ import * as cheerio from "cheerio";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
 import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
-import { PrefixedUrls } from "../../../../src/constants";
-import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
+import { PrefixedUrls, STOP_TYPE } from "../../../../src/constants";
+import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
@@ -169,7 +169,9 @@ describe("personal code router/handler integration tests", () => {
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
-            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
+            // TODO: disabled until dob validation is possible
+            // expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
+            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.PSC_DOB_MISMATCH), TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
         });
     });
 

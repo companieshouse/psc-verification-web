@@ -3,9 +3,9 @@ import { env } from "../config/index";
 
 export const selectLang = (lang: any): string => {
     switch (lang) {
-    case "cy": return "cy";
-    case "en":
-    default: return "en";
+        case "cy": return "cy";
+        case "en":
+        default: return "en";
     }
 };
 
@@ -29,5 +29,4 @@ export const getLocaleInfo = (locales: LocalesService, lang: string) => {
     };
 };
 
-const localesSevice = LocalesService.getInstance(env.LOCALES_PATH, env.LOCALES_ENABLED === "true");
-export const getLocalesService = () => localesSevice;
+export const getLocalesService = () => LocalesService.getInstance(env.LOCALES_PATH, env.LOCALES_ENABLED === "true");

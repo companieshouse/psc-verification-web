@@ -5,20 +5,20 @@ import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
-import { CREATED_RESOURCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { INDIVIDUAL_VERIFICATION_CREATED, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
 import { URLSearchParams } from "url";
 
 jest.mock("../../../../src/services/pscVerificationService", () => ({
     getPscVerification: () => ({
         httpStatusCode: HttpStatusCode.Ok,
-        resource: CREATED_RESOURCE
+        resource: INDIVIDUAL_VERIFICATION_CREATED
     })
 }));
 
 const mockGetPscVerification = getPscVerification as jest.Mock;
 
-describe.skip("psc type view", () => {
+describe("psc type view", () => {
 
     beforeEach(() => {
         middlewareMocks.mockSessionMiddleware.mockClear();

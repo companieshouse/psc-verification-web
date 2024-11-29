@@ -5,6 +5,7 @@ import { CompanyNumberRouter, ConfirmCompanyRouter, HealthCheckRouter, Individua
 import { authenticate } from "./middleware/authentication";
 import { fetchVerification } from "./middleware/fetchVerification";
 import { fetchCompany } from "./middleware/fetchCompany";
+import { HttpStatusCode } from "axios";
 
 const routerDispatch = (app: Application) => {
 
@@ -24,11 +25,10 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.INDIVIDUAL_STATEMENT, authenticate, fetchVerification, IndividualStatementRouter);
     router.use(Urls.PSC_VERIFIED, authenticate, fetchVerification, fetchCompany, PscVerifiedRouter);
     router.use(Urls.RLE_LIST, authenticate, RlePscListRouter);
-
-    router.use(Urls.STOP_SCREEN_DOB_MISMATCH, authenticate, fetchVerification, StopScreenRouter);
+    router.use(Urls.STOP_SCREEN, authenticate, StopScreenRouter);
 
     router.use("*", (req: Request, res: Response) => {
-        res.status(404).render("partials/error_400");
+        res.status(HttpStatusCode.NotFound).render("partials/error_400");
     });
 };
 

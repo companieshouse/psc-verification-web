@@ -140,5 +140,14 @@ export const env = readEnv(process.env, {
         .default("false"),
     VERIFY_IDENTITY_LINK: str
         .describe("Path to guidance to Verify Identity")
-        .default("")
+        .default(""),
+    GET_RP01_LINK: url
+        .describe("Link to obtaining paper form RP01")
+        .default("https://www.gov.uk/government/publications/replace-a-document-not-meeting-requirements-rp01"),
+    GET_PSC01_LINK: url
+        .describe("Link to obtaining paper form PSC01")
+        .default("https://www.gov.uk/government/publications/give-notice-of-individual-person-with-significant-control-psc01"),
+    POST_TO_CH_LINK: url
+        .describe("Link to guidance on submission by post")
+        .default("https://www.gov.uk/government/news/posting-documents-to-companies-house")
 });
