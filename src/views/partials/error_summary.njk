@@ -1,5 +1,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
+<div class="govuk-grid-column-two-thirds">
+
 {% if errors is not undefined and errors is not null and errors | length %}
 <div class="govuk-error-summary" data-module="govuk-error-summary">
   <div role="alert">
@@ -24,3 +26,5 @@
   </div>
 </div>
 {% endif %}
+
+</div>
