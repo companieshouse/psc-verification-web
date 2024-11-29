@@ -16,16 +16,16 @@
     <p class="govuk-body">
         {{ i18n.dob_mismatch_character_code }}
         <a id="reenter-personal-code" href="{{ backURL }}" title="{{ i18n.dob_mismatch_try_again_link }}" class="govuk-link" data-event-id="try-again-link">
-            {{ i18n.dob_mismatch_try_again_link_text }}
-        </a>
+            {{ i18n.dob_mismatch_try_again_link_text -}}
+        </a>.
     </p>
 
     <h3 class="govuk-heading-s">{{ i18n.dob_mismatch_check_dob }}</h3>
     <p class="govuk-body">
         {{ i18n.dob_mismatch_if_wrong }}
         <a id="submit-paper-correction" href="{{ linkUrls[0] }}" title="{{ i18n.dob_mismatch_try_again_link }}" class="govuk-link" data-event-id="paper-correction-link">
-            {{ i18n.dob_mismatch_corrections_link_text }}
-        </a>
+            {{ i18n.dob_mismatch_corrections_link_text -}}
+        </a>.
     </p>
     <p class="govuk-body">{{ i18n.dob_mismatch_up_to_date }}</p>
 
