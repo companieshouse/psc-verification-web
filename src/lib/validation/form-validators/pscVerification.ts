@@ -39,7 +39,7 @@ export class PscVerificationFormsValidator extends GenericValidator {
     }
 
     private validateForm (payload: any, fieldName: string, errorKey: string, pscName: string): Promise<Object> {
-        logger.info(`${PscVerificationFormsValidator.name} - validating ${errorKey} form for ${pscName}`);
+        logger.debug(`${PscVerificationFormsValidator.name} - validating ${errorKey} form for ${pscName}`);
         this.errorManifest = errorManifest(this.lang, pscName);
 
         try {
@@ -59,6 +59,7 @@ export class PscVerificationFormsValidator extends GenericValidator {
 
     private validateForEmptyField (payload: any, fieldName: string, errorKey: string): void {
         if (typeof payload[fieldName] === "undefined" || payload[fieldName] === "") {
+            logger.info(`${PscVerificationFormsValidator.name} - a required field is either empty or undefined`);
             this.errors.stack[fieldName] = this.errorManifest.validation[errorKey].blank;
         }
     }

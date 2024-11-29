@@ -90,7 +90,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
 
         } catch (err: any) {
-            logger.info(`${req.method} there was a problem processing the individual statement request for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+            logger.info(`There was a problem executing ${req.method} for individual verification statement for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
             viewData.errors = this.processHandlerException(err);
         }
 
