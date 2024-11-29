@@ -28,10 +28,10 @@ const errorManifest = (lang: string = "en", attribute: string = "") => ({
             },
             incorrect: {}
         },
-        pscIdentityVerificationStatement: {
+        individualStatement: {
             blank: {
-                summary: "Confirm if the identity verification statement is correct",
-                inline: "Confirm if the identity verification statement is correct"
+                summary: (localesService.i18nCh.resolveSingleKey("individual_statement_error_summary", lang) + attribute),
+                inline: (localesService.i18nCh.resolveSingleKey("individual_statement__error_inline", lang) + attribute)
             },
             incorrect: {}
         }

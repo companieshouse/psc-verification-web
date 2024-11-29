@@ -31,13 +31,19 @@ export class PscVerificationFormsValidator extends GenericValidator {
     }
 
     validatePersonalCode (payload: any, _lang: string, pscName: string): Promise<Object> {
-        logger.info(`Request to validate Personal Code form`);
+        return this.validateForm(payload, "personalCode", "personalCode", pscName);
+    }
+
+    validateIndividualStatement (payload: any, _lang: string, pscName: string): Promise<Object> {
+        return this.validateForm(payload, "pscIndividualStatement", "individualStatement", pscName);
+    }
+
+    private validateForm (payload: any, fieldName: string, errorKey: string, pscName: string): Promise<Object> {
+        logger.debug(`${PscVerificationFormsValidator.name} - validating ${errorKey} form for ${pscName}`);
         this.errorManifest = errorManifest(this.lang, pscName);
 
         try {
-            if (typeof payload.personalCode === "undefined" || payload.personalCode === "") {
-                this.errors.stack.personalCode = this.errorManifest.validation.personalCode.blank;
-            }
+            this.validateForEmptyField(payload, fieldName, errorKey);
 
             // validate additional form fields here
             if (!Object.keys(this.errors.stack).length) {
@@ -51,15 +57,11 @@ export class PscVerificationFormsValidator extends GenericValidator {
         }
     }
 
-    validateRleVerificationStatus (payload: any): Promise<any> {
-        return Promise.resolve({});
+    private validateForEmptyField (payload: any, fieldName: string, errorKey: string): void {
+        if (typeof payload[fieldName] === "undefined" || payload[fieldName] === "") {
+            logger.info(`${PscVerificationFormsValidator.name} - a required field is either empty or undefined`);
+            this.errors.stack[fieldName] = this.errorManifest.validation[errorKey].blank;
+        }
     }
 
-    validateRelevantOfficerDetails (payload: any): Promise<any> {
-        return Promise.resolve({});
-    }
-
-    validateRelevantOfficerConfirmationStatements (payload: any): Promise<any> {
-        return Promise.resolve({});
-    }
 };
