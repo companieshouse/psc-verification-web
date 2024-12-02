@@ -4,8 +4,8 @@ import * as cheerio from "cheerio";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
 import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
-import { PrefixedUrls, STOP_TYPE } from "../../../../src/constants";
-import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
+import { PrefixedUrls } from "../../../../src/constants";
+import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
@@ -65,7 +65,7 @@ describe("personal code router/handler integration tests", () => {
             expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/psc-list?lang=en");
         });
 
-        it("Should display the PSC inidividual's name and DOB on the Personal Code page", async () => {
+        it("Should display the PSC individual's name and DOB on the Personal Code page", async () => {
 
             const queryParams = new URLSearchParams("lang=en");
             const uriWithQuery = `${PrefixedUrls.PERSONAL_CODE}?${queryParams}`;
@@ -169,9 +169,7 @@ describe("personal code router/handler integration tests", () => {
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
-            // TODO: disabled until dob validation is possible
-            // expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
-            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.PSC_DOB_MISMATCH), TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
+            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
         });
     });
 

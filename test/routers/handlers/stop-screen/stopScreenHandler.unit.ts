@@ -1,12 +1,11 @@
 import { HttpStatusCode } from "axios";
 import * as httpMocks from "node-mocks-http";
-import { PrefixedUrls, STOP_TYPE, Urls } from "../../../../src/constants";
+import { PrefixedUrls, STOP_TYPE, toStopScreenPrefixedUrl } from "../../../../src/constants";
 import { StopScreenHandler } from "../../../../src/routers/handlers/stop-screen/stopScreenHandler";
 import { getUrlWithStopType } from "../../../../src/utils/url";
 import { getPscIndividual } from "../../../../src/services/pscService";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
-// import { closeTransaction } from "../../../../src/services/transactionService";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { INDIVIDUAL_VERIFICATION_FULL, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
@@ -26,12 +25,6 @@ const mockGetPscVerification = getPscVerification as jest.Mock;
 jest.mock("../../../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
 
-// jest.mock("../../../../src/services/transactionService", () => ({
-//     closeTransaction: jest.fn()
-// }));
-
-// const mockCloseTransaction = closeTransaction as jest.Mock;
-
 describe("Stop screen handler", () => {
     beforeEach(() => {
         middlewareMocks.mockSessionMiddleware.mockClear();
@@ -46,7 +39,7 @@ describe("Stop screen handler", () => {
         it.each(Object.values(STOP_TYPE))("Should render the correct '%s' stop screen view", async (stopType: STOP_TYPE) => {
             const request = httpMocks.createRequest({
                 method: "GET",
-                url: getUrlWithStopType(Urls.STOP_SCREEN, stopType),
+                url: getUrlWithStopType(toStopScreenPrefixedUrl(stopType), stopType),
                 params: {
                     transactionId: TRANSACTION_ID,
                     submissionId: PSC_VERIFICATION_ID,

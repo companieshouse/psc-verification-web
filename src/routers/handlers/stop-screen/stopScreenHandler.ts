@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrefixedUrls, STOP_TYPE } from "../../../constants";
+import { PrefixedUrls, STOP_TYPE, toStopScreenPrefixedUrl } from "../../../constants";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { addSearchParams } from "../../../utils/queryParams";
@@ -36,6 +36,7 @@ const setContent = async (req: Request, stopType: STOP_TYPE, baseViewData: BaseV
 
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+    const stopScreenPrefixedUrl = toStopScreenPrefixedUrl(stopType);
 
     switch (stopType) {
         case STOP_TYPE.PSC_DOB_MISMATCH: {
@@ -43,10 +44,10 @@ const setContent = async (req: Request, stopType: STOP_TYPE, baseViewData: BaseV
                 ...baseViewData,
                 ...getLocaleInfo(locales, lang),
                 templateName: stopType,
-                currentUrl: resolveUrlTemplate(PrefixedUrls.STOP_SCREEN, stopType),
+                currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
                 backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
                 backLinkDataEvent: "psc-dob-mismatch-back-link",
-                linkUrls: [resolveUrlTemplate(PrefixedUrls.STOP_SCREEN, STOP_TYPE.RP01_GUIDANCE)]
+                linkUrls: [resolveUrlTemplate(stopScreenPrefixedUrl, STOP_TYPE.RP01_GUIDANCE)]
             };
         }
         case STOP_TYPE.RP01_GUIDANCE: {
@@ -54,8 +55,8 @@ const setContent = async (req: Request, stopType: STOP_TYPE, baseViewData: BaseV
                 ...baseViewData,
                 ...getLocaleInfo(locales, lang),
                 templateName: stopType,
-                currentUrl: resolveUrlTemplate(PrefixedUrls.STOP_SCREEN, stopType),
-                backURL: resolveUrlTemplate(PrefixedUrls.STOP_SCREEN, STOP_TYPE.PSC_DOB_MISMATCH),
+                currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
+                backURL: resolveUrlTemplate(stopScreenPrefixedUrl, STOP_TYPE.PSC_DOB_MISMATCH),
                 backLinkDataEvent: "rp01-guidance-back-link",
                 linkUrls: [env.GET_RP01_LINK, env.GET_PSC01_LINK, env.POST_TO_CH_LINK, PrefixedUrls.START]
             };

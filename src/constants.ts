@@ -6,6 +6,26 @@ export enum STOP_TYPE {
     RP01_GUIDANCE = "rp01-guidance"
 };
 
+export function toStopScreenUrl (stopType: STOP_TYPE) {
+    switch (stopType) {
+        case STOP_TYPE.PSC_DOB_MISMATCH:
+        case STOP_TYPE.RP01_GUIDANCE:
+            return Urls.STOP_SCREEN_SUBMISSION;
+        default:
+            return Urls.STOP_SCREEN;
+    }
+}
+
+export function toStopScreenPrefixedUrl (stopType: STOP_TYPE) {
+    switch (stopType) {
+        case STOP_TYPE.PSC_DOB_MISMATCH:
+        case STOP_TYPE.RP01_GUIDANCE:
+            return PrefixedUrls.STOP_SCREEN_SUBMISSION;
+        default:
+            return PrefixedUrls.STOP_SCREEN;
+    }
+}
+
 export const Urls = {
     ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
     HEALTHCHECK: "/healthcheck",
@@ -19,7 +39,8 @@ export const Urls = {
     INDIVIDUAL_STATEMENT: `${urlWithTransactionIdAndSubmissionId}/individual/psc-statement`,
     PSC_VERIFIED: `${urlWithTransactionIdAndSubmissionId}/psc-verified`,
     RLE_LIST: `${urlWithTransactionIdAndSubmissionId}/rle/rle-list`,
-    STOP_SCREEN: `${urlWithTransactionIdAndSubmissionId}/stop/:stopType`
+    STOP_SCREEN: "/stop/:stopType",
+    STOP_SCREEN_SUBMISSION: `${urlWithTransactionIdAndSubmissionId}/stop/:stopType`
 } as const;
 
 export const PrefixedUrls = {
@@ -36,6 +57,7 @@ export const PrefixedUrls = {
     PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
     RLE_LIST: servicePathPrefix + Urls.RLE_LIST,
     STOP_SCREEN: servicePathPrefix + Urls.STOP_SCREEN,
+    STOP_SCREEN_SUBMISSION: servicePathPrefix + Urls.STOP_SCREEN_SUBMISSION,
     COOKIES: "/help/cookies"
 } as const;
 

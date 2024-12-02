@@ -5,7 +5,7 @@ import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
 import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
 import app from "../../../../src/app";
-import { PrefixedUrls, STOP_TYPE } from "../../../../src/constants";
+import { PrefixedUrls, STOP_TYPE, toStopScreenPrefixedUrl } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { closeTransaction } from "../../../../src/services/transactionService";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
@@ -54,7 +54,7 @@ describe("stop screen view tests", () => {
 
     it.each(Object.values(STOP_TYPE))("Should render the stop screen '%s' page with a success status code", async (stopType: STOP_TYPE) => {
         const queryParams = new URLSearchParams("lang=en");
-        const uriWithQuery = `${getUrlWithStopType(PrefixedUrls.STOP_SCREEN, stopType)}?${queryParams}`;
+        const uriWithQuery = `${getUrlWithStopType(toStopScreenPrefixedUrl(stopType), stopType)}?${queryParams}`;
         const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
         const expectedPrefix = "/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab";
 
