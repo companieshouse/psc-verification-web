@@ -1,0 +1,76 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set title = i18n.psc_type_title %}
+
+{% block main_content %}
+
+    <form action="" method="post">
+        {% include "includes/csrf_token.njk" %}
+        {{ govukRadios({
+            idPrefix: "nameMismatch",
+            name: "nameMismatch",
+            value: nameMismatch,
+            fieldset: {
+                legend: {
+                    text: i18n.name_mismatch_title,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                }
+            },
+            items: [
+                {
+                    value: "legally-changed",
+                    text: i18n.name_mismatch_legally_changed,
+                    attributes:{
+                        "data-event-id": "legally-changed-radio-option"
+                    }
+
+                },
+                {
+                    value: "preferred-name",
+                    text: i18n.name_mismatch_preferred,
+                    attributes:{
+                        "data-event-id": "preferred-name-radio-option"
+                    }
+                },
+                {
+                    value: "appears-different",
+                    text: i18n.name_mismatch_appears_different,
+                    attributes:{
+                        "data-event-id": "appears-different-radio-option"
+                    }
+                },
+                {
+                    value: "register-incorrect",
+                    text: i18n.name_mismatch_register_incorrect,
+                    attributes:{
+                        "data-event-id": "register-incorrect-radio-option"
+                    }
+                },
+                {
+                    value: "prefer-not-to-say",
+                    text: i18n.name_mismatch_prefer_not_to_say,
+                    attributes:{
+                        "data-event-id": "prefer-not-to-say-radio-option"
+                    }
+                }                                
+            ]
+        })
+        }}
+
+
+        {{ govukButton({
+            attributes: {
+                id: "submit",
+                "data-event-id": "name-mismatch-continue-button"
+            },
+            text: i18n.global_continue_button
+            })
+        }}
+    </form>
+
+{% endblock %}
