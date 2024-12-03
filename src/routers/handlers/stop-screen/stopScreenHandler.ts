@@ -73,6 +73,17 @@ const setContent = async (req: Request, stopType: STOP_TYPE, baseViewData: BaseV
                 extraData: [env.GET_RP01_LINK, env.GET_PSC01_LINK, env.POST_TO_CH_LINK, PrefixedUrls.START]
             };
         }
+        case STOP_TYPE.SUPER_SECURE: {
+            return {
+                ...baseViewData,
+                ...getLocaleInfo(locales, lang),
+                templateName: stopType,
+                currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
+                backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang }),
+                backLinkDataEvent: "super-secure-back-link",
+                extraData: [env.DSR_EMAIL_ADDRESS, env.DSR_PHONE_NUMBER]
+            };
+        }
         default: {
             throw new Error("Unrecognised stop screen type: " + stopType);
         }

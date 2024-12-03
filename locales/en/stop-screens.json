@@ -25,5 +25,11 @@
     "rp01_guidance_step_3": "Send the completed paper forms together",
     "rp01_guidance_step_3_link_text": "by post to Companies House",
     "rp01_guidance_summary": "Once received, the submitted updates may take up to a couple of weeks to show on the register. When the PSC details are up to date, you will be able to successfully",
-    "rp01_guidance_summary_link_text": "provide identity verification details for the PSC"
+    "rp01_guidance_summary_link_text": "provide identity verification details for the PSC",
+    "super_secure_main_title": "You cannot provide verification details for this company's PSCs online",
+    "super_secure_statement_1": "The details of this company and its people with significant control (PSC) are protected from being shown on the Companies House register.",
+    "super_secure_statement_2": "This means you'll need to provide the verification details of the company's PSCs using a paper form.",
+    "super_secure_statement_3_1": "To request a paper form, email",
+    "super_secure_statement_3_2": "or call",
+    "super_secure_statement_3_3": ", and provide the company name and number."
 }
