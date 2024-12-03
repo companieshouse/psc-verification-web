@@ -10,7 +10,7 @@
     pscName,
     " (",
     i18n.personal_code_born,
-    monthBorn,
+    monthYearBorn,
     ")"
 ] | join %}
 
@@ -23,12 +23,41 @@
         <h1 class="govuk-heading-l" id="personal-code--title">
             {{title}}
         </h1>
+        
         <div class="govuk-form-group">
+            {% set inputOptions = {
+                id: "personalCode",
+                classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
+                name: "personalCode",
+                value: personalCode
+            } %}
+
+            {% if errors is not undefined and errors is not null and errors | length %}
+                {% set inputOptions = {
+                    id: inputOptions.id,
+                    classes: inputOptions.classes,
+                    name: inputOptions.name,
+                    value: inputOptions.value,
+                    errorMessage: {
+                        text: i18n.personal_code_error_inline + pscName
+                    }
+                } %}
+            {% endif %}
+
+            {{ govukInput(inputOptions) }}
             {{ govukInput({
-                    id: "personalCode",
-                    classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
-                    name: "personalCode",
-                    value: personalCode
+                    id: "selectedPscId",
+                    type:"hidden",
+                    name: "selectedPscId",
+                    value: selectedPscId
+                })
+            }}
+
+            {{ govukInput({
+                    id: "selectedPscId",
+                    type:"hidden",
+                    name: "selectedPscId",
+                    value: selectedPscId
                 })
             }}
 
@@ -41,7 +70,7 @@
                     }
                 })
             }}
-
+            
             {{ govukButton({
                     attributes: {
                         id: "submit", "data-event-id": "personal-code-continue-button"

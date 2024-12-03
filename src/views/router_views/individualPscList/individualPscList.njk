@@ -1,35 +1,143 @@
 {% extends "layouts/default.njk" %}
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
 
-{% set title = i18n.individual_psc_list_main_title %}
+{% set title = i18n.ind_psc_list_main_title %}
 
 {% block main_content %}
 
     <form action="" method="post">
-        {% include "includes/csrf_token.njk" %}
-        <div class="govuk-form-group">
-            {{ govukRadios({
-                classes: "govuk-radios",
-                id: "psc-individual-radios",
-                name: "pscSelect",
-                fieldset: {
-                    legend: {
-                        text: i18n.individual_psc_list_main_title,
-                        isPageHeading: true,
-                        classes: "govuk-fieldset__legend--l"
-                    }
-                },
-                hint: {
-                    text: [i18n.individual_psc_list_hint_1, companyName, i18n.individual_psc_list_hint_2] | join(" ")
-                },
-                items: pscRadioItems,
-                value: selectedPscId
-            })
-            }}
-        </div>
-        <button class="govuk-button" data-module="govuk-button" id="submit" data-event-id="psc-list-continue-button">
-            {{ i18n.global_continue_button }}
-        </button>
+    {% include "includes/csrf_token.njk" %}
+    
+    <h1 class="govuk-heading-l">{{ i18n.ind_psc_list_main_title }}</h1>
+    <p class="govuk-body">{{ i18n.ind_psc_list_description }}</p>
+    
+    <h2 class="govuk-heading-m">{{ i18n.ind_psc_list_can_verify_heading }}</h2>
+    <p class="govuk-body">{{ i18n.ind_psc_list_can_verify_description }}<b>{{ companyName }}</b>{{ i18n.ind_psc_list_can_verify_description2 }}</p>
+    
+{% for psc in pscDetails | sort(attribute = 'pscName') %}
+
+{% set pscStatusText %}
+  {{ govukTag({
+      text: i18n.ind_psc_list_status_unverified,
+      classes: "govuk-tag--red"
+  }) }}
+{% endset %}
+
+    {{ govukSummaryList({
+    card: {
+        title: {
+        text: psc.pscName
+    },
+    actions: {
+        items: [
+            {
+            href: [nextPageUrl+psc.pscId ],
+            text: i18n.ind_psc_list_summary_card_verify_link,
+            visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link
+            }
+        ]
+    }
+  },
+  rows: [
+    {
+      key: {
+        text: i18n.ind_psc_list_summary_card_key1
+      },
+      value: {
+        text: psc.pscDob
+      }
+    },
+    {
+      key: {
+        text: i18n.ind_psc_list_summary_card_key2
+      },
+      value: {
+        text: psc.pscVerificationDeadlineDate
+      }
+    },
+    {
+      key: {
+        text: i18n.ind_psc_list_summary_card_key3
+      },
+      value: {
+        html: pscStatusText
+      }
+    }
+  ]
+}) }}
+
+{% endfor %}
+
+<h2 class="govuk-heading-m">{{ i18n.ind_psc_list_cannot_verify_heading }}</h2>
+<p class="govuk-body">{{ i18n.ind_psc_list_cannot_verify_description }}<b>{{ companyName }}</b>
+{{ i18n.ind_psc_list_cannot_verify_description2 }}<b>{{ confirmationStatementDate }}</b>{{ i18n.ind_psc_list_cannot_verify_description3 }}</p>
+
+{{ govukDetails({
+    summaryText: i18n.ind_psc_list_cannot_verify_details_main_link,
+    text: i18n.ind_psc_list_cannot_verify_details_description,
+    attributes: {
+        "data-event-id": "why-do-pscs-need-to-wait-dropdown"
+    }
+}) }}
+
+{% set unverifiablePscStatusText %}
+ {{ govukTag({
+      text: i18n.ind_psc_list_status_unverified,
+      classes: "govuk-tag--red"
+  }) }}
+{% endset %}
+
+{{ govukSummaryList({
+    card: {
+        title: {
+        text: "[Name of the psc]"
+    }
+  },
+  rows: [
+    {
+      key: {
+        text: i18n.ind_psc_list_summary_card_key1
+      },
+      value: {
+        html: "[partial_dob]"
+      }
+    },
+    {
+      key: {
+        text: i18n.ind_psc_list_summary_card_key2
+      },
+      value: {
+        html: "[verification_deadline]"
+      }
+    },
+    {
+      key: {
+        text: i18n.ind_psc_list_summary_card_key3
+      },
+      value: {
+        html: unverifiablePscStatusText
+      }
+    }
+  ]
+}) }}
+
+{% set pscNotFoundDetails %}
+        <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description }}</p>
+        <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description2 }}</p>
+        <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description3 }}{{ dsrEmailAddress }}
+            {{ i18n.ind_psc_list_not_found_details_description4 }}{{ dsrPhoneNumber }}
+            {{ i18n.ind_psc_list_not_found_details_description5 }}</p>
+    {% endset %}
+
+{{ govukDetails({
+    summaryText: i18n.ind_psc_list_not_found_details_main_link,
+    html: pscNotFoundDetails,
+    attributes: {
+        "data-event-id": "why-do-pscs-need-to-wait-dropdown"
+    }
+}) }}
     </form>
 
 {% endblock %}

@@ -38,7 +38,7 @@ export interface Redirect {
 }
 
 export abstract class GenericHandler<T extends BaseViewData> {
-    protected errorManifest!: typeof errorManifest;
+    protected errorManifest!: ReturnType<typeof errorManifest>;
     private viewData!: T;
 
     processHandlerException (err: any): Object {
@@ -67,8 +67,8 @@ export abstract class GenericHandler<T extends BaseViewData> {
         this.viewData.userEmail = userEmail;
     }
 
-    async getViewData (req: Request, res: Response): Promise<T> {
-        this.errorManifest = errorManifest;
+    async getViewData (req: Request, res: Response, lang: string = "en"): Promise<T> {
+        this.errorManifest = errorManifest(lang);
         this.viewData = defaultBaseViewData as T;
         this.populateViewData(req, res);
         return this.viewData;

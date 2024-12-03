@@ -13,8 +13,8 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
     private static templatePath = "router_views/psc_type/psc_type";
 
     public async getViewData (req: Request, res: Response): Promise<PscTypeViewData> {
-        const baseViewData = await super.getViewData(req, res);
         const lang = selectLang(req.query.lang);
+        const baseViewData = await super.getViewData(req, res, lang);
         const locales = getLocalesService();
         const verification = res.locals.submission;
         const companyNumber = verification?.data.companyNumber as string;
@@ -63,9 +63,9 @@ export class PscTypeHandler extends GenericHandler<PscTypeViewData> {
             viewData.pscType = req.query.pscType as string;
             viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
 
-            const validator = new PscVerificationFormsValidator();
+            const validator = new PscVerificationFormsValidator(lang);
 
-            viewData.errors = await validator.validatePscType(req.body);
+            viewData.errors = await validator.validatePscType(req.body, lang);
             await this.save(req.body);
         } catch (err: any) {
             logger.error(`${req.method} error: problem handling PSC type request: ${err.message}`);

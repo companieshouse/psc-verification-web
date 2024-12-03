@@ -26,27 +26,40 @@
             <div class="govuk-!-padding-bottom-1" id="nameAndDateOfBirth">{{ nameAndDateBirthText }}</div>
         </span>
 
-        {{ govukCheckboxes({
+        {% set checkboxConfig = {
             name: "pscIndividualStatement",
             values: selectedStatements,
             fieldset: {
                 legend: {
-                text: title,
-                isPageHeading: true,
-                classes: "govuk-fieldset__legend--l"
+                    text: title,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
                 },
-            attributes:{
-                "data-event-id": "confirmed-identity-verification-checkbox"
-             }
-        },
-        items: [
-            {
-                value: "INDIVIDUAL_VERIFIED",
-                html: statementText
-            }
-        ]
-        })
-        }}
+                attributes: {
+                    "data-event-id": "confirmed-identity-verification-checkbox"
+                }
+            },
+            items: [
+                {
+                    value: "INDIVIDUAL_VERIFIED",
+                    html: statementText
+                }
+            ]
+        } %}
+
+        {% if errors is not undefined and errors is not null and errors | length %}
+            {{ govukCheckboxes({
+                name: checkboxConfig.name,
+                values: checkboxConfig.values,
+                fieldset: checkboxConfig.fieldset,
+                items: checkboxConfig.items,
+                errorMessage: {
+                    text: i18n.individual_statement_error_inline + pscName
+                }
+            }) }}
+        {% else %}
+            {{ govukCheckboxes(checkboxConfig) }}
+        {% endif %}
 
         {{ govukButton({
             attributes: {

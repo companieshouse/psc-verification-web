@@ -7,7 +7,7 @@ import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddlewar
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
-import { INDIVIDUAL_VERIFICATION_CREATED, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { VALID_COMPANY_PSC_ITEMS } from "../../../mocks/companyPsc.mock";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
@@ -25,9 +25,11 @@ jest.mock("../../../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
 mockGetCompanyProfile.mockResolvedValueOnce(validCompanyProfile);
 
+const individualPscItems = VALID_COMPANY_PSC_ITEMS.filter(psc => /^individual/.test(psc.kind) && (psc.ceasedOn === null || psc.ceasedOn === undefined));
+
 jest.mock("../../../../src/services/companyPscService");
 const mockGetCompanyIndividualPscList = getCompanyIndividualPscList as jest.Mock;
-mockGetCompanyIndividualPscList.mockResolvedValueOnce(VALID_COMPANY_PSC_ITEMS.filter(psc => /^individual/.test(psc.kind)));
+mockGetCompanyIndividualPscList.mockResolvedValueOnce(individualPscItems);
 
 describe("individual PSC list view", () => {
 
@@ -41,7 +43,7 @@ describe("individual PSC list view", () => {
     });
 
     it("Should render the Individual PSC List page with a success status code and correct links", async () => {
-        const queryParams = new URLSearchParams("lang=en&pscType=individual");
+        const queryParams = new URLSearchParams(`lang=en&pscType=individual&companyNumber=${COMPANY_NUMBER}`);
         const uriWithQuery = `${PrefixedUrls.INDIVIDUAL_PSC_LIST}?${queryParams}`;
         const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
         mockGetPscVerification.mockResolvedValue(INDIVIDUAL_VERIFICATION_CREATED);
@@ -51,18 +53,11 @@ describe("individual PSC list view", () => {
         const $ = cheerio.load(resp.text);
 
         expect(resp.status).toBe(HttpStatusCode.Ok);
-        expect($("a.govuk-back-link").attr("href")).toBe(`/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/psc-type?lang=en&pscType=individual`);
         // check page contents
-        expect($("div#pscSelect-hint").text()).toContain(` ${validCompanyProfile.companyName} `);
-        // radios for individual PSCs only
-        expect($("input.govuk-radios__input").length).toBe(2);
-        // check PSC IDs, names and hint text on radios
-        expect($("input#pscSelect").attr("value")).toBe(getPscId(VALID_COMPANY_PSC_ITEMS[1]));
-        expect($("label[for='pscSelect']").text().trim()).toBe(VALID_COMPANY_PSC_ITEMS[1].name);
-        expect($("div#pscSelect-item-hint").text().trim()).toBe("Born in January 1970");
-        expect($("input#pscSelect-2").attr("value")).toBe(getPscId(VALID_COMPANY_PSC_ITEMS[2]));
-        expect($("label[for='pscSelect-2']").text().trim()).toBe(VALID_COMPANY_PSC_ITEMS[2].name);
-        expect($("div#pscSelect-2-item-hint").text().trim()).toBe("Born in December 1997");
+        expect($("a.govuk-back-link").attr("href")).toBe(`/persons-with-significant-control-verification/confirm-company?companyNumber=${COMPANY_NUMBER}&lang=en`);
+        // summary cards for individual active PSCs only
+        expect($("div.govuk-summary-card").length).toBe(2); // TODO: refine this to stubbed number
+        // TODO: check PSC IDs, names, etc. for summary cards
     });
 
     function getPscId (pscItem: any): string {

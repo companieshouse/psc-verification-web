@@ -9,11 +9,14 @@ import { formatDateBorn } from "../../utils";
 import { PscVerification, PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { patchPscVerification } from "../../../services/pscVerificationService";
 import { getPscIndividual } from "../../../services/pscService";
+import { PscVerificationFormsValidator } from "../../../lib/validation/form-validators/pscVerification";
 
 interface PersonalCodeViewData extends BaseViewData {
     pscName: string,
-    monthBorn: string,
-    personalCode: string
+    monthYearBorn: string,
+    personalCode: string,
+    selectedPscId: string,
+    nextPageUrl: string
 }
 
 export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
@@ -24,7 +27,8 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
         const baseViewData = await super.getViewData(req, res);
         const verification: PscVerification = res.locals.submission;
-        const pscIndividual = await getPscIndividual(req, verification.data.companyNumber as string, verification.data.pscAppointmentId as string);
+        const companyNumber = verification.data.companyNumber as string;
+        const pscIndividual = await getPscIndividual(req, companyNumber, verification.data.pscAppointmentId as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 
@@ -32,10 +36,10 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             pscName: pscIndividual.resource?.name!,
-            monthBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
+            monthYearBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
             personalCode: verification?.data?.verificationDetails?.uvid || "",
             currentUrl: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
-            backURL: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_PSC_LIST),
+            backURL: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang }),
             templateName: Urls.PERSONAL_CODE,
             backLinkDataEvent: "personal-code-back-link"
         };
@@ -55,15 +59,40 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         };
     }
 
-    public async executePost (req: Request, res: Response) {
+    public async executePost (req: Request, res: Response): Promise<ViewModel<PersonalCodeViewData>> {
         logger.info(`${PersonalCodeHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
-        const uvid = req.body.personalCode;
-        const verification: PscVerificationData = {
-            verificationDetails: {
-                uvid: uvid
-            }
+        const viewData = await this.getViewData(req, res);
+
+        try {
+            const lang = selectLang(req.query.lang);
+            const uvid = req.body.personalCode;
+
+            const queryParams = new URLSearchParams(req.url.split("?")[1]);
+            const verification: PscVerificationData = {
+                pscAppointmentId: req.query?.selectedPscId as string,
+                verificationDetails: {
+                    uvid: uvid
+                }
+            };
+
+            queryParams.set("lang", lang);
+            const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, req.params.transactionId, req.params.submissionId);
+            viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
+            const validator = new PscVerificationFormsValidator(lang);
+            viewData.errors = await validator.validatePersonalCode(req.body, lang, viewData.pscName);
+
+            logger.debug(`${PersonalCodeHandler.name} - ${this.executePost.name} - patching personal code for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+            await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
+
+        } catch (err: any) {
+            logger.error(`${req.method} error: problem handling PSC details (personal code) request: ${err.message}`);
+            viewData.errors = this.processHandlerException(err);
+        }
+
+        return {
+            templatePath: PersonalCodeHandler.templatePath,
+            viewData
         };
-        logger.debug(`${PersonalCodeHandler.name} - ${this.executePost.name} - patching personal code for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
-        await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
     }
+
 }

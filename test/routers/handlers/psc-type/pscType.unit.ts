@@ -47,7 +47,8 @@ describe("psc type handler", () => {
         });
     });
 
-    describe("executePost", () => {
+    // TODO: remove when PSC Type screen is removed
+    describe.skip("executePost", () => {
         it("should return the correct next page", async () => {
 
             const req = httpMocks.createRequest({

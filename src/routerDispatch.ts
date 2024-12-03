@@ -18,13 +18,13 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
     router.use(Urls.COMPANY_NUMBER, authenticate, CompanyNumberRouter);
     router.use(Urls.CONFIRM_COMPANY, authenticate, ConfirmCompanyRouter);
+    router.use(Urls.INDIVIDUAL_PSC_LIST, authenticate, fetchCompany, IndividualPscListRouter);
     router.use(Urls.NEW_SUBMISSION, authenticate, NewSubmissionRouter);
-    router.use(Urls.PSC_TYPE, authenticate, fetchVerification, PscTypeRouter);
-    router.use(Urls.INDIVIDUAL_PSC_LIST, authenticate, fetchVerification, fetchCompany, IndividualPscListRouter);
     router.use(Urls.PERSONAL_CODE, authenticate, fetchVerification, PersonalCodeRouter);
     router.use(Urls.INDIVIDUAL_STATEMENT, authenticate, fetchVerification, IndividualStatementRouter);
     router.use(Urls.PSC_VERIFIED, authenticate, fetchVerification, fetchCompany, PscVerifiedRouter);
     router.use(Urls.RLE_LIST, authenticate, RlePscListRouter);
+    router.use(Urls.PSC_TYPE, authenticate, fetchVerification, PscTypeRouter);
     router.use(Urls.STOP_SCREEN, authenticate, StopScreenRouter);
     router.use(Urls.STOP_SCREEN_SUBMISSION, authenticate, StopScreenRouter);
 
