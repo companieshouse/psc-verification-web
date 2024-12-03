@@ -46,7 +46,7 @@ const setContent = async (req: Request, stopType: STOP_TYPE, baseViewData: BaseV
                 ...getLocaleInfo(locales, lang),
                 templateName: stopType,
                 currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
-                backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, {companyNumber, lang}),
+                backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang }),
                 backLinkDataEvent: "super-secure-back-link",
                 extraData: [env.DSR_EMAIL_ADDRESS, env.DSR_PHONE_NUMBER]
             };
