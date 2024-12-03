@@ -126,7 +126,8 @@
 {% set pscNotFoundDetails %}
         <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description }}</p>
         <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description2 }}</p>
-        <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description3 }}{{ dsrEmailAddress }}
+        <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description3 }} 
+        <a href="mailto:{{ dsrEmailAddress }}">{{ dsrEmailAddress }}</a>
             {{ i18n.ind_psc_list_not_found_details_description4 }}{{ dsrPhoneNumber }}
             {{ i18n.ind_psc_list_not_found_details_description5 }}</p>
     {% endset %}
