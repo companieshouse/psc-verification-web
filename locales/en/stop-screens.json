@@ -1,4 +1,10 @@
 {
+    "super_secure_main_title": "You cannot provide verification details for this company's PSCs online",
+    "super_secure_statement_1": "The details of this company and its people with significant control (PSC) are protected from being shown on the Companies House register.",
+    "super_secure_statement_2": "This means you'll need to provide the verification details of the company's PSCs using a paper form.",
+    "super_secure_statement_3_1": "To request a paper form, email",
+    "super_secure_statement_3_2": "or call",
+    "super_secure_statement_3_3": ", and provide the company name and number.",
     "dob_mismatch_main_title": "The details linked to this personal code do not match the details on our records",
     "dob_mismatch_reasons": "This may be for a number of reasons – depending on how the identity was verified, or how the PSC's details were entered into our system. You cannot continue without fixing the issue.",
     "dob_mismatch_check_personal_code": "Check you've entered the correct personal code",

@@ -34,11 +34,23 @@ export class StopScreenHandler extends GenericHandler<StopScreenHandlerViewData>
 
 const setContent = async (req: Request, stopType: STOP_TYPE, baseViewData: BaseViewData) => {
 
+    const companyNumber = req.query.companyNumber as string;
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const stopScreenPrefixedUrl = toStopScreenPrefixedUrl(stopType);
 
     switch (stopType) {
+        case STOP_TYPE.SUPER_SECURE: {
+            return {
+                ...baseViewData,
+                ...getLocaleInfo(locales, lang),
+                templateName: stopType,
+                currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
+                backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang }),
+                backLinkDataEvent: "super-secure-back-link",
+                extraData: [env.DSR_EMAIL_ADDRESS, env.DSR_PHONE_NUMBER]
+            };
+        }
         case STOP_TYPE.PSC_DOB_MISMATCH: {
             return {
                 ...baseViewData,

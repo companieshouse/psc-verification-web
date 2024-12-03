@@ -3,7 +3,8 @@ const urlWithTransactionIdAndSubmissionId = "/transaction/:transactionId/submiss
 
 export enum STOP_TYPE {
     PSC_DOB_MISMATCH = "psc-dob-mismatch",
-    RP01_GUIDANCE = "rp01-guidance"
+    RP01_GUIDANCE = "rp01-guidance",
+    SUPER_SECURE = "super-secure"
 };
 
 export function toStopScreenUrl (stopType: STOP_TYPE) {

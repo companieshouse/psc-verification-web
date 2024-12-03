@@ -44,6 +44,9 @@ describe("Stop screen handler", () => {
                     transactionId: TRANSACTION_ID,
                     submissionId: PSC_VERIFICATION_ID,
                     stopType: stopType
+                },
+                query: {
+                    companyNumber: "00006400"
                 }
             });
             const response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile } });
@@ -62,6 +65,14 @@ describe("Stop screen handler", () => {
             };
 
             switch (stopType) {
+                case STOP_TYPE.SUPER_SECURE:
+                    expect(viewData).toMatchObject({
+                        ...expectedViewData,
+                        currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?lang=en`,
+                        backURL: `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=00006400&lang=en`,
+                        extraData: [env.DSR_EMAIL_ADDRESS, env.DSR_PHONE_NUMBER]
+                    });
+                    break;
                 case STOP_TYPE.PSC_DOB_MISMATCH:
                     expect(viewData).toMatchObject(
                         {

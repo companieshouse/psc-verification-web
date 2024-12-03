@@ -53,7 +53,7 @@ describe("stop screen view tests", () => {
     });
 
     it.each(Object.values(STOP_TYPE))("Should render the stop screen '%s' page with a success status code", async (stopType: STOP_TYPE) => {
-        const queryParams = new URLSearchParams("lang=en");
+        const queryParams = new URLSearchParams("companyNumber=00006400&lang=en");
         const uriWithQuery = `${getUrlWithStopType(toStopScreenPrefixedUrl(stopType), stopType)}?${queryParams}`;
         const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
         const expectedPrefix = "/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab";
@@ -65,6 +65,10 @@ describe("stop screen view tests", () => {
         expect(resp.status).toBe(HttpStatusCode.Ok);
 
         switch (stopType) {
+            case STOP_TYPE.SUPER_SECURE:
+                expect($("a.govuk-back-link").attr("href")).toBe(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=00006400&lang=en`);
+                expect($("a#mail-to-dsr").attr("href")).toBe(`mailto:${env.DSR_EMAIL_ADDRESS}`);
+                break;
             case STOP_TYPE.PSC_DOB_MISMATCH:
                 expect($("a.govuk-back-link").attr("href")).toBe(`${expectedPrefix}/individual/personal-code?lang=en`);
                 expect($("a#reenter-personal-code").attr("href")).toBe(`${expectedPrefix}/individual/personal-code?lang=en`);
