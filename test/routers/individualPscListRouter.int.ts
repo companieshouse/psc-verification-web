@@ -54,20 +54,19 @@ describe("psc individual list post tests", () => {
         mockPatchPscVerification.mockReset();
     });
 
-    // FIXME when the middleware is mocked
+    // TODO
     it.skip("Should redirect to the personal code (uvid) page when a PSC is selected", async () => {
         mockPatchPscVerification.mockResolvedValueOnce(INDIVIDUAL_VERIFICATION_PATCH);
         const expectedPage = PrefixedUrls.PERSONAL_CODE;
-        const expectedRedirectUrl = `${expectedPage.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=individual`;
+        const expectedRedirectUrl = `${expectedPage.replace(":transactionId", TRANSACTION_ID).replace(":submissionId", PSC_VERIFICATION_ID)}?companyNumber=${COMPANY_NUMBER}&lang=en&pscType=individual&pscId=${PSC_ID}`;
 
         await request(app)
             .post(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_PSC_LIST, TRANSACTION_ID, PSC_VERIFICATION_ID))
             .send({ pscId: PSC_ID })
             .set({ "Content-Type": "application/json-patch+json" })
             .query({ companyNumber: COMPANY_NUMBER, lang: "en", pscType: "individual", pscId: PSC_ID })
-            .expect(HttpStatusCode.Ok)
+            .expect(HttpStatusCode.Found)
             .expect("Location", expectedRedirectUrl);
-
     });
 
 });

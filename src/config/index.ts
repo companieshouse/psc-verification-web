@@ -49,6 +49,12 @@ export const env = readEnv(process.env, {
     FEEDBACK_URL: str
         .describe("Link for the user to give feedback on the service")
         .default(""),
+    GET_PSC01_LINK: url
+        .describe("Link to obtaining paper form PSC01")
+        .default("https://www.gov.uk/government/publications/give-notice-of-individual-person-with-significant-control-psc01"),
+    GET_RP01_LINK: url
+        .describe("Link to obtaining paper form RP01")
+        .default("https://www.gov.uk/government/publications/replace-a-document-not-meeting-requirements-rp01"),
     IDV_IMPLEMENTATION_DATE: str
         .describe("Date when IDV comes into effect for PSCs")
         .default(""),
@@ -141,6 +147,9 @@ export const env = readEnv(process.env, {
         .describe("Link to policies")
         .default("https://resources.companieshouse.gov.uk/legal/termsAndConditions.shtml"),
     PORT: port.describe("Port to run the web server on").default(3000),
+    POST_TO_CH_LINK: url
+        .describe("Link to guidance on submission by post")
+        .default("https://www.gov.uk/government/news/posting-documents-to-companies-house"),
     SERVICE_LIVE: str
         .describe("Prevent use of service until Implementation")
         .default("false"),
