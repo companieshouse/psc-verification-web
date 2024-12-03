@@ -18,7 +18,7 @@ jest.mock("../../../../src/services/pscVerificationService", () => ({
 
 const mockGetPscVerification = getPscVerification as jest.Mock;
 
-describe.skip("psc type view", () => {
+describe("psc type view", () => {
 
     beforeEach(() => {
         middlewareMocks.mockSessionMiddleware.mockClear();

@@ -67,7 +67,7 @@ describe("personal code router/handler integration tests", () => {
             expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/individual/psc-list?companyNumber=12345678&lang=en");
         });
 
-        it("Should display the PSC inidividual's name and DOB on the Personal Code page", async () => {
+        it("Should display the PSC individual's name and DOB on the Personal Code page", async () => {
 
             const queryParams = new URLSearchParams("lang=en");
             const uriWithQuery = `${PrefixedUrls.PERSONAL_CODE}?${queryParams}`;

@@ -13,3 +13,6 @@ export const addSearchParams = (uri: string, params: { [key: string]: string | s
     });
     return [baseUri, searchParams.toString()].filter(Boolean).join("?"); // ignore falsy values
 };
+
+export const setStopTypeQueryParam = (url: string, paramName: "stopType", value: string) =>
+    url.replace(`{${paramName}}`, value);

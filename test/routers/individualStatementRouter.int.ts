@@ -2,8 +2,8 @@ import { HttpStatusCode } from "axios";
 import request from "supertest";
 import { PrefixedUrls } from "../../src/constants";
 import { INDIVIDUAL_VERIFICATION_CREATED } from "../mocks/pscVerification.mock";
-import middlewareMocks from "./../mocks/allMiddleware.mock";
-import app from "./../../src/app";
+import middlewareMocks from "../mocks/allMiddleware.mock";
+import app from "../../src/app";
 import { PSC_INDIVIDUAL } from "../mocks/psc.mock";
 
 jest.mock("../../src/services/pscVerificationService", () => ({
@@ -35,6 +35,6 @@ describe("individual statement tests", () => {
 
     it("Should render the individual statement page with a successful status code", async () => {
         const resp = await request(app).get(PrefixedUrls.INDIVIDUAL_STATEMENT);
-        expect(resp.status).toBe(200);
+        expect(resp.status).toBe(HttpStatusCode.Ok);
     });
 });

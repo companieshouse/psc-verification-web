@@ -1,13 +1,23 @@
 {
     "dob_mismatch_main_title": "The details linked to this personal code do not match the details on our records",
-    "dob_mismatch_reasons": "This may be for a number of reasons - depending on how the identity was verified, or how the PSC's details were entered into our system. You cannot continue without fixing the issue.",
+    "dob_mismatch_reasons": "This may be for a number of reasons – depending on how the identity was verified, or how the PSC's details were entered into our system. You cannot continue without fixing the issue.",
     "dob_mismatch_check_personal_code": "Check you've entered the correct personal code",
     "dob_mismatch_character_code": "Make sure the 11 character code you entered matches the code received when you verified your identity.",
-    "dob_mismatch_try_again_link_text": "Go back to the previous screen and try again.",
+    "dob_mismatch_try_again_link_text": "Go back to the previous screen and try again",
     "dob_mismatch_check_dob": "Check the PSC's date of birth on the Companies House register",
     "dob_mismatch_if_wrong": "If the date of birth entered into the Companies House register is wrong, you need to contact the company to",
-    "dob_mismatch_corrections_link_text": "submit the paper corrections forms with the correct date of birth.",
+    "dob_mismatch_corrections_link_text": "submit the paper corrections forms with the correct date of birth",
     "dob_mismatch_up_to_date": "When the details are up to date on the register, you will be able to return to this service and provide your Companies House personal code.",
-    "dob_mismatch_authorised_agent": "If you verififed using an authroised agent, check they entered the correct date of birth",
-    "dob_mismatch_verified_identity": "If you verififed your identity through an authorised agent (such as an accountant), confirm that they typed your details in correctly when they verified your identity."
+    "dob_mismatch_authorised_agent": "If you verified using an authorised agent, check they entered the correct date of birth",
+    "dob_mismatch_verified_identity": "If you verified your identity through an authorised agent (such as an accountant), confirm that they typed your details in correctly when they verified your identity.",
+    "rp01_guidance_main_title": "Correcting the PSC date of birth on the Companies House register",
+    "rp01_guidance_intro": "To correct the date of birth on the Companies House register, someone authorised to file for this company will need to submit a paper corrections form. They should follow this process.",
+    "rp01_guidance_step_1": "Print and fill in the RP01 form:",
+    "rp01_guidance_step_1_link_text": "‘Replace a document not meeting requirements’",
+    "rp01_guidance_step_2": "Print and fill in the PSC01 form with the correct date of birth:",
+    "rp01_guidance_step_2_link_text": "‘Give notice of individual person with significant control’",
+    "rp01_guidance_step_3": "Send the completed paper forms together",
+    "rp01_guidance_step_3_link_text": "by post to Companies House",
+    "rp01_guidance_summary": "Once received, the submitted updates may take up to a couple of weeks to show on the register. When the PSC details are up to date, you will be able to successfully",
+    "rp01_guidance_summary_link_text": "provide identity verification details for the PSC"
 }

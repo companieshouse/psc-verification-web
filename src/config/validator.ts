@@ -1,6 +1,6 @@
 class Just<T> {
     // eslint-disable-next-line no-useless-constructor
-    constructor (public value: T) {}
+    constructor (public value: T) { }
     isJust (): this is Just<T> {
         return true;
     }
@@ -30,7 +30,7 @@ class ValidatorBuilder<T> {
     constructor (
         private validateFn: (input?: string | null) => Maybe<T>,
         private description: string = ""
-    ) {}
+    ) { }
 
     static from<T> (validateFn: Validator<T>): ValidatorBuilder<T> { // NOSONAR
         return new ValidatorBuilder(validateFn);
@@ -146,22 +146,22 @@ const portValidator = strValidator
 
 const boolValidator = strValidator.map<string>((s) => s.trim().toLowerCase()).map<boolean>((s) => {
     switch (s) {
-    case "true":
-    case "1":
-    case "yes":
-    case "y":
-    case "on":
-        return true;
-    case "false":
-    case "0":
-    case "no":
-    case "n":
-    case "off":
-        return false;
-    default:
-        throw new Error(
-            `Invalid boolean value '${s}'. Expected true/false, 1/0, yes/no, y/n, on/off.`
-        );
+        case "true":
+        case "1":
+        case "yes":
+        case "y":
+        case "on":
+            return true;
+        case "false":
+        case "0":
+        case "no":
+        case "n":
+        case "off":
+            return false;
+        default:
+            throw new Error(
+                `Invalid boolean value '${s}'. Expected true/false, 1/0, yes/no, y/n, on/off.`
+            );
     }
 });
 
@@ -177,14 +177,14 @@ export const Validators = {
 
 export type Env<S> = S extends Record<string, ValidatorBuilder<unknown>>
     ? {
-          [K in keyof S]: S[K] extends ValidatorBuilder<infer U> ? U : never;
-      }
+        [K in keyof S]: S[K] extends ValidatorBuilder<infer U> ? U : never;
+    }
     : never;
 
 export function readEnv<S extends Record<string, ValidatorBuilder<unknown>>> (source: Record<string, string | undefined>, schema: S): Readonly<Env<S>> {
     const vars: Record<string, unknown> = {};
 
-    const errors: {key: string, message: string}[] = [];
+    const errors: { key: string, message: string }[] = [];
 
     for (const [k, v] of Object.entries(schema)) {
         const err = { key: k };
@@ -216,7 +216,7 @@ export function readEnv<S extends Record<string, ValidatorBuilder<unknown>>> (so
 
 const protocolRegex = /^(http:\/\/|https:\/\/|\/\/)/i;
 // Some config parameters don't have protocols e.g. CDN_HOST.
-// This funciton adds '//' which is a protocol relative protocol to the url.
+// This function adds '//' which is a protocol relative protocol to the url.
 // This means if the site is hosted on http it will try to access http://${CDN_HOST}
 // If the site is hosted on https it will use https://${CDN_HOST}
 export function addProtocolIfMissing (url: string): string {
