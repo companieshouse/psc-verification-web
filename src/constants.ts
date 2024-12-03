@@ -2,9 +2,9 @@ export const servicePathPrefix = "/persons-with-significant-control-verification
 const urlWithTransactionIdAndSubmissionId = "/transaction/:transactionId/submission/:submissionId";
 
 export enum STOP_TYPE {
-    SUPER_SECURE = "super-secure",
     PSC_DOB_MISMATCH = "psc-dob-mismatch",
-    RP01_GUIDANCE = "rp01-guidance"
+    RP01_GUIDANCE = "rp01-guidance",
+    SUPER_SECURE = "super-secure"
 };
 
 export function toStopScreenUrl (stopType: STOP_TYPE) {
