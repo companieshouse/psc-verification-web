@@ -7,7 +7,7 @@ import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../.
 import { env } from "../../../config";
 
 interface StopScreenHandlerViewData extends BaseViewData {
-    linkUrls?: string[];
+    extraData?: string[];
 }
 
 export class StopScreenHandler extends GenericHandler<StopScreenHandlerViewData> {
@@ -47,7 +47,7 @@ const setContent = async (req: Request, stopType: STOP_TYPE, baseViewData: BaseV
                 currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
                 backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
                 backLinkDataEvent: "psc-dob-mismatch-back-link",
-                linkUrls: [resolveUrlTemplate(stopScreenPrefixedUrl, STOP_TYPE.RP01_GUIDANCE)]
+                extraData: [resolveUrlTemplate(stopScreenPrefixedUrl, STOP_TYPE.RP01_GUIDANCE)]
             };
         }
         case STOP_TYPE.RP01_GUIDANCE: {
@@ -58,7 +58,7 @@ const setContent = async (req: Request, stopType: STOP_TYPE, baseViewData: BaseV
                 currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
                 backURL: resolveUrlTemplate(stopScreenPrefixedUrl, STOP_TYPE.PSC_DOB_MISMATCH),
                 backLinkDataEvent: "rp01-guidance-back-link",
-                linkUrls: [env.GET_RP01_LINK, env.GET_PSC01_LINK, env.POST_TO_CH_LINK, PrefixedUrls.START]
+                extraData: [env.GET_RP01_LINK, env.GET_PSC01_LINK, env.POST_TO_CH_LINK, PrefixedUrls.START]
             };
         }
         default: {
