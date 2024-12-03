@@ -1,11 +1,20 @@
-import { COMPANY_NUMBER } from "../../../mocks/pscVerification.mock";
-import { VALID_COMPANY_PSC_ITEMS } from "../../../mocks/companyPsc.mock";
-import { getCompanyProfile } from "../../../../src/services/companyProfileService";
-import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
-import { getCompanyIndividualPscList } from "../../../../src/services/companyPscService";
+import { HttpStatusCode } from "axios";
 import * as httpMocks from "node-mocks-http";
 import { Urls } from "../../../../src/constants";
 import { IndividualPscListHandler } from "../../../../src/routers/handlers/individual-psc-list/individualPscListHandler";
+import { getCompanyProfile } from "../../../../src/services/companyProfileService";
+import { getCompanyIndividualPscList } from "../../../../src/services/companyPscService";
+import { getPscVerification } from "../../../../src/services/pscVerificationService";
+import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
+import { VALID_COMPANY_PSC_ITEMS } from "../../../mocks/companyPsc.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED } from "../../../mocks/pscVerification.mock";
+
+const mockGetPscVerification = getPscVerification as jest.Mock;
+jest.mock("../../../../src/services/pscVerificationService");
+mockGetPscVerification.mockResolvedValueOnce({
+    httpStatusCode: HttpStatusCode.Ok,
+    resource: INDIVIDUAL_VERIFICATION_CREATED
+});
 
 jest.mock("../../../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
@@ -31,7 +40,7 @@ describe("psc list handler", () => {
                 }
             });
 
-            const res = httpMocks.createResponse({});
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_CREATED } });
             const handler = new IndividualPscListHandler();
 
             const { templatePath, viewData } = await handler.executeGet(req, res);

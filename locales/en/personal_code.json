@@ -3,6 +3,8 @@
     "personal_code_details_summaryText": "Where to find the Companies House personal code",
     "personal_code_details_text": "This is an 11 character code that is given to a person after they have verified their identity with Companies House.",
     "personal_code_born": "Born ",
-    "personal_code_button": "Save and continue"
+    "personal_code_button": "Save and continue",
+    "personal_code_error_summary": "Enter the Companies House personal code for ",
+    "personal_code_error_inline": "Enter the Companies House personal code for "
 
 }

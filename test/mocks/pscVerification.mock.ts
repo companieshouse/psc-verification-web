@@ -10,7 +10,8 @@ export const UVID = "123abc456edf";
 export const SELF_URI = `/transactions/${TRANSACTION_ID}/persons-with-significant-control-verification/${PSC_VERIFICATION_ID}`;
 
 export const INITIAL_PSC_DATA: PscVerificationData = {
-    companyNumber: COMPANY_NUMBER
+    companyNumber: COMPANY_NUMBER,
+    pscAppointmentId: PSC_APPOINTMENT_ID
 };
 
 export const LINKS: Links = {
@@ -23,6 +24,22 @@ export const INDIVIDUAL_DATA: PscVerificationData = {
     pscAppointmentId: PSC_APPOINTMENT_ID,
     verificationDetails: {
         verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
+    }
+};
+
+export const PATCHED_PERSONAL_CODE_DATA: PscVerificationData = {
+    companyNumber: COMPANY_NUMBER,
+    pscAppointmentId: PSC_APPOINTMENT_ID,
+    verificationDetails: {
+        uvid: UVID
+    }
+};
+
+export const INITIAL_PERSONAL_CODE_DATA: PscVerificationData = {
+    companyNumber: COMPANY_NUMBER,
+    pscAppointmentId: PSC_APPOINTMENT_ID,
+    verificationDetails: {
+        uvid: ""
     }
 };
 
@@ -47,6 +64,12 @@ export const PATCH_PERSONAL_CODE_DATA: PscVerificationData = {
     pscAppointmentId: PSC_APPOINTMENT_ID,
     verificationDetails: {
         uvid: UVID
+    }
+};
+
+export const PATCH_BLANK_PERSONAL_CODE_DATA: PscVerificationData = {
+    verificationDetails: {
+        uvid: ""
     }
 };
 
@@ -111,6 +134,7 @@ function initPscVerification (data: PscVerificationData) {
 // Returns the PSC verification with data fields in camel case
 export const INDIVIDUAL_VERIFICATION_CREATED: PscVerification = initPscVerification(INITIAL_PSC_DATA);
 export const INDIVIDUAL_VERIFICATION_FULL: PscVerification = initPscVerification(INDIVIDUAL_DATA);
+export const IND_VERIFICATION_PERSONAL_CODE: PscVerification = initPscVerification(INITIAL_PERSONAL_CODE_DATA);
 export const INDIVIDUAL_VERIFICATION_PATCH: PscVerification = initPscVerification(PATCH_INDIVIDUAL_DATA);
 export const RLE_VERIFICATION_PATCH: PscVerification = initPscVerification(PATCH_RLE_DATA);
 export const RLE_VERIFICATION_FULL: PscVerification = initPscVerification(RLE_DATA_FULL);

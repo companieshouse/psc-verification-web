@@ -5,5 +5,9 @@
     },
     "jest.runMode": "on-save",
     "javascript.preferences.importModuleSpecifier": "relative",
-    "typescript.preferences.importModuleSpecifier": "relative"
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "cSpell.words": [
+        "PIWIK",
+        "uvid"
+    ]
 }
