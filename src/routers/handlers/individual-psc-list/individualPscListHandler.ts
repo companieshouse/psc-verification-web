@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
+import { CompanyPersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
+import { getCompanyIndividualPscList } from "../../../services/companyPscService";
+import { getCompanyProfile } from "../../../services/companyProfileService";
 import { PrefixedUrls, Urls } from "../../../constants";
-import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
-import { CompanyPersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
-import { getCompanyIndividualPscList } from "../../../services/companyPscService";
 import { formatDateBorn, internationaliseDate } from "../../utils";
 import { env } from "../../../config";
+import { logger } from "../../../lib/logger";
 
 interface PscListData {
     pscId: string,
@@ -36,7 +38,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const companyNumber = req.query.companyNumber as string;
-        const companyProfile = res.locals.companyProfile;
+        const companyProfile: CompanyProfile = await getCompanyProfile(req, companyNumber);
         const dsrEmailAddress = env.DSR_EMAIL_ADDRESS;
         const dsrPhoneNumber = env.DSR_PHONE_NUMBER;
 
