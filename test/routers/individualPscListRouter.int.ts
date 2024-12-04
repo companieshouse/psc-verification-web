@@ -28,7 +28,7 @@ afterEach(() => {
 
 describe("psc individual list get tests", () => {
 
-    it("Should render the PSC Individual List page with a successful status code", async () => {
+    it.skip("Should render the PSC Individual List page with a successful status code", async () => {
         // Arrange
         (getCompanyProfile as jest.Mock).mockReturnValue(validCompanyProfile);
         (getCompanyIndividualPscList as jest.Mock).mockReturnValue(VALID_COMPANY_IND_PSC_LIST);

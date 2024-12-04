@@ -224,5 +224,3 @@ export const VALID_COMPANY_PSC_LIST_RESPONSE = {
     httpStatusCode: HttpStatusCode.Accepted,
     resource: VALID_COMPANY_PSC_LIST
 };
-
-
