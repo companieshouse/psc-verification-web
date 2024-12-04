@@ -40,6 +40,28 @@ describe("fetchCompany", () => {
 
     });
 
+    it("should retrieve a company profile resource when company number query param is present", async () => {
+        const COMPANY_NUMBER = "12345678";
+        const VALID_REQ_BEFORE_TRANSACTION: httpMocks.RequestOptions = {
+            method: "GET",
+            url: PrefixedUrls.INDIVIDUAL_PSC_LIST,
+            query: {
+                companyNumber: COMPANY_NUMBER,
+                lang: "en"
+            }
+        };
+        const req = httpMocks.createRequest(VALID_REQ_BEFORE_TRANSACTION);
+        const res = httpMocks.createResponse();
+
+        await fetchCompany(req, res, mockNext);
+
+        expect(res.locals?.companyProfile).toBeUndefined();
+        expect(req.query.companyNumber).toBe(COMPANY_NUMBER);
+        expect(mockNext).toHaveBeenCalled();
+        expect(mockGetCompanyProfile).toHaveBeenCalled();
+
+    });
+
     it("should skip retrieval if companyNumber is missing", async () => {
         const req = httpMocks.createRequest(VALID_REQ);
         const res = httpMocks.createResponse({ locals: { submission: { data: { ...INDIVIDUAL_DATA, companyNumber: undefined } } } });
