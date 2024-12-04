@@ -25,7 +25,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.PSC_VERIFIED, authenticate, fetchVerification, fetchCompany, PscVerifiedRouter);
     router.use(Urls.RLE_LIST, authenticate, RlePscListRouter);
     router.use(Urls.PSC_TYPE, authenticate, fetchVerification, PscTypeRouter);
-    router.use(Urls.STOP_SCREEN, authenticate, StopScreenRouter);
+    router.use(Urls.STOP_SCREEN, authenticate, fetchCompany, StopScreenRouter);
     router.use(Urls.STOP_SCREEN_SUBMISSION, authenticate, StopScreenRouter);
 
     router.use("*", (req: Request, res: Response) => {

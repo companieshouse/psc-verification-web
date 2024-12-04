@@ -5,7 +5,7 @@ import { getCompanyProfile } from "../services/companyProfileService";
 import { handleExceptions } from "../utils/asyncHandler";
 
 export const fetchCompany = handleExceptions(async (req: Request, res: Response, next: NextFunction) => {
-    const companyNumber = res.locals.submission?.data?.companyNumber;
+    const companyNumber = res.locals.submission?.data?.companyNumber || req.query.companyNumber;
 
     if (companyNumber) {
         logger.debug(`${fetchCompany.name} - Retrieving company profile for company number ${companyNumber} ...`);
@@ -14,7 +14,7 @@ export const fetchCompany = handleExceptions(async (req: Request, res: Response,
         // store the profile in the request.locals (per express SOP)
         res.locals.companyProfile = response;
     } else {
-        logger.error(`${fetchCompany.name} -  Cannot retrieve company profile: No company number found in submission resource`);
+        logger.error(`${fetchCompany.name} -  Cannot retrieve company profile: No company number provided`);
     }
     next();
 });
