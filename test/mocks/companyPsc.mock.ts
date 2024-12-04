@@ -1,4 +1,3 @@
-import { HttpStatusCode } from "axios";
 import { CompanyPersonsWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 
 export const COMPANY_NUMBER = "12345678";
@@ -14,7 +13,7 @@ export const EMPTY_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControl = {
     items: []
 };
 
-export const VALID_COMPANY_IND_PSC_ITEMS = [
+export const INDIVIDUAL_PSCS_LIST = [
     {
         naturesOfControl: [
             "ownership-of-shares-25-to-50-percent-as-trust"
@@ -208,19 +207,4 @@ export const VALID_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControl = {
         self: "company/123456/persons-with-significant-control"
     },
     items: VALID_COMPANY_PSC_ITEMS
-};
-export const VALID_COMPANY_IND_PSC_LIST: CompanyPersonsWithSignificantControl = {
-    ceasedCount: "0",
-    itemsPerPage: "25",
-    totalResults: "2",
-    activeCount: "2",
-    links: {
-        self: "company/123456/persons-with-significant-control"
-    },
-    items: VALID_COMPANY_IND_PSC_ITEMS
-};
-
-export const VALID_COMPANY_PSC_LIST_RESPONSE = {
-    httpStatusCode: HttpStatusCode.Accepted,
-    resource: VALID_COMPANY_PSC_LIST
 };
