@@ -14,7 +14,7 @@ export const fetchCompany = handleExceptions(async (req: Request, res: Response,
         // store the profile in the request.locals (per express SOP)
         res.locals.companyProfile = response;
     } else {
-        logger.error(`${fetchCompany.name} -  Cannot retrieve company profile: No company number found in submission resource`);
+        logger.error(`${fetchCompany.name} -  Cannot retrieve company profile: No company number provided`);
     }
     next();
 });

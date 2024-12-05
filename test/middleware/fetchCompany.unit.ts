@@ -1,13 +1,14 @@
-import { INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { Response } from "express";
 import * as httpMocks from "node-mocks-http";
 import { PrefixedUrls } from "../../src/constants";
+import { COMPANY_NUMBER, INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { getCompanyProfile } from "../../src/services/companyProfileService";
 import { validCompanyProfile } from "../mocks/companyProfile.mock";
 import { fetchCompany } from "../../src/middleware/fetchCompany";
 
 jest.mock("../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
-mockGetCompanyProfile.mockResolvedValueOnce(validCompanyProfile);
+mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 
 const mockNext = jest.fn();
 
@@ -28,73 +29,55 @@ describe("fetchCompany", () => {
         }
     };
 
-    it("should retrieve a company profile resource", async () => {
-        const req = httpMocks.createRequest(VALID_REQ);
-        const res = httpMocks.createResponse({ locals: { submission: { data: INDIVIDUAL_DATA } } });
+    describe("should retrieve a company profile resource", () => {
 
-        await fetchCompany(req, res, mockNext);
+        it("when the submission has a companyNumber", async () => {
+            const req = httpMocks.createRequest(VALID_REQ);
+            const res = httpMocks.createResponse({ locals: { submission: { data: INDIVIDUAL_DATA } } });
 
-        expect(res.locals?.companyProfile).toBe(validCompanyProfile);
-        expect(mockNext).toHaveBeenCalled();
-        expect(mockGetCompanyProfile).toHaveBeenCalled();
+            await fetchCompany(req, res, mockNext);
 
-    });
+            expectValidProfileFetched(res);
+        });
 
-    it("should retrieve a company profile resource when company number query param is present", async () => {
-        const COMPANY_NUMBER = "12345678";
-        const VALID_REQ_BEFORE_TRANSACTION: httpMocks.RequestOptions = {
-            method: "GET",
-            url: PrefixedUrls.INDIVIDUAL_PSC_LIST,
-            query: {
-                companyNumber: COMPANY_NUMBER,
-                lang: "en"
-            }
-        };
-        const req = httpMocks.createRequest(VALID_REQ_BEFORE_TRANSACTION);
-        const res = httpMocks.createResponse();
+        it("when the submission is missing and companyNumber query param is provided", async () => {
+            const req = httpMocks.createRequest({ ...VALID_REQ, query: { companyNumber: COMPANY_NUMBER } });
+            const res = httpMocks.createResponse({ locals: { submission: undefined } });
 
-        await fetchCompany(req, res, mockNext);
+            await fetchCompany(req, res, mockNext);
 
-        expect(res.locals?.companyProfile).toBeUndefined();
-        expect(req.query.companyNumber).toBe(COMPANY_NUMBER);
-        expect(mockNext).toHaveBeenCalled();
-        expect(mockGetCompanyProfile).toHaveBeenCalled();
+            expectValidProfileFetched(res);
+        });
+
+        it("when the submission has no companyNumber and companyNumber query param is provided", async () => {
+            const req = httpMocks.createRequest({ ...VALID_REQ, query: { companyNumber: COMPANY_NUMBER } });
+            const res = httpMocks.createResponse({ locals: { submission: { data: { ...INDIVIDUAL_DATA, companyNumber: undefined } } } });
+
+            await fetchCompany(req, res, mockNext);
+
+            expectValidProfileFetched(res);
+        });
 
     });
 
-    it("should skip retrieval if companyNumber is missing", async () => {
-        const req = httpMocks.createRequest(VALID_REQ);
-        const res = httpMocks.createResponse({ locals: { submission: { data: { ...INDIVIDUAL_DATA, companyNumber: undefined } } } });
+    describe("should skip retrieval", () => {
+        it("when submission is missing and companyNumber query param not provided", async () => {
+            const req = httpMocks.createRequest(VALID_REQ);
+            const res = httpMocks.createResponse({ locals: { submission: undefined } });
 
-        await fetchCompany(req, res, mockNext);
+            await fetchCompany(req, res, mockNext);
 
-        expect(res.locals?.companyProfile).toBeUndefined();
-        expect(mockNext).toHaveBeenCalled();
-        expect(mockGetCompanyProfile).not.toHaveBeenCalled();
+            expect(res.locals?.companyProfile).toBeUndefined();
+            expect(mockNext).toHaveBeenCalled();
+            expect(mockGetCompanyProfile).not.toHaveBeenCalled();
 
+        });
     });
 
-    it("should skip retrieval if submission is undefined", async () => {
-        const req = httpMocks.createRequest(VALID_REQ);
-        const res = httpMocks.createResponse({ locals: { submission: undefined } });
-
-        await fetchCompany(req, res, mockNext);
-
-        expect(res.locals?.companyProfile).toBeUndefined();
-        expect(mockNext).toHaveBeenCalled();
-        expect(mockGetCompanyProfile).not.toHaveBeenCalled();
-
-    });
-
-    it("should skip retrieval if submission is missing", async () => {
-        const req = httpMocks.createRequest(VALID_REQ);
-        const res = httpMocks.createResponse();
-
-        await fetchCompany(req, res, mockNext);
-
-        expect(res.locals?.companyProfile).toBeUndefined();
-        expect(mockNext).toHaveBeenCalled();
-        expect(mockGetCompanyProfile).not.toHaveBeenCalled();
-
-    });
 });
+
+const expectValidProfileFetched = (res: httpMocks.MockResponse<Response<any, Record<string, any>>>) => {
+    expect(res.locals?.companyProfile).toBe(validCompanyProfile);
+    expect(mockNext).toHaveBeenCalled();
+    expect(mockGetCompanyProfile).toHaveBeenCalled();
+};
