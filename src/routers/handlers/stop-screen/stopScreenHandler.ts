@@ -47,7 +47,7 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 ...baseViewData,
                 ...getLocaleInfo(locales, lang),
                 templateName: stopType,
-                currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
+                currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
                 backURL: addSearchParams(resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY), { companyNumber }),
                 backLinkDataEvent: "company-type-back-link",
                 extraData: [companyName, resolveUrlTemplate(PrefixedUrls.COMPANY_NUMBER), env.CONTACT_US_LINK]
