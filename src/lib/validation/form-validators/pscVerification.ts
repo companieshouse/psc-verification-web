@@ -34,6 +34,10 @@ export class PscVerificationFormsValidator extends GenericValidator {
         return this.validateForm(payload, "personalCode", "personalCode", pscName);
     }
 
+    validateNameMismatch (payload: any, _lang: string, pscName: string): Promise<Object> {
+        return this.validateForm(payload, "nameMismatch", "nameMismatch", pscName);
+    }
+
     validateIndividualStatement (payload: any, _lang: string, pscName: string): Promise<Object> {
         return this.validateForm(payload, "pscIndividualStatement", "individualStatement", pscName);
     }

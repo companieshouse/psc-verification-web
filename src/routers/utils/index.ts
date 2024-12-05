@@ -10,9 +10,10 @@ import IndividualStatementRouter from "../individualStatementRouter";
 import PscVerifiedRouter from "./../pscVerifiedRouter";
 import RlePscListRouter from "./../rlePscListRouter";
 import StopScreenRouter from "./../stopScreenRouter";
+import NameMismatchRouter from "../nameMismatchRouter";
 
 import { logger } from "../../lib/logger";
-export { StartRouter, HealthCheckRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, NewSubmissionRouter, PscVerifiedRouter, RlePscListRouter, StopScreenRouter };
+export { StartRouter, HealthCheckRouter, CompanyNumberRouter, ConfirmCompanyRouter, PscTypeRouter, IndividualPscListRouter, NameMismatchRouter, PersonalCodeRouter, IndividualStatementRouter, NewSubmissionRouter, PscVerifiedRouter, RlePscListRouter, StopScreenRouter };
 
 export function formatDateBorn (dateOfBirth: any, lang: string): string {
     try {
