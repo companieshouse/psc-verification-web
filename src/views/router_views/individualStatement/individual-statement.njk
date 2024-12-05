@@ -1,0 +1,73 @@
+{% extends "layouts/default.njk" %}
+
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set title = i18n.individual_statement_title %}
+
+{% set nameAndDateBirthText = [
+    pscName,
+    " ",
+    "(",
+    i18n.individual_statement_born,
+    dateOfBirth,
+    ")"
+] | join %}
+
+{% set statementText %}
+<label for="pscIndividualStatement">{{ i18n.individual_statement_part1 }}
+    <strong>{{ pscName }}</strong>
+    {{ i18n.individual_statement_part2 }}</label>
+{% endset %}
+
+{% block main_content %}
+    <form action="" method="post">
+        {% include "includes/csrf_token.njk" %}
+        <span class="govuk-caption-xl">
+            <div class="govuk-!-padding-bottom-1" id="nameAndDateOfBirth">{{ nameAndDateBirthText }}</div>
+        </span>
+
+        {% set checkboxConfig = {
+            name: "pscIndividualStatement",
+            values: selectedStatements,
+            fieldset: {
+                legend: {
+                    text: title,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                },
+                attributes: {
+                    "data-event-id": "confirmed-identity-verification-checkbox"
+                }
+            },
+            items: [
+                {
+                    value: "INDIVIDUAL_VERIFIED",
+                    html: statementText
+                }
+            ]
+        } %}
+
+        {% if errors is not undefined and errors is not null and errors | length %}
+            {{ govukCheckboxes({
+                name: checkboxConfig.name,
+                values: checkboxConfig.values,
+                fieldset: checkboxConfig.fieldset,
+                items: checkboxConfig.items,
+                errorMessage: {
+                    text: i18n.individual_statement_error_inline + pscName
+                }
+            }) }}
+        {% else %}
+            {{ govukCheckboxes(checkboxConfig) }}
+        {% endif %}
+
+        {{ govukButton({
+            attributes: {
+                id: "submit", "data-event-id": "psc-statement-continue-button"
+            },
+            text: i18n.individual_statement_button
+            })
+        }}
+    </form>
+
+{% endblock %}
