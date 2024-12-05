@@ -30,7 +30,7 @@ interface IndividualPscListViewData extends BaseViewData {
 
 export class IndividualPscListHandler extends GenericHandler<IndividualPscListViewData> {
 
-    private static templatePath = "router_views/individualPscList/individualPscList";
+    private static templatePath = "router_views/individualPscList/individual-psc-list";
 
     public async getViewData (req: Request, res: Response): Promise<IndividualPscListViewData> {
 

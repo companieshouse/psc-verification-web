@@ -60,7 +60,7 @@ describe("PSC Verified handler", () => {
 
             const resp = await handler.executeGet(request, response);
             const viewData = resp.viewData;
-            expect(resp.templatePath).toBe("router_views/pscVerified/pscVerified");
+            expect(resp.templatePath).toBe("router_views/pscVerified/psc-verified");
             expect(viewData).toMatchObject({
                 currentUrl: `${expectedPrefix}/psc-verified?lang=en`,
                 companyNumber: COMPANY_NUMBER,
