@@ -93,7 +93,7 @@ describe("Stop screen handler", () => {
                 case STOP_TYPE.SUPER_SECURE:
                     expect(viewData).toMatchObject({
                         ...expectedViewData,
-                        currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?lang=en`,
+                        currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`,
                         backURL: `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=00006400&lang=en`,
                         extraData: [env.DSR_EMAIL_ADDRESS, env.DSR_PHONE_NUMBER]
                     });
