@@ -6,7 +6,7 @@ import { addSearchParams } from "../../../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn } from "../../utils";
-import { PscVerification, PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { NameMismatchReasonEnum, PscVerification, PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { patchPscVerification } from "../../../services/pscVerificationService";
 import { getPscIndividual } from "../../../services/pscService";
 import { PscVerificationFormsValidator } from "../../../lib/validation/form-validators/pscVerification";
@@ -15,7 +15,13 @@ interface NameMismatchViewData extends BaseViewData {
     pscName: string,
     monthYearBorn: string,
     nameMismatch: string,
-    nextPageUrl: string
+    nextPageUrl: string,
+    legalNameChange: string,
+    preferredName: string,
+    translationOrDifferentConvention: string,
+    publicRegisterError: string,
+    preferNotToSay: string
+
 }
 
 export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
@@ -31,6 +37,12 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
         const nameMismatch = req.query.nameMismatch as string;
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
+        // Note enums match the API
+        const legalNameChange = NameMismatchReasonEnum.LEGAL_NAME_CHANGE;
+        const preferredName = NameMismatchReasonEnum.PREFERRED_NAME;
+        const translationOrDifferentConvention = NameMismatchReasonEnum.DIFFERENT_NAMING_CONVENTION;
+        const publicRegisterError = NameMismatchReasonEnum.PUBLIC_REGISTER_ERROR;
+        const preferNotToSay = NameMismatchReasonEnum.PREFER_NOT_TO_SAY;
 
         return {
             ...baseViewData,
@@ -38,6 +50,11 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
             pscName: pscIndividual.resource?.name!,
             monthYearBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
             nameMismatch,
+            legalNameChange,
+            preferredName,
+            translationOrDifferentConvention,
+            publicRegisterError,
+            preferNotToSay,
             currentUrl: resolveUrlTemplate(PrefixedUrls.NAME_MISMATCH),
             backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
             templateName: Urls.NAME_MISMATCH,

@@ -6,14 +6,9 @@
 
 {% set title = i18n.name_mismatch_title%}
 
-{% set nameAndDateBirthText = [
-    pscName,
-    " ",
-    "(",
-    i18n.name_mismatch_born,
-    monthYearBorn,
-    ")"
-] | join %}
+{% set nameAndDateBirthText = 
+    [pscName," ","(",i18n.name_mismatch_born,monthYearBorn,")"] | join 
+%}
 
 {% block main_content %}
 
@@ -51,35 +46,35 @@
             id:"nameMismatch",
             items: [
                 {
-                    value: "LEGAL_NAME_CHANGE",
+                    value: legalNameChange,
                     text: i18n.name_mismatch_legally_changed,
                     attributes:{
                         "data-event-id": "legally-changed-radio-option"
                     }
                 },
                 {
-                    value: "PREFERRED_NAME",
+                    value: preferredName,
                     text: i18n.name_mismatch_preferred_name,
                     attributes:{
                         "data-event-id": "preferred-name-radio-option"
                     }
                 },
                 {
-                    value: "TRANSLATION_OR_DIFFERENT_CONVENTION",
+                    value: translationOrDifferentConvention,
                     text: i18n.name_mismatch_translation_or_convention,
                     attributes:{
-                        "data-event-id": "appears-different-radio-option"
+                        "data-event-id": "translation-or-different-naming-convention-radio-option"
                     }
                 },
                 {
-                    value: "PUBLIC_REGISTER_ERROR",
+                    value: publicRegisterError,
                     text: i18n.name_mismatch_register_incorrect,
                     attributes:{
                         "data-event-id": "register-incorrect-radio-option"
                     }
                 },
                 {
-                    value: "PREFER_NOT_TO_SAY",
+                    value: preferNotToSay,
                     text: i18n.name_mismatch_prefer_not_to_say,
                     attributes:{
                         "data-event-id": "prefer-not-to-say-radio-option"
