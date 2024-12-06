@@ -9,6 +9,7 @@ export const Localisation = {
 };
 
 export enum STOP_TYPE {
+    COMPANY_STATUS = "company-status",
     COMPANY_TYPE = "company-type",
     PSC_DOB_MISMATCH = "psc-dob-mismatch",
     RP01_GUIDANCE = "rp01-guidance",

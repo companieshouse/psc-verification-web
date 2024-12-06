@@ -65,6 +65,11 @@ describe("stop screen view tests", () => {
         expect(resp.status).toBe(HttpStatusCode.Ok);
 
         switch (stopType) {
+            case STOP_TYPE.COMPANY_STATUS:
+                expect($("a.govuk-back-link").attr("href")).toBe(`${PrefixedUrls.CONFIRM_COMPANY}?lang=en&companyNumber=00006400`);
+                expect($("a#go-back-enter-number").attr("href")).toBe(`${PrefixedUrls.COMPANY_NUMBER}?lang=en`);
+                expect($("a#contact-us").attr("href")).toBe(env.CONTACT_US_LINK);
+                break;
             case STOP_TYPE.COMPANY_TYPE:
                 expect($("a.govuk-back-link").attr("href")).toBe(`${PrefixedUrls.CONFIRM_COMPANY}?lang=en&companyNumber=00006400`);
                 expect($("a#go-back-enter-number").attr("href")).toBe(`${PrefixedUrls.COMPANY_NUMBER}?lang=en`);

@@ -1,4 +1,12 @@
 {
+  "company_status_main_title": "You cannot provide verification details for this company through this service",
+  "company_status_main_heading": "Companies that are dissolved or converted closed cannot use this service",
+  "company_status_statement_1": "'s status on the Companies House register is currently either dissolved or converted closed.",
+  "company_status_statement_2": "This means its PSCs do not need to provide their verification details.",
+  "company_status_wrong_company_action": "If this is the wrong company, ",
+  "company_status_wrong_company_action_text": "go back and enter a different company number",
+  "company_status_contact_us_text": "Contact us",
+  "company_status_contact_us": "if you have any questions.",
   "company_type_main_title": "You cannot provide verification details for this company through this service",
   "company_type_main_heading": "Only certain company types can use this service",
   "company_type_intro_start": "You can only provide verification details for PSCs of",
