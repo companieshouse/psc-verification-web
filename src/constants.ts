@@ -1,6 +1,13 @@
 export const servicePathPrefix = "/persons-with-significant-control-verification";
 const urlWithTransactionIdAndSubmissionId = "/transaction/:transactionId/submission/:submissionId";
 
+// English and Welsh translation files (.json) AND Nunjucks template files (.njk) for pages
+export const Localisation = {
+    COMMON: "common",
+    START_PAGE: "start"
+    // TODO: add the rest of the view localisations
+};
+
 export enum STOP_TYPE {
     COMPANY_TYPE = "company-type",
     PSC_DOB_MISMATCH = "psc-dob-mismatch",

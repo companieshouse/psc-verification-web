@@ -15,6 +15,14 @@
     "start_before_list_item1": "to sign in, or create sign in details",
     "start_before_list_item2": "the company number",
     "start_before_list_item3": "the PSC's Companies House personal code",
+    "start_before_list_items" : [
+        "This is item one",
+        "This is item two",
+        "This is item three"
+    ],
+    "start_before_structured": {
+        "property": "This is a structured object property."
+    },
     "start_personal_code_details_main_link": "What is a Companies House personal code?",
     "start_personal_code_details_description": "This is an 11 character code that is given to a person after they have verified their identity for Companies House.",
     "start_personal_code_details_before_link": "Find out more about ",

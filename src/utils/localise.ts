@@ -1,5 +1,9 @@
-import { LanguageNames, LocalesService } from "@companieshouse/ch-node-utils";
+import { LanguageNames, LocalesService, i18nCh } from "@companieshouse/ch-node-utils";
 import { env } from "../config/index";
+import {
+    SHARED_NUNJUCKS_TRANSLATION_NAMESPACES
+} from "@companieshouse/ch-node-utils/lib/constants/constants";
+import { Localisation } from "../constants";
 
 export const selectLang = (lang: any): string => {
     switch (lang) {
@@ -30,3 +34,21 @@ export const getLocaleInfo = (locales: LocalesService, lang: string) => {
 };
 
 export const getLocalesService = () => LocalesService.getInstance(env.LOCALES_PATH, env.LOCALES_ENABLED === "true");
+
+export const getLocalisationForView = (lang: string, viewName: string): Record<string, unknown> => {
+    const l10n = [...SHARED_NUNJUCKS_TRANSLATION_NAMESPACES, Localisation.COMMON, viewName].reduce(
+        (acc, ns) => ({
+            ...acc,
+            ...i18nCh.getInstance().getResourceBundle(selectLang(lang), ns)
+        }),
+        {}
+    );
+    const locales = getLocalesService();
+
+    return {
+        languageEnabled: locales.enabled,
+        languages: LanguageNames.sourceLocales(locales.localesFolder),
+        l10n,
+        lang
+    };
+};

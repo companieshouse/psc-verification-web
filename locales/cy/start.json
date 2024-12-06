@@ -15,6 +15,14 @@
     "start_before_list_item1": "To be translated",
     "start_before_list_item2": "To be translated",
     "start_before_list_item3": "To be translated",
+    "start_before_list_items" : [
+        "Dyma eitem un",
+        "Dyma eitem dau",
+        "Dyma eitem tri"
+    ],
+    "start_before_structured": {
+        "property": "Mae hwn yn briodwedd gwrthrych strwythuredig."
+    },
     "start_personal_code_details_main_link": "To be translated",
     "start_personal_code_details_description": "To be translated",
     "start_personal_code_details_before_link": "To be translated ",
