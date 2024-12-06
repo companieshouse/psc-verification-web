@@ -37,16 +37,22 @@
         <li>{{ l10n.start_before_list_item3 }}</li>
     </ul>
 
-    <div class="govuk-tag--green">
-    {# Green background to highlight new localisation values #}
-        <p class="govuk-heading-s govuk-tag--green">{{ l10n.spike_heading }}</p>
-        <ul class="govuk-list govuk-list--bullet govuk-tag--green">
-            {% for item in l10n.start_before_list_items %}
-                <li>{{ item }}</li>
-            {% endfor %}
-        </ul>
-        <p class="govuk-heading-s govuk-tag--green">{{ l10n.start_before_structured.property }}</p>
-    </div>
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% set html %}
+    <p class="govuk-heading-s">{{ l10n.start_before_structured.property }}</p>
+    <ul class="govuk-list govuk-list--bullet">
+        {% for item in l10n.start_before_list_items %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+{% endset %}
+
+    {{ govukNotificationBanner({
+        titleText: l10n.spike_heading,
+        html: html
+    }) }}
+
 
     {% set startPersonalCodeDetails %}
         <p class="govuk-body">{{ l10n.start_personal_code_details_description }}</p>

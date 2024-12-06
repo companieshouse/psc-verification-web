@@ -16,9 +16,9 @@
     "start_before_list_item2": "To be translated",
     "start_before_list_item3": "To be translated",
     "start_before_list_items" : [
-        "Dyma eitem un",
-        "Dyma eitem dau",
-        "Dyma eitem tri"
+        "Dyma eitem un o arae",
+        "Dyma eitem dau o arae",
+        "Dyma eitem tri o arae"
     ],
     "start_before_structured": {
         "property": "Mae hwn yn briodwedd gwrthrych strwythuredig."

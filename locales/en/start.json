@@ -16,9 +16,9 @@
     "start_before_list_item2": "the company number",
     "start_before_list_item3": "the PSC's Companies House personal code",
     "start_before_list_items" : [
-        "This is item one",
-        "This is item two",
-        "This is item three"
+        "This is item one of an array",
+        "This is item two of an array",
+        "This is item three of an array"
     ],
     "start_before_structured": {
         "property": "This is a structured object property."
