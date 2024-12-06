@@ -42,6 +42,16 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
     const stopScreenPrefixedUrl = toStopScreenPrefixedUrl(stopType);
 
     switch (stopType) {
+        case STOP_TYPE.COMPANY_STATUS:
+            return {
+                ...baseViewData,
+                ...getLocaleInfo(locales, lang),
+                templateName: stopType,
+                currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
+                backURL: addSearchParams(resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY), { companyNumber }),
+                backLinkDataEvent: "company-status-back-link",
+                extraData: [companyName, resolveUrlTemplate(PrefixedUrls.COMPANY_NUMBER), env.CONTACT_US_LINK]
+            };
         case STOP_TYPE.COMPANY_TYPE:
             return {
                 ...baseViewData,

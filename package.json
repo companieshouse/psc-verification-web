@@ -108,6 +108,7 @@
     },
     "nodemonConfig": {
         "watch": [
+            "./locales",
             "./src",
             "./assets/src"
         ],
