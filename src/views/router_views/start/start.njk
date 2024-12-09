@@ -5,74 +5,74 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
-{% set title = l10n.start_main_title %}
+{% set title = i18n.start_main_title %}
 
 {% block main_content %}
 
-    <h1 class="govuk-heading-l">{{ l10n.start_main_title }}</h1>
-    <p class="govuk-body-l">{{ l10n.start_service_description }}</p>
+    <h1 class="govuk-heading-l">{{ i18n.start_main_title }}</h1>
+    <p class="govuk-body-l">{{ i18n.start_service_description }}</p>
 
     {{ govukInsetText({
-        text: l10n.start_inset_text
+        text: i18n.start_inset_text
     }) }}
 
-    <p class="govuk-body">{{ l10n.start_service_restriction_description }}</p>
+    <p class="govuk-body">{{ i18n.start_service_restriction_description }}</p>
 
-    <h2 class="govuk-heading-m">{{ l10n.start_when_to_verify_heading }}</h2>
-     <p class="govuk-body">{{ l10n.start_when_to_verify_description1 }}{{idvImplementationDate}}.</p>
-     <p class="govuk-body">{{ l10n.start_when_to_verify_description2 }}{{idvImplementationDate}}{{ l10n.start_when_to_verify_description3 }}</p>
-     <p class="govuk-body">{{ l10n.start_when_to_verify_description4 }}{{idvImplementationDate}}{{ l10n.start_when_to_verify_description5 }}</p>
+    <h2 class="govuk-heading-m">{{ i18n.start_when_to_verify_heading }}</h2>
+     <p class="govuk-body">{{ i18n.start_when_to_verify_description1 }}{{idvImplementationDate}}.</p>
+     <p class="govuk-body">{{ i18n.start_when_to_verify_description2 }}{{idvImplementationDate}}{{ i18n.start_when_to_verify_description3 }}</p>
+     <p class="govuk-body">{{ i18n.start_when_to_verify_description4 }}{{idvImplementationDate}}{{ i18n.start_when_to_verify_description5 }}</p>
 
      {{ govukWarningText({
-        text: l10n.start_warning_text
+        text: i18n.start_warning_text
     }) }}
 
-    <h2 class="govuk-heading-m">{{ l10n.start_before_heading }}</h2>
+    <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>
 
-    <p class="govuk-body"> {{l10n.start_before_list}} </p>
+    <p class="govuk-body"> {{i18n.start_before_list}} </p>
 
     <ul class="govuk-list govuk-list--bullet">
-        <li>{{ l10n.start_before_list_item1 }}</li>
-        <li>{{ l10n.start_before_list_item2 }}</li>
-        <li>{{ l10n.start_before_list_item3 }}</li>
+        <li>{{ i18n.start_before_list_item1 }}</li>
+        <li>{{ i18n.start_before_list_item2 }}</li>
+        <li>{{ i18n.start_before_list_item3 }}</li>
     </ul>
 
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 
 {% set html %}
-    <p class="govuk-heading-s">{{ l10n.start_before_structured.property }}</p>
+    <p class="govuk-heading-s">{{ i18n.start_before_structured.property }}</p>
     <ul class="govuk-list govuk-list--bullet">
-        {% for item in l10n.start_before_list_items %}
+        {% for item in i18n.start_before_list_items %}
             <li>{{ item }}</li>
         {% endfor %}
     </ul>
 {% endset %}
 
     {{ govukNotificationBanner({
-        titleText: l10n.spike_heading,
+        titleText: i18n.spike_heading,
         html: html
     }) }}
 
 
     {% set startPersonalCodeDetails %}
-        <p class="govuk-body">{{ l10n.start_personal_code_details_description }}</p>
-        <p class="govuk-body">{{ l10n.start_personal_code_details_before_link }}
-            <a href="{{ [chsUrl, verifyIdentityLink] | join  }}" title="{{ l10n.start_personal_code_details_link }}" class="govuk-link" data-event-id="guidance-on-psc-link">
-            {{ l10n.start_personal_code_details_link }} </a></p>
+        <p class="govuk-body">{{ i18n.start_personal_code_details_description }}</p>
+        <p class="govuk-body">{{ i18n.start_personal_code_details_before_link }}
+            <a href="{{ [chsUrl, verifyIdentityLink] | join  }}" title="{{ i18n.start_personal_code_details_link }}" class="govuk-link" data-event-id="guidance-on-psc-link">
+            {{ i18n.start_personal_code_details_link }} </a></p>
     {% endset %}
 
     {{ govukDetails({
-        summaryText: l10n.start_personal_code_details_main_link,
+        summaryText: i18n.start_personal_code_details_main_link,
         html: startPersonalCodeDetails,
             attributes: {
                 "data-event-id": "what-is-ch-personal-code-dropdown"
             }
         }) }}
 
-    <p class="govuk-body">{{ l10n.start_guidance_duration_description }}</p>
+    <p class="govuk-body">{{ i18n.start_guidance_duration_description }}</p>
 
     {{ govukButton({
-            text: l10n.start_button,
+            text: i18n.start_button,
             href: Urls.COMPANY_NUMBER + "?lang=" +lang,
             id: "start-button" ,
             isStartButton: true,

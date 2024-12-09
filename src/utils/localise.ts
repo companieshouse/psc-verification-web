@@ -36,7 +36,7 @@ export const getLocaleInfo = (locales: LocalesService, lang: string) => {
 export const getLocalesService = () => LocalesService.getInstance(env.LOCALES_PATH, env.LOCALES_ENABLED === "true");
 
 export const getLocalisationForView = (lang: string, viewName: string): Record<string, unknown> => {
-    const l10n = [...SHARED_NUNJUCKS_TRANSLATION_NAMESPACES, Localisation.COMMON, viewName].reduce(
+    const i18n = [...SHARED_NUNJUCKS_TRANSLATION_NAMESPACES, Localisation.COMMON, viewName].reduce(
         (acc, ns) => ({
             ...acc,
             ...i18nCh.getInstance().getResourceBundle(selectLang(lang), ns)
@@ -48,7 +48,7 @@ export const getLocalisationForView = (lang: string, viewName: string): Record<s
     return {
         languageEnabled: locales.enabled,
         languages: LanguageNames.sourceLocales(locales.localesFolder),
-        l10n,
+        i18n,
         lang
     };
 };

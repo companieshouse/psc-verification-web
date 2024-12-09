@@ -7,7 +7,7 @@ import { addSearchParams } from "../../../utils/queryParams";
 import { internationaliseDate } from "../../utils";
 import { env } from "../../../config";
 
-// TODO: move l10n property to BaseViewData?
+// TODO: move i18n property to BaseViewData?
 interface StartViewData extends BaseViewData {idvImplementationDate: string, l10n: Record<string, unknown>}
 
 export class StartHandler extends GenericHandler<StartViewData> {
@@ -21,11 +21,11 @@ export class StartHandler extends GenericHandler<StartViewData> {
         const locales = getLocalesService();
         const idvDate = env.IDV_IMPLEMENTATION_DATE; // "yyyymmdd"
         const idvDateFormatted = [idvDate.slice(0, 4), idvDate.slice(4, 6), idvDate.slice(6, 8)].join("-"); // yyyy-mm-dd
-        const l10n = getLocalisationForView(req.query.lang as string, Localisation.START_PAGE);
+        const i18n = getLocalisationForView(req.query.lang as string, Localisation.START_PAGE);
 
         return {
             ...baseViewData,
-            ...l10n,
+            ...i18n,
             isSignedIn: false,
             idvImplementationDate: internationaliseDate(idvDateFormatted, lang),
             currentUrl: addSearchParams(PrefixedUrls.START, { lang }),
