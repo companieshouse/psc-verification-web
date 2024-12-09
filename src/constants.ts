@@ -40,8 +40,6 @@ export const Urls = {
     PERSONAL_CODE: `${urlWithTransactionIdAndSubmissionId}/individual/personal-code`,
     INDIVIDUAL_STATEMENT: `${urlWithTransactionIdAndSubmissionId}/individual/psc-statement`,
     PSC_VERIFIED: `${urlWithTransactionIdAndSubmissionId}/psc-verified`,
-    PSC_TYPE: `${urlWithTransactionIdAndSubmissionId}/psc-type`,
-    RLE_LIST: `${urlWithTransactionIdAndSubmissionId}/rle/rle-list`,
     STOP_SCREEN: "/stop/:stopType",
     STOP_SCREEN_SUBMISSION: `${urlWithTransactionIdAndSubmissionId}/stop/:stopType`
 } as const;
@@ -57,8 +55,6 @@ export const PrefixedUrls = {
     PERSONAL_CODE: servicePathPrefix + Urls.PERSONAL_CODE,
     INDIVIDUAL_STATEMENT: servicePathPrefix + Urls.INDIVIDUAL_STATEMENT,
     PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
-    RLE_LIST: servicePathPrefix + Urls.RLE_LIST,
-    PSC_TYPE: servicePathPrefix + Urls.PSC_TYPE,
     STOP_SCREEN: servicePathPrefix + Urls.STOP_SCREEN,
     STOP_SCREEN_SUBMISSION: servicePathPrefix + Urls.STOP_SCREEN_SUBMISSION,
     COOKIES: "/help/cookies"

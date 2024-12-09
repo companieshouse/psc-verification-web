@@ -58,7 +58,7 @@ describe("Stop screen handler", () => {
             const resp = await handler.executeGet(request, response);
             const viewData = resp.viewData;
 
-            expect(resp.templatePath).toBe(`router_views/stop_screen/${stopType}`);
+            expect(resp.templatePath).toBe(`router_views/stopScreen/${stopType}`);
             const expectedViewData = {
                 templateName: stopType,
                 currentUrl: `${expectedCurrentUri}?lang=en`,

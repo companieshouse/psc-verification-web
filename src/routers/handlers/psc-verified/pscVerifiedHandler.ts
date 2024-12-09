@@ -19,7 +19,7 @@ interface PscVerifiedViewData extends BaseViewData {
 
 export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
 
-    private static templatePath = "router_views/pscVerified/pscVerified";
+    private static templatePath = "router_views/pscVerified/psc-verified";
 
     public async getViewData (req: Request, res: Response): Promise<PscVerifiedViewData> {
 

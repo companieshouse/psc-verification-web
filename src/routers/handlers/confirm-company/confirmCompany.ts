@@ -15,7 +15,7 @@ interface ConfirmCompanyViewData extends BaseViewData {
 
 export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData> {
 
-    private static templatePath = "router_views/confirmCompany/confirmCompany";
+    private static templatePath = "router_views/confirmCompany/confirm-company";
 
     public async getViewData (req: Request, res: Response): Promise<ConfirmCompanyViewData> {
 

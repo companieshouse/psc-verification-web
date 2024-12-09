@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
+import { CompanyPersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
+import { getCompanyIndividualPscList } from "../../../services/companyPscService";
 import { PrefixedUrls, Urls } from "../../../constants";
-import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
-import { CompanyPersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
-import { getCompanyIndividualPscList } from "../../../services/companyPscService";
 import { formatDateBorn, internationaliseDate } from "../../utils";
 import { env } from "../../../config";
+import { logger } from "../../../lib/logger";
 
 interface PscListData {
     pscId: string,
@@ -28,7 +28,7 @@ interface IndividualPscListViewData extends BaseViewData {
 
 export class IndividualPscListHandler extends GenericHandler<IndividualPscListViewData> {
 
-    private static templatePath = "router_views/individualPscList/individualPscList";
+    private static templatePath = "router_views/individualPscList/individual-psc-list";
 
     public async getViewData (req: Request, res: Response): Promise<IndividualPscListViewData> {
 
@@ -39,7 +39,6 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const companyProfile = res.locals.companyProfile;
         const dsrEmailAddress = env.DSR_EMAIL_ADDRESS;
         const dsrPhoneNumber = env.DSR_PHONE_NUMBER;
-
         let companyName: string = "";
         let confirmationStatementDate: string = "";
 

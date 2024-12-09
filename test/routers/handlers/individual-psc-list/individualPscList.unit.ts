@@ -45,7 +45,7 @@ describe("psc list handler", () => {
 
             const { templatePath, viewData } = await handler.executeGet(req, res);
 
-            expect(templatePath).toBe("router_views/individualPscList/individualPscList");
+            expect(templatePath).toBe("router_views/individualPscList/individual-psc-list");
             expect(viewData).toMatchObject({
                 backURL: `/persons-with-significant-control-verification/confirm-company?companyNumber=${COMPANY_NUMBER}&lang=en`,
                 currentUrl: `/persons-with-significant-control-verification/individual/psc-list?companyNumber=${COMPANY_NUMBER}&lang=en`,

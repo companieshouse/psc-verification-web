@@ -55,7 +55,7 @@ describe("Individual statement handler", () => {
 
             const { templatePath } = await handler.executeGet(req, res);
 
-            expect(templatePath).toBe("router_views/individual_statement/individual_statement");
+            expect(templatePath).toBe("router_views/individualStatement/individual-statement");
         });
 
         it("should have the correct page URLs", async () => {

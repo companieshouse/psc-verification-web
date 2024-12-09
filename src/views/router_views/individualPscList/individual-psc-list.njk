@@ -7,14 +7,11 @@
 
 {% block main_content %}
 
-    <form action="" method="post">
-    {% include "includes/csrf_token.njk" %}
+<h1 class="govuk-heading-l">{{ i18n.ind_psc_list_main_title }}</h1>
+<p class="govuk-body">{{ i18n.ind_psc_list_description }}</p>
     
-    <h1 class="govuk-heading-l">{{ i18n.ind_psc_list_main_title }}</h1>
-    <p class="govuk-body">{{ i18n.ind_psc_list_description }}</p>
-    
-    <h2 class="govuk-heading-m">{{ i18n.ind_psc_list_can_verify_heading }}</h2>
-    <p class="govuk-body">{{ i18n.ind_psc_list_can_verify_description }}<b>{{ companyName }}</b>{{ i18n.ind_psc_list_can_verify_description2 }}</p>
+<h2 class="govuk-heading-m">{{ i18n.ind_psc_list_can_verify_heading }}</h2>
+<p class="govuk-body">{{ i18n.ind_psc_list_can_verify_description }}<b>{{ companyName }}</b>{{ i18n.ind_psc_list_can_verify_description2 }}</p>
     
 {% for psc in pscDetails | sort(attribute = 'pscName') %}
 
@@ -33,9 +30,12 @@
     actions: {
         items: [
             {
-            href: [nextPageUrl+psc.pscId ],
-            text: i18n.ind_psc_list_summary_card_verify_link,
-            visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link
+              href: [nextPageUrl+psc.pscId ],
+              text: i18n.ind_psc_list_summary_card_verify_link,
+              visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link,
+              attributes: {
+                "data-event-id": "why-do-pscs-need-to-wait-dropdown"
+              }
             }
         ]
     }
@@ -139,6 +139,5 @@
         "data-event-id": "why-do-pscs-need-to-wait-dropdown"
     }
 }) }}
-    </form>
 
 {% endblock %}
