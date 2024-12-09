@@ -67,6 +67,15 @@ describe("Stop screen handler", () => {
             };
 
             switch (stopType) {
+                case STOP_TYPE.COMPANY_STATUS:
+                    expect(viewData).toMatchObject(
+                        {
+                            ...expectedViewData,
+                            currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`,
+                            backURL: `${PrefixedUrls.CONFIRM_COMPANY}?lang=en&companyNumber=00006400`,
+                            extraData: [validCompanyProfile.companyName, `${PrefixedUrls.COMPANY_NUMBER}?lang=en`, env.CONTACT_US_LINK]
+                        });
+                    break;
                 case STOP_TYPE.COMPANY_TYPE:
                     expect(viewData).toMatchObject(
                         {
