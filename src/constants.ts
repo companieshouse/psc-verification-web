@@ -2,6 +2,7 @@ export const servicePathPrefix = "/persons-with-significant-control-verification
 const urlWithTransactionIdAndSubmissionId = "/transaction/:transactionId/submission/:submissionId";
 
 export enum STOP_TYPE {
+    COMPANY_TYPE = "company-type",
     PSC_DOB_MISMATCH = "psc-dob-mismatch",
     RP01_GUIDANCE = "rp01-guidance",
     SUPER_SECURE = "super-secure"

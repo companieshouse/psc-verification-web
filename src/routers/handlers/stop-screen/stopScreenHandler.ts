@@ -19,7 +19,7 @@ export class StopScreenHandler extends GenericHandler<StopScreenHandlerViewData>
         const baseViewData = await super.getViewData(req, res);
         const stopType = req.params?.stopType as STOP_TYPE;
 
-        return setContent(req, stopType, baseViewData);
+        return setContent(req, res, stopType, baseViewData);
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<StopScreenHandlerViewData>> {
@@ -32,25 +32,26 @@ export class StopScreenHandler extends GenericHandler<StopScreenHandlerViewData>
     }
 }
 
-const setContent = async (req: Request, stopType: STOP_TYPE, baseViewData: BaseViewData) => {
+const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, baseViewData: BaseViewData) => {
 
     const companyNumber = req.query.companyNumber as string;
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+    const companyProfile = res.locals.companyProfile;
+    const companyName = companyProfile?.companyName;
     const stopScreenPrefixedUrl = toStopScreenPrefixedUrl(stopType);
 
     switch (stopType) {
-        case STOP_TYPE.SUPER_SECURE: {
+        case STOP_TYPE.COMPANY_TYPE:
             return {
                 ...baseViewData,
                 ...getLocaleInfo(locales, lang),
                 templateName: stopType,
                 currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
-                backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang }),
-                backLinkDataEvent: "super-secure-back-link",
-                extraData: [env.DSR_EMAIL_ADDRESS, env.DSR_PHONE_NUMBER]
+                backURL: addSearchParams(resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY), { companyNumber }),
+                backLinkDataEvent: "company-type-back-link",
+                extraData: [companyName, resolveUrlTemplate(PrefixedUrls.COMPANY_NUMBER), env.CONTACT_US_LINK]
             };
-        }
         case STOP_TYPE.PSC_DOB_MISMATCH: {
             return {
                 ...baseViewData,
@@ -71,6 +72,17 @@ const setContent = async (req: Request, stopType: STOP_TYPE, baseViewData: BaseV
                 backURL: resolveUrlTemplate(stopScreenPrefixedUrl, STOP_TYPE.PSC_DOB_MISMATCH),
                 backLinkDataEvent: "rp01-guidance-back-link",
                 extraData: [env.GET_RP01_LINK, env.GET_PSC01_LINK, env.POST_TO_CH_LINK, PrefixedUrls.START]
+            };
+        }
+        case STOP_TYPE.SUPER_SECURE: {
+            return {
+                ...baseViewData,
+                ...getLocaleInfo(locales, lang),
+                templateName: stopType,
+                currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
+                backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang }),
+                backLinkDataEvent: "super-secure-back-link",
+                extraData: [env.DSR_EMAIL_ADDRESS, env.DSR_PHONE_NUMBER]
             };
         }
         default: {

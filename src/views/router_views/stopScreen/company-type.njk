@@ -1,0 +1,24 @@
+{% set title = i18n.company_type_main_title %}
+
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+    <h1 class="govuk-heading-l">{{ i18n.company_type_main_heading }}</h1>
+    {% set intro_statement = [i18n.company_type_intro_start, extraData[0], i18n.company_type_intro_end] | join(" ") %}
+    <p class="govuk-body">{{ intro_statement }}</p>
+    <ul id="allowed-company-types" class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.company_type_allowed_1 }}</li>
+        <li>{{ i18n.company_type_allowed_2 }}</li>
+        <li>{{ i18n.company_type_allowed_3 }}</li>
+        <li>{{ i18n.company_type_allowed_4 }}</li>
+    </ul>
+    <p class="govuk-body">{{ i18n.company_type_wrong_company_action }}
+        <a id="go-back-enter-number" href="{{ extraData[1] }}">{{ i18n.company_type_wrong_company_action_text -}}</a>.
+    </p>
+    <p class="govuk-body">
+        <a id="contact-us" href="{{ extraData[2] }}">{{ i18n.company_type_contact_us_text -}}</a>
+        {{ i18n.company_type_contact_us }}
+    </p>
+
+{% endblock %}

@@ -1,5 +1,6 @@
 import request from "supertest";
-import middlewareMocks from "../mocks/allMiddleware.mock";
+import mockSessionMiddleware from "../mocks/sessionMiddleware.mock";
+import mockAuthenticationMiddleware from "../mocks/authenticationMiddleware.mock";
 import app from "../../src/app";
 import { PrefixedUrls } from "../../src/constants";
 import { getCompanyProfile } from "../../src/services/companyProfileService";
@@ -18,12 +19,11 @@ mockGetCompanyIndividualPscList.mockResolvedValue(INDIVIDUAL_PSCS_LIST);
 
 describe("GET psc individual list router", () => {
     beforeEach(() => {
-        jest.clearAllMocks();
-        middlewareMocks.mockAuthenticationMiddleware.mockClear();
     });
 
     afterEach(() => {
-        expect(middlewareMocks.mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
+        expect(mockSessionMiddleware).toHaveBeenCalledTimes(1);
+        expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyProfile).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyIndividualPscList).toHaveBeenCalledTimes(1);
     });
