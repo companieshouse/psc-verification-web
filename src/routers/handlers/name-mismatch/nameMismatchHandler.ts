@@ -21,7 +21,6 @@ interface NameMismatchViewData extends BaseViewData {
     translationOrDifferentConvention: string,
     publicRegisterError: string,
     preferNotToSay: string
-
 }
 
 export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
