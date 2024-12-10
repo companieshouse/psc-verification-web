@@ -1,7 +1,7 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Request, Response, Router } from "express";
 import { Urls, servicePathPrefix } from "./constants";
-import { CompanyNumberRouter, ConfirmCompanyRouter, HealthCheckRouter, IndividualPscListRouter, IndividualStatementRouter, NewSubmissionRouter, PersonalCodeRouter, PscTypeRouter, PscVerifiedRouter, RlePscListRouter, StartRouter, StopScreenRouter } from "./routers/utils";
+import { CompanyNumberRouter, ConfirmCompanyRouter, HealthCheckRouter, IndividualPscListRouter, IndividualStatementRouter, NewSubmissionRouter, PersonalCodeRouter, PscVerifiedRouter, StartRouter, StopScreenRouter } from "./routers/utils";
 import { authenticate } from "./middleware/authentication";
 import { fetchVerification } from "./middleware/fetchVerification";
 import { fetchCompany } from "./middleware/fetchCompany";
@@ -23,9 +23,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.PERSONAL_CODE, authenticate, fetchVerification, PersonalCodeRouter);
     router.use(Urls.INDIVIDUAL_STATEMENT, authenticate, fetchVerification, IndividualStatementRouter);
     router.use(Urls.PSC_VERIFIED, authenticate, fetchVerification, fetchCompany, PscVerifiedRouter);
-    router.use(Urls.RLE_LIST, authenticate, RlePscListRouter);
-    router.use(Urls.PSC_TYPE, authenticate, fetchVerification, PscTypeRouter);
-    router.use(Urls.STOP_SCREEN, authenticate, fetchCompany, StopScreenRouter);
+    router.use(Urls.STOP_SCREEN, authenticate, StopScreenRouter);
     router.use(Urls.STOP_SCREEN_SUBMISSION, authenticate, StopScreenRouter);
 
     router.use("*", (req: Request, res: Response) => {

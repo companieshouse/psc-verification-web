@@ -29,7 +29,7 @@ describe("confirm company handler tests", () => {
             const handler = new ConfirmCompanyHandler();
             const { templatePath } = await handler.executeGet(request, response);
 
-            expect(templatePath).toBe("router_views/confirmCompany/confirmCompany");
+            expect(templatePath).toBe("router_views/confirmCompany/confirm-company");
         });
 
         it("should return the correct view data", async () => {

@@ -56,7 +56,7 @@ describe("Personal code handler", () => {
 
             const { templatePath } = await handler.executeGet(req, res);
 
-            expect(templatePath).toBe("router_views/personal_code/personal_code");
+            expect(templatePath).toBe("router_views/personalCode/personal-code");
         });
 
         it("should have the correct page URLs", async () => {
@@ -104,7 +104,7 @@ describe("Personal code handler", () => {
 
             const resp = await handler.executeGet(req, res);
 
-            expect(resp.templatePath).toBe("router_views/personal_code/personal_code");
+            expect(resp.templatePath).toBe("router_views/personalCode/personal-code");
             expect(resp.viewData).toMatchObject({
                 personalCode: "",
                 pscName: "Sir Forename Middlename Surname",
