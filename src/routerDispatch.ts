@@ -1,11 +1,12 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Request, Response, Router } from "express";
+import { HttpStatusCode } from "axios";
 import { Urls, servicePathPrefix } from "./constants";
 import { CompanyNumberRouter, ConfirmCompanyRouter, HealthCheckRouter, IndividualPscListRouter, IndividualStatementRouter, NewSubmissionRouter, PersonalCodeRouter, PscTypeRouter, PscVerifiedRouter, RlePscListRouter, StartRouter, StopScreenRouter } from "./routers/utils";
 import { authenticate } from "./middleware/authentication";
 import { fetchVerification } from "./middleware/fetchVerification";
 import { fetchCompany } from "./middleware/fetchCompany";
-import { HttpStatusCode } from "axios";
+import errorRouter from "./routers/errorRouter";
 
 const routerDispatch = (app: Application) => {
 
@@ -27,6 +28,7 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.PSC_TYPE, authenticate, fetchVerification, PscTypeRouter);
     router.use(Urls.STOP_SCREEN, authenticate, fetchCompany, StopScreenRouter);
     router.use(Urls.STOP_SCREEN_SUBMISSION, authenticate, StopScreenRouter);
+    router.use("/error", errorRouter);
 
     router.use("*", (req: Request, res: Response) => {
         res.status(HttpStatusCode.NotFound).render("partials/error_400");
