@@ -53,7 +53,7 @@ describe("stop screen view tests", () => {
     });
 
     it.each(Object.values(STOP_TYPE))("Should render the stop screen '%s' page with a success status code", async (stopType: STOP_TYPE) => {
-        const queryParams = new URLSearchParams("lang=en");
+        const queryParams = new URLSearchParams("companyNumber=00006400&lang=en");
         const uriWithQuery = `${getUrlWithStopType(toStopScreenPrefixedUrl(stopType), stopType)}?${queryParams}`;
         const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
         const expectedPrefix = "/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab";
@@ -65,6 +65,16 @@ describe("stop screen view tests", () => {
         expect(resp.status).toBe(HttpStatusCode.Ok);
 
         switch (stopType) {
+            case STOP_TYPE.COMPANY_STATUS:
+                expect($("a.govuk-back-link").attr("href")).toBe(`${PrefixedUrls.CONFIRM_COMPANY}?lang=en&companyNumber=00006400`);
+                expect($("a#go-back-enter-number").attr("href")).toBe(`${PrefixedUrls.COMPANY_NUMBER}?lang=en`);
+                expect($("a#contact-us").attr("href")).toBe(env.CONTACT_US_LINK);
+                break;
+            case STOP_TYPE.COMPANY_TYPE:
+                expect($("a.govuk-back-link").attr("href")).toBe(`${PrefixedUrls.CONFIRM_COMPANY}?lang=en&companyNumber=00006400`);
+                expect($("a#go-back-enter-number").attr("href")).toBe(`${PrefixedUrls.COMPANY_NUMBER}?lang=en`);
+                expect($("a#contact-us").attr("href")).toBe(env.CONTACT_US_LINK);
+                break;
             case STOP_TYPE.PSC_DOB_MISMATCH:
                 expect($("a.govuk-back-link").attr("href")).toBe(`${expectedPrefix}/individual/personal-code?lang=en`);
                 expect($("a#reenter-personal-code").attr("href")).toBe(`${expectedPrefix}/individual/personal-code?lang=en`);
@@ -76,6 +86,10 @@ describe("stop screen view tests", () => {
                 expect($("a#get-psc01-form").attr("href")).toBe(env.GET_PSC01_LINK);
                 expect($("a#post-to-ch").attr("href")).toBe(env.POST_TO_CH_LINK);
                 expect($("a#verify-psc-service").attr("href")).toBe(PrefixedUrls.START);
+                break;
+            case STOP_TYPE.SUPER_SECURE:
+                expect($("a.govuk-back-link").attr("href")).toBe(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=00006400&lang=en`);
+                expect($("a#mail-to-dsr").attr("href")).toBe(`mailto:${env.DSR_EMAIL_ADDRESS}`);
                 break;
             default:
                 throw new Error(`Untested STOP_TYPE value: ${stopType}`);

@@ -21,7 +21,7 @@ interface PersonalCodeViewData extends BaseViewData {
 
 export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
-    private static templatePath = "router_views/personal_code/personal_code";
+    private static templatePath = "router_views/personalCode/personal-code";
 
     public async getViewData (req: Request, res: Response): Promise<PersonalCodeViewData> {
 

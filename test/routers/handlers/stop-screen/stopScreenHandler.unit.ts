@@ -2,7 +2,7 @@ import { HttpStatusCode } from "axios";
 import * as httpMocks from "node-mocks-http";
 import { PrefixedUrls, STOP_TYPE, toStopScreenPrefixedUrl } from "../../../../src/constants";
 import { StopScreenHandler } from "../../../../src/routers/handlers/stop-screen/stopScreenHandler";
-import { getUrlWithStopType } from "../../../../src/utils/url";
+import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { getPscIndividual } from "../../../../src/services/pscService";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
@@ -44,24 +44,47 @@ describe("Stop screen handler", () => {
                     transactionId: TRANSACTION_ID,
                     submissionId: PSC_VERIFICATION_ID,
                     stopType: stopType
+                },
+                query: {
+                    companyNumber: "00006400"
                 }
             });
             const response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile } });
             const handler = new StopScreenHandler();
             const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
+            const expectedStopUri = getUrlWithStopType(toStopScreenPrefixedUrl(stopType), stopType);
+            const expectedCurrentUri = getUrlWithTransactionIdAndSubmissionId(expectedStopUri, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
             const resp = await handler.executeGet(request, response);
             const viewData = resp.viewData;
 
-            expect(resp.templatePath).toBe(`router_views/stop_screen/${stopType}`);
+            expect(resp.templatePath).toBe(`router_views/stopScreen/${stopType}`);
             const expectedViewData = {
                 templateName: stopType,
-                currentUrl: `${expectedPrefix}/stop/${stopType}?lang=en`,
+                currentUrl: `${expectedCurrentUri}?lang=en`,
                 backLinkDataEvent: `${stopType}-back-link`,
                 errors: {}
             };
 
             switch (stopType) {
+                case STOP_TYPE.COMPANY_STATUS:
+                    expect(viewData).toMatchObject(
+                        {
+                            ...expectedViewData,
+                            currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`,
+                            backURL: `${PrefixedUrls.CONFIRM_COMPANY}?lang=en&companyNumber=00006400`,
+                            extraData: [validCompanyProfile.companyName, `${PrefixedUrls.COMPANY_NUMBER}?lang=en`, env.CONTACT_US_LINK]
+                        });
+                    break;
+                case STOP_TYPE.COMPANY_TYPE:
+                    expect(viewData).toMatchObject(
+                        {
+                            ...expectedViewData,
+                            currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`,
+                            backURL: `${PrefixedUrls.CONFIRM_COMPANY}?lang=en&companyNumber=00006400`,
+                            extraData: [validCompanyProfile.companyName, `${PrefixedUrls.COMPANY_NUMBER}?lang=en`, env.CONTACT_US_LINK]
+                        });
+                    break;
                 case STOP_TYPE.PSC_DOB_MISMATCH:
                     expect(viewData).toMatchObject(
                         {
@@ -75,6 +98,14 @@ describe("Stop screen handler", () => {
                         ...expectedViewData,
                         backURL: `${expectedPrefix}/stop/${STOP_TYPE.PSC_DOB_MISMATCH}?lang=en`,
                         extraData: [env.GET_RP01_LINK, env.GET_PSC01_LINK, env.POST_TO_CH_LINK, PrefixedUrls.START]
+                    });
+                    break;
+                case STOP_TYPE.SUPER_SECURE:
+                    expect(viewData).toMatchObject({
+                        ...expectedViewData,
+                        currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`,
+                        backURL: `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=00006400&lang=en`,
+                        extraData: [env.DSR_EMAIL_ADDRESS, env.DSR_PHONE_NUMBER]
                     });
                     break;
                 default:

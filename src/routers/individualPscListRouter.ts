@@ -4,7 +4,7 @@ import { IndividualPscListHandler } from "./handlers/individual-psc-list/individ
 
 const individualPscListRouter: Router = Router({ mergeParams: true });
 
-individualPscListRouter.all("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+individualPscListRouter.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
     const handler = new IndividualPscListHandler();
     const { templatePath, viewData } = await handler.executeGet(req, res);
     res.render(templatePath, viewData);

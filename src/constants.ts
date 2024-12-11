@@ -2,8 +2,11 @@ export const servicePathPrefix = "/persons-with-significant-control-verification
 const urlWithTransactionIdAndSubmissionId = "/transaction/:transactionId/submission/:submissionId";
 
 export enum STOP_TYPE {
+    COMPANY_STATUS = "company-status",
+    COMPANY_TYPE = "company-type",
     PSC_DOB_MISMATCH = "psc-dob-mismatch",
-    RP01_GUIDANCE = "rp01-guidance"
+    RP01_GUIDANCE = "rp01-guidance",
+    SUPER_SECURE = "super-secure"
 };
 
 export function toStopScreenUrl (stopType: STOP_TYPE) {
@@ -38,8 +41,6 @@ export const Urls = {
     NAME_MISMATCH: `${urlWithTransactionIdAndSubmissionId}/individual/name-mismatch`,
     INDIVIDUAL_STATEMENT: `${urlWithTransactionIdAndSubmissionId}/individual/psc-statement`,
     PSC_VERIFIED: `${urlWithTransactionIdAndSubmissionId}/psc-verified`,
-    PSC_TYPE: `${urlWithTransactionIdAndSubmissionId}/psc-type`,
-    RLE_LIST: `${urlWithTransactionIdAndSubmissionId}/rle/rle-list`,
     STOP_SCREEN: "/stop/:stopType",
     STOP_SCREEN_SUBMISSION: `${urlWithTransactionIdAndSubmissionId}/stop/:stopType`
 } as const;
@@ -56,8 +57,6 @@ export const PrefixedUrls = {
     NAME_MISMATCH: servicePathPrefix + Urls.NAME_MISMATCH,
     INDIVIDUAL_STATEMENT: servicePathPrefix + Urls.INDIVIDUAL_STATEMENT,
     PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
-    RLE_LIST: servicePathPrefix + Urls.RLE_LIST,
-    PSC_TYPE: servicePathPrefix + Urls.PSC_TYPE,
     STOP_SCREEN: servicePathPrefix + Urls.STOP_SCREEN,
     STOP_SCREEN_SUBMISSION: servicePathPrefix + Urls.STOP_SCREEN_SUBMISSION,
     COOKIES: "/help/cookies"
