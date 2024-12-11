@@ -87,7 +87,6 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
 
             const queryParams = new URLSearchParams(req.url.split("?")[1]);
             const verification: PscVerificationData = {
-                pscAppointmentId: req.query?.selectedPscId as string,
                 verificationDetails: {
                     nameMismatchReason: nameMismatchReason
                 }
