@@ -1,5 +1,5 @@
 import * as httpMocks from "node-mocks-http";
-import { StartHandler } from "../../../../src/routers/handlers/start/startHandler";
+import StartHandler from "../../../../src/routers/handlers/start/startHandler";
 import { Urls } from "../../../../src/constants";
 
 describe("start handler", () => {
