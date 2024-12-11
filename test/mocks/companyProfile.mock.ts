@@ -3,6 +3,8 @@ import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/compa
 
 jest.mock("../../src/services/companyProfileService");
 
+export const COMPANY_NUMBER = "12345678";
+
 export const validCompanyProfile: CompanyProfile = {
     accounts: {
         nextAccounts: {
@@ -57,4 +59,14 @@ export const validAddress = {
 export const validSDKResource: Resource<CompanyProfile> = {
     httpStatusCode: 200,
     resource: validCompanyProfile
+};
+
+export const badRequestSDKResource: Resource<CompanyProfile> = {
+    httpStatusCode: 400,
+    resource: validCompanyProfile
+};
+
+export const missingSDKResource: Resource<CompanyProfile> = {
+    httpStatusCode: 200,
+    resource: undefined
 };
