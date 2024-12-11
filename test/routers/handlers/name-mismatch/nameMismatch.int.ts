@@ -81,7 +81,66 @@ describe("name mismatch router/handler integration tests", () => {
 
             const $ = cheerio.load(resp.text);
             expect($("h1").text().trim()).toBe("Why is the name on the public register different to the name this PSC used for identity verification?");
+        });
 
+        it("Should display a link to the 'file-changes-to-a-company-with-companies-house' page", async () => {
+
+            const queryParams = new URLSearchParams("lang=en");
+            const uriWithQuery = `${PrefixedUrls.NAME_MISMATCH}?${queryParams}`;
+            const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            const resp = await request(app).get(uri);
+
+            const $ = cheerio.load(resp.text);
+
+            const link = $("a.govuk-link[href=\"https://www.gov.uk/file-changes-to-a-company-with-companies-house\"]");
+            expect(link.length).toBe(1);
+            expect(link.attr("rel")).toBe("noreferrer noopener");
+            expect(link.attr("target")).toBe("_blank");
+        });
+
+        it("should display the correct radio buttons", async () => {
+            const queryParams = new URLSearchParams("lang=en");
+            const uriWithQuery = `${PrefixedUrls.NAME_MISMATCH}?${queryParams}`;
+            const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            const resp = await request(app).get(uri);
+
+            const $ = cheerio.load(resp.text);
+
+            const radioButtons = [
+                { value: "LEGAL_NAME_CHANGE", text: "Legally changed name (for example, marriage or divorce)", eventId: "legally-changed-radio-option" },
+                { value: "PREFERRED_NAME", text: "Preferred name", eventId: "preferred-name-radio-option" },
+                { value: "DIFFERENT_NAMING_CONVENTION", text: "Translation or a different naming convention", eventId: "translation-or-different-naming-convention-radio-option" },
+                { value: "PUBLIC_REGISTER_ERROR", text: "Error on the public register", eventId: "register-incorrect-radio-option" },
+                { value: "PREFER_NOT_TO_SAY", text: "Prefer not to say", eventId: "prefer-not-to-say-radio-option" }
+            ];
+
+            radioButtons.forEach(radio => {
+                const radioButton = $(`input[type="radio"][value="${radio.value}"]`);
+                expect(radioButton.length).toBe(1);
+                expect(radioButton.attr("data-event-id")).toBe(radio.eventId);
+                expect(radioButton.next("label").text()).toContain(radio.text);
+            });
+        });
+
+        test.each([
+            "LEGAL_NAME_CHANGE",
+            "PREFERRED_NAME",
+            "DIFFERENT_NAMING_CONVENTION",
+            "PUBLIC_REGISTER_ERROR",
+            "PREFER_NOT_TO_SAY"
+        ])("should have the selected radio button checked for %s", async (nameMismatch) => {
+            const queryParams = new URLSearchParams(`nameMismatch=${nameMismatch}&lang=en`);
+            const uriWithQuery = `${PrefixedUrls.NAME_MISMATCH}?${queryParams}`;
+            const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            const resp = await request(app).get(uri);
+            const $ = cheerio.load(resp.text);
+
+            const selectedRadioButton = $(`input[type="radio"][value="${nameMismatch}"]`);
+            expect(selectedRadioButton.length).toBe(1);
+            expect(selectedRadioButton.attr("checked")).toBe("checked");
         });
 
         it("Should display a 'Continue' button", async () => {
@@ -94,7 +153,6 @@ describe("name mismatch router/handler integration tests", () => {
 
             const $ = cheerio.load(resp.text);
             expect($("button#submit").text()).toContain("Continue");
-
         });
 
     });
