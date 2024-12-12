@@ -1,7 +1,7 @@
 import { Request } from "express";
 import { createOAuthApiClient } from "../../src/services/apiClientService";
 import { getCompanyProfile } from "../../src/services/companyProfileService";
-import { COMPANY_NUMBER, badRequestSDKResource, missingSDKResource, validCompanyProfile, validSDKResource } from "../mocks/companyProfile.mock";
+import { COMPANY_NUMBER, badRequestSDKResource, missingSDKResource, mockApiErrorResponse, validCompanyProfile, validSDKResource } from "../mocks/companyProfile.mock";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../src/services/apiClientService");
@@ -34,6 +34,16 @@ describe("CompanyProfileService", () => {
 
             expect(response).toEqual(validCompanyProfile);
 
+        });
+
+        it("should throw an error when ApiErrorResponse is returned", async () => {
+            const mockResponse = mockApiErrorResponse;
+            mockGetCompanyProfile.mockResolvedValueOnce(mockResponse);
+            const request = {} as Request;
+
+            await expect(getCompanyProfile(request, COMPANY_NUMBER)).rejects.toThrow(
+                new Error(`getCompanyProfile -HTTP status code 500 - Failed to get company profile for company number ${COMPANY_NUMBER}`)
+            );
         });
 
         it("should return an error if the HttpStatusCode is not 200", async () => {
