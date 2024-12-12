@@ -1,7 +1,10 @@
 import { Resource } from "@companieshouse/api-sdk-node";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
+import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 
 jest.mock("../../src/services/companyProfileService");
+
+export const COMPANY_NUMBER = "12345678";
 
 export const validCompanyProfile: CompanyProfile = {
     accounts: {
@@ -57,4 +60,30 @@ export const validAddress = {
 export const validSDKResource: Resource<CompanyProfile> = {
     httpStatusCode: 200,
     resource: validCompanyProfile
+};
+
+export const badRequestSDKResource: Resource<CompanyProfile> = {
+    httpStatusCode: 400,
+    resource: validCompanyProfile
+};
+
+export const missingSDKResource: Resource<CompanyProfile> = {
+    httpStatusCode: 200,
+    resource: undefined
+};
+
+export const mockApiErrorResponse: ApiErrorResponse = {
+    httpStatusCode: 500,
+    errors: [
+        {
+            error: "Service Unavailable",
+            errorValues: {
+                resource: "test",
+                id: "12345678"
+            },
+            location: "/test/12345",
+            locationType: "endpoint",
+            type: "test"
+        }
+    ]
 };
