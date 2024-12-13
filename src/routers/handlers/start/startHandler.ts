@@ -9,7 +9,7 @@ import { env } from "../../../config";
 
 interface StartViewData extends BaseViewData {idvImplementationDate: string}
 
-export class StartHandler extends GenericHandler<StartViewData> {
+export default class StartHandler extends GenericHandler<StartViewData> {
 
     public static templatePath = "router_views/start/start";
 

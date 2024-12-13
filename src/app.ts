@@ -69,14 +69,14 @@ njk.addGlobal("verifyIdentityLink", process.env.VERIFY_IDENTITY_LINK);
 // if app is behind a front-facing proxy, and to use the X-Forwarded-* headers to determine the connection and the IP address of the client
 app.enable("trust proxy");
 
+// channel all requests through router dispatch
+routerDispatch(app);
+
 // unhandled errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
     res.render("partials/error_500");
 });
-
-// channel all requests through router dispatch
-routerDispatch(app);
 
 // unhandled exceptions
 process.on("uncaughtException", (err: any) => {

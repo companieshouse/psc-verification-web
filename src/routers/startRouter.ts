@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { handleExceptions } from "../utils/asyncHandler";
-import { StartHandler } from "./handlers/start/startHandler";
+import StartHandler from "./handlers/start/startHandler";
 
 const startRouter: Router = Router();
 
