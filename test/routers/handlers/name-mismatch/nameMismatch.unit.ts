@@ -3,9 +3,10 @@ import * as httpMocks from "node-mocks-http";
 import { Urls } from "../../../../src/constants";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { COMPANY_NUMBER, IND_VERIFICATION_PERSONAL_CODE, PATCH_PERSONAL_CODE_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID } from "../../../mocks/pscVerification.mock";
-import { PersonalCodeHandler } from "../../../../src/routers/handlers/personal-code/personalCodeHandler";
+import { NameMismatchReasonEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { COMPANY_NUMBER, IND_VERIFICATION_NAME_MISMATCH, PATCH_NAME_MISMATCH_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { patchPscVerification } from "../../../../src/services/pscVerificationService";
+import { NameMismatchHandler } from "../../../../src/routers/handlers/name-mismatch/nameMismatchHandler";
 
 jest.mock("../../../../src/services/pscVerificationService", () => ({
     getPscVerification: jest.fn(),
@@ -20,19 +21,19 @@ jest.mock("../../../../src/services/pscService", () => ({
     }),
     patchPscVerification: () => ({
         httpStatusCode: HttpStatusCode.Ok,
-        resource: PATCH_PERSONAL_CODE_DATA
+        resource: PATCH_NAME_MISMATCH_DATA
     })
 }));
 
-const mockValidatePersonalCode = jest.fn();
+const mockValidateNameMismatch = jest.fn();
 
 jest.mock("../../../../src/lib/validation/form-validators/pscVerification", () => ({
     PscVerificationFormsValidator: jest.fn().mockImplementation(() => ({
-        validatePersonalCode: mockValidatePersonalCode
+        validateNameMismatch: mockValidateNameMismatch
     }))
 }));
 
-describe("Personal code handler", () => {
+describe("Name mismatch handler", () => {
     beforeEach(() => {
         middlewareMocks.mockSessionMiddleware.mockClear();
     });
@@ -47,22 +48,22 @@ describe("Personal code handler", () => {
 
             const req = httpMocks.createRequest({
                 method: "GET",
-                url: Urls.PERSONAL_CODE,
+                url: Urls.NAME_MISMATCH,
                 query: { selectedPscId: PSC_APPOINTMENT_ID }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE } });
-            const handler = new PersonalCodeHandler();
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH } });
+            const handler = new NameMismatchHandler();
 
             const { templatePath } = await handler.executeGet(req, res);
 
-            expect(templatePath).toBe("router_views/personalCode/personal-code");
+            expect(templatePath).toBe("router_views/name_mismatch/name_mismatch");
         });
 
         it("should have the correct page URLs", async () => {
             const req = httpMocks.createRequest({
                 method: "GET",
-                url: Urls.PERSONAL_CODE,
+                url: Urls.NAME_MISMATCH,
                 params: {
                     transactionId: TRANSACTION_ID,
                     submissionId: PSC_VERIFICATION_ID
@@ -73,21 +74,21 @@ describe("Personal code handler", () => {
                     lang: "en"
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE } });
-            const handler = new PersonalCodeHandler();
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH } });
+            const handler = new NameMismatchHandler();
 
             const { viewData } = await handler.executeGet(req, res);
 
             expect(viewData).toMatchObject({
-                backURL: `/persons-with-significant-control-verification/individual/psc-list?companyNumber=12345678&lang=en`,
-                currentUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code?lang=en`
+                backURL: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code?lang=en`,
+                currentUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-why-this-name?lang=en`
             });
         });
 
         it("should resolve the correct view data", async () => {
             const req = httpMocks.createRequest({
                 method: "GET",
-                url: Urls.PERSONAL_CODE,
+                url: Urls.NAME_MISMATCH,
                 params: {
                     transactionId: TRANSACTION_ID,
                     submissionId: PSC_VERIFICATION_ID
@@ -99,17 +100,16 @@ describe("Personal code handler", () => {
                 }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE } });
-            const handler = new PersonalCodeHandler();
-
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH } });
+            const handler = new NameMismatchHandler();
             const resp = await handler.executeGet(req, res);
 
-            expect(resp.templatePath).toBe("router_views/personalCode/personal-code");
+            expect(resp.templatePath).toBe("router_views/name_mismatch/name_mismatch");
             expect(resp.viewData).toMatchObject({
-                personalCode: "",
+                nameMismatch: undefined,
                 pscName: "Sir Forename Middlename Surname",
                 monthYearBorn: "April 2000",
-                backLinkDataEvent: "personal-code-back-link",
+                backLinkDataEvent: "name-mismatch-back-link",
                 errors: {}
             });
         });
@@ -121,7 +121,7 @@ describe("Personal code handler", () => {
 
             const req = httpMocks.createRequest({
                 method: "POST",
-                url: Urls.PERSONAL_CODE,
+                url: Urls.NAME_MISMATCH,
                 params: {
                     transactionId: TRANSACTION_ID,
                     submissionId: PSC_VERIFICATION_ID
@@ -132,7 +132,7 @@ describe("Personal code handler", () => {
                     lang: "en"
                 },
                 body: {
-                    personalCode: UVID
+                    nameMismatch: NameMismatchReasonEnum.PUBLIC_REGISTER_ERROR
                 }
             });
 
@@ -146,7 +146,7 @@ describe("Personal code handler", () => {
                 }
             };
 
-            const handler = new PersonalCodeHandler();
+            const handler = new NameMismatchHandler();
 
             const model = await handler.executePost(req, res);
 
@@ -169,11 +169,11 @@ describe("Personal code handler", () => {
                     pscType: "individual"
                 },
                 body: {
-                    personalCode: ""
+                    nameMismatchReason: ""
                 }
             });
 
-            // create an error response as no personal code is provided
+            // create an error response as no name mismatch reason is provided
             const res = httpMocks.createResponse();
             res.locals.submission = {
                 data: {
@@ -187,23 +187,23 @@ describe("Personal code handler", () => {
                 name: "VALIDATION_ERRORS",
                 message: "validation_error_summary",
                 stack: {
-                    personalCode: {
-                        summary: "Enter the Companies House personal code for Ralph Tudor",
-                        inline: "Enter the Companies House personal code for Ralph Tudor"
+                    nameMismatch: {
+                        summary: "Tell us why the name on the public register is different to the name this PSC used for identity verification",
+                        inline: "Tell us why the name on the public register is different to the name this PSC used for identity verification"
                     }
                 }
             };
 
-            mockValidatePersonalCode.mockImplementationOnce(() => Promise.reject(errors));
+            mockValidateNameMismatch.mockImplementationOnce(() => Promise.reject(errors));
 
-            const handler = new PersonalCodeHandler();
+            const handler = new NameMismatchHandler();
             const result = await handler.executePost(req, res);
 
             expect(patchPscVerification).toHaveBeenCalledTimes(0);
             expect(result.viewData.errors).toBeDefined();
-            expect(result.viewData.errors.personalCode).toEqual({
-                summary: "Enter the Companies House personal code for Ralph Tudor",
-                inline: "Enter the Companies House personal code for Ralph Tudor"
+            expect(result.viewData.errors.nameMismatch).toEqual({
+                summary: "Tell us why the name on the public register is different to the name this PSC used for identity verification",
+                inline: "Tell us why the name on the public register is different to the name this PSC used for identity verification"
             });
 
         });

@@ -8,9 +8,10 @@ import PersonalCodeRouter from "../personalCodeRouter";
 import IndividualStatementRouter from "../individualStatementRouter";
 import PscVerifiedRouter from "./../pscVerifiedRouter";
 import StopScreenRouter from "./../stopScreenRouter";
+import NameMismatchRouter from "../nameMismatchRouter";
 
 import { logger } from "../../lib/logger";
-export { StartRouter, HealthCheckRouter, CompanyNumberRouter, ConfirmCompanyRouter, IndividualPscListRouter, PersonalCodeRouter, IndividualStatementRouter, NewSubmissionRouter, PscVerifiedRouter, StopScreenRouter };
+export { StartRouter, HealthCheckRouter, CompanyNumberRouter, ConfirmCompanyRouter, IndividualPscListRouter, NameMismatchRouter, PersonalCodeRouter, IndividualStatementRouter, NewSubmissionRouter, PscVerifiedRouter, StopScreenRouter };
 
 export function formatDateBorn (dateOfBirth: any, lang: string): string {
     try {

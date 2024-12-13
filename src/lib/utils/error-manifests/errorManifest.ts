@@ -28,6 +28,13 @@ const errorManifest = (lang: string = "en", attribute: string = "") => ({
             },
             incorrect: {}
         },
+        nameMismatch: {
+            blank: {
+                summary: (localesService.i18nCh.resolveSingleKey("name_mismatch_error_summary", lang)),
+                inline: (localesService.i18nCh.resolveSingleKey("name_mismatch_error_inline", lang))
+            },
+            incorrect: {}
+        },
         individualStatement: {
             blank: {
                 summary: (localesService.i18nCh.resolveSingleKey("individual_statement_error_summary", lang) + attribute),
