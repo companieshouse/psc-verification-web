@@ -76,11 +76,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             };
 
             queryParams.set("lang", lang);
-            // TODO - put back to: const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, req.params.transactionId, req.params.submissionId);
-            let nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, req.params.transactionId, req.params.submissionId);
-            if (uvid === "111-2222-3333") {
-                nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.NAME_MISMATCH, req.params.transactionId, req.params.submissionId);
-            }
+            const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, req.params.transactionId, req.params.submissionId);
             viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
             const validator = new PscVerificationFormsValidator(lang);
             viewData.errors = await validator.validatePersonalCode(req.body, lang, viewData.pscName);
