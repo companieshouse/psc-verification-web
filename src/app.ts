@@ -9,6 +9,7 @@ import routerDispatch from "./routerDispatch";
 import { isLive } from "./middleware/serviceLive";
 import { csrfProtectionMiddleware } from "./middleware/csrf";
 import csrfErrorHandler from "./middleware/csrfError";
+import { pageNotFound } from "./middleware/pageNotFound";
 
 const app = express();
 
@@ -71,6 +72,9 @@ app.enable("trust proxy");
 
 // channel all requests through router dispatch
 routerDispatch(app);
+
+// 404 - page not found error
+app.use(pageNotFound);
 
 // unhandled errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
