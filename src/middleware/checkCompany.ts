@@ -20,7 +20,8 @@ export const checkCompany = (req: Request, res: Response, next: NextFunction) =>
     } else if (!companyTypeAllowed.includes(companyProfile.type)) {
         logger.debug(`${checkCompany.name} - Company Type ${companyProfile.type} for company number ${companyNumber} is not allowed`);
         res.redirect(addSearchParams(getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.COMPANY_TYPE), { companyNumber, lang }));
+    } else {
+        next();
     }
 
-    next();
 };
