@@ -1,9 +1,12 @@
 import { HttpStatusCode } from "axios";
 import * as cheerio from "cheerio";
 import request from "supertest";
+import { getLocalesService } from "../src/utils/localise";
 import app from "../src/app";
 import * as config from "../src/config";
 import { servicePathPrefix } from "../src/constants";
+
+const localesService = getLocalesService();
 
 jest.mock("ioredis");
 jest.mock("../src/config", () => ({
@@ -48,9 +51,9 @@ describe("Service unexpected Error handling", () => {
 
         const resp = await request(app).get(servicePathPrefix);
 
-        expect(resp.status).toBe(HttpStatusCode.Ok);
+        expect(resp.status).toBe(HttpStatusCode.InternalServerError);
         const $ = cheerio.load(resp.text);
-        expect($("h1.govuk-heading-xl").text()).toContain("Internal server error");
+        expect($("h1.govuk-heading-l").text()).toContain(localesService.i18nCh.resolveSingleKey("500_main_title", "en"));
     });
 
     it("should show 'Service Error' page when a sync Error is thrown", async () => {
@@ -61,8 +64,8 @@ describe("Service unexpected Error handling", () => {
 
         const resp = await request(app).get(servicePathPrefix);
 
-        expect(resp.status).toBe(HttpStatusCode.Ok);
+        expect(resp.status).toBe(HttpStatusCode.InternalServerError);
         const $ = cheerio.load(resp.text);
-        expect($("h1.govuk-heading-xl").text()).toContain("Internal server error");
+        expect($("h1.govuk-heading-l").text()).toContain(localesService.i18nCh.resolveSingleKey("500_main_title", "en"));
     });
 });
