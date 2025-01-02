@@ -22,10 +22,10 @@ describe("checkCompany", () => {
     };
 
     describe("should redirect to Company Status Stop Screen", () => {
-
         it("when the company is dissolved", async () => {
             const req = httpMocks.createRequest(VALID_REQ);
-            const dissolvedCompany = validCompanyProfile.companyStatus = "dissolved";
+            const dissolvedCompany = { ...validCompanyProfile };
+            dissolvedCompany.companyStatus = "dissolved";
             const res = httpMocks.createResponse({
                 locals: {
                     companyProfile: dissolvedCompany
@@ -33,17 +33,16 @@ describe("checkCompany", () => {
             });
 
             checkCompany(req, res, mockNext);
-
             expect(res.locals?.companyProfile).toBe(dissolvedCompany);
             expect(res.statusCode).toBe(HttpStatusCode.Found);
         });
     });
 
     describe("should redirect to Company Type Stop Screen", () => {
-
         it("when the company is not in the allowed list", async () => {
             const req = httpMocks.createRequest(VALID_REQ);
-            const unknownTypeCompany = validCompanyProfile.type = "unknownType";
+            const unknownTypeCompany = { ...validCompanyProfile };
+            unknownTypeCompany.type = "unknownType";
             const res = httpMocks.createResponse({
                 locals: {
                     companyProfile: unknownTypeCompany
@@ -51,14 +50,12 @@ describe("checkCompany", () => {
             });
 
             checkCompany(req, res, mockNext);
-
             expect(res.locals?.companyProfile).toBe(unknownTypeCompany);
             expect(res.statusCode).toBe(HttpStatusCode.Found);
         });
     });
 
-    describe.skip("should call next", () => {
-
+    describe("should call next", () => {
         it("when the company is in a valid state", () => {
             const req = httpMocks.createRequest(VALID_REQ);
             const res = httpMocks.createResponse({
@@ -68,7 +65,6 @@ describe("checkCompany", () => {
             });
 
             checkCompany(req, res, mockNext);
-
             expect(mockNext).toHaveBeenCalled();
             expect(res.statusCode).toBe(HttpStatusCode.Ok);
         });
