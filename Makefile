@@ -12,7 +12,7 @@ clean:
 	rm -f ./build.log
 
 .PHONY: build
-build:
+build: clean submodules
 	export GIT_SSH_COMMAND="ssh" && npm ci
 	npm run build
 
@@ -47,6 +47,8 @@ endif
 	cp -r ./package.json $(tmpdir)
 	cp -r ./package-lock.json $(tmpdir)
 	cp -r ./locales $(tmpdir)
+	mkdir $(tmpdir)/api-enumerations
+	cp -r ./api-enumerations/*.yml $(tmpdir)/api-enumerations
 	cp ./routes.yaml $(tmpdir)
 	cd $(tmpdir) && export GIT_SSH_COMMAND="ssh" && npm ci --production
 	rm $(tmpdir)/package.json $(tmpdir)/package-lock.json
@@ -56,3 +58,7 @@ endif
 .PHONY: dist
 dist: lint test clean package
 
+.PHONY: submodules
+submodules:
+	git submodule init
+	git submodule update
