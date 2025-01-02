@@ -1,5 +1,5 @@
 {
-    "start_main_title": "Provide identity verification details for a person with significant control",
+    "start_main_title": "Provide identity verification details for a person with significant control (PSC)",
     "start_service_description": "Use this service to provide a Companies House personal code for a person with significant control (PSC).",
     "start_inset_text": "You can also use this service to check when a company's PSCs need to provide their personal codes.",
     "start_service_restriction_description": "You cannot use this service if the PSC has their personal information protected at Companies House (or is waiting for the results of an application)",
