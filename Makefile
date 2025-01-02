@@ -12,7 +12,7 @@ clean:
 	rm -f ./build.log
 
 .PHONY: build
-build: update_submodules
+build: clean submodules
 	export GIT_SSH_COMMAND="ssh" && npm ci
 	npm run build
 
@@ -58,6 +58,7 @@ endif
 .PHONY: dist
 dist: lint test clean package
 
-.PHONY: update_submodules
-update_submodules:
-	test -f ./api-enumerations/constants.yml || git submodule update --init -- api-enumerations
+.PHONY: submodules
+submodules:
+	git submodule init
+	git submodule update
