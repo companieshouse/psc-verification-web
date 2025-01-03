@@ -40,6 +40,7 @@ export const Urls = {
     PERSONAL_CODE: `${urlWithTransactionIdAndSubmissionId}/individual/personal-code`,
     NAME_MISMATCH: `${urlWithTransactionIdAndSubmissionId}/individual/psc-why-this-name`,
     INDIVIDUAL_STATEMENT: `${urlWithTransactionIdAndSubmissionId}/individual/psc-statement`,
+    INTERNAL_SERVER_ERROR: "/internal-server-error",
     PSC_VERIFIED: `${urlWithTransactionIdAndSubmissionId}/psc-verified`,
     STOP_SCREEN: "/stop/:stopType",
     STOP_SCREEN_SUBMISSION: `${urlWithTransactionIdAndSubmissionId}/stop/:stopType`
