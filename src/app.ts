@@ -1,5 +1,5 @@
 import cookieParser from "cookie-parser";
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import nunjucks from "nunjucks";
 import path from "path";
 import { ExternalUrls, servicePathPrefix } from "./constants";
@@ -10,6 +10,7 @@ import { isLive } from "./middleware/serviceLive";
 import { csrfProtectionMiddleware } from "./middleware/csrf";
 import csrfErrorHandler from "./middleware/csrfError";
 import { pageNotFound } from "./middleware/pageNotFound";
+import { internalServerError } from "./middleware/internalServerError";
 
 const app = express();
 
@@ -76,11 +77,8 @@ routerDispatch(app);
 // 404 - page not found error
 app.use(pageNotFound);
 
-// unhandled errors
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
-    res.render("partials/error_500");
-});
+// 500 - internal server error
+app.use(internalServerError);
 
 // unhandled exceptions
 process.on("uncaughtException", (err: any) => {
