@@ -5,6 +5,7 @@ import { CompanyNumberRouter, ConfirmCompanyRouter, HealthCheckRouter, Individua
 import { authenticate } from "./middleware/authentication";
 import { fetchVerification } from "./middleware/fetchVerification";
 import { fetchCompany } from "./middleware/fetchCompany";
+import { pscVerificationApiAvailable } from "./middleware/serviceAvailable";
 import { HttpStatusCode } from "axios";
 
 const routerDispatch = (app: Application) => {
@@ -14,7 +15,7 @@ const routerDispatch = (app: Application) => {
     app.use(servicePathPrefix, router);
 
     router.use("/", StartRouter);
-    router.use(Urls.START, StartRouter);
+    router.use(Urls.START, pscVerificationApiAvailable, StartRouter);
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
     router.use(Urls.COMPANY_NUMBER, authenticate, CompanyNumberRouter);
     router.use(Urls.CONFIRM_COMPANY, authenticate, ConfirmCompanyRouter);
