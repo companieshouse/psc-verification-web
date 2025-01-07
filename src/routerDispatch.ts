@@ -5,6 +5,7 @@ import { CompanyNumberRouter, ConfirmCompanyRouter, HealthCheckRouter, Individua
 import { authenticate } from "./middleware/authentication";
 import { fetchVerification } from "./middleware/fetchVerification";
 import { fetchCompany } from "./middleware/fetchCompany";
+import { checkCompany } from "./middleware/checkCompany";
 
 const routerDispatch = (app: Application) => {
 
@@ -17,13 +18,13 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
     router.use(Urls.COMPANY_NUMBER, authenticate, CompanyNumberRouter);
     router.use(Urls.CONFIRM_COMPANY, authenticate, ConfirmCompanyRouter);
-    router.use(Urls.INDIVIDUAL_PSC_LIST, authenticate, fetchCompany, IndividualPscListRouter);
+    router.use(Urls.INDIVIDUAL_PSC_LIST, authenticate, fetchCompany, checkCompany, IndividualPscListRouter);
     router.use(Urls.NEW_SUBMISSION, authenticate, NewSubmissionRouter);
     router.use(Urls.PERSONAL_CODE, authenticate, fetchVerification, PersonalCodeRouter);
     router.use(Urls.NAME_MISMATCH, authenticate, fetchVerification, NameMismatchRouter);
     router.use(Urls.INDIVIDUAL_STATEMENT, authenticate, fetchVerification, IndividualStatementRouter);
     router.use(Urls.PSC_VERIFIED, authenticate, fetchVerification, fetchCompany, PscVerifiedRouter);
-    router.use(Urls.STOP_SCREEN, authenticate, StopScreenRouter);
+    router.use(Urls.STOP_SCREEN, authenticate, fetchCompany, StopScreenRouter);
     router.use(Urls.STOP_SCREEN_SUBMISSION, authenticate, StopScreenRouter);
 };
 
