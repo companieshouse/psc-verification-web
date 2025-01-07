@@ -35,6 +35,7 @@ describe("checkCompany", () => {
             checkCompany(req, res, mockNext);
             expect(res.locals?.companyProfile).toBe(dissolvedCompany);
             expect(res.statusCode).toBe(HttpStatusCode.Found);
+            expect(res._getRedirectUrl()).toBe("/persons-with-significant-control-verification/stop/company-status?companyNumber=12345678&lang=en");
         });
     });
 
@@ -52,6 +53,7 @@ describe("checkCompany", () => {
             checkCompany(req, res, mockNext);
             expect(res.locals?.companyProfile).toBe(unknownTypeCompany);
             expect(res.statusCode).toBe(HttpStatusCode.Found);
+            expect(res._getRedirectUrl()).toBe("/persons-with-significant-control-verification/stop/company-type?companyNumber=12345678&lang=en");
         });
     });
 

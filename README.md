@@ -27,6 +27,8 @@ Having cloned the project into your project root, run the following commands:
 
 ```npm install```
 
+```make clean build``` which will add the git submodule `api-enumerations`
+
 ### SSL Set-up
 
 - If you wish to work with ssl-enabled endpoints locally, ensure you turn the `NODE_SSL_ENABLED` property to `ON` in the config and also provide paths to your private key and certificate.
