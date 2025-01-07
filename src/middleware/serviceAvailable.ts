@@ -12,7 +12,7 @@ export const pscVerificationApiAvailable = handleExceptions(async (req: Request,
     const response: ApiResponse<PlannedMaintenance> = await checkPlannedMaintenance(req);
 
     if (response.resource?.status === "OUT_OF_SERVICE") {
-        res.render("partials/error_400");
+        res.render("error/403");
     } else {
         next();
     }

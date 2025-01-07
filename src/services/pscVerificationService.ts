@@ -93,7 +93,6 @@ export const checkPlannedMaintenance = async (request: Request): Promise<ApiResp
         throw createAndLogError(`${checkPlannedMaintenance.name} - HTTP status code ${sdkResponse.httpStatusCode} - Failed to GET Planned Maintenance response`);
     }
 
-    // TODO what is the purpose of this here and above?:
     const castedSdkResponse = sdkResponse as ApiResponse<PlannedMaintenance>;
 
     if (!castedSdkResponse) {
