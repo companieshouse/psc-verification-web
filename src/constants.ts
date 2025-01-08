@@ -66,12 +66,6 @@ export const ExternalUrls = {
     COMPANY_LOOKUP: "/company-lookup/search",
     COMPANY_LOOKUP_FORWARD: servicePathPrefix + "/confirm-company",
     SIGNOUT: "/signout"
-//     ABILITY_NET: env.ABILITY_NET_LINK,
-//     CONTACT_US: env.CONTACT_US_LINK,
-//     DEVELOPERS: env.DEVELOPERS_LINK,
-//     FEEDBACK: env.FEEDBACK_URL,
-//     OPEN_GOVERNMENT_LICENSE: env.OPEN_GOVERNMENT_LICENSE_LINK,
-//     POLICIES: env.POLICIES_LINK,
 } as const;
 
 // used as Session keys (Redis)
