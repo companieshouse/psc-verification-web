@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { CompanyPersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 import { getCompanyIndividualPscList } from "../../../services/companyPscService";
-import { PrefixedUrls, Urls } from "../../../constants";
+import { PSC_KIND_TYPE, PrefixedUrls, Urls } from "../../../constants";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
@@ -56,7 +56,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             individualPscList = await getCompanyIndividualPscList(req, companyNumber);
         }
 
-        const pscDetails = this.getViewPscDetails(individualPscList, lang);
+        const allPscDetails = this.getViewPscDetails(individualPscList, lang);
 
         return {
             ...baseViewData,
@@ -68,8 +68,8 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             confirmationStatementDate,
             dsrEmailAddress,
             dsrPhoneNumber,
-            pscDetails,
-            exclusivelySuperSecure: pscDetails.every((psc) => psc.pscKind?.startsWith("super-secure-person")),
+            pscDetails: allPscDetails.filter(psc => psc.pscKind === PSC_KIND_TYPE.INDIVIDUAL),
+            exclusivelySuperSecure: allPscDetails.every((psc) => psc.pscKind === PSC_KIND_TYPE.SUPER_SECURE),
             templateName: Urls.INDIVIDUAL_PSC_LIST,
             backLinkDataEvent: "psc-list-back-link"
         };

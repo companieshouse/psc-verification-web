@@ -21,7 +21,7 @@ individualPscListRouter.get("/", handleExceptions(async (req: Request, res: Resp
         res.redirect(addSearchParams(getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.SUPER_SECURE), { companyNumber, lang }));
     } else {
         res.render(templatePath, viewData);
-    };
+    }
 }));
 
 export default individualPscListRouter;

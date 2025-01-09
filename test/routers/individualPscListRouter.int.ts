@@ -49,7 +49,7 @@ describe("GET psc individual list router", () => {
         expect(pscNameCardTitles).toMatchObject(expectedPscNames);
     });
 
-    it("Should redirect to super-secure stop screen if PSCs are exclusively Super Secure", async () => {
+    it("Should redirect to super secure stop screen if PSCs are exclusively Super Secure", async () => {
         mockGetCompanyIndividualPscList.mockResolvedValue(SUPER_SECURE_PSCS_EXCLUSIVE_LIST);
 
         const resp = await request(app).get(PrefixedUrls.INDIVIDUAL_PSC_LIST + `?companyNumber=${COMPANY_NUMBER}&lang=en`);

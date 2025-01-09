@@ -3,6 +3,7 @@ import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource
 import { Session } from "@companieshouse/node-session-handler";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
+import { PSC_KIND_TYPE } from "../../src/constants";
 import { createOAuthApiClient } from "../../src/services/apiClientService";
 import { getCompanyIndividualPscList, getCompanyPscList } from "../../src/services/companyPscService";
 import { COMPANY_NUMBER, EMPTY_COMPANY_PSC_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST, VALID_COMPANY_PSC_ITEMS, VALID_COMPANY_PSC_LIST } from "../mocks/companyPsc.mock";
@@ -94,7 +95,7 @@ describe("companyPscService", () => {
         const individualPscList = await getCompanyIndividualPscList(request, COMPANY_NUMBER);
 
         expect(individualPscList).toHaveLength(3);
-        expect(individualPscList.map(p => p.kind)).toMatchObject(expect.arrayContaining(["individual-person-with-significant-control", "super-secure-person-with-significant-control"]));
+        expect(individualPscList.map(p => p.kind)).toMatchObject(expect.arrayContaining([PSC_KIND_TYPE.INDIVIDUAL, PSC_KIND_TYPE.SUPER_SECURE]));
     });
 
     it("getCompanyIndividualPscList should return an empty list if no individual or super secure PSCs exist for the company", async () => {
