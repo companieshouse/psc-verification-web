@@ -65,8 +65,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             dsrEmailAddress,
             dsrPhoneNumber,
             pscDetails: this.getViewPscDetails(individualPscList, lang),
-            templateName: Urls.INDIVIDUAL_PSC_LIST,
-            backLinkDataEvent: "psc-list-back-link"
+            templateName: Urls.INDIVIDUAL_PSC_LIST
         };
 
         function resolveUrlTemplate (prefixedUrl: string): string | null {

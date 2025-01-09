@@ -62,7 +62,6 @@ describe("Stop screen handler", () => {
             const expectedViewData = {
                 templateName: stopType,
                 currentUrl: `${expectedCurrentUri}?lang=en`,
-                backLinkDataEvent: `${stopType}-back-link`,
                 errors: {}
             };
 
