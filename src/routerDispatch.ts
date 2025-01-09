@@ -5,7 +5,7 @@ import { CompanyNumberRouter, ConfirmCompanyRouter, HealthCheckRouter, Individua
 import { authenticate } from "./middleware/authentication";
 import { fetchVerification } from "./middleware/fetchVerification";
 import { fetchCompany } from "./middleware/fetchCompany";
-import { pscVerificationApiAvailable } from "./middleware/serviceAvailable";
+import { serviceUnavailable } from "./middleware/serviceUnavailable";
 import { checkCompany } from "./middleware/checkCompany";
 
 const routerDispatch = (app: Application) => {
@@ -14,8 +14,8 @@ const routerDispatch = (app: Application) => {
     // Required for endpoint prefix
     app.use(servicePathPrefix, router);
 
-    router.use("/", StartRouter);
-    router.use(Urls.START, pscVerificationApiAvailable, StartRouter);
+    router.use("/", serviceUnavailable, StartRouter);
+    router.use(Urls.START, serviceUnavailable, StartRouter);
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
     router.use(Urls.COMPANY_NUMBER, authenticate, CompanyNumberRouter);
     router.use(Urls.CONFIRM_COMPANY, authenticate, ConfirmCompanyRouter);

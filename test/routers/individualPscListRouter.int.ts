@@ -1,6 +1,7 @@
 import request from "supertest";
 import mockSessionMiddleware from "../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../mocks/authenticationMiddleware.mock";
+import mockServiceUnavailableMiddleware from "../mocks/serviceUnavailable.mock";
 import app from "../../src/app";
 import { PrefixedUrls } from "../../src/constants";
 import { getCompanyProfile } from "../../src/services/companyProfileService";
@@ -24,6 +25,7 @@ describe("GET psc individual list router", () => {
     afterEach(() => {
         expect(mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
+        expect(mockServiceUnavailableMiddleware).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyProfile).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyIndividualPscList).toHaveBeenCalledTimes(1);
     });

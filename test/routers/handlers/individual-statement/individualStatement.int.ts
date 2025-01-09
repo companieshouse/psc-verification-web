@@ -5,6 +5,7 @@ import { URLSearchParams } from "url";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
 import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
+import mockServiceUnavailableMiddleware from "../../../mocks/serviceUnavailable.mock";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
@@ -35,6 +36,7 @@ describe("individual statement view", () => {
         mockSessionMiddleware.mockClear();
         mockAuthenticationMiddleware.mockClear();
         mockCsrfProtectionMiddleware.mockClear();
+        mockServiceUnavailableMiddleware.mockClear();
     });
 
     afterEach(() => {

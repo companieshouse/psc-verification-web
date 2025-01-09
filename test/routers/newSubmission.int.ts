@@ -2,6 +2,7 @@ import { HttpStatusCode } from "axios";
 import request from "supertest";
 import mockSessionMiddleware from "../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../mocks/authenticationMiddleware.mock";
+import mockServiceUnavailableMiddleware from "../mocks/serviceUnavailable.mock";
 import mockCsrfProtectionMiddleware from "../mocks/csrfProtectionMiddleware.mock";
 import app from "../../src/app";
 import { PrefixedUrls } from "../../src/constants";
@@ -32,6 +33,7 @@ describe("NewSubmission router/handler integration tests", () => {
     afterEach(() => {
         expect(mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
+        expect(mockServiceUnavailableMiddleware).toHaveBeenCalledTimes(1);
     });
 
     describe("GET method`", () => {
