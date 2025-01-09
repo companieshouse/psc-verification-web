@@ -208,3 +208,24 @@ export const VALID_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControl = {
     },
     items: VALID_COMPANY_PSC_ITEMS
 };
+
+export const SUPER_SECURE_PSCS_EXCLUSIVE_LIST = [
+    {
+        kind: "super-secure-person-with-significant-control",
+        description: "super-secure-persons-with-significant-control",
+        notifiedOn: "2024-03-13",
+        links: {
+            self: "/company/123456/persons-with-significant-control/individual/PSC1"
+        },
+        etag: "ETAG1"
+    },
+    {
+        kind: "super-secure-person-with-significant-control",
+        description: "super-secure-persons-with-significant-control",
+        notifiedOn: "2024-03-13",
+        links: {
+            self: "/company/123456/persons-with-significant-control/individual/PSC2"
+        },
+        etag: "ETAG2"
+    }
+];

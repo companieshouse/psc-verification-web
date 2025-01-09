@@ -9,6 +9,7 @@ import { HttpStatusCode } from "axios";
 
 export const getCompanyIndividualPscList = async (request: Request, companyNumber: string): Promise<CompanyPersonWithSignificantControl[]> => {
     const IND_PSC_TYPE = "individual-person-with-significant-control";
+    const SUPER_SECURE_PSC_TYPE = "super-secure-person-with-significant-control";
     const response = await getCompanyPscList(request, companyNumber);
     const companyPscs = response.resource as CompanyPersonsWithSignificantControl;
 
@@ -21,7 +22,7 @@ export const getCompanyIndividualPscList = async (request: Request, companyNumbe
     const companyPscList = companyPscs.items;
 
     return companyPscList.filter((psc) => {
-        return psc.kind === IND_PSC_TYPE && (psc.ceasedOn === null || psc.ceasedOn === undefined);
+        return (psc.kind === IND_PSC_TYPE || psc.kind === SUPER_SECURE_PSC_TYPE) && (psc.ceasedOn === null || psc.ceasedOn === undefined);
     });
 };
 

@@ -5,7 +5,7 @@ import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createOAuthApiClient } from "../../src/services/apiClientService";
 import { getCompanyIndividualPscList, getCompanyPscList } from "../../src/services/companyPscService";
-import { COMPANY_NUMBER, EMPTY_COMPANY_PSC_LIST, VALID_COMPANY_PSC_LIST } from "../mocks/companyPsc.mock";
+import { COMPANY_NUMBER, EMPTY_COMPANY_PSC_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST, VALID_COMPANY_PSC_ITEMS, VALID_COMPANY_PSC_LIST } from "../mocks/companyPsc.mock";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../src/services/apiClientService");
@@ -71,22 +71,33 @@ describe("companyPscService", () => {
             expect(error.message).toBe("getCompanyPscList returned no resource for company number 12345678");
         }
     });
-    it("getCompanyIndividualPscList should return only individual PSCs", async () => {
+    it("getCompanyIndividualPscList should return only individual and super secure PSCs", async () => {
+        const ordinaryAndSuperSecurePscs = [...VALID_COMPANY_PSC_ITEMS, ...SUPER_SECURE_PSCS_EXCLUSIVE_LIST];
+        const validCompanyPscs: CompanyPersonsWithSignificantControl = {
+            ceasedCount: "2",
+            itemsPerPage: "25",
+            totalResults: "5",
+            activeCount: "4",
+            links: {
+                self: "company/123456/persons-with-significant-control"
+            },
+            items: ordinaryAndSuperSecurePscs
+        };
+
         const mockResponse: ApiResponse<CompanyPersonsWithSignificantControl> = {
             httpStatusCode: HttpStatusCode.Ok,
-            resource: VALID_COMPANY_PSC_LIST
+            resource: validCompanyPscs
         };
         mockGetCompanyPsc.mockResolvedValueOnce(mockResponse as ApiResponse<CompanyPersonsWithSignificantControl>);
         const request = {} as Request;
 
         const individualPscList = await getCompanyIndividualPscList(request, COMPANY_NUMBER);
 
-        expect(individualPscList).toHaveLength(1);
-        individualPscList.forEach((item) => {
-            expect(item.kind).toEqual("individual-person-with-significant-control");
-        });
+        expect(individualPscList).toHaveLength(3);
+        expect(individualPscList.map(p => p.kind)).toMatchObject(expect.arrayContaining(["individual-person-with-significant-control", "super-secure-person-with-significant-control"]));
     });
-    it("getCompanyIndividualPscList should return an empty list if no individual PSCs exist for the company", async () => {
+
+    it("getCompanyIndividualPscList should return an empty list if no individual or super secure PSCs exist for the company", async () => {
         const mockResponse: ApiResponse<CompanyPersonsWithSignificantControl> = {
             httpStatusCode: HttpStatusCode.Ok,
             resource: EMPTY_COMPANY_PSC_LIST

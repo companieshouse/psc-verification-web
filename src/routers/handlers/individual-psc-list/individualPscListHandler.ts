@@ -11,8 +11,9 @@ import { logger } from "../../../lib/logger";
 
 interface PscListData {
     pscId: string,
-    pscName: string,
-    pscDob: string,
+    pscKind?: string,
+    pscName?: string,
+    pscDob?: string,
     pscVerificationDeadlineDate: string
 }
 
@@ -22,6 +23,7 @@ interface IndividualPscListViewData extends BaseViewData {
     dsrEmailAddress: string,
     dsrPhoneNumber: string,
     pscDetails: PscListData[],
+    exclusivelySuperSecure: boolean,
     selectedPscId: string | null,
     nextPageUrl: string | null
 }
@@ -54,6 +56,8 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             individualPscList = await getCompanyIndividualPscList(req, companyNumber);
         }
 
+        const pscDetails = this.getViewPscDetails(individualPscList, lang);
+
         return {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
@@ -64,7 +68,8 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             confirmationStatementDate,
             dsrEmailAddress,
             dsrPhoneNumber,
-            pscDetails: this.getViewPscDetails(individualPscList, lang),
+            pscDetails,
+            exclusivelySuperSecure: pscDetails.every((psc) => psc.pscKind?.startsWith("super-secure-person")),
             templateName: Urls.INDIVIDUAL_PSC_LIST,
             backLinkDataEvent: "psc-list-back-link"
         };
@@ -90,6 +95,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
             return {
                 pscId: psc.links.self.split("/").pop() as string,
+                pscKind: psc.kind,
                 pscName: psc.name,
                 pscDob: pscFormattedDob,
                 pscVerificationDeadlineDate: "[pscVerificationDate]"
