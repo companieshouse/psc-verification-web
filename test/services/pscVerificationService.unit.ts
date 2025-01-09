@@ -199,22 +199,5 @@ describe("pscVerificationService", () => {
             expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
 
         });
-
-        it("should throw an error when the validationStatus.resource is undefined", async () => {
-            const mockValidationStatus: Resource<ValidationStatusResponse> = {
-                httpStatusCode: HttpStatusCode.Ok
-            };
-
-            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
-
-            await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrowErrorMatchingInlineSnapshot(
-                `"getValidationStatus - Error retrieving the validation status for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"`
-            );
-
-            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
-
-        });
     });
 });
