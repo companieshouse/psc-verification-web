@@ -1,4 +1,5 @@
-import { Links, NameMismatchReasonEnum, PscVerification, PscVerificationData, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+
+import { Links, NameMismatchReasonEnum, PscVerification, PscVerificationData, ValidationStatusError, ValidationStatusResponse, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 
 export const FIRST_DATE = new Date(2024, 0, 2, 3, 4, 5, 6);
 export const DOB_DATE = new Date("1970-01-01");
@@ -152,6 +153,30 @@ function initPscVerification (data: PscVerificationData) {
 
     } as PscVerification;
 }
+
+// validation status mocks
+export const VALIDATION_STATUS_VALID: ValidationStatusResponse = {
+    isValid: true,
+    errors: []
+};
+
+export const createMockValidationStatusError = (errorMessage: string) : ValidationStatusError => {
+    return {
+        error: errorMessage,
+        location: "$.uvid_match",
+        type: "ch:validation",
+        locationType: "json-path"
+    };
+};
+
+export const mockValidationStatusNameError: ValidationStatusError = createMockValidationStatusError("The name on the public register is different to the name this PSC used for identity verification: a name mismatch reason must be provided");
+
+export const VALIDATION_STATUS_INVALID: ValidationStatusResponse = {
+    errors: [
+        mockValidationStatusNameError
+    ],
+    isValid: false
+};
 
 // Returns the PSC verification with data fields in camel case
 export const INDIVIDUAL_VERIFICATION_CREATED: PscVerification = initPscVerification(INITIAL_PSC_DATA);

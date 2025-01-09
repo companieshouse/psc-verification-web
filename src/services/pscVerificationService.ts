@@ -1,6 +1,6 @@
 import { Resource } from "@companieshouse/api-sdk-node";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
-import { PscVerification, PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { PscVerification, PscVerificationData, ValidationStatusResponse } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { HttpStatusCode } from "axios";
@@ -65,8 +65,9 @@ export const patchPscVerification = async (request: Request, transactionId: stri
     if (!sdkResponse) {
         throw createAndLogError(`${patchPscVerification.name} - PSC Verification PATCH request returned no response for resource with ${logReference}`);
     }
+
     if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
-        throw createAndLogError(`${patchPscVerification.name} - Http status code ${sdkResponse.httpStatusCode} - Failed to PATCH PSC Verification for resource with ${logReference}`);
+        throw createAndLogError(`${getPscVerification.name} - HTTP status code ${sdkResponse.httpStatusCode} - Failed to GET PSC Verification validation status for ${logReference}`);
     }
 
     const castedSdkResponse = sdkResponse as Resource<PscVerification>;
@@ -78,4 +79,30 @@ export const patchPscVerification = async (request: Request, transactionId: stri
     logger.debug(`${patchPscVerification.name} - PATCH PSC Verification response for ${logReference}: ${JSON.stringify(sdkResponse)}`);
 
     return castedSdkResponse;
+};
+
+export const getValidationStatus = async (request: Request, transactionId: string, pscVerificationId: string): Promise<Resource<ValidationStatusResponse> | ApiErrorResponse> => {
+    const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
+    const logReference = `transaction ${transactionId}, pscVerification ${pscVerificationId}`;
+
+    logger.debug(`Retrieving PSC verification validation status for ${logReference}`);
+    const sdkResponse: Resource<ValidationStatusResponse> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.getValidationStatus(transactionId, pscVerificationId);
+
+    if (!sdkResponse) {
+        throw createAndLogError(`${getValidationStatus.name} - PSC Verification GET validation status request did not return a response for ${logReference}`);
+    }
+
+    if (sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
+        throw createAndLogError(`${getValidationStatus.name} - HTTP status response code is not valid: ${sdkResponse.httpStatusCode} - Failed to GET PSC Verification validation status for ${logReference}`);
+    }
+
+    const validationStatus = sdkResponse as Resource<ValidationStatusResponse>;
+
+    if (validationStatus.resource?.isValid === false) {
+        logger.error(`Validation errors for resource ${logReference}: ` + JSON.stringify(validationStatus.resource.errors.slice(0, 10)));
+    } else if (validationStatus.resource?.isValid === undefined) {
+        throw createAndLogError(`${getValidationStatus.name} - Error retrieving the validation status for ${logReference}`);
+    }
+
+    return validationStatus;
 };
