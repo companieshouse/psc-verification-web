@@ -9,6 +9,11 @@ export enum STOP_TYPE {
     SUPER_SECURE = "super-secure"
 };
 
+export enum PSC_KIND_TYPE {
+    INDIVIDUAL = "individual-person-with-significant-control",
+    SUPER_SECURE = "super-secure-person-with-significant-control"
+}
+
 export function toStopScreenUrl (stopType: STOP_TYPE) {
     switch (stopType) {
         case STOP_TYPE.PSC_DOB_MISMATCH:
