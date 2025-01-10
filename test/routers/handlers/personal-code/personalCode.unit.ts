@@ -109,7 +109,6 @@ describe("Personal code handler", () => {
                 personalCode: "",
                 pscName: "Sir Forename Middlename Surname",
                 monthYearBorn: "April 2000",
-                backLinkDataEvent: "personal-code-back-link",
                 errors: {}
             });
         });

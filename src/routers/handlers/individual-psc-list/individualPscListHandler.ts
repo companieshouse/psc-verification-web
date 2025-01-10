@@ -70,8 +70,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             dsrPhoneNumber,
             pscDetails: allPscDetails.filter(psc => psc.pscKind === PSC_KIND_TYPE.INDIVIDUAL),
             exclusivelySuperSecure: allPscDetails.every((psc) => psc.pscKind === PSC_KIND_TYPE.SUPER_SECURE),
-            templateName: Urls.INDIVIDUAL_PSC_LIST,
-            backLinkDataEvent: "psc-list-back-link"
+            templateName: Urls.INDIVIDUAL_PSC_LIST
         };
 
         function resolveUrlTemplate (prefixedUrl: string): string | null {
