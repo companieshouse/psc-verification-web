@@ -86,7 +86,7 @@ export const SessionKeys = {
     COMPANY_NUMBER: "companyNumber"
 } as const;
 
-//  For use by Matomo
-export const Ids = {
-    BUTTON_ID_INDIVIDUAL_STATEMENT: "continue_button_ind_statement"
+// Matomo event IDs that occur more than once accross templates
+export const CommonDataEventIds = {
+    CONTINUE_BUTTON: "continue-button"
 } as const;
