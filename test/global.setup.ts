@@ -22,7 +22,6 @@ export default () => {
     process.env.LOCALES_ENABLED = "true";
     process.env.LOCALES_PATH = "locales";
     process.env.LOG_LEVEL = "DEBUG";
-    process.env.NODE_ENV = "dev";
     process.env.NODE_HOSTNAME = "localhost";
     process.env.NODE_HOSTNAME_SECURE = "localhost";
     process.env.NODE_SSL_CERTIFICATE = "test";

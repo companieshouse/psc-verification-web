@@ -75,7 +75,6 @@ System properties for the `psc-verification-web`. These are normally configured 
 
 Variable| Description                                                                           |
 -------------------|---------------------------------------------------------------------------------------|
-ABILITY_NET_LINK| Link to the ability net website |
 API_URL| API base URL for service interaction |
 APP_NAME| Name of the application |
 CACHE_SERVER| Name of the cache |
@@ -90,10 +89,8 @@ COOKIE_DOMAIN| Domain for cookies |
 COOKIE_NAME| Name for the cookie |
 COOKIE_SECRET| Used for cookie encryption |
 DEFAULT_SESSION_EXPIRATION| session expiration time|
-DEVELOPERS_LINK| Link for developers |
 DSR_EMAIL_ADDRESS| Email address for the DSR team |
 DSR_PHONE_NUMBER| Phone number for the DSR team |
-FEEDBACK_URL| Link for the user to give feedback on the service|
 GET_PSC01_LINK| Link to obtaining paper form PSC01 |
 GET_RP01_LINK| Link to obtaining paper form RP01 |
 IDV_IMPLEMENTATION_DATE| Date when IDV comes into effect for PSCs |
@@ -108,11 +105,10 @@ NODE_SSL_ENABLED| Flag to enable SSL for the server|
 NODE_SSL_PRIVATE_KEY| Path to the SSL private key file|
 NUNJUCKS_LOADER_NO_CACHE| Flag to control the caching of templates in the Nunjucks loader|
 NUNJUCKS_LOADER_WATCH| Flag to enable or disable watching for file changes in the Nunjucks loader |
-OPEN_GOVERNMENT_LICENSE_LINK| Link to the open government license |
 PIWIK_SERVICE_NAME| Service name used by Matomo scripts |
-PIWIK_URL| Link to the matomo dashboard |
 PIWIK_SITE_ID| Matomo Site Id represents the environment |
 PIWIK_START_GOAL_ID| Goal Id for the start button used by matomo |
+PIWIK_URL| Link to the matomo dashboard |
 POLICIES_LINK| Link to policies |
 PORT| Port to run the web server on |
 POST_TO_CH_LINK| Link to guidance on submission by post |
