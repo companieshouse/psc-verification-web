@@ -56,8 +56,7 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
             preferNotToSay,
             currentUrl: resolveUrlTemplate(PrefixedUrls.NAME_MISMATCH),
             backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
-            templateName: Urls.NAME_MISMATCH,
-            backLinkDataEvent: "name-mismatch-back-link"
+            templateName: Urls.NAME_MISMATCH
         };
 
         function resolveUrlTemplate (prefixedUrl: string): string | null {

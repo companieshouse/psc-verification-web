@@ -1,11 +1,12 @@
 import { PersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/psc/types";
+import { PSC_KIND_TYPE } from "../../src/constants";
 
 export const COMPANY_NUMBER = "12345678";
 export const PSC_ID = "67edfE436y35hetsie6zuAZtr";
 
 export const PSC_INDIVIDUAL: PersonWithSignificantControl = {
     naturesOfControl: ["ownership-of-shares-75-to-100-percent", "voting-rights-75-to-100-percent-as-trust"],
-    kind: "individual-person-with-significant-control",
+    kind: PSC_KIND_TYPE.INDIVIDUAL,
     name: "Sir Forename Middlename Surname",
     nameElements: {
         title: "Sir",

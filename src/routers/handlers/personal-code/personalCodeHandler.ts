@@ -40,8 +40,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             personalCode: verification?.data?.verificationDetails?.uvid || "",
             currentUrl: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
             backURL: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang }),
-            templateName: Urls.PERSONAL_CODE,
-            backLinkDataEvent: "personal-code-back-link"
+            templateName: Urls.PERSONAL_CODE
         };
 
         function resolveUrlTemplate (prefixedUrl: string): string | null {
