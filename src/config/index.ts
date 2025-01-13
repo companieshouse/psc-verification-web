@@ -59,22 +59,11 @@ export const env = readEnv(process.env, {
                 "The order from least to most severe is: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < MARK < OFF. " +
                 "OFF is intended to be used to turn off logging, not as a level for actual logging."
         ),
-    NODE_HOSTNAME: str
-        .describe("Host name the server is hosted on")
-        .default(""),
-    NODE_HOSTNAME_SECURE: str
-        .describe("Hostname for the secure HTTPS server")
-        .default("localhost"),
-    NODE_PORT_SSL: port.describe("Port for the HTTPS server").default(3001),
-    NODE_SSL_CERTIFICATE: str
-        .describe("Path to the SSL certificate file")
-        .default(""),
-    NODE_SSL_ENABLED: str
-        .describe("Flag to enable SSL for the server")
-        .default(false),
-    NODE_SSL_PRIVATE_KEY: str
-        .describe("Path to the SSL private key file")
-        .default(""),
+    NODE_HOSTNAME: str.describe("Host name the server is hosted on"),
+    NODE_HOSTNAME_SECURE: str.describe("Hostname for the secure HTTPS server"),
+    NODE_SSL_CERTIFICATE: str.describe("Path to the SSL certificate file"),
+    NODE_SSL_ENABLED: str.describe("Flag to enable SSL for the server"),
+    NODE_SSL_PRIVATE_KEY: str.describe("Path to the SSL private key file"),
     NUNJUCKS_LOADER_NO_CACHE: bool.describe("Flag to control the caching of templates in the Nunjucks loader"),
     NUNJUCKS_LOADER_WATCH: bool.describe("Flag to enable or disable watching for file changes in the Nunjucks loader"),
     PIWIK_SERVICE_NAME: str.describe("Service name used by Matomo scripts"),
