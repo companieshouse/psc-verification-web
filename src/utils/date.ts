@@ -25,8 +25,8 @@ export const toHourDayDateFormat = (dateToConvert: string | undefined, lang = "e
     const jsDate = new Date(dateToConvert);
     const dateTime = DateTime.fromJSDate(jsDate);
 
-    const convertedHour = dateTime.setLocale(lang || "en").toFormat("h:mma");
-    const convertedDate = dateTime.setLocale(lang || "en").toFormat("cccc d MMMM yyyy");
+    const convertedHour = dateTime.setLocale(lang).toFormat("h:mma");
+    const convertedDate = dateTime.setLocale(lang).toFormat("cccc d MMMM yyyy");
 
     if (convertedHour === "Invalid DateTime" || convertedDate === "Invalid DateTime") {
         throw logger.info(`${toHourDayDateFormat.name} - Unable to convert provided date ${dateToConvert}`);
