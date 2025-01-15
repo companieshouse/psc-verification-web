@@ -1,11 +1,12 @@
-import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { PlannedMaintenance, PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
-import { createOAuthApiClient } from "../../src/services/apiClientService";
-import { createPscVerification, getPscVerification, patchPscVerification } from "../../src/services/pscVerificationService";
-import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { createApiKeyClient, createOAuthApiClient } from "../../src/services/apiClientService";
+import { checkPlannedMaintenance, createPscVerification, getPscVerification, patchPscVerification } from "../../src/services/pscVerificationService";
+import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PLANNED_MAINTENANCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { CREATED_PSC_TRANSACTION } from "../mocks/transaction.mock";
 import { Resource } from "@companieshouse/api-sdk-node";
+import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../src/services/apiClientService");
@@ -13,13 +14,21 @@ jest.mock("../../src/services/apiClientService");
 const mockCreatePscVerification = jest.fn();
 const mockGetPscVerification = jest.fn();
 const mockPatchPscVerification = jest.fn();
+const mockCheckPlannedMaintenance = jest.fn();
 const mockCreateOAuthApiClient = createOAuthApiClient as jest.Mock;
+const mockCreateApiKeyClient = createApiKeyClient as jest.Mock;
 
 mockCreateOAuthApiClient.mockReturnValue({
     pscVerificationService: {
         postPscVerification: mockCreatePscVerification,
         getPscVerification: mockGetPscVerification,
         patchPscVerification: mockPatchPscVerification
+    }
+});
+
+mockCreateApiKeyClient.mockReturnValue({
+    pscVerificationService: {
+        checkPlannedMaintenance: mockCheckPlannedMaintenance
     }
 });
 
@@ -84,6 +93,25 @@ describe("pscVerificationService", () => {
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA);
+        });
+    });
+
+    describe("checkPlannedMaintenance", () => {
+        it("should return the Planned Maintenance Response", async () => {
+            const mockPlannedMaintenance: ApiResponse<PlannedMaintenance> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: PLANNED_MAINTENANCE
+            };
+            mockCheckPlannedMaintenance.mockResolvedValueOnce(mockPlannedMaintenance);
+
+            const response = await checkPlannedMaintenance(req);
+
+            expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
+            const castedResource = response.resource as PlannedMaintenance;
+            expect(castedResource).toEqual(PLANNED_MAINTENANCE);
+            expect(mockCreateApiKeyClient).toHaveBeenCalledTimes(1);
+            expect(mockCheckPlannedMaintenance).toHaveBeenCalledTimes(1);
+            expect(mockCheckPlannedMaintenance).toHaveBeenCalledWith();
         });
     });
 });

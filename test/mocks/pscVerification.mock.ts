@@ -1,4 +1,4 @@
-import { Links, NameMismatchReasonEnum, PscVerification, PscVerificationData, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { Links, NameMismatchReasonEnum, PlannedMaintenance, PscVerification, PscVerificationData, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 
 export const FIRST_DATE = new Date(2024, 0, 2, 3, 4, 5, 6);
 export const DOB_DATE = new Date("1970-01-01");
@@ -136,6 +136,13 @@ export const RLE_DATA_FULL: PscVerificationData = {
     verificationDetails: {
         verificationStatements: [VerificationStatementEnum.RO_DECLARATION, VerificationStatementEnum.RO_IDENTIFIED, VerificationStatementEnum.RO_VERIFIED]
     }
+};
+
+export const PLANNED_MAINTENANCE: PlannedMaintenance = {
+    status: "UP",
+    message: "",
+    maintenance_start_time: new Date(),
+    maintenance_end_time: new Date()
 };
 
 function initPscVerification (data: PscVerificationData) {
