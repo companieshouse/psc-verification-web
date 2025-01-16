@@ -2,7 +2,7 @@ import { getLocalesService } from "../../../utils/localise";
 
 const localesService = getLocalesService();
 
-const errorManifest = (lang: string = "en", attribute: string = "") => ({
+const errorManifest = (lang: string = "en") => ({
     generic: {
         serverError: {
             summary: localesService.i18nCh.resolveSingleKey("server_error_summary", lang)
@@ -23,8 +23,8 @@ const errorManifest = (lang: string = "en", attribute: string = "") => ({
         },
         personalCode: {
             blank: {
-                summary: (localesService.i18nCh.resolveSingleKey("personal_code_error_summary", lang) + attribute),
-                inline: (localesService.i18nCh.resolveSingleKey("personal_code_error_inline", lang) + attribute)
+                summary: localesService.i18nCh.resolveSingleKey("personal_code_error_summary", lang),
+                inline: localesService.i18nCh.resolveSingleKey("personal_code_error_inline", lang)
             },
             incorrect: {}
         },
@@ -37,8 +37,8 @@ const errorManifest = (lang: string = "en", attribute: string = "") => ({
         },
         individualStatement: {
             blank: {
-                summary: (localesService.i18nCh.resolveSingleKey("individual_statement_error_summary", lang) + attribute),
-                inline: (localesService.i18nCh.resolveSingleKey("individual_statement__error_inline", lang) + attribute)
+                summary: localesService.i18nCh.resolveSingleKey("individual_statement_error_summary", lang),
+                inline: localesService.i18nCh.resolveSingleKey("individual_statement__error_inline", lang)
             },
             incorrect: {}
         }

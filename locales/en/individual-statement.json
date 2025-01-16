@@ -5,6 +5,6 @@
     "individual_statement_part2": " has verified their identity for Companies House.",
     "individual_statement_born": "Born ",
     "individual_statement_button": "Confirm and submit",
-    "individual_statement_error_summary": "Select the identity verification statement for ",
-    "individual_statement_error_inline": "Select the identity verification statement for "
+    "individual_statement_error_summary": "Select the identity verification statement",
+    "individual_statement_error_inline": "Select the identity verification statement"
 }
