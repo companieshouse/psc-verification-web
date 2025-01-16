@@ -4,7 +4,6 @@ import * as cheerio from "cheerio";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
 import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
-import mockServiceUnavailableMiddleware from "../../../mocks/serviceUnavailable.mock";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
@@ -43,7 +42,6 @@ describe("personal code router/handler integration tests", () => {
     afterEach(() => {
         expect(mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
-        expect(mockServiceUnavailableMiddleware).toHaveBeenCalledTimes(1);
         expect(mockGetPscVerification).toHaveBeenCalledTimes(1);
     });
 

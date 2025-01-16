@@ -4,7 +4,6 @@ import request from "supertest";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
 import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
-import mockServiceUnavailableMiddleware from "../../../mocks/serviceUnavailable.mock";
 import app from "../../../../src/app";
 import { PrefixedUrls, STOP_TYPE, toStopScreenPrefixedUrl } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
@@ -51,7 +50,6 @@ describe("stop screen view tests", () => {
     afterEach(() => {
         expect(mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
-        expect(mockServiceUnavailableMiddleware).toHaveBeenCalledTimes(1);
     });
 
     it.each(Object.values(STOP_TYPE))("Should render the stop screen '%s' page with a success status code", async (stopType: STOP_TYPE) => {

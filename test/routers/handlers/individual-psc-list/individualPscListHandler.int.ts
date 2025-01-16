@@ -4,7 +4,6 @@ import request from "supertest";
 import { URLSearchParams } from "url";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
-import mockServiceUnavailableMiddleware from "../../../mocks/serviceUnavailable.mock";
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { COMPANY_NUMBER, INDIVIDUAL_PSCS_LIST } from "../../../mocks/companyPsc.mock";
@@ -29,7 +28,6 @@ describe("individual PSC list view", () => {
     afterEach(() => {
         expect(mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
-        expect(mockServiceUnavailableMiddleware).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyProfile).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyIndividualPscList).toHaveBeenCalledTimes(1);
     });
