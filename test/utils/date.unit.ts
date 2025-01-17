@@ -1,43 +1,37 @@
 import { toHourDayDateFormat, toReadableFormat } from "../../src/utils/date";
 
-describe("toReadableFormat function", () => {
-    it("should convert date for display", () => {
-        const result = toReadableFormat("10 Nov 23 12:04 GMT", "en");
-        expect(result).toBe("10 November 2023");
+describe("Utils date functions", () => {
+    describe("toReadableFormat should display:", () => {
+        const date = [
+            ["10 Nov 23 12:04 GMT", "10 November 2023", "en"],
+            ["10 Nov 23 12:04 GMT", "10 Tachwedd 2023", "cy"],
+            [undefined, "", "en"]
+        ];
+        it.each(date)("'%s' as '%s'", (dateIn, dateOut, lang) => {
+            const result = toReadableFormat(dateIn, lang);
+            expect(result).toBe(dateOut);
+        });
+
+        it("should throw for an invalid date", () => {
+            expect(() => { toReadableFormat("invalid", "en"); }).toThrow(undefined);
+        });
     });
 
-    it("should convert date for welsh display", () => {
-        const result = toReadableFormat("10 Nov 23 12:04 GMT", "cy");
-        expect(result).toEqual("10 Tachwedd 2023");
-    });
+    describe("toHourDayDateFormat should display:", () => {
+        const dateTime = [
+            ["10 Nov 23 12:04 GMT", "12:04pm on Friday 10 November 2023", "en"],
+            ["10 Nov 23 12:00 GMT", "12pm on Friday 10 November 2023", "en"],
+            ["10 Nov 23 12:04 GMT", "12:04yh am Dydd Gwener 10 Tachwedd 2023", "cy"],
+            ["10 Nov 23 12:00 GMT", "12yh am Dydd Gwener 10 Tachwedd 2023", "cy"],
+            [undefined, "", "en"]
+        ];
+        it.each(dateTime)("'%s' as '%s'", (dateIn, dateOut, lang) => {
+            const result = toHourDayDateFormat(dateIn, lang);
+            expect(result).toBe(dateOut);
+        });
 
-    it("should throw for an invalid date", () => {
-        expect(() => { toReadableFormat("invalid", "en"); }).toThrow(undefined);
-    });
-
-    it("should return empty string", () => {
-        const result = toReadableFormat(undefined);
-        expect(result).toEqual("");
-    });
-});
-
-describe("toHourDayDateFormat function", () => {
-    it("should convert date for display", () => {
-        const result = toHourDayDateFormat("10 Nov 23 12:04 GMT", "en");
-        expect(result).toBe("12:04PM on Friday 10 November 2023");
-    });
-
-    it("should convert date for welsh display", () => {
-        const result = toHourDayDateFormat("10 Nov 23 12:04 GMT", "cy");
-        expect(result).toEqual("12:04yh am Dydd Gwener 10 Tachwedd 2023");
-    });
-
-    it("should throw for an invalid date", () => {
-        expect(() => { toHourDayDateFormat("invalid", "en"); }).toThrow(undefined);
-    });
-
-    it("should return empty string", () => {
-        const result = toHourDayDateFormat(undefined);
-        expect(result).toEqual("");
+        it("should throw for an invalid date", () => {
+            expect(() => { toHourDayDateFormat("invalid", "en"); }).toThrow(undefined);
+        });
     });
 });

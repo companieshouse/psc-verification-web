@@ -25,7 +25,12 @@ export const toHourDayDateFormat = (dateToConvert: string | undefined, lang = "e
     const jsDate = new Date(dateToConvert);
     const dateTime = DateTime.fromJSDate(jsDate);
 
-    const convertedHour = dateTime.setLocale(lang).toFormat("h:mma");
+    var convertedHour;
+    if (dateTime.minute === 0) {
+        convertedHour = dateTime.setLocale(lang).toFormat("ha").toLowerCase();
+    } else {
+        convertedHour = dateTime.setLocale(lang).toFormat("h:mma").toLowerCase();
+    };
     const convertedDate = dateTime.setLocale(lang).toFormat("cccc d MMMM yyyy");
 
     if (convertedHour === "Invalid DateTime" || convertedDate === "Invalid DateTime") {
