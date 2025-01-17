@@ -19,7 +19,7 @@ export const serviceUnavailable = handleExceptions(async (req: Request, res: Res
         const handler = new ServiceUnavailableHandler();
         handler.executeGet(req, res).then((viewModel) => {
             const { templatePath, viewData } = viewModel;
-            res.status(HttpStatusCode.NotFound).render(templatePath, viewData);
+            res.status(HttpStatusCode.ServiceUnavailable).render(templatePath, viewData);
         });
     } else {
         next();

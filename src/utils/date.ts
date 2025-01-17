@@ -38,7 +38,7 @@ export const toHourDayDateFormat = (dateToConvert: string | undefined, lang = "e
     }
 
     const locales = getLocalesService();
-    const proposition = locales.i18nCh.resolveSingleKey("service_unavailable_time_preposition", lang);
+    const preposition = locales.i18nCh.resolveSingleKey("service_unavailable_time_preposition", lang);
 
-    return [convertedHour, proposition, convertedDate].join(" ");
+    return [convertedHour, preposition, convertedDate].join(" ");
 };

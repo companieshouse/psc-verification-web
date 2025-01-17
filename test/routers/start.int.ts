@@ -9,20 +9,16 @@ import { HttpStatusCode } from "axios";
 import { checkPlannedMaintenance } from "../../src/services/pscVerificationService";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { PlannedMaintenance } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { PLANNED_MAINTENANCE, SECOND_DATE } from "../mocks/pscVerification.mock";
 
 jest.mock("../../src/services/pscVerificationService");
 const mockCheckPlannedMaintenance = checkPlannedMaintenance as jest.Mock;
 
 const plannedMaintenanceResponseUp: ApiResponse<PlannedMaintenance> = {
     httpStatusCode: 0,
-    resource: {
-        status: "UP",
-        message: "",
-        maintenance_start_time: new Date(),
-        maintenance_end_time: new Date()
-    }
+    resource: PLANNED_MAINTENANCE
 };
-mockCheckPlannedMaintenance.mockResolvedValue(plannedMaintenanceResponseUp);
+mockCheckPlannedMaintenance.mockResolvedValue(PLANNED_MAINTENANCE);
 
 describe("Start router/handler integration tests", () => {
     beforeEach(() => {
@@ -57,21 +53,34 @@ describe("Start router/handler integration tests", () => {
     });
 
     describe("GET method when Planned Maintenance IS set", () => {
-        it("should render the service unavailable page for service root URL", async () => {
+        it("should render the service unavailable page for service root URL, and the time as expected", async () => {
             const plannedMaintenanceOutOfService = { ...plannedMaintenanceResponseUp };
             plannedMaintenanceOutOfService.resource!.status = "OUT_OF_SERVICE";
             mockCheckPlannedMaintenance.mockResolvedValue(plannedMaintenanceOutOfService);
             const resp = await request(app).get(servicePathPrefix);
 
-            expect(resp.status).toBe(HttpStatusCode.NotFound);
+            expect(resp.status).toBe(HttpStatusCode.ServiceUnavailable);
             const $ = cheerio.load(resp.text);
             expect($("h1.govuk-heading-l").text()).toMatch(SERVICE_UNAVAILABLE_HEADING);
+            expect($("p.govuk-body:first").text()).toContain("3:04am on Tuesday 2 January 2024");
         });
 
-        it("should render the service unavailable page for /start URL", async () => {
+        it("should render the service unavailable page for service root URL, and the time as expected", async () => {
+            const amendedPlannedMaintenanceOutOfService = { ...plannedMaintenanceResponseUp };
+            amendedPlannedMaintenanceOutOfService.resource.maintenance_end_time = SECOND_DATE;
+            mockCheckPlannedMaintenance.mockResolvedValue(amendedPlannedMaintenanceOutOfService);
+            const resp = await request(app).get(servicePathPrefix);
+
+            expect(resp.status).toBe(HttpStatusCode.ServiceUnavailable);
+            const $ = cheerio.load(resp.text);
+            expect($("h1.govuk-heading-l").text()).toMatch(SERVICE_UNAVAILABLE_HEADING);
+            expect($("p.govuk-body:first").text()).toContain("3am on Tuesday 2 January 2024");
+        });
+
+        it("should render the service unavailable page for '/start' URL", async () => {
             const resp = await request(app).get(PrefixedUrls.START);
 
-            expect(resp.status).toBe(HttpStatusCode.NotFound);
+            expect(resp.status).toBe(HttpStatusCode.ServiceUnavailable);
             const $ = cheerio.load(resp.text);
             expect($("h1.govuk-heading-l").text()).toMatch(SERVICE_UNAVAILABLE_HEADING);
         });
