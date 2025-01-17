@@ -7,8 +7,8 @@ import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddlewar
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
-import { getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
+import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_RESP_VALID } from "../../../mocks/pscVerification.mock";
+import { getPscVerification, getValidationStatus, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
 import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { IncomingMessage } from "http";
@@ -149,6 +149,7 @@ describe("personal code router/handler integration tests", () => {
     });
 
     describe("POST method", () => {
+        const mockGetValidationStatus = getValidationStatus as jest.Mock;
 
         it("Should redirect to the PSC individual statement page with a redirect status code", async () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
@@ -157,6 +158,12 @@ describe("personal code router/handler integration tests", () => {
                     uvid: "123abc456edf"
                 }
             };
+
+            mockGetValidationStatus.mockResolvedValueOnce({
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: VALIDATION_STATUS_RESP_VALID
+            });
+
             mockPatchPscVerification.mockResolvedValueOnce({
                 HttpStatusCode: HttpStatusCode.Ok,
                 resource: {
@@ -169,12 +176,13 @@ describe("personal code router/handler integration tests", () => {
                 .send({ personalCode: "123abc456edf" });
 
             expect(resp.status).toBe(HttpStatusCode.Found);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
             expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
         });
 
-        it("Should handle errors and return the correct view data with errors", async () => {
+        it("Should handle errors and return the correct view data with errors when no personal code is entered", async () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
             const verification: PscVerificationData = {
                 verificationDetails: {
@@ -196,6 +204,7 @@ describe("personal code router/handler integration tests", () => {
             const $ = cheerio.load(resp.text);
 
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(0);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(0);
             // Note is a validation error
             expect(resp.status).toBe(HttpStatusCode.Ok);
 

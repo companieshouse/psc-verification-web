@@ -3,7 +3,7 @@ import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createOAuthApiClient } from "../../src/services/apiClientService";
 import { createPscVerification, getPscVerification, getValidationStatus, patchPscVerification } from "../../src/services/pscVerificationService";
-import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID, VALIDATION_STATUS_VALID, mockValidationStatusNameError } from "../mocks/pscVerification.mock";
+import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID, VALIDATION_STATUS_RESP_VALID, mockValidationStatusNameError } from "../mocks/pscVerification.mock";
 import { CREATED_PSC_TRANSACTION } from "../mocks/transaction.mock";
 import { Resource } from "@companieshouse/api-sdk-node";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
@@ -105,7 +105,7 @@ describe("pscVerificationService", () => {
 
             const mockValidationStatus: Resource<ValidationStatusResponse> = {
                 httpStatusCode: HttpStatusCode.Ok,
-                resource: VALIDATION_STATUS_VALID
+                resource: VALIDATION_STATUS_RESP_VALID
             };
             mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
 
@@ -113,7 +113,7 @@ describe("pscVerificationService", () => {
 
             expect(response).toEqual(expected);
             expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
-            const castedResource = response as ValidationStatusResponse;
+            const castedResource = response as unknown as ValidationStatusResponse;
             expect(castedResource).toEqual(expected);
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
@@ -143,7 +143,7 @@ describe("pscVerificationService", () => {
 
             expect(response).toEqual(expected);
             expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
-            const castedResource = response as ValidationStatusResponse;
+            const castedResource = response as unknown as ValidationStatusResponse;
             expect(castedResource).toEqual(expected);
             expect(logger.error).toHaveBeenCalled();
 
@@ -154,15 +154,16 @@ describe("pscVerificationService", () => {
         });
 
         it("should throw an error when the HTTP status code is not 200 OK", async () => {
-            expected = {
-                httpStatusCode: HttpStatusCode.BadRequest
-            } as ApiErrorResponse;
+            const errorMessage = "There was an error!";
+            const errorResponse: ApiErrorResponse = {
+                httpStatusCode: 404,
+                errors: [{ error: errorMessage }]
+            };
 
-            mockGetValidationStatus.mockResolvedValueOnce(expected);
+            mockGetValidationStatus.mockResolvedValueOnce(errorResponse);
 
             await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrowErrorMatchingInlineSnapshot(
-                `"getValidationStatus - HTTP status response code is not valid: 400 - Failed to GET PSC Verification validation status for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"`
-            );
+                `"getValidationStatus - Error getting validation status: HTTP response is: 404 for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab: with error response: {"httpStatusCode":404,"errors":[{"error":"There was an error!"}]}"`);
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
@@ -191,7 +192,7 @@ describe("pscVerificationService", () => {
             mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
 
             await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrowErrorMatchingInlineSnapshot(
-                `"getValidationStatus - Error retrieving the validation status for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"`
+                `"getValidationStatus - Error getting validation status for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"`
             );
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);

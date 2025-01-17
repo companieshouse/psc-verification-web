@@ -81,7 +81,7 @@ export const patchPscVerification = async (request: Request, transactionId: stri
     return castedSdkResponse;
 };
 
-export const getValidationStatus = async (request: Request, transactionId: string, pscVerificationId: string): Promise<Resource<ValidationStatusResponse> | ApiErrorResponse> => {
+export const getValidationStatus = async (request: Request, transactionId: string, pscVerificationId: string): Promise<Resource<ValidationStatusResponse>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
     const logReference = `transaction ${transactionId}, pscVerification ${pscVerificationId}`;
 
@@ -93,7 +93,8 @@ export const getValidationStatus = async (request: Request, transactionId: strin
     }
 
     if (sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
-        throw createAndLogError(`${getValidationStatus.name} - HTTP status response code is not valid: ${sdkResponse.httpStatusCode} - Failed to GET PSC Verification validation status for ${logReference}`);
+        const errorResponse = sdkResponse as ApiErrorResponse;
+        throw createAndLogError(`${getValidationStatus.name} - Error getting validation status: HTTP response is: ${sdkResponse.httpStatusCode} for ${logReference}: with error response: ${JSON.stringify(errorResponse)}`);
     }
 
     const validationStatus = sdkResponse as Resource<ValidationStatusResponse>;
@@ -101,7 +102,7 @@ export const getValidationStatus = async (request: Request, transactionId: strin
     if (validationStatus.resource?.isValid === false) {
         logger.error(`Validation errors for resource ${logReference}: ` + JSON.stringify(validationStatus.resource.errors.slice(0, 10)));
     } else if (validationStatus.resource?.isValid === undefined) {
-        throw createAndLogError(`${getValidationStatus.name} - Error retrieving the validation status for ${logReference}`);
+        throw createAndLogError(`${getValidationStatus.name} - Error getting validation status for ${logReference}`);
     }
 
     return validationStatus;
