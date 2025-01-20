@@ -47,6 +47,7 @@ export const Urls = {
     INDIVIDUAL_STATEMENT: `${urlWithTransactionIdAndSubmissionId}/individual/psc-statement`,
     INTERNAL_SERVER_ERROR: "/internal-server-error",
     PAGE_NOT_FOUND: "/page-not-found",
+    SERVICE_UNAVAILABLE: "/service-unavailable",
     PSC_VERIFIED: `${urlWithTransactionIdAndSubmissionId}/psc-verified`,
     STOP_SCREEN: "/stop/:stopType",
     STOP_SCREEN_SUBMISSION: `${urlWithTransactionIdAndSubmissionId}/stop/:stopType`
@@ -63,6 +64,7 @@ export const PrefixedUrls = {
     PERSONAL_CODE: servicePathPrefix + Urls.PERSONAL_CODE,
     NAME_MISMATCH: servicePathPrefix + Urls.NAME_MISMATCH,
     INDIVIDUAL_STATEMENT: servicePathPrefix + Urls.INDIVIDUAL_STATEMENT,
+    SERVICE_UNAVAILABLE: servicePathPrefix + Urls.SERVICE_UNAVAILABLE,
     PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
     STOP_SCREEN: servicePathPrefix + Urls.STOP_SCREEN,
     STOP_SCREEN_SUBMISSION: servicePathPrefix + Urls.STOP_SCREEN_SUBMISSION,

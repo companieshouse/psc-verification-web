@@ -2,7 +2,7 @@ import { HttpStatusCode } from "axios";
 import request from "supertest";
 import { URLSearchParams } from "url";
 import mockSessionMiddleware from "../mocks/sessionMiddleware.mock";
-import mockAuthenticationMiddleware from "..//mocks/authenticationMiddleware.mock";
+import mockAuthenticationMiddleware from "../mocks/authenticationMiddleware.mock";
 import app from "../../src/app";
 import { PrefixedUrls, STOP_TYPE } from "../../src/constants";
 import { COMPANY_NUMBER, INDIVIDUAL_PSCS_LIST } from "../mocks/companyPsc.mock";
@@ -17,7 +17,7 @@ jest.mock("../../src/services/companyPscService");
 const mockGetCompanyIndividualPscList = getCompanyIndividualPscList as jest.Mock;
 mockGetCompanyIndividualPscList.mockResolvedValueOnce(INDIVIDUAL_PSCS_LIST);
 
-describe("individual PSC list view", () => {
+describe("CheckCompany middleware", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();

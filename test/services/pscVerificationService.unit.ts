@@ -1,11 +1,12 @@
-import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { Resource } from "@companieshouse/api-sdk-node";
+import { PlannedMaintenance, PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
-import { createOAuthApiClient } from "../../src/services/apiClientService";
-import { createPscVerification, getPscVerification, patchPscVerification } from "../../src/services/pscVerificationService";
-import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { createApiKeyClient, createOAuthApiClient } from "../../src/services/apiClientService";
+import { checkPlannedMaintenance, createPscVerification, getPscVerification, patchPscVerification } from "../../src/services/pscVerificationService";
+import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PLANNED_MAINTENANCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
 import { CREATED_PSC_TRANSACTION } from "../mocks/transaction.mock";
-import { Resource } from "@companieshouse/api-sdk-node";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../src/services/apiClientService");
@@ -13,13 +14,21 @@ jest.mock("../../src/services/apiClientService");
 const mockCreatePscVerification = jest.fn();
 const mockGetPscVerification = jest.fn();
 const mockPatchPscVerification = jest.fn();
+const mockCheckPlannedMaintenance = jest.fn();
 const mockCreateOAuthApiClient = createOAuthApiClient as jest.Mock;
+const mockCreateApiKeyClient = createApiKeyClient as jest.Mock;
 
 mockCreateOAuthApiClient.mockReturnValue({
     pscVerificationService: {
         postPscVerification: mockCreatePscVerification,
         getPscVerification: mockGetPscVerification,
         patchPscVerification: mockPatchPscVerification
+    }
+});
+
+mockCreateApiKeyClient.mockReturnValue({
+    pscVerificationService: {
+        checkPlannedMaintenance: mockCheckPlannedMaintenance
     }
 });
 
@@ -47,6 +56,21 @@ describe("pscVerificationService", () => {
             expect(mockCreatePscVerification).toHaveBeenCalledTimes(1);
             expect(mockCreatePscVerification).toHaveBeenCalledWith(TRANSACTION_ID, INITIAL_PSC_DATA);
         });
+        it("should throw an Error when no response from API", async () => {
+            mockCreatePscVerification.mockResolvedValueOnce(undefined);
+
+            await expect(createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA)).rejects.toThrow(
+                new Error("createPscVerification - PSC Verification POST request returned no response for transaction 11111-22222-33333"));
+        });
+        it("should throw an Error when API status is unavailable", async () => {
+            const mockCreate: Resource<PscVerification> = {
+                httpStatusCode: HttpStatusCode.ServiceUnavailable
+            };
+            mockCreatePscVerification.mockResolvedValueOnce(mockCreate);
+
+            await expect(createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA)).rejects.toThrow(
+                new Error("createPscVerification - HTTP status code 503 - Failed to POST PSC Verification for transaction 11111-22222-33333"));
+        });
     });
 
     describe("getPscVerification", () => {
@@ -65,6 +89,21 @@ describe("pscVerificationService", () => {
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetPscVerification).toHaveBeenCalledTimes(1);
             expect(mockGetPscVerification).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+        });
+        it("should throw an Error when no response from API", async () => {
+            mockGetPscVerification.mockResolvedValueOnce(undefined);
+
+            await expect(getPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
+                new Error("getPscVerification - PSC Verification GET request returned no response for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"));
+        });
+        it("should throw an Error when API status is unavailable", async () => {
+            const mockGet: Resource<PscVerification> = {
+                httpStatusCode: HttpStatusCode.ServiceUnavailable
+            };
+            mockGetPscVerification.mockResolvedValueOnce(mockGet);
+
+            await expect(getPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
+                new Error("getPscVerification - HTTP status code 503 - Failed to GET PSC Verification for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"));
         });
     });
 
@@ -85,5 +124,55 @@ describe("pscVerificationService", () => {
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA);
         });
+        it("should throw an Error when no response from API", async () => {
+            mockPatchPscVerification.mockResolvedValueOnce(undefined);
+
+            await expect(patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA)).rejects.toThrow(
+                new Error("patchPscVerification - PSC Verification PATCH request returned no response for resource with transactionId 11111-22222-33333, pscVerificationId 662a0de6a2c6f9aead0f32ab"));
+        });
+        it("should throw an Error when API status is unavailable", async () => {
+            const mockPatch: Resource<PscVerification> = {
+                httpStatusCode: HttpStatusCode.ServiceUnavailable
+            };
+            mockPatchPscVerification.mockResolvedValueOnce(mockPatch);
+
+            await expect(patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA)).rejects.toThrow(
+                new Error("patchPscVerification - Http status code 503 - Failed to PATCH PSC Verification for resource with transactionId 11111-22222-33333, pscVerificationId 662a0de6a2c6f9aead0f32ab"));
+        });
     });
+
+    describe("checkPlannedMaintenance", () => {
+        it("should return the Planned Maintenance Response", async () => {
+            const mockPlannedMaintenance: ApiResponse<PlannedMaintenance> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: PLANNED_MAINTENANCE
+            };
+            mockCheckPlannedMaintenance.mockResolvedValueOnce(mockPlannedMaintenance);
+
+            const response = await checkPlannedMaintenance(req);
+
+            expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
+            const castedResource = response.resource as PlannedMaintenance;
+            expect(castedResource).toEqual(PLANNED_MAINTENANCE);
+            expect(mockCreateApiKeyClient).toHaveBeenCalledTimes(1);
+            expect(mockCheckPlannedMaintenance).toHaveBeenCalledTimes(1);
+            expect(mockCheckPlannedMaintenance).toHaveBeenCalledWith();
+        });
+        it("should throw an Error when no response from API", async () => {
+            mockCheckPlannedMaintenance.mockResolvedValueOnce(undefined);
+
+            await expect(checkPlannedMaintenance(req)).rejects.toThrow(
+                new Error("checkPlannedMaintenance - PSC Verification GET maintenance request returned no response"));
+        });
+        it("should throw an Error when API status is unavailable", async () => {
+            const mockPlannedMaintenance: ApiResponse<PlannedMaintenance> = {
+                httpStatusCode: HttpStatusCode.ServiceUnavailable
+            };
+            mockCheckPlannedMaintenance.mockResolvedValueOnce(mockPlannedMaintenance);
+
+            await expect(checkPlannedMaintenance(req)).rejects.toThrow(
+                new Error("checkPlannedMaintenance - HTTP status code 503 - Failed to GET Planned Maintenance response"));
+        });
+    });
+
 });
