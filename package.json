@@ -17,7 +17,7 @@
         "coverage": "jest --coverage",
         "test": "jest",
         "test:coverage": "sh ./scripts/jest_coverage.sh",
-        "start": "nodemon",
+        "start": "npm run build && node dist/httpServer.js",
         "start:watch": "nodemon",
         "sonarqube-base-branch": "sonar-scanner",
         "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main",
