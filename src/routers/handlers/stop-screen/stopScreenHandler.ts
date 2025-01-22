@@ -49,7 +49,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 templateName: stopType,
                 currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
                 backURL: addSearchParams(resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY), { companyNumber }),
-                backLinkDataEvent: "company-status-back-link",
                 extraData: [companyName, resolveUrlTemplate(PrefixedUrls.COMPANY_NUMBER), env.CONTACT_US_LINK]
             };
         case STOP_TYPE.COMPANY_TYPE:
@@ -59,7 +58,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 templateName: stopType,
                 currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
                 backURL: addSearchParams(resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY), { companyNumber }),
-                backLinkDataEvent: "company-type-back-link",
                 extraData: [companyName, resolveUrlTemplate(PrefixedUrls.COMPANY_NUMBER), env.CONTACT_US_LINK]
             };
         case STOP_TYPE.PSC_DOB_MISMATCH: {
@@ -69,7 +67,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 templateName: stopType,
                 currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
                 backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
-                backLinkDataEvent: "psc-dob-mismatch-back-link",
                 extraData: [resolveUrlTemplate(stopScreenPrefixedUrl, STOP_TYPE.RP01_GUIDANCE)]
             };
         }
@@ -80,7 +77,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 templateName: stopType,
                 currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
                 backURL: resolveUrlTemplate(stopScreenPrefixedUrl, STOP_TYPE.PSC_DOB_MISMATCH),
-                backLinkDataEvent: "rp01-guidance-back-link",
                 extraData: [env.GET_RP01_LINK, env.GET_PSC01_LINK, env.POST_TO_CH_LINK, PrefixedUrls.START]
             };
         }
@@ -91,7 +87,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 templateName: stopType,
                 currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
                 backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang }),
-                backLinkDataEvent: "super-secure-back-link",
                 extraData: [env.DSR_EMAIL_ADDRESS, env.DSR_PHONE_NUMBER]
             };
         }

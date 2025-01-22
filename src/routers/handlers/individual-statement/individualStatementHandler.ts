@@ -41,7 +41,6 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             currentUrl: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_STATEMENT),
             backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
             templateName: Urls.INDIVIDUAL_STATEMENT,
-            backLinkDataEvent: "psc-statement-back-link",
             selectedPscId: selectedPscId
         };
 

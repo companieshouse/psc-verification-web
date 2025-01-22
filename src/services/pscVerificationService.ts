@@ -1,12 +1,12 @@
 import { Resource } from "@companieshouse/api-sdk-node";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
-import { PscVerification, PscVerificationData, ValidationStatusResponse } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
+import { PlannedMaintenance, PscVerification, PscVerificationData, ValidationStatusResponse } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createAndLogError, logger } from "../lib/logger";
-import { createOAuthApiClient } from "./apiClientService";
+import { createApiKeyClient, createOAuthApiClient } from "./apiClientService";
 
 export const createPscVerification = async (request: Request, transaction: Transaction, pscVerification: PscVerificationData): Promise<Resource<PscVerification>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
@@ -67,7 +67,7 @@ export const patchPscVerification = async (request: Request, transactionId: stri
     }
 
     if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
-        throw createAndLogError(`${getPscVerification.name} - HTTP status code ${sdkResponse.httpStatusCode} - Failed to GET PSC Verification validation status for ${logReference}`);
+        throw createAndLogError(`${patchPscVerification.name} - Http status code ${sdkResponse.httpStatusCode} - Failed to PATCH PSC Verification for resource with ${logReference}`);
     }
 
     const castedSdkResponse = sdkResponse as Resource<PscVerification>;
@@ -77,6 +77,29 @@ export const patchPscVerification = async (request: Request, transactionId: stri
     }
     logger.debug(`${patchPscVerification.name} - PATCH HTTP status code response for ${logReference}: ${sdkResponse.httpStatusCode}`);
     logger.debug(`${patchPscVerification.name} - PATCH PSC Verification response for ${logReference}: ${JSON.stringify(sdkResponse)}`);
+
+    return castedSdkResponse;
+};
+
+export const checkPlannedMaintenance = async (request: Request): Promise<ApiResponse<PlannedMaintenance>> => {
+    const apiClient: ApiClient = createApiKeyClient();
+
+    logger.debug(`Checking Planned Maintenance for PSC Verification API service`);
+    const sdkResponse: ApiResponse<PlannedMaintenance> | ApiErrorResponse = await apiClient.pscVerificationService.checkPlannedMaintenance();
+
+    if (!sdkResponse) {
+        throw createAndLogError(`${checkPlannedMaintenance.name} - PSC Verification GET maintenance request returned no response`);
+    }
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
+        throw createAndLogError(`${checkPlannedMaintenance.name} - HTTP status code ${sdkResponse.httpStatusCode} - Failed to GET Planned Maintenance response`);
+    }
+
+    const castedSdkResponse = sdkResponse as ApiResponse<PlannedMaintenance>;
+
+    if (!castedSdkResponse) {
+        throw createAndLogError(`${checkPlannedMaintenance.name} - PSC Verification API GET request returned no response`);
+    }
+    logger.debug(`${checkPlannedMaintenance.name} - GET PSC Verification Planned Maintenance response: ${sdkResponse.httpStatusCode}`);
 
     return castedSdkResponse;
 };

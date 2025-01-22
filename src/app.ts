@@ -1,14 +1,16 @@
 import cookieParser from "cookie-parser";
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import nunjucks from "nunjucks";
 import path from "path";
-import { ExternalUrls, servicePathPrefix } from "./constants";
+import { CommonDataEventIds, ExternalUrls, servicePathPrefix } from "./constants";
 import { logger } from "./lib/logger";
 import { sessionMiddleware } from "./middleware/session";
 import routerDispatch from "./routerDispatch";
 import { isLive } from "./middleware/serviceLive";
 import { csrfProtectionMiddleware } from "./middleware/csrf";
 import csrfErrorHandler from "./middleware/csrfError";
+import { pageNotFound } from "./middleware/pageNotFound";
+import { internalServerError } from "./middleware/internalServerError";
 
 const app = express();
 
@@ -59,6 +61,7 @@ njk.addGlobal("cdnUrlCss", process.env.CDN_URL_CSS);
 njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
 njk.addGlobal("cdnHost", process.env.CDN_HOST);
 njk.addGlobal("chsUrl", process.env.CHS_URL);
+njk.addGlobal("CommonDataEventIds", CommonDataEventIds);
 njk.addGlobal("ExternalUrls", ExternalUrls);
 njk.addGlobal("PIWIK_SERVICE_NAME", process.env.PIWIK_SERVICE_NAME);
 njk.addGlobal("PIWIK_START_GOAL_ID", process.env.PIWIK_START_GOAL_ID);
@@ -72,11 +75,11 @@ app.enable("trust proxy");
 // channel all requests through router dispatch
 routerDispatch(app);
 
-// unhandled errors
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
-    res.render("partials/error_500");
-});
+// 404 - page not found error
+app.use(pageNotFound);
+
+// 500 - internal server error
+app.use(internalServerError);
 
 // unhandled exceptions
 process.on("uncaughtException", (err: any) => {

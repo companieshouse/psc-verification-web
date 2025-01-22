@@ -39,7 +39,7 @@
                     name: inputOptions.name,
                     value: inputOptions.value,
                     errorMessage: {
-                        text: i18n.personal_code_error_inline + pscName
+                        text: i18n.personal_code_error_inline
                     }
                 } %}
             {% endif %}
@@ -73,7 +73,7 @@
             
             {{ govukButton({
                     attributes: {
-                        id: "submit", "data-event-id": "personal-code-continue-button"
+                        id: "submit", "data-event-id": CommonDataEventIds.CONTINUE_BUTTON
                     },
                     text: i18n.personal_code_button
                 })

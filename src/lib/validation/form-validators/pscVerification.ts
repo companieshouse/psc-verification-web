@@ -44,7 +44,7 @@ export class PscVerificationFormsValidator extends GenericValidator {
 
     private validateForm (payload: any, fieldName: string, errorKey: string, pscName: string): Promise<Object> {
         logger.debug(`${PscVerificationFormsValidator.name} - validating ${errorKey} form for ${pscName}`);
-        this.errorManifest = errorManifest(this.lang, pscName);
+        this.errorManifest = errorManifest(this.lang);
 
         try {
             this.validateForEmptyField(payload, fieldName, errorKey);

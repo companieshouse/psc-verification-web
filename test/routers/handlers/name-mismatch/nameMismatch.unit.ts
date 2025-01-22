@@ -109,7 +109,6 @@ describe("Name mismatch handler", () => {
                 nameMismatch: undefined,
                 pscName: "Sir Forename Middlename Surname",
                 monthYearBorn: "April 2000",
-                backLinkDataEvent: "name-mismatch-back-link",
                 errors: {}
             });
         });

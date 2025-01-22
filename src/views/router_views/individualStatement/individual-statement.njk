@@ -54,7 +54,7 @@
                 fieldset: checkboxConfig.fieldset,
                 items: checkboxConfig.items,
                 errorMessage: {
-                    text: i18n.individual_statement_error_inline + pscName
+                    text: i18n.individual_statement_error_inline
                 }
             }) }}
         {% else %}
@@ -63,7 +63,7 @@
 
         {{ govukButton({
             attributes: {
-                id: "submit", "data-event-id": "psc-statement-continue-button"
+                id: "submit", "data-event-id": CommonDataEventIds.CONTINUE_BUTTON
             },
             text: i18n.individual_statement_button
             })

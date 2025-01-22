@@ -9,6 +9,11 @@ export enum STOP_TYPE {
     SUPER_SECURE = "super-secure"
 };
 
+export enum PSC_KIND_TYPE {
+    INDIVIDUAL = "individual-person-with-significant-control",
+    SUPER_SECURE = "super-secure-person-with-significant-control"
+}
+
 export function toStopScreenUrl (stopType: STOP_TYPE) {
     switch (stopType) {
         case STOP_TYPE.PSC_DOB_MISMATCH:
@@ -40,6 +45,9 @@ export const Urls = {
     PERSONAL_CODE: `${urlWithTransactionIdAndSubmissionId}/individual/personal-code`,
     NAME_MISMATCH: `${urlWithTransactionIdAndSubmissionId}/individual/psc-why-this-name`,
     INDIVIDUAL_STATEMENT: `${urlWithTransactionIdAndSubmissionId}/individual/psc-statement`,
+    INTERNAL_SERVER_ERROR: "/internal-server-error",
+    PAGE_NOT_FOUND: "/page-not-found",
+    SERVICE_UNAVAILABLE: "/service-unavailable",
     PSC_VERIFIED: `${urlWithTransactionIdAndSubmissionId}/psc-verified`,
     STOP_SCREEN: "/stop/:stopType",
     STOP_SCREEN_SUBMISSION: `${urlWithTransactionIdAndSubmissionId}/stop/:stopType`
@@ -56,6 +64,7 @@ export const PrefixedUrls = {
     PERSONAL_CODE: servicePathPrefix + Urls.PERSONAL_CODE,
     NAME_MISMATCH: servicePathPrefix + Urls.NAME_MISMATCH,
     INDIVIDUAL_STATEMENT: servicePathPrefix + Urls.INDIVIDUAL_STATEMENT,
+    SERVICE_UNAVAILABLE: servicePathPrefix + Urls.SERVICE_UNAVAILABLE,
     PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
     STOP_SCREEN: servicePathPrefix + Urls.STOP_SCREEN,
     STOP_SCREEN_SUBMISSION: servicePathPrefix + Urls.STOP_SCREEN_SUBMISSION,
@@ -79,7 +88,7 @@ export const SessionKeys = {
     COMPANY_NUMBER: "companyNumber"
 } as const;
 
-//  For use by Matomo
-export const Ids = {
-    BUTTON_ID_INDIVIDUAL_STATEMENT: "continue_button_ind_statement"
+// Matomo event IDs that occur more than once accross templates
+export const CommonDataEventIds = {
+    CONTINUE_BUTTON: "continue-button"
 } as const;

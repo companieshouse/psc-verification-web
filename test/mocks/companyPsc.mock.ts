@@ -1,4 +1,5 @@
 import { CompanyPersonsWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
+import { PSC_KIND_TYPE } from "../../src/constants";
 
 export const COMPANY_NUMBER = "12345678";
 
@@ -18,7 +19,7 @@ export const INDIVIDUAL_PSCS_LIST = [
         naturesOfControl: [
             "ownership-of-shares-25-to-50-percent-as-trust"
         ],
-        kind: "individual-person-with-significant-control",
+        kind: PSC_KIND_TYPE.INDIVIDUAL,
         nameElements: {
             forename: "Jim",
             surname: "Testerly",
@@ -51,7 +52,7 @@ export const INDIVIDUAL_PSCS_LIST = [
         naturesOfControl: [
             "ownership-of-shares-25-to-50-percent-as-trust"
         ],
-        kind: "individual-person-with-significant-control",
+        kind: PSC_KIND_TYPE.INDIVIDUAL,
         nameElements: {
             forename: "Test",
             otherForenames: "Tester",
@@ -132,7 +133,7 @@ export const VALID_COMPANY_PSC_ITEMS = [
         naturesOfControl: [
             "ownership-of-shares-25-to-50-percent-as-trust"
         ],
-        kind: "individual-person-with-significant-control",
+        kind: PSC_KIND_TYPE.INDIVIDUAL,
         nameElements: {
             forename: "Jim",
             surname: "Testerly",
@@ -165,7 +166,7 @@ export const VALID_COMPANY_PSC_ITEMS = [
         naturesOfControl: [
             "ownership-of-shares-25-to-50-percent-as-trust"
         ],
-        kind: "individual-person-with-significant-control",
+        kind: PSC_KIND_TYPE.INDIVIDUAL,
         nameElements: {
             forename: "Test",
             otherForenames: "Tester",
@@ -208,3 +209,24 @@ export const VALID_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControl = {
     },
     items: VALID_COMPANY_PSC_ITEMS
 };
+
+export const SUPER_SECURE_PSCS_EXCLUSIVE_LIST = [
+    {
+        kind: PSC_KIND_TYPE.SUPER_SECURE,
+        description: "super-secure-persons-with-significant-control",
+        notifiedOn: "2024-03-13",
+        links: {
+            self: "/company/123456/persons-with-significant-control/individual/PSC1"
+        },
+        etag: "ETAG1"
+    },
+    {
+        kind: PSC_KIND_TYPE.SUPER_SECURE,
+        description: "super-secure-persons-with-significant-control",
+        notifiedOn: "2024-03-13",
+        links: {
+            self: "/company/123456/persons-with-significant-control/individual/PSC2"
+        },
+        etag: "ETAG2"
+    }
+];

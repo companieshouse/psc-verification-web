@@ -1,9 +1,10 @@
 
 import { Resource } from "@companieshouse/api-sdk-node";
-import { Links, NameMismatchReasonEnum, PscVerification, PscVerificationData, ValidationStatusError, ValidationStatusResponse, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { Links, NameMismatchReasonEnum, PlannedMaintenance, PscVerification, PscVerificationData, ValidationStatusError, ValidationStatusResponse, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { HttpStatusCode } from "axios";
 
 export const FIRST_DATE = new Date(2024, 0, 2, 3, 4, 5, 6);
+export const SECOND_DATE = new Date(2024, 0, 2, 3, 0, 0, 0);
 export const DOB_DATE = new Date("1970-01-01");
 export const COMPANY_NUMBER = "12345678";
 export const TRANSACTION_ID = "11111-22222-33333";
@@ -139,6 +140,13 @@ export const RLE_DATA_FULL: PscVerificationData = {
     verificationDetails: {
         verificationStatements: [VerificationStatementEnum.RO_DECLARATION, VerificationStatementEnum.RO_IDENTIFIED, VerificationStatementEnum.RO_VERIFIED]
     }
+};
+
+export const PLANNED_MAINTENANCE: PlannedMaintenance = {
+    status: "UP",
+    message: "",
+    maintenance_start_time: FIRST_DATE,
+    maintenance_end_time: FIRST_DATE
 };
 
 function initPscVerification (data: PscVerificationData) {
