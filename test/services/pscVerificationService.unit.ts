@@ -1,12 +1,13 @@
 import { Resource } from "@companieshouse/api-sdk-node";
-import { PlannedMaintenance, PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
+import { PlannedMaintenance, PscVerification, ValidationStatusResponse } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createApiKeyClient, createOAuthApiClient } from "../../src/services/apiClientService";
-import { checkPlannedMaintenance, createPscVerification, getPscVerification, patchPscVerification } from "../../src/services/pscVerificationService";
-import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PLANNED_MAINTENANCE, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/pscVerification.mock";
+import { checkPlannedMaintenance, createPscVerification, getPscVerification, getValidationStatus, patchPscVerification } from "../../src/services/pscVerificationService";
+import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PLANNED_MAINTENANCE, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID, VALIDATION_STATUS_RESP_VALID, mockValidationStatusNameError } from "../mocks/pscVerification.mock";
 import { CREATED_PSC_TRANSACTION } from "../mocks/transaction.mock";
+import { logger } from "../../src/lib/logger";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../src/services/apiClientService");
@@ -14,6 +15,7 @@ jest.mock("../../src/services/apiClientService");
 const mockCreatePscVerification = jest.fn();
 const mockGetPscVerification = jest.fn();
 const mockPatchPscVerification = jest.fn();
+const mockGetValidationStatus = jest.fn();
 const mockCheckPlannedMaintenance = jest.fn();
 const mockCreateOAuthApiClient = createOAuthApiClient as jest.Mock;
 const mockCreateApiKeyClient = createApiKeyClient as jest.Mock;
@@ -22,7 +24,8 @@ mockCreateOAuthApiClient.mockReturnValue({
     pscVerificationService: {
         postPscVerification: mockCreatePscVerification,
         getPscVerification: mockGetPscVerification,
-        patchPscVerification: mockPatchPscVerification
+        patchPscVerification: mockPatchPscVerification,
+        getValidationStatus: mockGetValidationStatus
     }
 });
 
@@ -175,4 +178,114 @@ describe("pscVerificationService", () => {
         });
     });
 
+    describe("getValidationStatus", () => {
+        let expected: Resource<ValidationStatusResponse> | ApiErrorResponse;
+
+        it("should return status 200 OK with no errors when the validation status is valid", async () => {
+            expected = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    isValid: true,
+                    errors: []
+                }
+            } as Resource<ValidationStatusResponse>;
+
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: VALIDATION_STATUS_RESP_VALID
+            };
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
+
+            const response = await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            expect(response).toEqual(expected);
+            expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
+            const castedResource = response as unknown as ValidationStatusResponse;
+            expect(castedResource).toEqual(expected);
+            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+        });
+
+        it("should return status 200 OK with a validation error when there is a UVID name mismatch", async () => {
+            jest.spyOn(logger, "error").mockImplementation(() => {});
+
+            expected = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    isValid: false,
+                    errors: [
+                        mockValidationStatusNameError
+                    ]
+                }
+            } as Resource<ValidationStatusResponse>;
+
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: VALIDATION_STATUS_INVALID
+            };
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
+
+            const response = await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            expect(response).toEqual(expected);
+            expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
+            const castedResource = response as unknown as ValidationStatusResponse;
+            expect(castedResource).toEqual(expected);
+            expect(logger.error).toHaveBeenCalled();
+
+            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+        });
+
+        it("should throw an error when the HTTP status code is not 200 OK", async () => {
+            const errorMessage = "There was an error!";
+            const errorResponse: ApiErrorResponse = {
+                httpStatusCode: 404,
+                errors: [{ error: errorMessage }]
+            };
+
+            mockGetValidationStatus.mockResolvedValueOnce(errorResponse);
+
+            await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrowErrorMatchingInlineSnapshot(
+                `"getValidationStatus - Error getting validation status: HTTP response is: 404 for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"`);
+
+            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+        });
+
+        it("should throw an error when the response is null", async () => {
+            mockGetValidationStatus.mockResolvedValueOnce(null);
+
+            await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrowErrorMatchingInlineSnapshot(
+                `"getValidationStatus - PSC Verification GET validation status request did not return a response for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"`
+            );
+
+            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+        });
+
+        it("should throw an error when the validationStatus.resource is undefined", async () => {
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: undefined
+            };
+
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
+
+            await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrowErrorMatchingInlineSnapshot(
+                `"getValidationStatus - Error getting validation status for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"`
+            );
+
+            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+        });
+    });
 });

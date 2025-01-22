@@ -3,14 +3,15 @@ import * as httpMocks from "node-mocks-http";
 import { Urls } from "../../../../src/constants";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { COMPANY_NUMBER, IND_VERIFICATION_PERSONAL_CODE, PATCH_PERSONAL_CODE_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, IND_VERIFICATION_PERSONAL_CODE, PATCH_PERSONAL_CODE_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID, VALIDATION_STATUS_RESOURCE_INVALID, VALIDATION_STATUS_RESOURCE_VALID } from "../../../mocks/pscVerification.mock";
 import { PersonalCodeHandler } from "../../../../src/routers/handlers/personal-code/personalCodeHandler";
-import { patchPscVerification } from "../../../../src/services/pscVerificationService";
+import { getValidationStatus, patchPscVerification } from "../../../../src/services/pscVerificationService";
 
 jest.mock("../../../../src/services/pscVerificationService", () => ({
     getPscVerification: jest.fn(),
     patchPscVerification: jest.fn(),
-    getPscIndividual: jest.fn()
+    getPscIndividual: jest.fn(),
+    getValidationStatus: jest.fn()
 }));
 
 jest.mock("../../../../src/services/pscService", () => ({
@@ -115,8 +116,10 @@ describe("Personal code handler", () => {
     });
 
     describe("executePost", () => {
+        const mockGetValidationStatus = getValidationStatus as jest.Mock;
 
-        it("should return the correct next page", async () => {
+        it("should return the PSC statement page when the validation status is valid", async () => {
+            mockGetValidationStatus.mockReturnValue(VALIDATION_STATUS_RESOURCE_VALID);
 
             const req = httpMocks.createRequest({
                 method: "POST",
@@ -149,9 +152,48 @@ describe("Personal code handler", () => {
 
             const model = await handler.executePost(req, res);
 
-            expect(model.viewData).toMatchObject({
-                nextPageUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-statement?lang=en`
+            expect(patchPscVerification).toHaveBeenCalledTimes(1);
+            expect(model.viewData.nextPageUrl).toBe(`/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-statement?lang=en`);
+
+        });
+
+        it("should return the name mismatch page when there are name validation errors", async () => {
+            mockGetValidationStatus.mockReturnValue(VALIDATION_STATUS_RESOURCE_INVALID);
+
+            const req = httpMocks.createRequest({
+                method: "POST",
+                url: Urls.PERSONAL_CODE,
+                params: {
+                    transactionId: TRANSACTION_ID,
+                    submissionId: PSC_VERIFICATION_ID
+                },
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    selectedPscId: PSC_APPOINTMENT_ID,
+                    lang: "en"
+                },
+                body: {
+                    personalCode: UVID
+                }
             });
+
+            const res = httpMocks.createResponse();
+
+            res.locals.submission = {
+                data: {
+                    companyNumber: COMPANY_NUMBER,
+                    pscAppointmentId: PSC_VERIFICATION_ID,
+                    lang: "en"
+                }
+            };
+
+            const handler = new PersonalCodeHandler();
+
+            const model = await handler.executePost(req, res);
+
+            expect(patchPscVerification).toHaveBeenCalledTimes(1);
+            expect(model.viewData.nextPageUrl).toBe(`/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-why-this-name?lang=en`);
+
         });
 
         it("should handle errors and return the correct view data with errors", async () => {
@@ -199,6 +241,7 @@ describe("Personal code handler", () => {
             const result = await handler.executePost(req, res);
 
             expect(patchPscVerification).toHaveBeenCalledTimes(0);
+            expect(getValidationStatus).toHaveBeenCalledTimes(0);
             expect(result.viewData.errors).toBeDefined();
             expect(result.viewData.errors.personalCode).toEqual({
                 summary: "Enter the Companies House personal code for Ralph Tudor",

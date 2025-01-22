@@ -6,10 +6,11 @@ import { addSearchParams } from "../../../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn } from "../../utils";
-import { PscVerification, PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-import { patchPscVerification } from "../../../services/pscVerificationService";
+import { PscVerification, PscVerificationData, ValidationStatusResponse } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { getValidationStatus, patchPscVerification } from "../../../services/pscVerificationService";
 import { getPscIndividual } from "../../../services/pscService";
 import { PscVerificationFormsValidator } from "../../../lib/validation/form-validators/pscVerification";
+import { Resource } from "@companieshouse/api-sdk-node";
 
 interface PersonalCodeViewData extends BaseViewData {
     pscName: string,
@@ -75,13 +76,17 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             };
 
             queryParams.set("lang", lang);
-            const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, req.params.transactionId, req.params.submissionId);
-            viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
+
             const validator = new PscVerificationFormsValidator(lang);
             viewData.errors = await validator.validatePersonalCode(req.body, lang, viewData.pscName);
 
             logger.debug(`${PersonalCodeHandler.name} - ${this.executePost.name} - patching personal code for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
             await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
+
+            const validationStatusResponse = await getValidationStatus(req, req.params.transactionId, req.params.submissionId);
+            const url = this.resolveNextPageUrl(validationStatusResponse);
+            const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(url, req.params.transactionId, req.params.submissionId);
+            viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
 
         } catch (err: any) {
             logger.error(`${req.method} error: problem handling PSC details (personal code) request: ${err.message}`);
@@ -92,6 +97,17 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             templatePath: PersonalCodeHandler.templatePath,
             viewData
         };
+    }
+
+    private resolveNextPageUrl (validationStatusResponse: Resource<ValidationStatusResponse>): string {
+        let url = PrefixedUrls.INDIVIDUAL_STATEMENT;
+
+        if (validationStatusResponse.resource && validationStatusResponse.resource.isValid === false) {
+            const hasNameMismatchError = validationStatusResponse.resource.errors?.some((validationError: { error: string | string[]; }) => validationError.error.includes("name mismatch"));
+            url = hasNameMismatchError ? PrefixedUrls.NAME_MISMATCH : PrefixedUrls.INDIVIDUAL_STATEMENT;
+        }
+
+        return url;
     }
 
 }

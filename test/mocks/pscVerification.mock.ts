@@ -1,4 +1,7 @@
-import { Links, NameMismatchReasonEnum, PlannedMaintenance, PscVerification, PscVerificationData, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+
+import { Resource } from "@companieshouse/api-sdk-node";
+import { Links, NameMismatchReasonEnum, PlannedMaintenance, PscVerification, PscVerificationData, ValidationStatusError, ValidationStatusResponse, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { HttpStatusCode } from "axios";
 
 export const FIRST_DATE = new Date(2024, 0, 2, 3, 4, 5, 6);
 export const SECOND_DATE = new Date(2024, 0, 2, 3, 0, 0, 0);
@@ -160,6 +163,38 @@ function initPscVerification (data: PscVerificationData) {
 
     } as PscVerification;
 }
+
+// validation status mocks
+export const VALIDATION_STATUS_RESP_VALID: ValidationStatusResponse = {
+    isValid: true,
+    errors: []
+};
+
+export const VALIDATION_STATUS_RESOURCE_VALID: Resource<ValidationStatusResponse> = {
+    resource: VALIDATION_STATUS_RESP_VALID,
+    httpStatusCode: HttpStatusCode.Ok
+};
+
+const createMockValidationStatusError = (errorMessage: string) : ValidationStatusError => {
+    return {
+        error: errorMessage,
+        location: "$.uvid_match",
+        type: "ch:validation",
+        locationType: "json-path"
+    };
+};
+
+export const mockValidationStatusNameError: ValidationStatusError = createMockValidationStatusError("The name on the public register is different to the name this PSC used for identity verification: a name mismatch reason must be provided");
+
+export const VALIDATION_STATUS_INVALID: ValidationStatusResponse = {
+    errors: [mockValidationStatusNameError],
+    isValid: false
+};
+
+export const VALIDATION_STATUS_RESOURCE_INVALID: Resource<ValidationStatusResponse> = {
+    resource: VALIDATION_STATUS_INVALID,
+    httpStatusCode: HttpStatusCode.Ok
+};
 
 // Returns the PSC verification with data fields in camel case
 export const INDIVIDUAL_VERIFICATION_CREATED: PscVerification = initPscVerification(INITIAL_PSC_DATA);
