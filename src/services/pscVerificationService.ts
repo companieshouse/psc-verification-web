@@ -116,8 +116,7 @@ export const getValidationStatus = async (request: Request, transactionId: strin
     }
 
     if (sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
-        const errorResponse = sdkResponse as ApiErrorResponse;
-        throw createAndLogError(`${getValidationStatus.name} - Error getting validation status: HTTP response is: ${sdkResponse.httpStatusCode} for ${logReference}: with error response: ${JSON.stringify(errorResponse)}`);
+        throw createAndLogError(`${getValidationStatus.name} - Error getting validation status: HTTP response is: ${sdkResponse.httpStatusCode} for ${logReference}`);
     }
 
     const validationStatus = sdkResponse as Resource<ValidationStatusResponse>;

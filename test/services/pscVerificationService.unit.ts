@@ -256,7 +256,7 @@ describe("pscVerificationService", () => {
             mockGetValidationStatus.mockResolvedValueOnce(errorResponse);
 
             await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrowErrorMatchingInlineSnapshot(
-                `"getValidationStatus - Error getting validation status: HTTP response is: 404 for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab: with error response: {"httpStatusCode":404,"errors":[{"error":"There was an error!"}]}"`);
+                `"getValidationStatus - Error getting validation status: HTTP response is: 404 for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"`);
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
