@@ -35,12 +35,6 @@ mockCreateApiKeyClient.mockReturnValue({
     }
 });
 
-mockCreateApiKeyClient.mockReturnValue({
-    pscVerificationService: {
-        checkPlannedMaintenance: mockCheckPlannedMaintenance
-    }
-});
-
 describe("pscVerificationService", () => {
     const req = {} as Request;
 
