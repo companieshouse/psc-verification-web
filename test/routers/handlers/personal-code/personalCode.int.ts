@@ -7,7 +7,7 @@ import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddlewar
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID, VALIDATION_STATUS_INVALID_DOB, VALIDATION_STATUS_INVALID_DOB_NAME, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_RESOURCE_INVALID_NAME, VALIDATION_STATUS_RESP_VALID } from "../../../mocks/pscVerification.mock";
+import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID_DOB, VALIDATION_STATUS_INVALID_DOB_NAME, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_RESP_VALID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, getValidationStatus, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
 import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
