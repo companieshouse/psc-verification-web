@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { PrefixedUrls, Urls } from "../../../constants";
+import { PrefixedUrls, STOP_TYPE, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
-import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
+import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn } from "../../utils";
 import { PscVerification, PscVerificationData, ValidationStatusResponse } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
@@ -11,6 +11,7 @@ import { getValidationStatus, patchPscVerification } from "../../../services/psc
 import { getPscIndividual } from "../../../services/pscService";
 import { PscVerificationFormsValidator } from "../../../lib/validation/form-validators/pscVerification";
 import { Resource } from "@companieshouse/api-sdk-node";
+import { getDobValidationMessage, getNameValidationMessages } from "../../../middleware/checkValidationMessages";
 
 interface PersonalCodeViewData extends BaseViewData {
     pscName: string,
@@ -99,12 +100,26 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         };
     }
 
-    private resolveNextPageUrl (validationStatusResponse: Resource<ValidationStatusResponse>): string {
-        let url = PrefixedUrls.INDIVIDUAL_STATEMENT;
+    private resolveNextPageUrl (validationStatusResponse: Resource<ValidationStatusResponse>) : string {
+        const url: string = PrefixedUrls.INDIVIDUAL_STATEMENT;
 
         if (validationStatusResponse.resource && validationStatusResponse.resource.isValid === false) {
-            const hasNameMismatchError = validationStatusResponse.resource.errors?.some((validationError: { error: string | string[]; }) => validationError.error.includes("name mismatch"));
-            url = hasNameMismatchError ? PrefixedUrls.NAME_MISMATCH : PrefixedUrls.INDIVIDUAL_STATEMENT;
+            const hasError = (messages: string[], errors: { error: string | string[] }[]): boolean => {
+                return errors.some((validationError) => {
+                    return messages.some((message) => validationError.error.includes(message));
+                });
+            };
+
+            const dobMismatchMessage: string[] = getDobValidationMessage();
+            const nameMismatchMessages: string[] = getNameValidationMessages();
+
+            if (hasError(dobMismatchMessage, validationStatusResponse.resource.errors)) {
+                return getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.PSC_DOB_MISMATCH);
+            }
+
+            if (hasError(nameMismatchMessages, validationStatusResponse.resource.errors)) {
+                return PrefixedUrls.NAME_MISMATCH;
+            }
         }
 
         return url;

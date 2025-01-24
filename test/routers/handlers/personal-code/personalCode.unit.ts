@@ -3,7 +3,7 @@ import * as httpMocks from "node-mocks-http";
 import { Urls } from "../../../../src/constants";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { COMPANY_NUMBER, IND_VERIFICATION_PERSONAL_CODE, PATCH_PERSONAL_CODE_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID, VALIDATION_STATUS_RESOURCE_INVALID, VALIDATION_STATUS_RESOURCE_VALID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, IND_VERIFICATION_PERSONAL_CODE, PATCH_PERSONAL_CODE_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID, VALIDATION_STATUS_RESOURCE_INVALID_DOB, VALIDATION_STATUS_RESOURCE_INVALID_DOB_NAME, VALIDATION_STATUS_RESOURCE_INVALID_NAME, VALIDATION_STATUS_RESOURCE_VALID } from "../../../mocks/pscVerification.mock";
 import { PersonalCodeHandler } from "../../../../src/routers/handlers/personal-code/personalCodeHandler";
 import { getValidationStatus, patchPscVerification } from "../../../../src/services/pscVerificationService";
 
@@ -158,7 +158,7 @@ describe("Personal code handler", () => {
         });
 
         it("should return the name mismatch page when there are name validation errors", async () => {
-            mockGetValidationStatus.mockReturnValue(VALIDATION_STATUS_RESOURCE_INVALID);
+            mockGetValidationStatus.mockReturnValue(VALIDATION_STATUS_RESOURCE_INVALID_NAME);
 
             const req = httpMocks.createRequest({
                 method: "POST",
@@ -193,6 +193,84 @@ describe("Personal code handler", () => {
 
             expect(patchPscVerification).toHaveBeenCalledTimes(1);
             expect(model.viewData.nextPageUrl).toBe(`/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-why-this-name?lang=en`);
+
+        });
+
+        it("should return the DOB mismatch stop page when there is a DOB validation error", async () => {
+            mockGetValidationStatus.mockReturnValue(VALIDATION_STATUS_RESOURCE_INVALID_DOB);
+
+            const req = httpMocks.createRequest({
+                method: "POST",
+                url: Urls.PERSONAL_CODE,
+                params: {
+                    transactionId: TRANSACTION_ID,
+                    submissionId: PSC_VERIFICATION_ID
+                },
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    selectedPscId: PSC_APPOINTMENT_ID,
+                    lang: "en"
+                },
+                body: {
+                    personalCode: UVID
+                }
+            });
+
+            const res = httpMocks.createResponse();
+
+            res.locals.submission = {
+                data: {
+                    companyNumber: COMPANY_NUMBER,
+                    pscAppointmentId: PSC_VERIFICATION_ID,
+                    lang: "en"
+                }
+            };
+
+            const handler = new PersonalCodeHandler();
+
+            const model = await handler.executePost(req, res);
+
+            expect(patchPscVerification).toHaveBeenCalledTimes(1);
+            expect(model.viewData.nextPageUrl).toBe(`/persons-with-significant-control-verification/stop/psc-dob-mismatch?lang=en`);
+
+        });
+
+        it("should return the DOB mismatch stop page when there is both a DOB and name mismatch validation errors", async () => {
+            mockGetValidationStatus.mockReturnValue(VALIDATION_STATUS_RESOURCE_INVALID_DOB_NAME);
+
+            const req = httpMocks.createRequest({
+                method: "POST",
+                url: Urls.PERSONAL_CODE,
+                params: {
+                    transactionId: TRANSACTION_ID,
+                    submissionId: PSC_VERIFICATION_ID
+                },
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    selectedPscId: PSC_APPOINTMENT_ID,
+                    lang: "en"
+                },
+                body: {
+                    personalCode: UVID
+                }
+            });
+
+            const res = httpMocks.createResponse();
+
+            res.locals.submission = {
+                data: {
+                    companyNumber: COMPANY_NUMBER,
+                    pscAppointmentId: PSC_VERIFICATION_ID,
+                    lang: "en"
+                }
+            };
+
+            const handler = new PersonalCodeHandler();
+
+            const model = await handler.executePost(req, res);
+
+            expect(patchPscVerification).toHaveBeenCalledTimes(1);
+            expect(model.viewData.nextPageUrl).toBe(`/persons-with-significant-control-verification/stop/psc-dob-mismatch?lang=en`);
 
         });
 

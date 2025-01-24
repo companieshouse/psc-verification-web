@@ -184,15 +184,37 @@ const createMockValidationStatusError = (errorMessage: string) : ValidationStatu
     };
 };
 
+export const mockValidationStatusDobError: ValidationStatusError = createMockValidationStatusError("The details linked to this personal code do not match the details on our records");
+
+export const VALIDATION_STATUS_INVALID_DOB: ValidationStatusResponse = {
+    errors: [mockValidationStatusDobError],
+    isValid: false
+};
+
+export const VALIDATION_STATUS_RESOURCE_INVALID_DOB: Resource<ValidationStatusResponse> = {
+    resource: VALIDATION_STATUS_INVALID_DOB,
+    httpStatusCode: HttpStatusCode.Ok
+};
+
 export const mockValidationStatusNameError: ValidationStatusError = createMockValidationStatusError("The name on the public register is different to the name this PSC used for identity verification: a name mismatch reason must be provided");
 
-export const VALIDATION_STATUS_INVALID: ValidationStatusResponse = {
+export const VALIDATION_STATUS_INVALID_NAME: ValidationStatusResponse = {
     errors: [mockValidationStatusNameError],
     isValid: false
 };
 
-export const VALIDATION_STATUS_RESOURCE_INVALID: Resource<ValidationStatusResponse> = {
-    resource: VALIDATION_STATUS_INVALID,
+export const VALIDATION_STATUS_RESOURCE_INVALID_NAME: Resource<ValidationStatusResponse> = {
+    resource: VALIDATION_STATUS_INVALID_NAME,
+    httpStatusCode: HttpStatusCode.Ok
+};
+
+export const VALIDATION_STATUS_INVALID_DOB_NAME: ValidationStatusResponse = {
+    errors: [mockValidationStatusNameError, mockValidationStatusDobError],
+    isValid: false
+};
+
+export const VALIDATION_STATUS_RESOURCE_INVALID_DOB_NAME: Resource<ValidationStatusResponse> = {
+    resource: VALIDATION_STATUS_INVALID_DOB_NAME,
     httpStatusCode: HttpStatusCode.Ok
 };
 
