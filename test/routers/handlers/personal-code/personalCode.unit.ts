@@ -231,8 +231,7 @@ describe("Personal code handler", () => {
             const model = await handler.executePost(req, res);
 
             expect(patchPscVerification).toHaveBeenCalledTimes(1);
-            expect(model.viewData.nextPageUrl).toBe(`/persons-with-significant-control-verification/stop/psc-dob-mismatch?lang=en`);
-
+            expect(model.viewData.nextPageUrl).toBe(`/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/stop/psc-dob-mismatch?lang=en`);
         });
 
         it("should return the DOB mismatch stop page when there is both a DOB and name mismatch validation errors", async () => {
@@ -270,7 +269,7 @@ describe("Personal code handler", () => {
             const model = await handler.executePost(req, res);
 
             expect(patchPscVerification).toHaveBeenCalledTimes(1);
-            expect(model.viewData.nextPageUrl).toBe(`/persons-with-significant-control-verification/stop/psc-dob-mismatch?lang=en`);
+            expect(model.viewData.nextPageUrl).toBe(`/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/stop/psc-dob-mismatch?lang=en`);
 
         });
 

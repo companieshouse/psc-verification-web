@@ -4,8 +4,7 @@ import * as cheerio from "cheerio";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
 import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
-import { PrefixedUrls } from "../../../../src/constants";
-import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
+import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID_DOB, VALIDATION_STATUS_INVALID_DOB_NAME, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_RESP_VALID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, getValidationStatus, patchPscVerification } from "../../../../src/services/pscVerificationService";
@@ -13,6 +12,7 @@ import app from "../../../../src/app";
 import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { IncomingMessage } from "http";
 import { getPscIndividual } from "../../../../src/services/pscService";
+import { PrefixedUrls, STOP_TYPE, toStopScreenPrefixedUrl } from "../../../../src/constants";
 
 jest.mock("../../../../src/services/pscVerificationService");
 jest.mock("../../../../src/services/pscService");
@@ -241,7 +241,7 @@ describe("personal code router/handler integration tests", () => {
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
-            expect(resp.header.location).toBe(`/persons-with-significant-control-verification/stop/psc-dob-mismatch?lang=en`);
+            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(getUrlWithStopType(toStopScreenPrefixedUrl(STOP_TYPE.PSC_DOB_MISMATCH), STOP_TYPE.PSC_DOB_MISMATCH), TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
         });
 
         it("Should redirect to the DOB stop page with a redirect status code when DOB and name validation errors occur", async () => {
@@ -272,7 +272,7 @@ describe("personal code router/handler integration tests", () => {
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
-            expect(resp.header.location).toBe(`/persons-with-significant-control-verification/stop/psc-dob-mismatch?lang=en`);
+            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(getUrlWithStopType(toStopScreenPrefixedUrl(STOP_TYPE.PSC_DOB_MISMATCH), STOP_TYPE.PSC_DOB_MISMATCH), TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
         });
 
         it("Should handle errors and return the correct view data with errors when no personal code is entered", async () => {

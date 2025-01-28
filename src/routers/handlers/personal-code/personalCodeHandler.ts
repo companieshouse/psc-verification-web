@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrefixedUrls, STOP_TYPE, Urls } from "../../../constants";
+import { PrefixedUrls, STOP_TYPE, Urls, toStopScreenPrefixedUrl } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
@@ -113,8 +113,9 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             const dobMismatchMessage: string[] = getDobValidationMessage();
             const nameMismatchMessages: string[] = getNameValidationMessages();
 
+            // The DOB mismatch takes priory over a name mismatch
             if (hasError(dobMismatchMessage, validationStatusResponse.resource.errors)) {
-                return getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.PSC_DOB_MISMATCH);
+                return getUrlWithStopType(toStopScreenPrefixedUrl(STOP_TYPE.PSC_DOB_MISMATCH), STOP_TYPE.PSC_DOB_MISMATCH);
             }
 
             if (hasError(nameMismatchMessages, validationStatusResponse.resource.errors)) {
