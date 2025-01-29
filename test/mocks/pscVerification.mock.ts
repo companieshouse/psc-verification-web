@@ -196,6 +196,18 @@ export const VALIDATION_STATUS_RESOURCE_INVALID_DOB: Resource<ValidationStatusRe
     httpStatusCode: HttpStatusCode.Ok
 };
 
+export const mockValidationStatusUvidError: ValidationStatusError = createMockValidationStatusError("UVID is not recognised");
+
+export const VALIDATION_STATUS_INVALID_UVID: ValidationStatusResponse = {
+    errors: [mockValidationStatusUvidError],
+    isValid: false
+};
+
+export const VALIDATION_STATUS_RESOURCE_INVALID_UVID: Resource<ValidationStatusResponse> = {
+    resource: VALIDATION_STATUS_INVALID_UVID,
+    httpStatusCode: HttpStatusCode.Ok
+};
+
 export const mockValidationStatusNameError: ValidationStatusError = createMockValidationStatusError("The name on the public register is different to the name this PSC used for identity verification: a name mismatch reason must be provided");
 
 export const VALIDATION_STATUS_INVALID_NAME: ValidationStatusResponse = {

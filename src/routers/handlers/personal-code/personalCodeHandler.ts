@@ -11,7 +11,7 @@ import { getValidationStatus, patchPscVerification } from "../../../services/psc
 import { getPscIndividual } from "../../../services/pscService";
 import { PscVerificationFormsValidator } from "../../../lib/validation/form-validators/pscVerification";
 import { Resource } from "@companieshouse/api-sdk-node";
-import { getDobValidationMessage, getNameValidationMessages } from "../../../middleware/checkValidationMessages";
+import { getDobValidationMessage, getNameValidationMessages, getUvidValidationMessage } from "../../../middleware/checkValidationMessages";
 
 interface PersonalCodeViewData extends BaseViewData {
     pscName: string,
@@ -100,30 +100,27 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         };
     }
 
-    private resolveNextPageUrl (validationStatusResponse: Resource<ValidationStatusResponse>) : string {
+    private resolveNextPageUrl (validationStatusResponse: Resource<ValidationStatusResponse>): string {
         const url: string = PrefixedUrls.INDIVIDUAL_STATEMENT;
 
         if (validationStatusResponse.resource && validationStatusResponse.resource.isValid === false) {
-            const hasError = (messages: string[], errors: { error: string | string[] }[]): boolean => {
-                return errors.some((validationError) => {
-                    return messages.some((message) => validationError.error.includes(message));
-                });
-            };
-
-            const dobMismatchMessage: string[] = getDobValidationMessage();
-            const nameMismatchMessages: string[] = getNameValidationMessages();
-
-            // The DOB mismatch takes priory over a name mismatch
-            if (hasError(dobMismatchMessage, validationStatusResponse.resource.errors)) {
+            if (this.hasError(getDobValidationMessage(), validationStatusResponse.resource.errors) ||
+                this.hasError(getUvidValidationMessage(), validationStatusResponse.resource.errors)) {
                 return getUrlWithStopType(toStopScreenPrefixedUrl(STOP_TYPE.PSC_DOB_MISMATCH), STOP_TYPE.PSC_DOB_MISMATCH);
             }
 
-            if (hasError(nameMismatchMessages, validationStatusResponse.resource.errors)) {
+            if (this.hasError(getNameValidationMessages(), validationStatusResponse.resource.errors)) {
                 return PrefixedUrls.NAME_MISMATCH;
             }
         }
 
         return url;
+    }
+
+    private hasError (messages: string[], errors: { error: string | string[] }[]): boolean {
+        return errors.some((validationError) =>
+            messages.some((message) => validationError.error.includes(message))
+        );
     }
 
 }

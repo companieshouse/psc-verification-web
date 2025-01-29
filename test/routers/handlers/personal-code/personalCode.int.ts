@@ -6,7 +6,7 @@ import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddlewar
 import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
 import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID_DOB, VALIDATION_STATUS_INVALID_DOB_NAME, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_RESP_VALID } from "../../../mocks/pscVerification.mock";
+import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID_DOB, VALIDATION_STATUS_INVALID_DOB_NAME, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_INVALID_UVID, VALIDATION_STATUS_RESP_VALID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, getValidationStatus, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
 import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
@@ -224,6 +224,37 @@ describe("personal code router/handler integration tests", () => {
             mockGetValidationStatus.mockResolvedValueOnce({
                 httpStatusCode: HttpStatusCode.Ok,
                 resource: VALIDATION_STATUS_INVALID_DOB
+            });
+
+            mockPatchPscVerification.mockResolvedValueOnce({
+                HttpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    ...PATCH_INDIVIDUAL_DATA, ...verification
+                }
+            });
+
+            const resp = await request(app)
+                .post(uri)
+                .send({ personalCode: "123abc456edf" });
+
+            expect(resp.status).toBe(HttpStatusCode.Found);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
+            expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
+            expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
+            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(getUrlWithStopType(toStopScreenPrefixedUrl(STOP_TYPE.PSC_DOB_MISMATCH), STOP_TYPE.PSC_DOB_MISMATCH), TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
+        });
+
+        it("Should redirect to the DOB stop page with a redirect status code when there is a UVID/personal code error", async () => {
+            const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
+            const verification: PscVerificationData = {
+                verificationDetails: {
+                    uvid: "123abc456edf"
+                }
+            };
+
+            mockGetValidationStatus.mockResolvedValueOnce({
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: VALIDATION_STATUS_INVALID_UVID
             });
 
             mockPatchPscVerification.mockResolvedValueOnce({
