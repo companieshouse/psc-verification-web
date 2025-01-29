@@ -11,7 +11,7 @@ import { getValidationStatus, patchPscVerification } from "../../../services/psc
 import { getPscIndividual } from "../../../services/pscService";
 import { PscVerificationFormsValidator } from "../../../lib/validation/form-validators/pscVerification";
 import { Resource } from "@companieshouse/api-sdk-node";
-import { getDobValidationMessage, getNameValidationMessages, getUvidValidationMessage } from "../../../middleware/checkValidationMessages";
+import { getDobValidationMessage, getNameValidationMessages, getUvidValidationMessages } from "../../../middleware/checkValidationMessages";
 
 interface PersonalCodeViewData extends BaseViewData {
     pscName: string,
@@ -105,7 +105,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
         if (validationStatusResponse.resource && validationStatusResponse.resource.isValid === false) {
             if (this.hasError(getDobValidationMessage(), validationStatusResponse.resource.errors) ||
-                this.hasError(getUvidValidationMessage(), validationStatusResponse.resource.errors)) {
+                this.hasError(getUvidValidationMessages(), validationStatusResponse.resource.errors)) {
                 return getUrlWithStopType(toStopScreenPrefixedUrl(STOP_TYPE.PSC_DOB_MISMATCH), STOP_TYPE.PSC_DOB_MISMATCH);
             }
 

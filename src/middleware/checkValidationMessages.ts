@@ -22,7 +22,7 @@ export const getDobValidationMessage = (): string[] => {
     return getValidationMessages(keysToInclude);
 };
 
-export const getUvidValidationMessage = (): string[] => {
+export const getUvidValidationMessages = (): string[] => {
     const keysToInclude = [UNKNOWN_UVID, EXPIRED_UVID, INVALID_RECORD];
     return getValidationMessages(keysToInclude);
 };
