@@ -12,7 +12,7 @@ import app from "../../../../src/app";
 import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { IncomingMessage } from "http";
 import { getPscIndividual } from "../../../../src/services/pscService";
-import { PrefixedUrls, STOP_TYPE, toStopScreenPrefixedUrl } from "../../../../src/constants";
+import { PrefixedUrls, STOP_TYPE } from "../../../../src/constants";
 
 jest.mock("../../../../src/services/pscVerificationService");
 jest.mock("../../../../src/services/pscService");
@@ -241,7 +241,7 @@ describe("personal code router/handler integration tests", () => {
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
-            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(getUrlWithStopType(toStopScreenPrefixedUrl(STOP_TYPE.PSC_DOB_MISMATCH), STOP_TYPE.PSC_DOB_MISMATCH), TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
+            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(getUrlWithStopType(PrefixedUrls.STOP_SCREEN_SUBMISSION, STOP_TYPE.PSC_DOB_MISMATCH), TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
         });
 
         it("Should redirect to the DOB stop page with a redirect status code when there is a UVID/personal code error", async () => {
@@ -272,7 +272,7 @@ describe("personal code router/handler integration tests", () => {
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
-            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(getUrlWithStopType(toStopScreenPrefixedUrl(STOP_TYPE.PSC_DOB_MISMATCH), STOP_TYPE.PSC_DOB_MISMATCH), TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
+            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(getUrlWithStopType(PrefixedUrls.STOP_SCREEN_SUBMISSION, STOP_TYPE.PSC_DOB_MISMATCH), TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
         });
 
         it("Should redirect to the DOB stop page with a redirect status code when DOB and name validation errors occur", async () => {
@@ -303,7 +303,7 @@ describe("personal code router/handler integration tests", () => {
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
-            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(getUrlWithStopType(toStopScreenPrefixedUrl(STOP_TYPE.PSC_DOB_MISMATCH), STOP_TYPE.PSC_DOB_MISMATCH), TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
+            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(getUrlWithStopType(PrefixedUrls.STOP_SCREEN_SUBMISSION, STOP_TYPE.PSC_DOB_MISMATCH), TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
         });
 
         it("Should handle errors and return the correct view data with errors when no personal code is entered", async () => {

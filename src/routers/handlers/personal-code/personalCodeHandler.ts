@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { PrefixedUrls, STOP_TYPE, Urls, toStopScreenPrefixedUrl } from "../../../constants";
+
+import { PrefixedUrls, STOP_TYPE, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
@@ -11,7 +12,7 @@ import { getValidationStatus, patchPscVerification } from "../../../services/psc
 import { getPscIndividual } from "../../../services/pscService";
 import { PscVerificationFormsValidator } from "../../../lib/validation/form-validators/pscVerification";
 import { Resource } from "@companieshouse/api-sdk-node";
-import { getDobValidationMessage, getNameValidationMessages, getUvidValidationMessages } from "../../../middleware/checkValidationMessages";
+import { getDobValidationMessage, getNameValidationMessage, getUvidValidationMessages } from "../../../utils/validationMessages";
 
 interface PersonalCodeViewData extends BaseViewData {
     pscName: string,
@@ -101,26 +102,32 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
     }
 
     private resolveNextPageUrl (validationStatusResponse: Resource<ValidationStatusResponse>): string {
-        const url: string = PrefixedUrls.INDIVIDUAL_STATEMENT;
 
-        if (validationStatusResponse.resource && validationStatusResponse.resource.isValid === false) {
-            if (this.hasError(getDobValidationMessage(), validationStatusResponse.resource.errors) ||
-                this.hasError(getUvidValidationMessages(), validationStatusResponse.resource.errors)) {
-                return getUrlWithStopType(toStopScreenPrefixedUrl(STOP_TYPE.PSC_DOB_MISMATCH), STOP_TYPE.PSC_DOB_MISMATCH);
+        if (validationStatusResponse.resource?.isValid === false) {
+            const validationErrors = validationStatusResponse.resource.errors;
+
+            if (this.hasErrorMessage(getDobValidationMessage(), validationErrors) ||
+                this.hasErrorMessage(getUvidValidationMessages(), validationErrors)) {
+                return getUrlWithStopType(PrefixedUrls.STOP_SCREEN_SUBMISSION, STOP_TYPE.PSC_DOB_MISMATCH);
             }
 
-            if (this.hasError(getNameValidationMessages(), validationStatusResponse.resource.errors)) {
+            // stop page takes precedence over a name mismatch
+            if (this.hasErrorMessage(getNameValidationMessage(), validationErrors)) {
                 return PrefixedUrls.NAME_MISMATCH;
             }
         }
 
-        return url;
+        // valid submission
+        return PrefixedUrls.INDIVIDUAL_STATEMENT;
     }
 
-    private hasError (messages: string[], errors: { error: string | string[] }[]): boolean {
-        return errors.some((validationError) =>
-            messages.some((message) => validationError.error.includes(message))
-        );
+    private hasErrorMessage (messages: string[] | string, validationErrors: { error: string }[]): boolean {
+        const messageArray = Array.isArray(messages) ? messages : [messages];
+
+        return validationErrors.some((validationError) => {
+            const validationMessages = Array.isArray(validationError.error) ? validationError.error : [validationError.error];
+            return messageArray.some((message) => validationMessages.includes(message));
+        });
     }
 
 }

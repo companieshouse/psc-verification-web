@@ -13,6 +13,6 @@ export const getPscVerificationCompanyLists = (descriptionKey: string): string[]
     return pscVerification[COMPANY_CATEGORY][descriptionKey] || descriptionKey;
 };
 
-export const getPscValidationMessages = (descriptionKey: string): string[] => {
+export const getPscValidationMessage = (descriptionKey: string): string => {
     return pscVerification[VALIDATION_CATEGORY][descriptionKey] || descriptionKey;
 };
