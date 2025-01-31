@@ -5,7 +5,7 @@ import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createApiKeyClient, createOAuthApiClient } from "../../src/services/apiClientService";
 import { checkPlannedMaintenance, createPscVerification, getPscVerification, getValidationStatus, patchPscVerification } from "../../src/services/pscVerificationService";
-import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PLANNED_MAINTENANCE, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID, VALIDATION_STATUS_RESP_VALID, mockValidationStatusNameError } from "../mocks/pscVerification.mock";
+import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PLANNED_MAINTENANCE, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_RESP_VALID, mockValidationStatusNameError } from "../mocks/pscVerification.mock";
 import { CREATED_PSC_TRANSACTION } from "../mocks/transaction.mock";
 import { logger } from "../../src/lib/logger";
 
@@ -222,7 +222,7 @@ describe("pscVerificationService", () => {
 
             const mockValidationStatus: Resource<ValidationStatusResponse> = {
                 httpStatusCode: HttpStatusCode.Ok,
-                resource: VALIDATION_STATUS_INVALID
+                resource: VALIDATION_STATUS_INVALID_NAME
             };
             mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
 
