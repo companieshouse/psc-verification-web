@@ -85,5 +85,7 @@ export const SessionKeys = {
 
 // Matomo event IDs that occur more than once accross templates
 export const CommonDataEventIds = {
-    CONTINUE_BUTTON: "continue-button"
+    CONTACT_US_LINK: "contact-us-link",
+    CONTINUE_BUTTON: "continue-button",
+    GO_BACK_AND_RETRY_LINK: "go-back-and-retry-link"
 } as const;
