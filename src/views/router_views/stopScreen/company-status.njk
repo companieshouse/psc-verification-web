@@ -9,10 +9,10 @@
     <p class="govuk-body">{{ extraData[0] }}{{ i18n.company_status_statement_1 }}</p>
     <p class="govuk-body">{{ i18n.company_status_statement_2 }}</p>
     <p class="govuk-body">{{ i18n.company_status_wrong_company_action }}
-        <a id="go-back-enter-number" href="{{ extraData[1] }}">{{ i18n.company_status_wrong_company_action_text -}}</a>.
+        <a id="go-back-enter-number" href="{{ extraData[1] }}" data-event-id="{{ CommonDataEventIds.GO_BACK_AND_RETRY_LINK }}">{{ i18n.company_status_wrong_company_action_text -}}</a>.
     </p>
     <p class="govuk-body">
-        <a id="contact-us" href="{{ extraData[2] }}">{{ i18n.company_status_contact_us_text -}}</a>
+        <a id="contact-us" href="{{ extraData[2] }}" data-event-id="{{ CommonDataEventIds.CONTACT_US_LINK }}">{{ i18n.company_status_contact_us_text -}}</a>
         {{ i18n.company_status_contact_us }}
     </p>
 
