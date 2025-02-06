@@ -11,6 +11,7 @@ import { logger } from "../../../lib/logger";
 
 interface PscListData {
     pscId: string,
+    pscCeasedOn?: string,
     pscKind?: string,
     pscName?: string,
     pscDob?: string,
@@ -25,6 +26,7 @@ interface IndividualPscListViewData extends BaseViewData {
     pscDetails: PscListData[],
     exclusivelySuperSecure: boolean,
     selectedPscId: string | null,
+    showNoPscsMessage: boolean,
     nextPageUrl: string | null
 }
 
@@ -57,6 +59,11 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         }
 
         const allPscDetails = this.getViewPscDetails(individualPscList, lang);
+        const allSuperSecure = allPscDetails.every((psc) => psc.pscKind === PSC_KIND_TYPE.SUPER_SECURE);
+        const allCeased = allPscDetails.every((psc) => psc.pscCeasedOn != null);
+
+        const exclusivelySuperSecure = allPscDetails.length > 0 && (allSuperSecure && !allCeased);
+        const showNoPscsMessage = allPscDetails.length === 0 || allCeased;
 
         return {
             ...baseViewData,
@@ -69,7 +76,8 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             dsrEmailAddress,
             dsrPhoneNumber,
             pscDetails: allPscDetails.filter(psc => psc.pscKind === PSC_KIND_TYPE.INDIVIDUAL),
-            exclusivelySuperSecure: allPscDetails.every((psc) => psc.pscKind === PSC_KIND_TYPE.SUPER_SECURE),
+            exclusivelySuperSecure,
+            showNoPscsMessage,
             templateName: Urls.INDIVIDUAL_PSC_LIST
         };
 
@@ -94,6 +102,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
             return {
                 pscId: psc.links.self.split("/").pop() as string,
+                pscCeasedOn: psc.ceasedOn,
                 pscKind: psc.kind,
                 pscName: psc.name,
                 pscDob: pscFormattedDob,

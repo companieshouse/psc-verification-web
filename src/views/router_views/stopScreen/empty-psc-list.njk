@@ -1,0 +1,15 @@
+{% set title = i18n.ind_psc_list_main_title %}
+
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+<h1 class="govuk-heading-l">{{ i18n.ind_psc_list_main_title }}</h1>
+<p class="govuk-body">
+  {{ i18n.empty_psc_list_body }}
+  <a href="https://www.gov.uk/guidance/people-with-significant-control-pscs">
+    {{ i18n.empty_psc_list_link }}
+  </a>.
+</p>
+
+{% endblock %}

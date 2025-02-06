@@ -75,6 +75,10 @@ describe("stop screen view tests", () => {
                 expect($("a#go-back-enter-number").attr("href")).toBe(`${PrefixedUrls.COMPANY_NUMBER}?lang=en`);
                 expect($("a#contact-us").attr("href")).toBe(env.CONTACT_US_LINK);
                 break;
+            case STOP_TYPE.EMPTY_PSC_LIST:
+                expect($("a.govuk-back-link").attr("href")).toBe(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=00006400&lang=en`);
+                expect($("p.govuk-body").text()).toContain("This company does not have any PSCs.");
+                break;
             case STOP_TYPE.PSC_DOB_MISMATCH:
                 expect($("a.govuk-back-link").attr("href")).toBe(`${expectedPrefix}/individual/personal-code?lang=en`);
                 expect($("a#reenter-personal-code").attr("href")).toBe(`${expectedPrefix}/individual/personal-code?lang=en`);

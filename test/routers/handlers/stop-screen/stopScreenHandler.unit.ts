@@ -84,6 +84,13 @@ describe("Stop screen handler", () => {
                             extraData: [validCompanyProfile.companyName, `${PrefixedUrls.COMPANY_NUMBER}?lang=en`, env.CONTACT_US_LINK]
                         });
                     break;
+                case STOP_TYPE.EMPTY_PSC_LIST:
+                    expect(viewData).toMatchObject({
+                        ...expectedViewData,
+                        currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`,
+                        backURL: `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=00006400&lang=en`
+                    });
+                    break;
                 case STOP_TYPE.PSC_DOB_MISMATCH:
                     expect(viewData).toMatchObject(
                         {

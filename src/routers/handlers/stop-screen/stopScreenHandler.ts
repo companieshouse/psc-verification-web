@@ -60,6 +60,15 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 backURL: addSearchParams(resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY), { companyNumber }),
                 extraData: [companyName, resolveUrlTemplate(PrefixedUrls.COMPANY_NUMBER), env.CONTACT_US_LINK]
             };
+        case STOP_TYPE.EMPTY_PSC_LIST: {
+            return {
+                ...baseViewData,
+                ...getLocaleInfo(locales, lang),
+                templateName: stopType,
+                currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
+                backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang })
+            };
+        }
         case STOP_TYPE.PSC_DOB_MISMATCH: {
             return {
                 ...baseViewData,
