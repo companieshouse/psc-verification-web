@@ -31,6 +31,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
         const locales = getLocalesService();
         const selectedStatements = verification?.data?.verificationDetails?.verificationStatements || [];
         const selectedPscId = verification?.data?.pscAppointmentId;
+        const isNameMismatch = verification?.data?.verificationDetails?.nameMismatchReason;
 
         return {
             ...baseViewData,
@@ -39,10 +40,14 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             selectedStatements,
             dateOfBirth: formatDateBorn(pscDetailsResponse.resource?.dateOfBirth, selectLang(req.query.lang)),
             currentUrl: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_STATEMENT),
-            backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
+            backURL: resolveBackUrl(isNameMismatch),
             templateName: Urls.INDIVIDUAL_STATEMENT,
             selectedPscId: selectedPscId
         };
+
+        function resolveBackUrl (isNameMismatch: any): string | null {
+            return (!isNameMismatch) ? resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE) : resolveUrlTemplate(PrefixedUrls.NAME_MISMATCH);
+        }
 
         function resolveUrlTemplate (prefixedUrl: string): string | null {
             return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { lang, selectedPscId });

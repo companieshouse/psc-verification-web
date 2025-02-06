@@ -31,6 +31,15 @@ export const INDIVIDUAL_DATA: PscVerificationData = {
     }
 };
 
+export const INDIVIDUAL_DATA_NAME_MISMATCH: PscVerificationData = {
+    companyNumber: COMPANY_NUMBER,
+    pscAppointmentId: PSC_APPOINTMENT_ID,
+    verificationDetails: {
+        verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED],
+        nameMismatchReason: NameMismatchReasonEnum.DIFFERENT_NAMING_CONVENTION
+    }
+};
+
 export const PATCHED_PERSONAL_CODE_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscAppointmentId: PSC_APPOINTMENT_ID,
@@ -233,6 +242,7 @@ export const VALIDATION_STATUS_RESOURCE_INVALID_DOB_NAME: Resource<ValidationSta
 // Returns the PSC verification with data fields in camel case
 export const INDIVIDUAL_VERIFICATION_CREATED: PscVerification = initPscVerification(INITIAL_PSC_DATA);
 export const INDIVIDUAL_VERIFICATION_FULL: PscVerification = initPscVerification(INDIVIDUAL_DATA);
+export const INDIVIDUAL_VERIFICATION_FULL_NAME_MISMATCH: PscVerification = initPscVerification(INDIVIDUAL_DATA_NAME_MISMATCH);
 export const IND_VERIFICATION_PERSONAL_CODE: PscVerification = initPscVerification(INITIAL_PERSONAL_CODE_DATA);
 export const IND_VERIFICATION_NAME_MISMATCH: PscVerification = initPscVerification(INITIAL_NAME_MISMATCH_DATA);
 export const INDIVIDUAL_VERIFICATION_PATCH: PscVerification = initPscVerification(PATCH_INDIVIDUAL_DATA);
