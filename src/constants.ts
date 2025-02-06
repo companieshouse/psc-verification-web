@@ -4,6 +4,7 @@ const urlWithTransactionIdAndSubmissionId = "/transaction/:transactionId/submiss
 export enum STOP_TYPE {
     COMPANY_STATUS = "company-status",
     COMPANY_TYPE = "company-type",
+    EMPTY_PSC_LIST = "empty-psc-list",
     PSC_DOB_MISMATCH = "psc-dob-mismatch",
     RP01_GUIDANCE = "rp01-guidance",
     SUPER_SECURE = "super-secure"

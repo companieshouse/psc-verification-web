@@ -84,6 +84,44 @@ export const INDIVIDUAL_PSCS_LIST = [
     }
 ];
 
+export const CEASED_PSCS_EXCLUSIVE_LIST = [
+    {
+        naturesOfControl: [
+            "ownership-of-shares-25-to-50-percent-as-trust"
+        ],
+        kind: PSC_KIND_TYPE.INDIVIDUAL,
+        nameElements: {
+            forename: "Test",
+            otherForenames: "Tester",
+            surname: "Testington",
+            title: "Mr"
+        },
+        name: "Mr Test Tester Testington",
+        notifiedOn: "2024-03-13",
+        nationality: "British",
+        address: {
+            postalCode: "CF14 3UZ",
+            premises: "1",
+            locality: "Cardiff",
+            addressLine1: "34 Silver Street",
+            addressLine2: "Silverstone",
+            careOf: "Care of",
+            poBox: "Po Box",
+            region: "UK"
+        },
+        ceasedOn: "2024-03-13",
+        countryOfResidence: "Wales",
+        dateOfBirth: {
+            year: "1997",
+            month: "12"
+        },
+        links: {
+            self: "/company/123456/persons-with-significant-control/individual/PSC2"
+        },
+        etag: "ETAG2"
+    }
+];
+
 export const VALID_COMPANY_PSC_ITEMS = [
     {
         naturesOfControl: [

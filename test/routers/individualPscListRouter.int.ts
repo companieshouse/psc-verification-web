@@ -7,7 +7,7 @@ import { PrefixedUrls, STOP_TYPE } from "../../src/constants";
 import { getCompanyProfile } from "../../src/services/companyProfileService";
 import { getCompanyIndividualPscList } from "../../src/services/companyPscService";
 import { validCompanyProfile } from "../mocks/companyProfile.mock";
-import { COMPANY_NUMBER, INDIVIDUAL_PSCS_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST } from "../mocks/companyPsc.mock";
+import { CEASED_PSCS_EXCLUSIVE_LIST, COMPANY_NUMBER, INDIVIDUAL_PSCS_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST } from "../mocks/companyPsc.mock";
 import { HttpStatusCode } from "axios";
 import { getUrlWithStopType } from "../../src/utils/url";
 
@@ -47,6 +47,22 @@ describe("GET psc individual list router", () => {
         const templatePlaceholderName = "[Name of the psc]";
         const expectedPscNames = [...INDIVIDUAL_PSCS_LIST.map(p => p.name), templatePlaceholderName];
         expect(pscNameCardTitles).toMatchObject(expectedPscNames);
+    });
+
+    it("Should render the empty PSC list stop screen when there are no PSCs", async () => {
+        mockGetCompanyIndividualPscList.mockResolvedValue([]);
+        const resp = await request(app).get(PrefixedUrls.INDIVIDUAL_PSC_LIST + `?companyNumber=${COMPANY_NUMBER}&lang=en`);
+
+        expect(resp.status).toBe(HttpStatusCode.Found);
+        expect(resp.header.location).toBe(`${getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.EMPTY_PSC_LIST)}?companyNumber=12345678&lang=en`);
+    });
+
+    it("Should render the empty PSC list stop screen when all PSCs are ceased", async () => {
+        mockGetCompanyIndividualPscList.mockResolvedValue(CEASED_PSCS_EXCLUSIVE_LIST);
+        const resp = await request(app).get(PrefixedUrls.INDIVIDUAL_PSC_LIST + `?companyNumber=${COMPANY_NUMBER}&lang=en`);
+
+        expect(resp.status).toBe(HttpStatusCode.Found);
+        expect(resp.header.location).toBe(`${getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.EMPTY_PSC_LIST)}?companyNumber=12345678&lang=en`);
     });
 
     it("Should redirect to super secure stop screen if PSCs are exclusively Super Secure", async () => {
