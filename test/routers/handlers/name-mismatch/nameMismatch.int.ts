@@ -8,7 +8,7 @@ import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddlewar
 import { PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { IND_VERIFICATION_NAME_MISMATCH, PATCHED_NAME_MISMATCH_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, PATCHED_NAME_MISMATCH_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
 import { PscVerificationData, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
@@ -32,7 +32,7 @@ describe("name mismatch router/handler integration tests", () => {
         jest.clearAllMocks();
         mockGetPscVerification.mockResolvedValue({
             httpStatusCode: HttpStatusCode.Ok,
-            resource: IND_VERIFICATION_NAME_MISMATCH
+            resource: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED
         });
 
         mockGetPscIndividual.mockResolvedValue({
@@ -169,7 +169,7 @@ describe("name mismatch router/handler integration tests", () => {
             mockPatchPscVerification.mockResolvedValueOnce({
                 HttpStatusCode: HttpStatusCode.Ok,
                 resource: {
-                    ...IND_VERIFICATION_NAME_MISMATCH, ...verification
+                    ...IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, ...verification
                 }
             });
 

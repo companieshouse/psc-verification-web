@@ -4,7 +4,7 @@ import { Urls } from "../../../../src/constants";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { NameMismatchReasonEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-import { COMPANY_NUMBER, IND_VERIFICATION_NAME_MISMATCH, PATCH_NAME_MISMATCH_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, PATCH_NAME_MISMATCH_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { patchPscVerification } from "../../../../src/services/pscVerificationService";
 import { NameMismatchHandler } from "../../../../src/routers/handlers/name-mismatch/nameMismatchHandler";
 
@@ -52,7 +52,7 @@ describe("Name mismatch handler", () => {
                 query: { selectedPscId: PSC_APPOINTMENT_ID }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH } });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED } });
             const handler = new NameMismatchHandler();
 
             const { templatePath } = await handler.executeGet(req, res);
@@ -74,7 +74,7 @@ describe("Name mismatch handler", () => {
                     lang: "en"
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH } });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED } });
             const handler = new NameMismatchHandler();
 
             const { viewData } = await handler.executeGet(req, res);
@@ -100,7 +100,7 @@ describe("Name mismatch handler", () => {
                 }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH } });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED } });
             const handler = new NameMismatchHandler();
             const resp = await handler.executeGet(req, res);
 

@@ -83,10 +83,9 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             viewData.errors = await validator.validatePersonalCode(req.body, lang, viewData.pscName);
 
             logger.debug(`${PersonalCodeHandler.name} - ${this.executePost.name} - patching personal code for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
-            await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
-
+            const patchResponse = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
             const validationStatusResponse = await getValidationStatus(req, req.params.transactionId, req.params.submissionId);
-            const url = this.resolveNextPageUrl(validationStatusResponse);
+            const url = this.resolveNextPageUrl(validationStatusResponse, patchResponse);
             const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(url, req.params.transactionId, req.params.submissionId);
             viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
 
@@ -101,7 +100,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         };
     }
 
-    private resolveNextPageUrl (validationStatusResponse: Resource<ValidationStatusResponse>): string {
+    private resolveNextPageUrl (validationStatusResponse: Resource<ValidationStatusResponse>, patchResponse: Resource<PscVerification>): string {
 
         if (validationStatusResponse.resource?.isValid === false) {
             const validationErrors = validationStatusResponse.resource.errors;
@@ -117,8 +116,8 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             }
         }
 
-        // valid submission
-        return PrefixedUrls.INDIVIDUAL_STATEMENT;
+        // valid submission with potential name mismatch reason
+        return (patchResponse.resource?.data?.verificationDetails?.nameMismatchReason != null) ? PrefixedUrls.NAME_MISMATCH : PrefixedUrls.INDIVIDUAL_STATEMENT;
     }
 
     private hasErrorMessage (messages: string[] | string, validationErrors: { error: string }[]): boolean {
