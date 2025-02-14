@@ -5,10 +5,10 @@ import { URLSearchParams } from "url";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
 import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
-import { PrefixedUrls } from "../../../../src/constants";
+import { CommonDataEventIds, PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { IND_VERIFICATION_NAME_MISMATCH, PATCHED_NAME_MISMATCH_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { IND_VERIFICATION_NAME_MISMATCH_DEFINED, IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, PATCHED_NAME_MISMATCH_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
 import { PscVerificationData, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
@@ -30,10 +30,6 @@ describe("name mismatch router/handler integration tests", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        mockGetPscVerification.mockResolvedValue({
-            httpStatusCode: HttpStatusCode.Ok,
-            resource: IND_VERIFICATION_NAME_MISMATCH
-        });
 
         mockGetPscIndividual.mockResolvedValue({
             httpStatusCode: HttpStatusCode.Ok,
@@ -49,8 +45,31 @@ describe("name mismatch router/handler integration tests", () => {
 
     describe("GET method", () => {
 
+        beforeEach(() => {
+            mockGetPscVerification.mockResolvedValue({
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: IND_VERIFICATION_NAME_MISMATCH_DEFINED
+            });
+        });
+
         afterEach(() => {
             expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
+        });
+
+        it("Should render the Name Mismatch page with a success status code and the correct links and content", async () => {
+
+            const queryParams = new URLSearchParams("lang=en");
+            queryParams.set("uvid", UVID);
+
+            const uriWithQuery = `${PrefixedUrls.NAME_MISMATCH}?${queryParams}`;
+            const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            const resp = await request(app).get(uri).expect(HttpStatusCode.Ok);
+            console.log(resp);
+
+            const $ = cheerio.load(resp.text);
+
+            expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/personal-code?lang=en");
         });
 
         it.each(["en", "cy"])(`Should render the Name Mismatch page with a success status code, correct (%s) links and content`, async (lang) => {
@@ -116,7 +135,10 @@ describe("name mismatch router/handler integration tests", () => {
                 { value: "PREFER_NOT_TO_SAY", text: "Prefer not to say", eventId: "prefer-not-to-say-radio-option" }
             ];
 
-            radioButtons.forEach(radio => {
+            const renderedRadios = $("input[type=\"radio\"]");
+            expect(renderedRadios.length).toBe(5);
+
+            radioButtons.forEach((radio: { value: string; eventId: string; text: string }) => {
                 const radioButton = $(`input[type="radio"][value="${radio.value}"]`);
                 expect(radioButton.length).toBe(1);
                 expect(radioButton.attr("data-event-id")).toBe(radio.eventId);
@@ -124,23 +146,19 @@ describe("name mismatch router/handler integration tests", () => {
             });
         });
 
-        test.each([
-            "LEGAL_NAME_CHANGE",
-            "PREFERRED_NAME",
-            "DIFFERENT_NAMING_CONVENTION",
-            "PUBLIC_REGISTER_ERROR",
-            "PREFER_NOT_TO_SAY"
-        ])("should have the selected radio button checked for %s", async (nameMismatch) => {
-            const queryParams = new URLSearchParams(`nameMismatch=${nameMismatch}&lang=en`);
+        it("should have the selected radio button as checked if a name mismatch reason is already submitted for %s", async () => {
+
+            const queryParams = new URLSearchParams("lang=en");
             const uriWithQuery = `${PrefixedUrls.NAME_MISMATCH}?${queryParams}`;
             const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
             const resp = await request(app).get(uri);
             const $ = cheerio.load(resp.text);
 
-            const selectedRadioButton = $(`input[type="radio"][value="${nameMismatch}"]`);
+            const selectedRadioButton = $("input[type=\"radio\"][checked]");
             expect(selectedRadioButton.length).toBe(1);
             expect(selectedRadioButton.attr("checked")).toBe("checked");
+            expect(selectedRadioButton.attr("value")).toBe("LEGAL_NAME_CHANGE");
         });
 
         it("Should display a 'Continue' button", async () => {
@@ -153,11 +171,20 @@ describe("name mismatch router/handler integration tests", () => {
 
             const $ = cheerio.load(resp.text);
             expect($("button#submit").text()).toContain("Continue");
+            expect($("button#submit").length).toBe(1);
+            expect($("button#submit").attr("data-event-id")).toBe(CommonDataEventIds.CONTINUE_BUTTON);
+            expect($("button#submit").text().trim()).toBe("Continue");
+
         });
 
     });
 
     describe("POST method", () => {
+
+        mockGetPscVerification.mockResolvedValue({
+            httpStatusCode: HttpStatusCode.Ok,
+            resource: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED
+        });
 
         it("Should redirect to the PSC individual statement page with a redirect status code", async () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID);
@@ -169,7 +196,7 @@ describe("name mismatch router/handler integration tests", () => {
             mockPatchPscVerification.mockResolvedValueOnce({
                 HttpStatusCode: HttpStatusCode.Ok,
                 resource: {
-                    ...IND_VERIFICATION_NAME_MISMATCH, ...verification
+                    ...IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, ...verification
                 }
             });
 

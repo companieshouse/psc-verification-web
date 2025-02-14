@@ -4,7 +4,7 @@ import { Urls } from "../../../../src/constants";
 import { IndividualStatementHandler } from "../../../../src/routers/handlers/individual-statement/individualStatementHandler";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_FULL, PATCH_INDIVIDUAL_STATEMENT_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_FULL_NAME_MISMATCH, PATCH_INDIVIDUAL_STATEMENT_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { patchPscVerification } from "../../../../src/services/pscVerificationService";
 
@@ -81,6 +81,33 @@ describe("Individual statement handler", () => {
 
             expect(viewData).toMatchObject({
                 backURL: `${expectedPrefix}/individual/personal-code?lang=en&selectedPscId=123456`,
+                currentUrl: `${expectedPrefix}/individual/psc-statement?lang=en&selectedPscId=123456`
+            });
+        });
+
+        it("should have the correct page URLs when there is a name mismatch", async () => {
+
+            const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
+            const req = httpMocks.createRequest({
+                method: "GET",
+                url: Urls.PERSONAL_CODE,
+                params: {
+                    transactionId: TRANSACTION_ID,
+                    submissionId: PSC_VERIFICATION_ID
+                },
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    selectedPscId: PSC_APPOINTMENT_ID,
+                    lang: "en"
+                }
+            });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL_NAME_MISMATCH } });
+            const handler = new IndividualStatementHandler();
+
+            const { viewData } = await handler.executeGet(req, res);
+
+            expect(viewData).toMatchObject({
+                backURL: `${expectedPrefix}/individual/psc-why-this-name?lang=en&selectedPscId=123456`,
                 currentUrl: `${expectedPrefix}/individual/psc-statement?lang=en&selectedPscId=123456`
             });
         });
