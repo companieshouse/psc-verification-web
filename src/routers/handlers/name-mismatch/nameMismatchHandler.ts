@@ -33,7 +33,7 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
         const verification: PscVerification = res.locals.submission;
         const companyNumber = verification.data.companyNumber as string;
         const pscIndividual = await getPscIndividual(req, companyNumber, verification.data.pscAppointmentId as string);
-        const nameMismatch = verification.data.verificationDetails?.nameMismatchReason as string;
+        const nameMismatch = verification.data.verificationDetails?.nameMismatchReason ?? "" as string;
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         // Note enums match the API

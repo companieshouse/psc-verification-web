@@ -106,7 +106,7 @@ describe("Name mismatch handler", () => {
 
             expect(resp.templatePath).toBe("router_views/name_mismatch/name_mismatch");
             expect(resp.viewData).toMatchObject({
-                nameMismatch: undefined,
+                nameMismatch: "",
                 pscName: "Sir Forename Middlename Surname",
                 monthYearBorn: "April 2000",
                 errors: {}

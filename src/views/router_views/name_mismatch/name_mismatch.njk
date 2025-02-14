@@ -82,8 +82,6 @@
             ]
         } %}
 
-        <input {% if nameMismatch === value %} checked {% endif %} class="govuk-radios__input" id="nameMismatch" name="nameMismatch" type="radio" value="{{ nameMismatch }}"  />
-
         {% if errors is not undefined and errors is not null and errors | length %}
             {{ govukRadios({
             idPrefix: radioButtonConfig.idPrefix,
