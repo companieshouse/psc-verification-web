@@ -43,14 +43,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
 
     switch (stopType) {
         case STOP_TYPE.COMPANY_STATUS:
-            return {
-                ...baseViewData,
-                ...getLocaleInfo(locales, lang),
-                templateName: stopType,
-                currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
-                backURL: addSearchParams(resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY), { companyNumber }),
-                extraData: [companyName, resolveUrlTemplate(PrefixedUrls.COMPANY_NUMBER), env.CONTACT_US_LINK]
-            };
         case STOP_TYPE.COMPANY_TYPE:
             return {
                 ...baseViewData,
@@ -105,8 +97,8 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
 
     }
 
-    function resolveUrlTemplate (prefixedUrl: string, stopType?: STOP_TYPE): string {
-        const url = stopType ? getUrlWithStopType(prefixedUrl, stopType) : prefixedUrl;
+    function resolveUrlTemplate (prefixedUrl: string, templateName?: STOP_TYPE): string {
+        const url = templateName ? getUrlWithStopType(prefixedUrl, templateName) : prefixedUrl;
 
         return addSearchParams(getUrlWithTransactionIdAndSubmissionId(url, req.params.transactionId, req.params.submissionId), { lang });
     }
