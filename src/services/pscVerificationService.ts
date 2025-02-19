@@ -73,7 +73,7 @@ export const patchPscVerification = async (request: Request, transactionId: stri
     const castedSdkResponse = sdkResponse as Resource<PscVerification>;
 
     if (!castedSdkResponse.resource) {
-        throw createAndLogError(`PSC Verification API POST request returned no resource with ${logReference}`);
+        throw createAndLogError(`PSC Verification API PATCH request returned no resource with ${logReference}`);
     }
     logger.debug(`${patchPscVerification.name} - PATCH HTTP status code response for ${logReference}: ${sdkResponse.httpStatusCode}`);
     logger.debug(`${patchPscVerification.name} - PATCH PSC Verification response for ${logReference}: ${JSON.stringify(sdkResponse)}`);

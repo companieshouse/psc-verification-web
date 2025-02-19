@@ -48,6 +48,7 @@ describe("pscVerificationService", () => {
                 httpStatusCode: HttpStatusCode.Created,
                 resource: INDIVIDUAL_VERIFICATION_CREATED
             };
+
             mockCreatePscVerification.mockResolvedValueOnce(mockCreate);
 
             const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA);
@@ -59,11 +60,22 @@ describe("pscVerificationService", () => {
             expect(mockCreatePscVerification).toHaveBeenCalledTimes(1);
             expect(mockCreatePscVerification).toHaveBeenCalledWith(TRANSACTION_ID, INITIAL_PSC_DATA);
         });
+        it("should throw an error when the response is empty", async () => {
+            const mockCreate: Resource<PscVerification> = {
+                httpStatusCode: HttpStatusCode.Created,
+                resource: undefined
+            };
+
+            mockCreatePscVerification.mockResolvedValueOnce(mockCreate);
+
+            await expect(createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA)).rejects.toThrow(
+                new Error(`createPscVerification - PSC Verification API POST request returned no resource for transaction ${TRANSACTION_ID}`));
+        });
         it("should throw an Error when no response from API", async () => {
             mockCreatePscVerification.mockResolvedValueOnce(undefined);
 
             await expect(createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA)).rejects.toThrow(
-                new Error("createPscVerification - PSC Verification POST request returned no response for transaction 11111-22222-33333"));
+                new Error(`createPscVerification - PSC Verification POST request returned no response for transaction ${TRANSACTION_ID}`));
         });
         it("should throw an Error when API status is unavailable", async () => {
             const mockCreate: Resource<PscVerification> = {
@@ -72,7 +84,7 @@ describe("pscVerificationService", () => {
             mockCreatePscVerification.mockResolvedValueOnce(mockCreate);
 
             await expect(createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA)).rejects.toThrow(
-                new Error("createPscVerification - HTTP status code 503 - Failed to POST PSC Verification for transaction 11111-22222-33333"));
+                new Error(`createPscVerification - HTTP status code 503 - Failed to POST PSC Verification for transaction ${TRANSACTION_ID}`));
         });
     });
 
@@ -93,11 +105,21 @@ describe("pscVerificationService", () => {
             expect(mockGetPscVerification).toHaveBeenCalledTimes(1);
             expect(mockGetPscVerification).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
         });
+        it("should throw an error when the response resource is empty", async () => {
+            const mockGet: Resource<PscVerification> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: undefined
+            };
+            mockGetPscVerification.mockResolvedValueOnce(mockGet);
+
+            await expect(getPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
+                new Error(`getPscVerification - PSC Verification API GET request returned no resource for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}`));
+        });
         it("should throw an Error when no response from API", async () => {
             mockGetPscVerification.mockResolvedValueOnce(undefined);
 
             await expect(getPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
-                new Error("getPscVerification - PSC Verification GET request returned no response for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"));
+                new Error(`getPscVerification - PSC Verification GET request returned no response for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}`));
         });
         it("should throw an Error when API status is unavailable", async () => {
             const mockGet: Resource<PscVerification> = {
@@ -106,7 +128,7 @@ describe("pscVerificationService", () => {
             mockGetPscVerification.mockResolvedValueOnce(mockGet);
 
             await expect(getPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
-                new Error("getPscVerification - HTTP status code 503 - Failed to GET PSC Verification for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"));
+                new Error(`getPscVerification - HTTP status code 503 - Failed to GET PSC Verification for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}`));
         });
     });
 
@@ -131,7 +153,7 @@ describe("pscVerificationService", () => {
             mockPatchPscVerification.mockResolvedValueOnce(undefined);
 
             await expect(patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA)).rejects.toThrow(
-                new Error("patchPscVerification - PSC Verification PATCH request returned no response for resource with transactionId 11111-22222-33333, pscVerificationId 662a0de6a2c6f9aead0f32ab"));
+                new Error(`patchPscVerification - PSC Verification PATCH request returned no response for resource with transactionId ${TRANSACTION_ID}, pscVerificationId ${PSC_VERIFICATION_ID}`));
         });
         it("should throw an Error when API status is unavailable", async () => {
             const mockPatch: Resource<PscVerification> = {
@@ -140,7 +162,18 @@ describe("pscVerificationService", () => {
             mockPatchPscVerification.mockResolvedValueOnce(mockPatch);
 
             await expect(patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA)).rejects.toThrow(
-                new Error("patchPscVerification - Http status code 503 - Failed to PATCH PSC Verification for resource with transactionId 11111-22222-33333, pscVerificationId 662a0de6a2c6f9aead0f32ab"));
+                new Error(`patchPscVerification - Http status code 503 - Failed to PATCH PSC Verification for resource with transactionId ${TRANSACTION_ID}, pscVerificationId ${PSC_VERIFICATION_ID}`));
+        });
+        it("should throw an error when the response is empty", async () => {
+            const mockPatch: Resource<PscVerification> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: undefined
+            };
+            mockPatchPscVerification.mockResolvedValueOnce(mockPatch);
+
+            await expect(patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA)).rejects.toThrow(
+                new Error(`PSC Verification API PATCH request returned no resource with transactionId ${TRANSACTION_ID}, pscVerificationId ${PSC_VERIFICATION_ID}`));
+
         });
     });
 
@@ -250,7 +283,7 @@ describe("pscVerificationService", () => {
             mockGetValidationStatus.mockResolvedValueOnce(errorResponse);
 
             await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrowErrorMatchingInlineSnapshot(
-                `"getValidationStatus - Error getting validation status: HTTP response is: 404 for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"`);
+                `"getValidationStatus - Error getting validation status: HTTP response is: 404 for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}"`);
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
@@ -262,7 +295,7 @@ describe("pscVerificationService", () => {
             mockGetValidationStatus.mockResolvedValueOnce(null);
 
             await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrowErrorMatchingInlineSnapshot(
-                `"getValidationStatus - PSC Verification GET validation status request did not return a response for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"`
+                `"getValidationStatus - PSC Verification GET validation status request did not return a response for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}"`
             );
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
@@ -279,7 +312,7 @@ describe("pscVerificationService", () => {
             mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
 
             await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrowErrorMatchingInlineSnapshot(
-                `"getValidationStatus - Error getting validation status for transaction 11111-22222-33333, pscVerification 662a0de6a2c6f9aead0f32ab"`
+                `"getValidationStatus - Error getting validation status for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}"`
             );
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
