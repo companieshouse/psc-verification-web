@@ -141,25 +141,6 @@ export const PATCHED_INDIVIDUAL_STATEMENT: PscVerification = {
     links: LINKS
 };
 
-export const RLE_DATA_FULL: PscVerificationData = {
-    companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_APPOINTMENT_ID,
-    relevantOfficer: {
-        nameElements: {
-            title: "Sir",
-            forename: "Forename",
-            middleName: "Middlename",
-            surname: "Surname"
-        },
-        dateOfBirth: DOB_DATE,
-        isDirector: true,
-        isEmployee: true
-    },
-    verificationDetails: {
-        verificationStatements: [VerificationStatementEnum.RO_DECLARATION, VerificationStatementEnum.RO_IDENTIFIED, VerificationStatementEnum.RO_VERIFIED]
-    }
-};
-
 export const PLANNED_MAINTENANCE: PlannedMaintenance = {
     status: "UP",
     message: "",
@@ -269,4 +250,3 @@ export const IND_VERIFICATION_NAME_MISMATCH_DEFINED: PscVerification = initPscVe
 export const IND_VERIFICATION_NAME_MISMATCH_UNDEFINED: PscVerification = initPscVerification(NAME_MISMATCH_DATA_UNDEFINED);
 export const INDIVIDUAL_VERIFICATION_PATCH: PscVerification = initPscVerification(PATCH_INDIVIDUAL_DATA);
 export const RLE_VERIFICATION_PATCH: PscVerification = initPscVerification(PATCH_RLE_DATA);
-export const RLE_VERIFICATION_FULL: PscVerification = initPscVerification(RLE_DATA_FULL);
