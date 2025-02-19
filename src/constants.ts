@@ -8,7 +8,7 @@ export enum STOP_TYPE {
     PSC_DOB_MISMATCH = "psc-dob-mismatch",
     RP01_GUIDANCE = "rp01-guidance",
     SUPER_SECURE = "super-secure"
-};
+}
 
 export enum PSC_KIND_TYPE {
     INDIVIDUAL = "individual-person-with-significant-control",
@@ -83,7 +83,7 @@ export const SessionKeys = {
     COMPANY_NUMBER: "companyNumber"
 } as const;
 
-// Matomo event IDs that occur more than once accross templates
+// Matomo event IDs that occur more than once across templates
 export const CommonDataEventIds = {
     CONTACT_US_LINK: "contact-us-link",
     CONTINUE_BUTTON: "continue-button",

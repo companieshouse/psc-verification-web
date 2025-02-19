@@ -8,7 +8,7 @@ import { sessionMiddleware } from "./middleware/session";
 import routerDispatch from "./routerDispatch";
 import { isLive } from "./middleware/serviceLive";
 import { csrfProtectionMiddleware } from "./middleware/csrf";
-import csrfErrorHandler from "./middleware/csrfError";
+import csrfErrorHandler from "./middleware/csrfErrorHandler";
 import { pageNotFound } from "./middleware/pageNotFound";
 import { internalServerError } from "./middleware/internalServerError";
 
