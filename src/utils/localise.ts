@@ -9,17 +9,6 @@ export const selectLang = (lang: any): string => {
     }
 };
 
-export const addLangToUrl = (url: string, lang: string | undefined): string => {
-    if (lang === undefined || lang === "") {
-        return url;
-    }
-    if (url.includes("?")) {
-        return url + "&lang=" + lang;
-    } else {
-        return url + "?lang=" + lang;
-    }
-};
-
 export const getLocaleInfo = (locales: LocalesService, lang: string) => {
     return {
         languageEnabled: locales.enabled,
