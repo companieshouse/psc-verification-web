@@ -20,7 +20,7 @@
       {% endif %}
 
       {% if backURL %}
-        <a href="{{ backURL }}" class="govuk-back-link" data-event-id="back-link">Back</a>
+        <a href="{{ backURL }}" class="govuk-back-link" data-event-id="back-link">{{ i18n.global_back_link }}</a>
       {% endif %}
 
       {% include "locales-banner.njk" %}
