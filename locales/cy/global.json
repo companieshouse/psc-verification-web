@@ -5,5 +5,6 @@
     "global_confirm_continue_button": "Cadarnhau a parhau",
     "global_save_continue_button": "Cadw a parhau",
     "global_continue_button": "Parhau",
-    "global_back_link": "Yn ôl"
+    "global_back_link": "Yn ôl",
+    "global_sign_out_link": "Allgofnodi"
 }
