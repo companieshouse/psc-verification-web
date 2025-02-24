@@ -50,6 +50,8 @@ describe("Authentication checked on all pages except for the start page", () => 
 
     it.each([PrefixedUrls.CONFIRM_COMPANY,
         PrefixedUrls.INDIVIDUAL_PSC_LIST,
+        PrefixedUrls.PERSONAL_CODE,
+        PrefixedUrls.NAME_MISMATCH,
         PrefixedUrls.INDIVIDUAL_STATEMENT,
         PrefixedUrls.PSC_VERIFIED])("Should authenticate when navigating to '%s'", async (url) => {
 
