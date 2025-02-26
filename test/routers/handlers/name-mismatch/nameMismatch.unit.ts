@@ -182,7 +182,7 @@ describe("Name mismatch handler", () => {
             };
 
             const errors = {
-                status: 400,
+                status: 200,
                 name: "VALIDATION_ERRORS",
                 message: "validation_error_summary",
                 stack: {

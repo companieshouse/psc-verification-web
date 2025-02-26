@@ -210,7 +210,7 @@ describe("name mismatch router/handler integration tests", () => {
             expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
         });
 
-        it("Should handle errors and return the correct view data with errors", async () => {
+        it("Should should display the name mismatch page with the validation errors", async () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.NAME_MISMATCH, TRANSACTION_ID, PSC_VERIFICATION_ID);
             const verification: PscVerificationData = {
                 verificationDetails: {
@@ -234,6 +234,18 @@ describe("name mismatch router/handler integration tests", () => {
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(0);
             // Note is a validation error
             expect(resp.status).toBe(HttpStatusCode.Ok);
+
+            // error summary
+            const errorSummaryHeading = $("h2.govuk-error-summary__title").text().trim();
+            expect(errorSummaryHeading).toContain("There is a problem");
+
+            const errorSummaryText = $("ul.govuk-error-summary__list > li > a").text().trim();
+            expect(errorSummaryText).toContain("Tell us why the name on the public register is different to the name this PSC used for identity verification");
+
+            // main body
+            const paragraphText = $("#nameMismatch-error").text().trim();
+            expect(paragraphText).toContain("Tell us why the name on the public register is different to the name this PSC used for identity verification");
+
         });
 
     });
