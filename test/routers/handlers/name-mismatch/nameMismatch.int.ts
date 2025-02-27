@@ -236,15 +236,16 @@ describe("name mismatch router/handler integration tests", () => {
             expect(resp.status).toBe(HttpStatusCode.Ok);
 
             // error summary
+            const errorText = "Tell us why the name on the public register is different to the name this PSC used for identity verification";
             const errorSummaryHeading = $("h2.govuk-error-summary__title").text().trim();
             expect(errorSummaryHeading).toContain("There is a problem");
 
             const errorSummaryText = $("ul.govuk-error-summary__list > li > a").text().trim();
-            expect(errorSummaryText).toContain("Tell us why the name on the public register is different to the name this PSC used for identity verification");
+            expect(errorSummaryText).toContain(errorText);
 
             // main body
             const paragraphText = $("#nameMismatch-error").text().trim();
-            expect(paragraphText).toContain("Tell us why the name on the public register is different to the name this PSC used for identity verification");
+            expect(paragraphText).toContain(errorText);
 
         });
 
