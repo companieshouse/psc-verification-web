@@ -210,7 +210,7 @@ describe("name mismatch router/handler integration tests", () => {
             expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
         });
 
-        it("Should should display the name mismatch page with the validation errors", async () => {
+        it("Should display the name mismatch page with the validation errors when no reason selected", async () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.NAME_MISMATCH, TRANSACTION_ID, PSC_VERIFICATION_ID);
             const verification: PscVerificationData = {
                 verificationDetails: {
