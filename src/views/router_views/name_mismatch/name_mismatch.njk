@@ -37,13 +37,18 @@
             idPrefix: "nameMismatch",
             name: "nameMismatch",
             value: nameMismatch,
+
             fieldset: {
+                attributes: {
+                    "aria-describedby": "whyThisName-hint"
+                },
                 legend: {
-                    text: "",
+                    text: i18n.name_mismatch_title,
                     isPageHeading: false,
-                    classes: "govuk-fieldset__legend--l"
+                    classes: "govuk-fieldset__legend--m govuk-visually-hidden"
                 }
             },
+
             id:"nameMismatch",
             items: [
                 {
