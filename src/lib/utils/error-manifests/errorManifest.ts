@@ -14,13 +14,6 @@ const errorManifest = (lang: string = "en") => ({
             summary: localesService.i18nCh.resolveSingleKey("validation_error_summary", lang),
             inline: localesService.i18nCh.resolveSingleKey("validation_error_inline", lang)
         },
-        pscType: {
-            blank: {
-                summary: localesService.i18nCh.resolveSingleKey("psc_type_error_summary", lang),
-                inline: localesService.i18nCh.resolveSingleKey("psc_type_error_inline", lang)
-            },
-            incorrect: {}
-        },
         personalCode: {
             blank: {
                 summary: localesService.i18nCh.resolveSingleKey("personal_code_error_summary", lang),
