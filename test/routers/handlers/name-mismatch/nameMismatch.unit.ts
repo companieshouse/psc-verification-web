@@ -57,7 +57,7 @@ describe("Name mismatch handler", () => {
 
             const { templatePath } = await handler.executeGet(req, res);
 
-            expect(templatePath).toBe("router_views/name_mismatch/name_mismatch");
+            expect(templatePath).toBe("router_views/nameMismatch/name-mismatch");
         });
 
         it("should have the correct page URLs", async () => {
@@ -104,7 +104,7 @@ describe("Name mismatch handler", () => {
             const handler = new NameMismatchHandler();
             const resp = await handler.executeGet(req, res);
 
-            expect(resp.templatePath).toBe("router_views/name_mismatch/name_mismatch");
+            expect(resp.templatePath).toBe("router_views/nameMismatch/name-mismatch");
             expect(resp.viewData).toMatchObject({
                 nameMismatch: "",
                 pscName: "Sir Forename Middlename Surname",
@@ -182,7 +182,7 @@ describe("Name mismatch handler", () => {
             };
 
             const errors = {
-                status: 400,
+                status: 200,
                 name: "VALIDATION_ERRORS",
                 message: "validation_error_summary",
                 stack: {

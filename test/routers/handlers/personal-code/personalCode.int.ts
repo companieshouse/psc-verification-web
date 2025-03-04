@@ -358,6 +358,18 @@ describe("personal code router/handler integration tests", () => {
             // Note is a validation error
             expect(resp.status).toBe(HttpStatusCode.Ok);
 
+            // error summary
+            const errorText = "Enter a Companies House personal code";
+            const errorSummaryHeading = $("h2.govuk-error-summary__title").text().trim();
+            expect(errorSummaryHeading).toContain("There is a problem");
+
+            const errorSummaryText = $("ul.govuk-error-summary__list > li > a").text().trim();
+            expect(errorSummaryText).toContain(errorText);
+
+            // main body
+            const paragraphText = $("#personalCode-error").text().trim();
+            expect(paragraphText).toContain(errorText);
+
         });
     });
 
