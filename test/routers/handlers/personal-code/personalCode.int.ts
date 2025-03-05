@@ -14,7 +14,6 @@ import { IncomingMessage } from "http";
 import { getPscIndividual } from "../../../../src/services/pscService";
 import { PrefixedUrls, STOP_TYPE } from "../../../../src/constants";
 import { getLocalesService } from "../../../../src/utils/localise";
-import { PersonalCodeHandler } from "../../../../src/routers/handlers/personal-code/personalCodeHandler";
 
 jest.mock("../../../../src/services/pscVerificationService");
 jest.mock("../../../../src/services/pscService");
