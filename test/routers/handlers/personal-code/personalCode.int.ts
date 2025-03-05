@@ -6,13 +6,15 @@ import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddlewar
 import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
 import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PATCH_RESP_WITH_NAME_MISMATCH, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID_DOB, VALIDATION_STATUS_INVALID_DOB_NAME, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_INVALID_UVID, VALIDATION_STATUS_RESP_VALID } from "../../../mocks/pscVerification.mock";
+import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PATCH_RESP_WITH_NAME_MISMATCH, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID, VALIDATION_STATUS_INVALID_DOB, VALIDATION_STATUS_INVALID_DOB_NAME, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_INVALID_UVID, VALIDATION_STATUS_RESP_VALID, mockOutOfServiceResponse } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, getValidationStatus, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
 import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { IncomingMessage } from "http";
 import { getPscIndividual } from "../../../../src/services/pscService";
 import { PrefixedUrls, STOP_TYPE } from "../../../../src/constants";
+import { getLocalesService } from "../../../../src/utils/localise";
+import { PersonalCodeHandler } from "../../../../src/routers/handlers/personal-code/personalCodeHandler";
 
 jest.mock("../../../../src/services/pscVerificationService");
 jest.mock("../../../../src/services/pscService");
@@ -155,7 +157,7 @@ describe("personal code router/handler integration tests", () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
             const verification: PscVerificationData = {
                 verificationDetails: {
-                    uvid: "123abc456edf"
+                    uvid: UVID
                 }
             };
 
@@ -173,7 +175,7 @@ describe("personal code router/handler integration tests", () => {
 
             const resp = await request(app)
                 .post(uri)
-                .send({ personalCode: "123abc456edf" });
+                .send({ personalCode: UVID });
 
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
@@ -186,7 +188,7 @@ describe("personal code router/handler integration tests", () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
             const verification: PscVerificationData = {
                 verificationDetails: {
-                    uvid: "123abc456edf"
+                    uvid: UVID
                 }
             };
 
@@ -199,7 +201,7 @@ describe("personal code router/handler integration tests", () => {
 
             const resp = await request(app)
                 .post(uri)
-                .send({ personalCode: "123abc456edf" });
+                .send({ personalCode: UVID });
 
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
@@ -212,7 +214,7 @@ describe("personal code router/handler integration tests", () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
             const verification: PscVerificationData = {
                 verificationDetails: {
-                    uvid: "123abc456edf"
+                    uvid: UVID
                 }
             };
 
@@ -230,7 +232,7 @@ describe("personal code router/handler integration tests", () => {
 
             const resp = await request(app)
                 .post(uri)
-                .send({ personalCode: "123abc456edf" });
+                .send({ personalCode: UVID });
 
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
@@ -243,7 +245,7 @@ describe("personal code router/handler integration tests", () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
             const verification: PscVerificationData = {
                 verificationDetails: {
-                    uvid: "123abc456edf"
+                    uvid: UVID
                 }
             };
 
@@ -261,7 +263,7 @@ describe("personal code router/handler integration tests", () => {
 
             const resp = await request(app)
                 .post(uri)
-                .send({ personalCode: "123abc456edf" });
+                .send({ personalCode: UVID });
 
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
@@ -274,7 +276,7 @@ describe("personal code router/handler integration tests", () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
             const verification: PscVerificationData = {
                 verificationDetails: {
-                    uvid: "123abc456edf"
+                    uvid: UVID
                 }
             };
 
@@ -292,7 +294,7 @@ describe("personal code router/handler integration tests", () => {
 
             const resp = await request(app)
                 .post(uri)
-                .send({ personalCode: "123abc456edf" });
+                .send({ personalCode: UVID });
 
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
@@ -305,7 +307,7 @@ describe("personal code router/handler integration tests", () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
             const verification: PscVerificationData = {
                 verificationDetails: {
-                    uvid: "123abc456edf"
+                    uvid: UVID
                 }
             };
 
@@ -323,7 +325,7 @@ describe("personal code router/handler integration tests", () => {
 
             const resp = await request(app)
                 .post(uri)
-                .send({ personalCode: "123abc456edf" });
+                .send({ personalCode: UVID });
 
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
@@ -334,18 +336,6 @@ describe("personal code router/handler integration tests", () => {
 
         it("Should handle errors and return the correct view data with errors when no personal code is entered", async () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
-            const verification: PscVerificationData = {
-                verificationDetails: {
-                    uvid: ""
-                }
-            };
-
-            mockPatchPscVerification.mockResolvedValueOnce({
-                HttpStatusCode: HttpStatusCode.Ok,
-                resource: {
-                    ...PATCH_INDIVIDUAL_DATA, ...verification
-                }
-            });
 
             const resp = await request(app)
                 .post(uri)
@@ -353,6 +343,7 @@ describe("personal code router/handler integration tests", () => {
 
             const $ = cheerio.load(resp.text);
 
+            expect(mockGetPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(0);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(0);
             // Note is a validation error
@@ -369,7 +360,27 @@ describe("personal code router/handler integration tests", () => {
             // main body
             const paragraphText = $("#personalCode-error").text().trim();
             expect(paragraphText).toContain(errorText);
+        });
 
+        it("Should redirect to the internal server error page when a server error response occurs", async () => {
+            const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
+            const localesService = getLocalesService();
+
+            mockGetPscVerification.mockResolvedValueOnce(mockOutOfServiceResponse);
+            mockPatchPscVerification.mockResolvedValueOnce(mockOutOfServiceResponse);
+
+            const resp = await request(app)
+                .post(uri)
+                .send({ personalCode: UVID });
+
+            const $ = cheerio.load(resp.text);
+            console.log($);
+
+            expect(resp.status).toBe(HttpStatusCode.InternalServerError);
+            expect(mockGetPscVerification).toHaveBeenCalledTimes(1);
+            expect(mockPatchPscVerification).toHaveBeenCalledTimes(0);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(0);
+            expect($("h1.govuk-heading-l").text()).toContain(localesService.i18nCh.resolveSingleKey("500_main_title", "en"));
         });
     });
 

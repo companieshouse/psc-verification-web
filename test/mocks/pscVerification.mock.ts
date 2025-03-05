@@ -1,6 +1,7 @@
 
 import { Resource } from "@companieshouse/api-sdk-node";
 import { Links, NameMismatchReasonEnum, PlannedMaintenance, PscVerification, PscVerificationData, ValidationStatusError, ValidationStatusResponse, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
 
 export const FIRST_DATE = new Date(2024, 0, 2, 3, 4, 5, 6);
@@ -238,6 +239,24 @@ export const PATCH_RESP_WITH_NAME_MISMATCH: Resource<PscVerification> = {
 export const PATCH_RESP_NO_NAME_MISMATCH: Resource<PscVerification> = {
     resource: initPscVerification(PATCHED_PERSONAL_CODE_DATA),
     httpStatusCode: HttpStatusCode.Ok
+};
+
+export interface ApiError {
+    error?: string;
+    errorValues?: Record<string, string>;
+    location?: string;
+    locationType?: string;
+    type?: string;
+}
+
+// Error response
+export const mockOutOfServiceResponse: ApiErrorResponse = {
+    httpStatusCode: 500,
+    errors: [
+        {
+            error: "failed to execute http request"
+        }
+    ]
 };
 
 // Returns the PSC verification with data fields in camel case
