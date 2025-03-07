@@ -4,7 +4,7 @@ import { Urls } from "../../../../src/constants";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { NameMismatchReasonEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-import { COMPANY_NUMBER, IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, PATCH_NAME_MISMATCH_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, PATCH_NAME_MISMATCH_DATA, PSC_NOTIFICATION_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { patchPscVerification } from "../../../../src/services/pscVerificationService";
 import { NameMismatchHandler } from "../../../../src/routers/handlers/name-mismatch/nameMismatchHandler";
 
@@ -49,7 +49,7 @@ describe("Name mismatch handler", () => {
             const req = httpMocks.createRequest({
                 method: "GET",
                 url: Urls.NAME_MISMATCH,
-                query: { selectedPscId: PSC_APPOINTMENT_ID }
+                query: { selectedPscId: PSC_NOTIFICATION_ID }
             });
 
             const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED } });
@@ -70,7 +70,7 @@ describe("Name mismatch handler", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    selectedPscId: PSC_APPOINTMENT_ID,
+                    selectedPscId: PSC_NOTIFICATION_ID,
                     lang: "en"
                 }
             });
@@ -95,7 +95,7 @@ describe("Name mismatch handler", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    selectedPscId: PSC_APPOINTMENT_ID,
+                    selectedPscId: PSC_NOTIFICATION_ID,
                     lang: "en"
                 }
             });
@@ -127,7 +127,7 @@ describe("Name mismatch handler", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    selectedPscId: PSC_APPOINTMENT_ID,
+                    selectedPscId: PSC_NOTIFICATION_ID,
                     lang: "en"
                 },
                 body: {
@@ -140,7 +140,7 @@ describe("Name mismatch handler", () => {
             res.locals.submission = {
                 data: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_VERIFICATION_ID,
+                    pscNotificationId: PSC_VERIFICATION_ID,
                     lang: "en"
                 }
             };
@@ -177,7 +177,7 @@ describe("Name mismatch handler", () => {
             res.locals.submission = {
                 data: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_APPOINTMENT_ID
+                    pscNotificationId: PSC_NOTIFICATION_ID
                 }
             };
 

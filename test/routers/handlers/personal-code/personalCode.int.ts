@@ -6,7 +6,7 @@ import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddlewar
 import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
 import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PATCH_RESP_WITH_NAME_MISMATCH, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID_DOB, VALIDATION_STATUS_INVALID_DOB_NAME, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_INVALID_UVID, VALIDATION_STATUS_RESP_VALID } from "../../../mocks/pscVerification.mock";
+import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PATCH_RESP_WITH_NAME_MISMATCH, PSC_NOTIFICATION_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID_DOB, VALIDATION_STATUS_INVALID_DOB_NAME, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_INVALID_UVID, VALIDATION_STATUS_RESP_VALID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, getValidationStatus, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
 import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
@@ -54,7 +54,7 @@ describe("personal code router/handler integration tests", () => {
         it("Should render the Personal Code page with a success status code and the correct links and content", async () => {
 
             const queryParams = new URLSearchParams("lang=en");
-            queryParams.set("selectedPscId", PSC_APPOINTMENT_ID);
+            queryParams.set("selectedPscId", PSC_NOTIFICATION_ID);
 
             const uriWithQuery = `${PrefixedUrls.PERSONAL_CODE}?${queryParams}`;
             const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);

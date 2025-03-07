@@ -3,7 +3,7 @@ import * as httpMocks from "node-mocks-http";
 import { Urls } from "../../../../src/constants";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { COMPANY_NUMBER, IND_VERIFICATION_PERSONAL_CODE, PATCH_PERSONAL_CODE_DATA, PATCH_RESP_NO_NAME_MISMATCH, PATCH_RESP_WITH_NAME_MISMATCH, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID, VALIDATION_STATUS_RESOURCE_INVALID_DOB, VALIDATION_STATUS_RESOURCE_INVALID_DOB_NAME, VALIDATION_STATUS_RESOURCE_INVALID_NAME, VALIDATION_STATUS_RESOURCE_VALID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, IND_VERIFICATION_PERSONAL_CODE, PATCH_PERSONAL_CODE_DATA, PATCH_RESP_NO_NAME_MISMATCH, PATCH_RESP_WITH_NAME_MISMATCH, PSC_NOTIFICATION_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID, VALIDATION_STATUS_RESOURCE_INVALID_DOB, VALIDATION_STATUS_RESOURCE_INVALID_DOB_NAME, VALIDATION_STATUS_RESOURCE_INVALID_NAME, VALIDATION_STATUS_RESOURCE_VALID } from "../../../mocks/pscVerification.mock";
 import { PersonalCodeHandler } from "../../../../src/routers/handlers/personal-code/personalCodeHandler";
 import { getValidationStatus, patchPscVerification } from "../../../../src/services/pscVerificationService";
 
@@ -49,7 +49,7 @@ describe("Personal code handler", () => {
             const req = httpMocks.createRequest({
                 method: "GET",
                 url: Urls.PERSONAL_CODE,
-                query: { selectedPscId: PSC_APPOINTMENT_ID }
+                query: { selectedPscId: PSC_NOTIFICATION_ID }
             });
 
             const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE } });
@@ -70,7 +70,7 @@ describe("Personal code handler", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    selectedPscId: PSC_APPOINTMENT_ID,
+                    selectedPscId: PSC_NOTIFICATION_ID,
                     lang: "en"
                 }
             });
@@ -95,7 +95,7 @@ describe("Personal code handler", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    selectedPscId: PSC_APPOINTMENT_ID,
+                    selectedPscId: PSC_NOTIFICATION_ID,
                     lang: "en"
                 }
             });
@@ -132,7 +132,7 @@ describe("Personal code handler", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    selectedPscId: PSC_APPOINTMENT_ID,
+                    selectedPscId: PSC_NOTIFICATION_ID,
                     lang: "en"
                 },
                 body: {
@@ -145,7 +145,7 @@ describe("Personal code handler", () => {
             res.locals.submission = {
                 data: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_VERIFICATION_ID,
+                    pscNotificationId: PSC_VERIFICATION_ID,
                     lang: "en"
                 }
             };
@@ -172,7 +172,7 @@ describe("Personal code handler", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    selectedPscId: PSC_APPOINTMENT_ID,
+                    selectedPscId: PSC_NOTIFICATION_ID,
                     lang: "en"
                 },
                 body: {
@@ -185,7 +185,7 @@ describe("Personal code handler", () => {
             res.locals.submission = {
                 data: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_VERIFICATION_ID,
+                    pscNotificationId: PSC_VERIFICATION_ID,
                     lang: "en"
                 }
             };
@@ -211,7 +211,7 @@ describe("Personal code handler", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    selectedPscId: PSC_APPOINTMENT_ID,
+                    selectedPscId: PSC_NOTIFICATION_ID,
                     lang: "en"
                 },
                 body: {
@@ -224,7 +224,7 @@ describe("Personal code handler", () => {
             res.locals.submission = {
                 data: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_VERIFICATION_ID,
+                    pscNotificationId: PSC_VERIFICATION_ID,
                     lang: "en"
                 }
             };
@@ -250,7 +250,7 @@ describe("Personal code handler", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    selectedPscId: PSC_APPOINTMENT_ID,
+                    selectedPscId: PSC_NOTIFICATION_ID,
                     lang: "en"
                 },
                 body: {
@@ -263,7 +263,7 @@ describe("Personal code handler", () => {
             res.locals.submission = {
                 data: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_VERIFICATION_ID,
+                    pscNotificationId: PSC_VERIFICATION_ID,
                     lang: "en"
                 }
             };
@@ -288,7 +288,7 @@ describe("Personal code handler", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    selectedPscId: PSC_APPOINTMENT_ID,
+                    selectedPscId: PSC_NOTIFICATION_ID,
                     lang: "en"
                 },
                 body: {
@@ -301,7 +301,7 @@ describe("Personal code handler", () => {
             res.locals.submission = {
                 data: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_VERIFICATION_ID,
+                    pscNotificationId: PSC_VERIFICATION_ID,
                     lang: "en"
                 }
             };
@@ -326,7 +326,7 @@ describe("Personal code handler", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    selectedPscId: PSC_APPOINTMENT_ID,
+                    selectedPscId: PSC_NOTIFICATION_ID,
                     lang: "en"
                 },
                 body: {
@@ -339,7 +339,7 @@ describe("Personal code handler", () => {
             res.locals.submission = {
                 data: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_VERIFICATION_ID,
+                    pscNotificationId: PSC_VERIFICATION_ID,
                     lang: "en"
                 }
             };
@@ -376,7 +376,7 @@ describe("Personal code handler", () => {
             res.locals.submission = {
                 data: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_APPOINTMENT_ID
+                    pscNotificationId: PSC_NOTIFICATION_ID
                 }
             };
 
