@@ -367,13 +367,13 @@ describe("personal code router/handler integration tests", () => {
 
             mockGetPscVerification.mockResolvedValueOnce(mockOutOfServiceResponse);
             mockPatchPscVerification.mockResolvedValueOnce(mockOutOfServiceResponse);
+            mockGetValidationStatus.mockResolvedValueOnce(mockOutOfServiceResponse);
 
             const resp = await request(app)
                 .post(uri)
                 .send({ personalCode: UVID });
 
             const $ = cheerio.load(resp.text);
-            console.log($);
 
             expect(resp.status).toBe(HttpStatusCode.InternalServerError);
             expect(mockGetPscVerification).toHaveBeenCalledTimes(1);

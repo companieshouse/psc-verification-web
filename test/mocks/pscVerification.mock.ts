@@ -28,6 +28,7 @@ export const INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscAppointmentId: PSC_APPOINTMENT_ID,
     verificationDetails: {
+        uvid: UVID,
         verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
     }
 };
@@ -85,12 +86,6 @@ export const PATCHED_NAME_MISMATCH_DATA: PscVerificationData = {
 export const PATCH_INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscAppointmentId: PSC_APPOINTMENT_ID
-};
-
-export const PATCH_RLE_DATA: PscVerificationData = {
-    verificationDetails: {
-        nameMismatchReason: NameMismatchReasonEnum.PREFERRED_NAME
-    }
 };
 
 export const PATCH_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
@@ -264,8 +259,7 @@ export const INDIVIDUAL_VERIFICATION_CREATED: PscVerification = initPscVerificat
 export const INDIVIDUAL_VERIFICATION_FULL: PscVerification = initPscVerification(INDIVIDUAL_DATA);
 export const INDIVIDUAL_VERIFICATION_FULL_NAME_MISMATCH: PscVerification = initPscVerification(INDIVIDUAL_DATA_NAME_MISMATCH);
 export const IND_VERIFICATION_PERSONAL_CODE: PscVerification = initPscVerification(INITIAL_PERSONAL_CODE_DATA);
-export const IND_VERIFICATION_NAME_MISMATCH: PscVerification = initPscVerification(PATCHED_PERSONAL_CODE_DATA);
-export const IND_VERIFICATION_NAME_MISMATCH_DEFINED: PscVerification = initPscVerification(PATCHED_NAME_MISMATCH_DATA);
+export const IND_VERIFICATION_PERSONAL_CODE_DEFINED: PscVerification = initPscVerification(PATCHED_PERSONAL_CODE_DATA);
+export const IND_VERIFICATION_NAME_MISMATCH_DEFINED: PscVerification = initPscVerification(PATCHED_PERSONAL_CODE_WITH_NAME_MISMATCH_DATA);
 export const IND_VERIFICATION_NAME_MISMATCH_UNDEFINED: PscVerification = initPscVerification(NAME_MISMATCH_DATA_UNDEFINED);
 export const INDIVIDUAL_VERIFICATION_PATCH: PscVerification = initPscVerification(PATCH_INDIVIDUAL_DATA);
-export const RLE_VERIFICATION_PATCH: PscVerification = initPscVerification(PATCH_RLE_DATA);
