@@ -4,7 +4,7 @@ import { Urls } from "../../../../src/constants";
 import { IndividualStatementHandler } from "../../../../src/routers/handlers/individual-statement/individualStatementHandler";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_FULL_NAME_MISMATCH, PATCH_INDIVIDUAL_STATEMENT_DATA, PSC_APPOINTMENT_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
+import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_FULL_NAME_MISMATCH, PATCH_INDIVIDUAL_STATEMENT_DATA, PSC_NOTIFICATION_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { patchPscVerification } from "../../../../src/services/pscVerificationService";
 
@@ -47,7 +47,7 @@ describe("Individual statement handler", () => {
             const req = httpMocks.createRequest({
                 method: "GET",
                 url: Urls.PERSONAL_CODE,
-                query: { selectedPscId: PSC_APPOINTMENT_ID }
+                query: { selectedPscId: PSC_NOTIFICATION_ID }
             });
 
             const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL } });
@@ -70,7 +70,7 @@ describe("Individual statement handler", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    selectedPscId: PSC_APPOINTMENT_ID,
+                    selectedPscId: PSC_NOTIFICATION_ID,
                     lang: "en"
                 }
             });
@@ -97,7 +97,7 @@ describe("Individual statement handler", () => {
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
-                    selectedPscId: PSC_APPOINTMENT_ID,
+                    selectedPscId: PSC_NOTIFICATION_ID,
                     lang: "en"
                 }
             });
@@ -186,7 +186,7 @@ describe("Individual statement handler", () => {
             res.locals.submission = {
                 data: {
                     companyNumber: COMPANY_NUMBER,
-                    pscAppointmentId: PSC_APPOINTMENT_ID
+                    pscNotificationId: PSC_NOTIFICATION_ID
                 }
             };
 

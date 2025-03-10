@@ -35,10 +35,10 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
 
     public async createNewSubmission (request: Request, transaction: Transaction): Promise<Resource<PscVerification>> {
         const companyNumber = request.query.companyNumber as string;
-        const pscAppointmentId = request.query.selectedPscId as string;
+        const pscNotificationId = request.query.selectedPscId as string;
         const verification: PscVerificationData = {
             companyNumber: companyNumber,
-            pscAppointmentId: pscAppointmentId
+            pscNotificationId: pscNotificationId
         };
         return createPscVerification(request, transaction, verification);
     }
