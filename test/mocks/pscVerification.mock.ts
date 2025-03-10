@@ -1,6 +1,7 @@
 
 import { Resource } from "@companieshouse/api-sdk-node";
 import { Links, NameMismatchReasonEnum, PlannedMaintenance, PscVerification, PscVerificationData, ValidationStatusError, ValidationStatusResponse, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
 
 export const FIRST_DATE = new Date(2024, 0, 2, 3, 4, 5, 6);
@@ -27,6 +28,7 @@ export const INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
+        uvid: UVID,
         verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
     }
 };
@@ -84,12 +86,6 @@ export const PATCHED_NAME_MISMATCH_DATA: PscVerificationData = {
 export const PATCH_INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscNotificationId: PSC_NOTIFICATION_ID
-};
-
-export const PATCH_RLE_DATA: PscVerificationData = {
-    verificationDetails: {
-        nameMismatchReason: NameMismatchReasonEnum.PREFERRED_NAME
-    }
 };
 
 export const PATCH_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
@@ -240,13 +236,30 @@ export const PATCH_RESP_NO_NAME_MISMATCH: Resource<PscVerification> = {
     httpStatusCode: HttpStatusCode.Ok
 };
 
+export interface ApiError {
+    error?: string;
+    errorValues?: Record<string, string>;
+    location?: string;
+    locationType?: string;
+    type?: string;
+}
+
+// Error response
+export const mockOutOfServiceResponse: ApiErrorResponse = {
+    httpStatusCode: 500,
+    errors: [
+        {
+            error: "failed to execute http request"
+        }
+    ]
+};
+
 // Returns the PSC verification with data fields in camel case
 export const INDIVIDUAL_VERIFICATION_CREATED: PscVerification = initPscVerification(INITIAL_PSC_DATA);
 export const INDIVIDUAL_VERIFICATION_FULL: PscVerification = initPscVerification(INDIVIDUAL_DATA);
 export const INDIVIDUAL_VERIFICATION_FULL_NAME_MISMATCH: PscVerification = initPscVerification(INDIVIDUAL_DATA_NAME_MISMATCH);
 export const IND_VERIFICATION_PERSONAL_CODE: PscVerification = initPscVerification(INITIAL_PERSONAL_CODE_DATA);
-export const IND_VERIFICATION_NAME_MISMATCH: PscVerification = initPscVerification(PATCHED_PERSONAL_CODE_DATA);
-export const IND_VERIFICATION_NAME_MISMATCH_DEFINED: PscVerification = initPscVerification(PATCHED_NAME_MISMATCH_DATA);
+export const IND_VERIFICATION_PERSONAL_CODE_DEFINED: PscVerification = initPscVerification(PATCHED_PERSONAL_CODE_DATA);
+export const IND_VERIFICATION_NAME_MISMATCH_DEFINED: PscVerification = initPscVerification(PATCHED_PERSONAL_CODE_WITH_NAME_MISMATCH_DATA);
 export const IND_VERIFICATION_NAME_MISMATCH_UNDEFINED: PscVerification = initPscVerification(NAME_MISMATCH_DATA_UNDEFINED);
 export const INDIVIDUAL_VERIFICATION_PATCH: PscVerification = initPscVerification(PATCH_INDIVIDUAL_DATA);
-export const RLE_VERIFICATION_PATCH: PscVerification = initPscVerification(PATCH_RLE_DATA);

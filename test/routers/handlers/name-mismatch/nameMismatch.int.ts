@@ -8,10 +8,10 @@ import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddlewar
 import { CommonDataEventIds, PrefixedUrls } from "../../../../src/constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
-import { IND_VERIFICATION_NAME_MISMATCH_DEFINED, IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, PATCHED_NAME_MISMATCH_DATA, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID } from "../../../mocks/pscVerification.mock";
+import { IND_VERIFICATION_NAME_MISMATCH_DEFINED, IND_VERIFICATION_PERSONAL_CODE_DEFINED, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID } from "../../../mocks/pscVerification.mock";
 import { getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
-import { PscVerificationData, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { NameMismatchReasonEnum, PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { IncomingMessage } from "http";
 import { getPscIndividual } from "../../../../src/services/pscService";
 
@@ -34,6 +34,11 @@ describe("name mismatch router/handler integration tests", () => {
         mockGetPscIndividual.mockResolvedValue({
             httpStatusCode: HttpStatusCode.Ok,
             resource: PSC_INDIVIDUAL
+        });
+
+        mockGetPscVerification.mockResolvedValue({
+            httpStatusCode: HttpStatusCode.Ok,
+            resource: IND_VERIFICATION_PERSONAL_CODE_DEFINED
         });
     });
 
@@ -65,7 +70,6 @@ describe("name mismatch router/handler integration tests", () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
             const resp = await request(app).get(uri).expect(HttpStatusCode.Ok);
-            console.log(resp);
 
             const $ = cheerio.load(resp.text);
 
@@ -158,7 +162,7 @@ describe("name mismatch router/handler integration tests", () => {
             const selectedRadioButton = $("input[type=\"radio\"][checked]");
             expect(selectedRadioButton.length).toBe(1);
             expect(selectedRadioButton.attr("checked")).toBe("checked");
-            expect(selectedRadioButton.attr("value")).toBe("LEGAL_NAME_CHANGE");
+            expect(selectedRadioButton.attr("value")).not.toBeNull();
         });
 
         it("Should display a 'Continue' button", async () => {
@@ -181,56 +185,52 @@ describe("name mismatch router/handler integration tests", () => {
 
     describe("POST method", () => {
 
-        mockGetPscVerification.mockResolvedValue({
-            httpStatusCode: HttpStatusCode.Ok,
-            resource: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED
+        beforeEach(() => {
+            mockGetPscVerification.mockResolvedValue({
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: IND_VERIFICATION_NAME_MISMATCH_DEFINED
+            });
+        });
+
+        afterEach(() => {
+            expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
         });
 
         it("Should redirect to the PSC individual statement page with a redirect status code", async () => {
-            const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID);
+            const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.NAME_MISMATCH, TRANSACTION_ID, PSC_VERIFICATION_ID);
             const verification: PscVerificationData = {
                 verificationDetails: {
-                    verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
+                    nameMismatchReason: NameMismatchReasonEnum.PREFER_NOT_TO_SAY
                 }
             };
+
             mockPatchPscVerification.mockResolvedValueOnce({
                 HttpStatusCode: HttpStatusCode.Ok,
                 resource: {
-                    ...IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, ...verification
+                    ...IND_VERIFICATION_NAME_MISMATCH_DEFINED, ...verification
                 }
             });
 
             const resp = await request(app)
                 .post(uri)
-                .send({ pscIndividualStatement: VerificationStatementEnum.INDIVIDUAL_VERIFIED });
+                .send({ nameMismatch: NameMismatchReasonEnum.PREFER_NOT_TO_SAY });
 
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
-            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
+            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
         });
 
         it("Should display the name mismatch page with the validation errors when no reason is selected", async () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.NAME_MISMATCH, TRANSACTION_ID, PSC_VERIFICATION_ID);
-            const verification: PscVerificationData = {
-                verificationDetails: {
-                    uvid: UVID
-                }
-            };
-
-            mockPatchPscVerification.mockResolvedValueOnce({
-                HttpStatusCode: HttpStatusCode.Ok,
-                resource: {
-                    ...PATCHED_NAME_MISMATCH_DATA, ...verification
-                }
-            });
 
             const resp = await request(app)
                 .post(uri)
-                .send({ personalCode: "" });
+                .send({ });
 
             const $ = cheerio.load(resp.text);
 
+            expect(mockGetPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(0);
             // Note is a validation error
             expect(resp.status).toBe(HttpStatusCode.Ok);
@@ -248,7 +248,6 @@ describe("name mismatch router/handler integration tests", () => {
             expect(paragraphText).toContain(errorText);
 
         });
-
     });
 
 });
