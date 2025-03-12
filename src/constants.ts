@@ -39,6 +39,7 @@ export const Urls = {
     ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
     HEALTHCHECK: "/healthcheck",
     START: "/start",
+    SIGNOUT: "/signout",
     COMPANY_NUMBER: "/company-number",
     CONFIRM_COMPANY: "/confirm-company",
     INDIVIDUAL_PSC_LIST: "/individual/psc-list",
@@ -74,8 +75,7 @@ export const PrefixedUrls = {
 
 export const ExternalUrls = {
     COMPANY_LOOKUP: "/company-lookup/search",
-    COMPANY_LOOKUP_FORWARD: servicePathPrefix + "/confirm-company",
-    SIGNOUT: "/signout"
+    COMPANY_LOOKUP_FORWARD: servicePathPrefix + "/confirm-company"
 } as const;
 
 // used as Session keys (Redis)
