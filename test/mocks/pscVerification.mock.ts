@@ -9,14 +9,14 @@ export const SECOND_DATE = new Date(2024, 0, 2, 3, 0, 0, 0);
 export const DOB_DATE = new Date("1970-01-01");
 export const COMPANY_NUMBER = "12345678";
 export const TRANSACTION_ID = "11111-22222-33333";
-export const PSC_APPOINTMENT_ID = "123456";
+export const PSC_NOTIFICATION_ID = "123456";
 export const PSC_VERIFICATION_ID = "662a0de6a2c6f9aead0f32ab";
 export const UVID = "123abc456edf";
 export const SELF_URI = `/transactions/${TRANSACTION_ID}/persons-with-significant-control-verification/${PSC_VERIFICATION_ID}`;
 
 export const INITIAL_PSC_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_APPOINTMENT_ID
+    pscNotificationId: PSC_NOTIFICATION_ID
 };
 
 export const LINKS: Links = {
@@ -26,7 +26,7 @@ export const LINKS: Links = {
 
 export const INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_APPOINTMENT_ID,
+    pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
         uvid: UVID,
         verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
@@ -35,7 +35,7 @@ export const INDIVIDUAL_DATA: PscVerificationData = {
 
 export const INDIVIDUAL_DATA_NAME_MISMATCH: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_APPOINTMENT_ID,
+    pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
         verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED],
         nameMismatchReason: NameMismatchReasonEnum.DIFFERENT_NAMING_CONVENTION
@@ -44,7 +44,7 @@ export const INDIVIDUAL_DATA_NAME_MISMATCH: PscVerificationData = {
 
 export const PATCHED_PERSONAL_CODE_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_APPOINTMENT_ID,
+    pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
         uvid: UVID
     }
@@ -52,7 +52,7 @@ export const PATCHED_PERSONAL_CODE_DATA: PscVerificationData = {
 
 export const PATCHED_PERSONAL_CODE_WITH_NAME_MISMATCH_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_APPOINTMENT_ID,
+    pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
         uvid: UVID,
         nameMismatchReason: NameMismatchReasonEnum.PREFER_NOT_TO_SAY
@@ -61,7 +61,7 @@ export const PATCHED_PERSONAL_CODE_WITH_NAME_MISMATCH_DATA: PscVerificationData 
 
 export const INITIAL_PERSONAL_CODE_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_APPOINTMENT_ID,
+    pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
         uvid: ""
     }
@@ -69,7 +69,7 @@ export const INITIAL_PERSONAL_CODE_DATA: PscVerificationData = {
 
 export const NAME_MISMATCH_DATA_UNDEFINED: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_APPOINTMENT_ID,
+    pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
         nameMismatchReason: undefined
     }
@@ -77,7 +77,7 @@ export const NAME_MISMATCH_DATA_UNDEFINED: PscVerificationData = {
 
 export const PATCHED_NAME_MISMATCH_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_APPOINTMENT_ID,
+    pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
         nameMismatchReason: NameMismatchReasonEnum.LEGAL_NAME_CHANGE
     }
@@ -85,7 +85,7 @@ export const PATCHED_NAME_MISMATCH_DATA: PscVerificationData = {
 
 export const PATCH_INDIVIDUAL_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_APPOINTMENT_ID
+    pscNotificationId: PSC_NOTIFICATION_ID
 };
 
 export const PATCH_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
@@ -95,14 +95,14 @@ export const PATCH_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
 };
 
 export const PATCH_PERSONAL_CODE_DATA: PscVerificationData = {
-    pscAppointmentId: PSC_APPOINTMENT_ID,
+    pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
         uvid: UVID
     }
 };
 
 export const PATCH_NAME_MISMATCH_DATA: PscVerificationData = {
-    pscAppointmentId: PSC_APPOINTMENT_ID,
+    pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
         nameMismatchReason: NameMismatchReasonEnum.PREFERRED_NAME
     }
@@ -123,7 +123,7 @@ export const PATCH_INDIVIDUAL_STATEMENT: PscVerification = {
 
 export const PATCHED_INDIVIDUAL_STATEMENT_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
-    pscAppointmentId: PSC_APPOINTMENT_ID,
+    pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
         nameMismatchReason: NameMismatchReasonEnum.PREFERRED_NAME,
         verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED]
