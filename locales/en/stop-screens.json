@@ -15,6 +15,7 @@
   "company_type_allowed_2": "a public limited company",
   "company_type_allowed_3": "an unlimited company",
   "company_type_allowed_4": "a Community Interest Company (CIC)",
+  "company_type_allowed_5": "a Limited Liability Partnership (LLP)",
   "company_type_wrong_company_action": "If this is the wrong company, ",
   "company_type_wrong_company_action_text": "go back and enter a different company number",
   "company_type_contact_us_text": "Contact us",
