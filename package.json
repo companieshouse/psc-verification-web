@@ -37,7 +37,7 @@
         "@companieshouse/structured-logging-node": "^2.0.1",
         "@companieshouse/web-security-node": "^4.4.4",
         "@types/supertest": "^6.0.2",
-        "axios": "^1.7.9",
+        "axios": "^1.8.3",
         "cookie-parser": "1.4.7",
         "express": "^4.21.2",
         "govuk_frontend_toolkit": "^9.0.1",
