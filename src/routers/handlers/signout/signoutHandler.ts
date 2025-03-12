@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { Urls } from "../../../constants";
+import { ExternalUrls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
-import { addSearchParams } from "../../../utils/queryParams";
 
 interface SignoutViewData extends BaseViewData {
     signoutRedirectPath: string
@@ -23,10 +22,10 @@ export default class SignoutHandler extends GenericHandler<SignoutViewData> {
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             isSignedIn: false,
-            signoutRedirectPath: addSearchParams(Urls.SIGNOUT, { lang }),
-            currentUrl: addSearchParams(Urls.SIGNOUT, { lang }),
+            signoutRedirectPath: ExternalUrls.SIGNOUT,
+            currentUrl: req.get("Referrer")!,
             backURL: null,
-            templateName: Urls.SIGNOUT
+            templateName: ExternalUrls.SIGNOUT
         };
     }
 
