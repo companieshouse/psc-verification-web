@@ -8,6 +8,8 @@ import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn, internationaliseDate } from "../../utils";
 import { env } from "../../../config";
 import { logger } from "../../../lib/logger";
+import { getPscVerificationState } from "../../../services/pscService";
+import { PscVerificationState } from "@companieshouse/api-sdk-node/dist/services/psc/types";
 
 interface PscListData {
     pscId: string,
@@ -64,6 +66,13 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
         const exclusivelySuperSecure = allPscDetails.length > 0 && (allSuperSecure && !allCeased);
         const showNoPscsMessage = allPscDetails.length === 0 || allCeased;
+
+        // TODO - implement as separate ticket to use/display the verification state data
+        // Temporary update to retrieve the PSC verification state data
+        if (allPscDetails && allPscDetails.length > 0) {
+            const verificationState = getPscVerificationState(req, allPscDetails[0].pscId) as unknown as PscVerificationState;
+            logger.debug(`${verificationState}`);
+        }
 
         return {
             ...baseViewData,
