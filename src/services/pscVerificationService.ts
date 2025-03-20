@@ -9,6 +9,10 @@ import { createAndLogError, logger } from "../lib/logger";
 import { createApiKeyClient, createOAuthApiClient } from "./apiClientService";
 
 export const createPscVerification = async (request: Request, transaction: Transaction, pscVerification: PscVerificationData): Promise<Resource<PscVerification>> => {
+    if (pscVerification.pscNotificationId == null) {
+        throw createAndLogError(`${createPscVerification.name} - Aborting: pscNotificationId is required for PSC Verification POST request for transaction ${transaction.id}`);
+    }
+
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
 
     logger.debug(`Creating PSC verification resource for ${transaction.description} transaction ${transaction.id}`);
