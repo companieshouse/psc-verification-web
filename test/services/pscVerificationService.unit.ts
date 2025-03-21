@@ -1,5 +1,5 @@
 import { Resource } from "@companieshouse/api-sdk-node";
-import { PlannedMaintenance, PscVerification, ValidationStatusResponse } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { PlannedMaintenance, PscVerification, PscVerificationData, ValidationStatusResponse } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
@@ -85,6 +85,14 @@ describe("pscVerificationService", () => {
 
             await expect(createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA)).rejects.toThrow(
                 new Error(`createPscVerification - HTTP status code 503 - Failed to POST PSC Verification for transaction ${TRANSACTION_ID}`));
+        });
+        it("should throw an Error when pscNotificationId is undefined", async () => {
+            const incompleteData: PscVerificationData = {
+                companyNumber: INITIAL_PSC_DATA.companyNumber
+            };
+
+            await expect(createPscVerification(req, CREATED_PSC_TRANSACTION, incompleteData)).rejects.toThrow(
+                new Error(`createPscVerification - Aborting: pscNotificationId is required for PSC Verification POST request for transaction ${TRANSACTION_ID}. Has the user tried to resume a journey after signing out and in again?`));
         });
     });
 
@@ -241,7 +249,7 @@ describe("pscVerificationService", () => {
         });
 
         it("should return status 200 OK with a validation error when there is a UVID name mismatch", async () => {
-            jest.spyOn(logger, "error").mockImplementation(() => {});
+            jest.spyOn(logger, "error").mockImplementation(() => { });
 
             expected = {
                 httpStatusCode: HttpStatusCode.Ok,
