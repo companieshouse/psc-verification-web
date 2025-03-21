@@ -10,7 +10,7 @@ import { createApiKeyClient, createOAuthApiClient } from "./apiClientService";
 
 export const createPscVerification = async (request: Request, transaction: Transaction, pscVerification: PscVerificationData): Promise<Resource<PscVerification>> => {
     if (pscVerification.pscNotificationId == null) {
-        throw createAndLogError(`${createPscVerification.name} - Aborting: pscNotificationId is required for PSC Verification POST request for transaction ${transaction.id}`);
+        throw createAndLogError(`${createPscVerification.name} - Aborting: pscNotificationId is required for PSC Verification POST request for transaction ${transaction.id}. Has the user tried to resume a journey after signing out and in again?`);
     }
 
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);

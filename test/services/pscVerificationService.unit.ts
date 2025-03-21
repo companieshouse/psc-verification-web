@@ -92,7 +92,7 @@ describe("pscVerificationService", () => {
             };
 
             await expect(createPscVerification(req, CREATED_PSC_TRANSACTION, incompleteData)).rejects.toThrow(
-                new Error(`createPscVerification - Aborting: pscNotificationId is required for PSC Verification POST request for transaction ${TRANSACTION_ID}`));
+                new Error(`createPscVerification - Aborting: pscNotificationId is required for PSC Verification POST request for transaction ${TRANSACTION_ID}. Has the user tried to resume a journey after signing out and in again?`));
         });
     });
 
