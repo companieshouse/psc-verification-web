@@ -1,4 +1,4 @@
-import { PersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/psc/types";
+import { PersonWithSignificantControl, PscVerificationState, VerificationStatusEnum } from "@companieshouse/api-sdk-node/dist/services/psc/types";
 import { PSC_KIND_TYPE } from "../../src/constants";
 
 export const COMPANY_NUMBER = "12345678";
@@ -28,4 +28,10 @@ export const PSC_INDIVIDUAL: PersonWithSignificantControl = {
     dateOfBirth: { year: "2000", month: "04" },
     etag: "",
     notifiedOn: ""
+};
+
+export const PSC_VERIFICATION_STATE: PscVerificationState = {
+    verificationStatus: VerificationStatusEnum.UNVERIFIED,
+    verificationStartDate: new Date("2024-04-13"),
+    verificationStatementDueDate: new Date("2024-04-27")
 };
