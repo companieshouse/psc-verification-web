@@ -1,9 +1,9 @@
-import { PersonWithSignificantControl, PscVerificationState } from "@companieshouse/api-sdk-node/dist/services/psc/types";
+import { PersonWithSignificantControl, PscIndWithVerificationState, PscIndWithVerificationStateResource } from "@companieshouse/api-sdk-node/dist/services/psc/types";
 import Resource, { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
-import { createOAuthApiClient } from "../../src/services/apiClientService";
-import { getPscIndividual, getPscVerificationState } from "../../src/services/pscService";
+import { createApiKeyClient, createOAuthApiClient } from "../../src/services/apiClientService";
+import { getPscIndWithVerificationState, getPscIndividual } from "../../src/services/pscService";
 import { COMPANY_NUMBER, PSC_ID, PSC_INDIVIDUAL, PSC_VERIFICATION_STATE } from "../mocks/psc.mock";
 import { PSC_NOTIFICATION_ID } from "../mocks/pscVerification.mock";
 
@@ -11,13 +11,19 @@ jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../src/services/apiClientService");
 
 const mockGetPscIndividual = jest.fn();
-const mockGetPscVerificationState = jest.fn();
+const mockGetPscIndWithVerificationState = jest.fn();
 const mockCreateOAuthApiClient = createOAuthApiClient as jest.Mock;
 
 mockCreateOAuthApiClient.mockReturnValue({
     pscService: {
-        getPscIndividual: mockGetPscIndividual,
-        getPscVerificationState: mockGetPscVerificationState
+        getPscIndividual: mockGetPscIndividual
+    }
+});
+
+const mockCreateApiKeyClient = createApiKeyClient as jest.Mock;
+mockCreateApiKeyClient.mockReturnValue({
+    pscService: {
+        getPscIndWithVerificationState: mockGetPscIndWithVerificationState
     }
 });
 
@@ -74,54 +80,53 @@ describe("PSC Service", () => {
         });
     });
 
-    describe("getPscVerificationState as POST endpoint", () => {
+    describe("getPscIndWithVerificationState endpoint", () => {
 
         it("should retrieve the resource by its ID", async () => {
-            const mockPost: Resource<PscVerificationState> = {
+            const mockGet: Resource<PscIndWithVerificationStateResource> = {
                 httpStatusCode: HttpStatusCode.Ok,
                 resource: PSC_VERIFICATION_STATE
             };
 
-            mockGetPscVerificationState.mockResolvedValueOnce(mockPost);
+            mockGetPscIndWithVerificationState.mockResolvedValueOnce(mockGet);
 
-            const response = await getPscVerificationState(request, PSC_NOTIFICATION_ID);
+            const response = await getPscIndWithVerificationState(COMPANY_NUMBER, PSC_NOTIFICATION_ID);
 
-            const resource = response.resource as PscVerificationState;
+            const resource = response.resource as PscIndWithVerificationState;
             expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
             expect(resource).toEqual(PSC_VERIFICATION_STATE);
-            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
-            expect(mockGetPscVerificationState).toHaveBeenCalledTimes(1);
-            expect(mockGetPscVerificationState).toHaveBeenCalledWith(PSC_NOTIFICATION_ID);
+            expect(mockCreateApiKeyClient).toHaveBeenCalledTimes(1);
+            expect(mockGetPscIndWithVerificationState).toHaveBeenCalledTimes(1);
+            expect(mockGetPscIndWithVerificationState).toHaveBeenCalledWith(COMPANY_NUMBER, PSC_NOTIFICATION_ID);
         });
 
         it("should throw an error when the response resource is empty", async () => {
-            const mockGet: Resource<PscVerificationState> = {
+            const mockGet: Resource<PscIndWithVerificationStateResource> = {
                 httpStatusCode: HttpStatusCode.Ok,
                 resource: undefined
             };
 
-            mockGetPscVerificationState.mockResolvedValueOnce(mockGet);
+            mockGetPscIndWithVerificationState.mockResolvedValueOnce(mockGet);
 
-            await expect(getPscVerificationState(request, PSC_NOTIFICATION_ID)).rejects.toThrow(
-                new Error(`getPscVerificationState - no resource returned for PSC notification ID: ${PSC_NOTIFICATION_ID}`));
+            await expect(getPscIndWithVerificationState(COMPANY_NUMBER, PSC_NOTIFICATION_ID)).rejects.toThrow(
+                new Error(`getPscIndWithVerificationState - no PSC with verification state returned for companyNumber: ${COMPANY_NUMBER} and PSC notification ID: ${PSC_NOTIFICATION_ID}`));
         });
 
         it("should throw an Error when no response from API", async () => {
-            mockGetPscVerificationState.mockResolvedValueOnce(undefined);
-            const request = {} as Request;
+            mockGetPscIndWithVerificationState.mockResolvedValueOnce(undefined);
 
-            await expect(getPscVerificationState(request, PSC_NOTIFICATION_ID)).rejects.toThrow(
-                new Error(`getPscVerificationState - Failed to get verification status for PSC notification ID: ${PSC_NOTIFICATION_ID}`));
+            await expect(getPscIndWithVerificationState(COMPANY_NUMBER, PSC_NOTIFICATION_ID)).rejects.toThrow(
+                new Error(`getPscIndWithVerificationState -  Failed to get PSC with verification state for companyNumber: ${COMPANY_NUMBER} and PSC notification ID: ${PSC_NOTIFICATION_ID}`));
         });
         it("should throw an Error when API status is unavailable", async () => {
-            const mockGet: Resource<PscVerificationState> = {
+            const mockGet: Resource<PscIndWithVerificationStateResource> = {
                 httpStatusCode: HttpStatusCode.ServiceUnavailable
             };
 
-            mockGetPscVerificationState.mockResolvedValueOnce(mockGet);
+            mockGetPscIndWithVerificationState.mockResolvedValueOnce(mockGet);
 
-            await expect(getPscVerificationState(request, PSC_NOTIFICATION_ID)).rejects.toThrow(
-                new Error(`getPscVerificationState - Failed to get verification status for PSC notification ID: ${PSC_NOTIFICATION_ID}`));
+            await expect(getPscIndWithVerificationState(COMPANY_NUMBER, PSC_NOTIFICATION_ID)).rejects.toThrow(
+                new Error(`getPscIndWithVerificationState -  Failed to get PSC with verification state for companyNumber: ${COMPANY_NUMBER} and PSC notification ID: ${PSC_NOTIFICATION_ID}`));
         });
 
     });

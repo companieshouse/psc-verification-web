@@ -8,8 +8,7 @@ import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn, internationaliseDate } from "../../utils";
 import { env } from "../../../config";
 import { logger } from "../../../lib/logger";
-import { getPscVerificationState } from "../../../services/pscService";
-import { PscVerificationState } from "@companieshouse/api-sdk-node/dist/services/psc/types";
+import { getPscIndWithVerificationState } from "../../../services/pscService";
 
 interface PscListData {
     pscId: string,
@@ -67,11 +66,22 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const exclusivelySuperSecure = allPscDetails.length > 0 && (allSuperSecure && !allCeased);
         const showNoPscsMessage = allPscDetails.length === 0 || allCeased;
 
-        // TODO - implement as separate ticket to use/display the verification state data
-        // Temporary update to retrieve the PSC verification state data
+        // TODO - use/display the verification state data in the PSC list page
+        // Temporary block to retrieve a single PSC verification state when running in Docker and CHIPS cidev
         if (allPscDetails && allPscDetails.length > 0) {
-            const verificationState = getPscVerificationState(req, allPscDetails[0].pscId) as unknown as PscVerificationState;
-            logger.debug(`${verificationState}`);
+            const notificationId = "PSCDATA5";
+            const pscId = "PSCDATA5";
+            const pscData = allPscDetails.find(item => item.pscId === pscId);
+            let pscWithVerificationState;
+
+            if (pscData) {
+                try {
+                    pscWithVerificationState = await getPscIndWithVerificationState(companyNumber, notificationId);
+                    logger.debug(`PSC with verification state: ${JSON.stringify(pscWithVerificationState)}`);
+                } catch (err: any) {
+                    logger.error(`${req.method} error: problem calling getPscVerificationState request: ${err.message}`);
+                }
+            }
         }
 
         return {

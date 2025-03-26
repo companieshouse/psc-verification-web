@@ -1,11 +1,11 @@
 import { Resource } from "@companieshouse/api-sdk-node";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
-import { PersonWithSignificantControl, PscVerificationState } from "@companieshouse/api-sdk-node/dist/services/psc/types";
+import { PersonWithSignificantControl, PscIndWithVerificationState } from "@companieshouse/api-sdk-node/dist/services/psc/types";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createAndLogError, logger } from "../lib/logger";
-import { createOAuthApiClient } from "./apiClientService";
+import { createApiKeyClient, createOAuthApiClient } from "./apiClientService";
 
 export const getPscIndividual = async (request: Request, companyNumber: string, pscId: string): Promise<Resource<PersonWithSignificantControl>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
@@ -27,21 +27,25 @@ export const getPscIndividual = async (request: Request, companyNumber: string, 
     return PscSdkResponse;
 };
 
-export const getPscVerificationState = async (request: Request, pscNotificationId: string): Promise<Resource<PscVerificationState>> => {
-    const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
+export const getPscIndWithVerificationState = async (companyNumber: string, pscNotificationId: string): Promise<Resource<PscIndWithVerificationState>> => {
+    const apiClient: ApiClient = createApiKeyClient();
 
-    logger.debug(`${getPscVerificationState.name} - for PSC notification ID: ${pscNotificationId}`);
-    const sdkResponse: Resource<PscVerificationState> | ApiErrorResponse = await oAuthApiClient.pscService.getPscVerificationState(pscNotificationId);
+    logger.debug(`${getPscIndWithVerificationState.name} - for companyNumber: ${companyNumber} and PSC notification ID: ${pscNotificationId}`);
+
+    const sdkResponse: Resource<PscIndWithVerificationState> | ApiErrorResponse = await apiClient.pscService.getPscIndWithVerificationState(companyNumber, pscNotificationId);
 
     if (!sdkResponse || !sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
-        throw createAndLogError(`${getPscVerificationState.name} - Failed to get verification status for PSC notification ID: ${pscNotificationId}`);
+        if (sdkResponse && sdkResponse.httpStatusCode) {
+            logger.error(`${getPscIndWithVerificationState.name} - sdk responded with HTTP status code: ${sdkResponse.httpStatusCode}`);
+        }
+        throw createAndLogError(`${getPscIndWithVerificationState.name} -  Failed to get PSC with verification state for companyNumber: ${companyNumber} and PSC notification ID: ${pscNotificationId}`);
     }
 
-    logger.debug(`${getPscVerificationState.name} - response: ${JSON.stringify(sdkResponse)}`);
-    const PscSdkResponse = sdkResponse as Resource<PscVerificationState>;
+    logger.debug(`${getPscIndWithVerificationState.name} - response: ${JSON.stringify(sdkResponse)}`);
+    const PscSdkResponse = sdkResponse as Resource<PscIndWithVerificationState>;
 
     if (!PscSdkResponse.resource) {
-        throw createAndLogError(`${getPscVerificationState.name} - no resource returned for PSC notification ID: ${pscNotificationId}`);
+        throw createAndLogError(`${getPscIndWithVerificationState.name} - no PSC with verification state returned for companyNumber: ${companyNumber} and PSC notification ID: ${pscNotificationId}`);
     }
 
     return PscSdkResponse;
