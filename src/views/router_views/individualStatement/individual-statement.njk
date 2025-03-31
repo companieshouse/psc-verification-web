@@ -14,9 +14,9 @@
 ] | join %}
 
 {% set statementText %}
-<label for="pscIndividualStatement">{{ i18n.individual_statement_part1 }}
+    {{ i18n.individual_statement_part1 }}
     <strong>{{ pscName }}</strong>
-    {{ i18n.individual_statement_part2 }}</label>
+    {{ i18n.individual_statement_part2 }}
 {% endset %}
 
 {% block main_content %}
