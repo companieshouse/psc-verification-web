@@ -12,8 +12,8 @@ export const getPscIndividual = async (companyNumber: string, pscNotificationId:
     logger.debug(`${getPscIndividual.name} - for companyNumber: ${companyNumber} and PSC notification ID: ${pscNotificationId}`);
     const sdkResponse: Resource<PersonWithSignificantControl> | ApiErrorResponse = await apiClient.pscService.getPscIndividual(companyNumber, pscNotificationId);
 
-    if (!sdkResponse || !sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
-        if (sdkResponse && sdkResponse.httpStatusCode) {
+    if (sdkResponse?.httpStatusCode !== HttpStatusCode.Ok) {
+        if (sdkResponse?.httpStatusCode) {
             logger.error(`${getPscIndividual.name} - sdk responded with HTTP status code: ${sdkResponse.httpStatusCode}`);
         }
         throw createAndLogError(`${getPscIndividual.name} -  Failed to get PSC with verification state for companyNumber: ${companyNumber} and PSC notification ID: ${pscNotificationId}`);
