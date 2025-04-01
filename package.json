@@ -31,7 +31,7 @@
     "author": "Moses Wejuli <mwejuli@companieshouse.gov.uk>",
     "license": "MIT",
     "dependencies": {
-        "@companieshouse/api-sdk-node": "^2.0.243",
+        "@companieshouse/api-sdk-node": "^2.0.249",
         "@companieshouse/ch-node-utils": "^1.3.17",
         "@companieshouse/node-session-handler": "^5.2.0",
         "@companieshouse/structured-logging-node": "^2.0.1",

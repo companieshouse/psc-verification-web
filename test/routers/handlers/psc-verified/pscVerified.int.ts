@@ -68,7 +68,7 @@ describe("psc verified view tests", () => {
         expect(mockGetCompanyProfile).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyProfile).toHaveBeenCalledWith(expect.any(IncomingMessage), COMPANY_NUMBER);
         expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
-        expect(mockGetPscIndividual).toHaveBeenCalledWith(expect.any(IncomingMessage), COMPANY_NUMBER, PSC_NOTIFICATION_ID);
+        expect(mockGetPscIndividual).toHaveBeenCalledWith(COMPANY_NUMBER, PSC_NOTIFICATION_ID);
 
     });
 });

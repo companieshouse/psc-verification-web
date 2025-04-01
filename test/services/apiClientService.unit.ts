@@ -34,7 +34,7 @@ describe("createApiKeyClient", () => {
         const client = createApiKeyClient();
 
         expect(client).not.toBeNull();
-        expect(createApiClient).toHaveBeenCalledWith(process.env.CHS_API_KEY, undefined, process.env.API_URL);
+        expect(createApiClient).toHaveBeenCalledWith(process.env.CHS_INTERNAL_API_KEY, undefined, process.env.API_URL);
     });
 
 });

@@ -1,73 +1,91 @@
-import { PersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/psc/types";
-import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
-import { Session } from "@companieshouse/node-session-handler";
+import { PersonWithSignificantControl, PersonWithSignificantControlResource } from "@companieshouse/api-sdk-node/dist/services/psc/types";
+import Resource, { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
-import { Request } from "express";
-import { createOAuthApiClient } from "../../src/services/apiClientService";
+import { createApiKeyClient } from "../../src/services/apiClientService";
 import { getPscIndividual } from "../../src/services/pscService";
 import { COMPANY_NUMBER, PSC_ID, PSC_INDIVIDUAL } from "../mocks/psc.mock";
+import { PSC_NOTIFICATION_ID } from "../mocks/pscVerification.mock";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../src/services/apiClientService");
 
 const mockGetPscIndividual = jest.fn();
-const mockCreateOAuthApiClient = createOAuthApiClient as jest.Mock;
-let session: Session;
 
-mockCreateOAuthApiClient.mockReturnValue({
+const mockCreateApiKeyClient = createApiKeyClient as jest.Mock;
+mockCreateApiKeyClient.mockReturnValue({
     pscService: {
         getPscIndividual: mockGetPscIndividual
     }
 });
 
-describe("pscServiceIndividual", () => {
+describe("PSC Service", () => {
+
     beforeEach(() => {
         jest.clearAllMocks();
-        session = new Session();
     });
-    it("getPscIndividual should return 200 OK HttpStatus response", async () => {
-        const mockResponse: ApiResponse<PersonWithSignificantControl> = {
-            httpStatusCode: HttpStatusCode.Ok,
-            resource: PSC_INDIVIDUAL
-        };
-        mockGetPscIndividual.mockResolvedValueOnce(mockResponse as ApiResponse<PersonWithSignificantControl>);
-        const request = {} as Request;
 
-        const response = await getPscIndividual(request, COMPANY_NUMBER, PSC_ID);
+    describe("getPscIndividual endpoint", () => {
 
-        const resource = response.resource as PersonWithSignificantControl;
-        expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
-        expect(resource).toEqual(PSC_INDIVIDUAL);
-        expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
-        expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
-        expect(mockGetPscIndividual).toHaveBeenCalledWith(COMPANY_NUMBER, PSC_ID);
+        it("getPscIndividual should return 200 OK HttpStatus response", async () => {
+            const mockGet: Resource<PersonWithSignificantControl> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: PSC_INDIVIDUAL
+            };
 
-    });
-    it("getPscIndividual should throw an error if HttpStatus is not 200 OK", async () => {
-        const mockResponse: ApiResponse<PersonWithSignificantControl> = {
-            httpStatusCode: HttpStatusCode.ServiceUnavailable
-        };
-        mockGetPscIndividual.mockResolvedValueOnce(mockResponse as ApiResponse<PersonWithSignificantControl>);
-        const request = {} as Request;
+            mockGetPscIndividual.mockResolvedValueOnce(mockGet);
+            const response = await getPscIndividual(COMPANY_NUMBER, PSC_NOTIFICATION_ID);
 
-        try {
-            const response = await getPscIndividual(request, COMPANY_NUMBER, PSC_ID);
-            throw new Error("invalid expecting getPscIndividual to throw error");
-        } catch (error: any) {
-            expect(error.message).toBe("getPscIndividual - Failed to get details for PSC Id  67edfE436y35hetsie6zuAZtr");
-        }
-    });
-    it("getPscIndividual should throw an error if no resource is returned", async () => {
-        const mockResponse: ApiResponse<PersonWithSignificantControl> = {
-            httpStatusCode: HttpStatusCode.Ok
-        };
-        mockGetPscIndividual.mockResolvedValueOnce(mockResponse as ApiResponse<PersonWithSignificantControl>);
-        const request = {} as Request;
-        try {
-            await getPscIndividual(request, COMPANY_NUMBER, PSC_ID);
-            throw new Error("invalid expecting getPscIndividual to throw error");
-        } catch (error: any) {
-            expect(error.message).toBe("getPscIndividual - no resource returned for PSC Id 67edfE436y35hetsie6zuAZtr");
-        }
+            expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
+            expect(response.resource).toEqual(PSC_INDIVIDUAL);
+            expect(mockCreateApiKeyClient).toHaveBeenCalledTimes(1);
+            expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
+            expect(mockGetPscIndividual).toHaveBeenCalledWith(COMPANY_NUMBER, PSC_NOTIFICATION_ID);
+        });
+
+        it("getPscIndividual should throw an Error if HttpStatus is not 200 OK", async () => {
+            const mockResponse: ApiResponse<PersonWithSignificantControl> = {
+                httpStatusCode: HttpStatusCode.ServiceUnavailable
+            };
+
+            mockGetPscIndividual.mockResolvedValueOnce(mockResponse as ApiResponse<PersonWithSignificantControl>);
+
+            try {
+                await getPscIndividual(COMPANY_NUMBER, PSC_ID);
+                throw new Error("invalid expecting getPscIndividual to throw error");
+            } catch (error: any) {
+                expect(error.message).toBe("getPscIndividual -  Failed to get PSC with verification state for companyNumber: 12345678 and PSC notification ID: 67edfE436y35hetsie6zuAZtr");
+            }
+        });
+
+        it("should throw an Error when the response resource is undefined", async () => {
+            const mockGet: Resource<PersonWithSignificantControl> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: undefined
+            };
+
+            mockGetPscIndividual.mockResolvedValueOnce(mockGet);
+
+            await expect(getPscIndividual(COMPANY_NUMBER, PSC_NOTIFICATION_ID)).rejects.toThrow(
+                new Error(`getPscIndividual - no PSC with verification state returned for companyNumber: ${COMPANY_NUMBER} and PSC notification ID: ${PSC_NOTIFICATION_ID}`));
+        });
+
+        it("should throw an Error when there is no response", async () => {
+            mockGetPscIndividual.mockResolvedValueOnce(undefined);
+
+            await expect(getPscIndividual(COMPANY_NUMBER, PSC_NOTIFICATION_ID)).rejects.toThrow(
+                new Error(`getPscIndividual -  Failed to get PSC with verification state for companyNumber: ${COMPANY_NUMBER} and PSC notification ID: ${PSC_NOTIFICATION_ID}`));
+        });
+
+        it("should throw an Error when the API resource is missing", async () => {
+            const mockGet: Resource<PersonWithSignificantControlResource> = {
+                httpStatusCode: HttpStatusCode.ServiceUnavailable
+            };
+
+            mockGetPscIndividual.mockResolvedValueOnce(mockGet);
+
+            await expect(getPscIndividual(COMPANY_NUMBER, PSC_NOTIFICATION_ID)).rejects.toThrow(
+                new Error(`getPscIndividual -  Failed to get PSC with verification state for companyNumber: ${COMPANY_NUMBER} and PSC notification ID: ${PSC_NOTIFICATION_ID}`));
+        });
+
     });
 });

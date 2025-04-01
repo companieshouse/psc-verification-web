@@ -32,7 +32,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         const companyNumber = verification?.data?.companyNumber as string;
         const companyProfile = res.locals.companyProfile;
         const pscNotificationId = verification?.data.pscNotificationId as string;
-        const pscDetailsResponse = await getPscIndividual(req, companyNumber, pscNotificationId);
+        const pscDetailsResponse = await getPscIndividual(companyNumber, pscNotificationId);
         const companyName = companyProfile.companyName as string;
         const forward = decodeURI(addSearchParams(ExternalUrls.COMPANY_LOOKUP_FORWARD, { companyNumber: "{companyNumber}", lang }));
 
