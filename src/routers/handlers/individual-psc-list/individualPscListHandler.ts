@@ -8,7 +8,7 @@ import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn, internationaliseDate } from "../../utils";
 import { env } from "../../../config";
 import { logger } from "../../../lib/logger";
-import { getPscIndWithVerificationState } from "../../../services/pscService";
+import { getPscIndividual } from "../../../services/pscService";
 
 interface PscListData {
     pscId: string,
@@ -76,7 +76,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
             if (pscData) {
                 try {
-                    pscWithVerificationState = await getPscIndWithVerificationState(companyNumber, notificationId);
+                    pscWithVerificationState = await getPscIndividual(companyNumber, notificationId);
                     logger.debug(`PSC with verification state: ${JSON.stringify(pscWithVerificationState)}`);
                 } catch (err: any) {
                     logger.error(`${req.method} error: problem calling getPscVerificationState request: ${err.message}`);
