@@ -1,15 +1,15 @@
 {
-  "name_mismatch_title": "to be translated",
-  "name_mismatch_born": "to be translated ",
-  "name_mismatch_details_par1": "to be translated",
-  "name_mismatch_details_par2": "to be translated",
-  "name_mismatch_details_par2_link": "to be translated",
+  "name_mismatch_title": "To be translated: name_mismatch_title",
+  "name_mismatch_born": "To be translated: name_mismatch_born",
+  "name_mismatch_details_par1": "To be translated: name_mismatch_details_par1",
+  "name_mismatch_details_par2": "To be translated: name_mismatch_details_par2",
+  "name_mismatch_details_par2_link": "To be translated: name_mismatch_details_par2_link",
   "name_mismatch_details_par2_after_link":".",
-  "name_mismatch_legally_changed": "to be translated",
-  "name_mismatch_preferred_name": "to be translated",
-  "name_mismatch_translation_or_convention": "to be translated",
-  "name_mismatch_register_incorrect": "to be translated",
-  "name_mismatch_prefer_not_to_say": "to be translated",
-  "name_mismatch_error_summary": "to be translated",
-  "name_mismatch_error_inline": "to be translated"
+  "name_mismatch_legally_changed": "To be translated: name_mismatch_legally_changed",
+  "name_mismatch_preferred_name": "To be translated: name_mismatch_preferred_name",
+  "name_mismatch_translation_or_convention": "To be translated: name_mismatch_translation_or_convention",
+  "name_mismatch_register_incorrect": "To be translated: name_mismatch_register_incorrect",
+  "name_mismatch_prefer_not_to_say": "To be translated: name_mismatch_prefer_not_to_say",
+  "name_mismatch_error_summary": "To be translated: name_mismatch_error_summary",
+  "name_mismatch_error_inline": "To be translated: name_mismatch_error_inline"
 }

@@ -1,6 +1,6 @@
 {
-    "server_error_summary" : "server_error_summary: To be translated",
-    "error_summary_title" : "error_summary_title: To be translated",
-    "default_error_summary" : "default_error_summary: To be translated",
-    "default_error_inline" : "default_error_inline: To be translated"
+    "server_error_summary": "To be translated: server_error_summary",
+    "error_summary_title": "To be translated: error_summary_title",
+    "default_error_summary": "To be translated: default_error_summary",
+    "default_error_inline": "To be translated: default_error_inline"
 }
