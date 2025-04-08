@@ -53,17 +53,23 @@
     }
   ]
 }) }}
-       <p class="govuk-body">{{i18n.psc_verified_confirmation_email_text}} <strong>{{userEmail}}</strong>.</p>
+  <p class="govuk-body">{{i18n.psc_verified_confirmation_email_text}} <strong>{{userEmail}}</strong>.</p>
 
-       <p class="govuk-body">{{i18n.psc_verified_process_submission_text}}</p>
+  <p class="govuk-body">{{i18n.psc_verified_process_submission_text}}</p>
 
-       <h1 class="govuk-heading-m">{{i18n.psc_verified_next_heading}}</h1>
+  <h1 class="govuk-heading-m">{{i18n.psc_verified_next_heading}}</h1>
 
-       <p class="govuk-body">
-       <a href="{{ pscListUrl }}" class="govuk-link" data-event-id="same-company-verification-link">{{ i18n.psc_verified_verification_details_link }} {{ companyName }}</a>.
-</p>
-
-       <p class="govuk-body">
-       <a href="{{ companyLookupUrl }}" class="govuk-link" data-event-id="another-company-verification-link">{{ i18n.psc_verified_another_company_verification_link }}</a>.
-</p>
+  <p class="govuk-body">{{i18n.psc_verified_next_body}}</p>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>
+      <p class="govuk-body">
+        <a href="{{ pscListUrl }}" class="govuk-link" data-event-id="same-company-verification-link">{{ i18n.psc_verified_verification_details_link }} {{ companyName }}</a>
+      </p>
+    </li>
+    <li>
+      <p class="govuk-body">
+        <a href="{{ companyLookupUrl }}" class="govuk-link" data-event-id="another-company-verification-link">{{ i18n.psc_verified_another_company_verification_link }}</a>
+      </p>
+    </li>
+  </ul>
 {% endblock %}
