@@ -18,6 +18,8 @@ mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 jest.mock("../../src/services/companyPscService");
 const mockGetCompanyIndividualPscList = getCompanyIndividualPscList as jest.Mock;
 
+jest.mock("../../src/services/pscService");
+
 describe("GET psc individual list router", () => {
     beforeEach(() => {
     });

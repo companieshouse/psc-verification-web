@@ -10,5 +10,5 @@ export const createOAuthApiClient = (session: Session | undefined, baseUrl: stri
 };
 
 export const createApiKeyClient = (): ApiClient => {
-    return createApiClient(env.CHS_API_KEY, undefined, env.API_URL);
+    return createApiClient(env.CHS_INTERNAL_API_KEY, undefined, env.API_URL);
 };
