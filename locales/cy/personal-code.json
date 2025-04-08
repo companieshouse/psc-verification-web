@@ -1,10 +1,9 @@
 {
-  "personal_code_title": "to be translated",
-  "personal_code_details_summaryText": "to be translated",
-  "personal_code_details_text": "to be translated",
-  "personal_code_born": "to be translated ",
-  "personal_code_button": "to be translated",
-  "personal_code_error_summary": "personal_code_error_summary: to be translated ",
-  "personal_code_error_inline": "personal_code_error_inline: to be translated "
-
+  "personal_code_title": "To be translated: personal_code_title",
+  "personal_code_details_summaryText": "To be translated: personal_code_details_summaryText",
+  "personal_code_details_text": "To be translated: personal_code_details_text",
+  "personal_code_born": "To be translated: personal_code_born",
+  "personal_code_button": "To be translated: personal_code_button",
+  "personal_code_error_summary": "To be translated: personal_code_error_summary",
+  "personal_code_error_inline": "To be translated: personal_code_error_inline"
 }

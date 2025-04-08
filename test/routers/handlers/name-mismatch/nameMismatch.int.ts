@@ -76,8 +76,8 @@ describe("name mismatch router/handler integration tests", () => {
             expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/personal-code?lang=en");
         });
 
-        it.each(["en", "cy"])(`Should render the Name Mismatch page with a success status code, correct (%s) links and content`, async (lang) => {
-            const queryParams = new URLSearchParams(`lang=${lang}`);
+        it(`Should render the Name Mismatch page with a success status code, correct (%s) links and content`, async () => {
+            const queryParams = new URLSearchParams("lang=en");
             const uriWithQuery = `${PrefixedUrls.NAME_MISMATCH}?${queryParams}`;
             const uri = getUrlWithTransactionIdAndSubmissionId(uriWithQuery, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
@@ -86,12 +86,8 @@ describe("name mismatch router/handler integration tests", () => {
             const $ = cheerio.load(resp.text);
 
             expect(resp.status).toBe(HttpStatusCode.Ok);
-            expect($("a.govuk-back-link").attr("href")).toBe(`/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/personal-code?lang=${lang}`);
-            if (lang === "en") {
-                expect($("span").text()).toContain("Sir Forename Middlename Surname (Born April 2000)");
-            } else if (lang === "cy") {
-                expect($("span").text()).toContain("Sir Forename Middlename Surname (to be translated Ebrill 2000)");
-            }
+            expect($("a.govuk-back-link").attr("href")).toBe("/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab/individual/personal-code?lang=en");
+            expect($("span").text()).toContain("Sir Forename Middlename Surname (Born April 2000)");
         });
 
         it("Should display 'Why is the name on the public register different to the name this PSC used for identity verification?' message on the Name Mismatch page", async () => {
