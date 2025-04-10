@@ -7,7 +7,7 @@ import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddlewar
 import app from "../../../../src/app";
 import { PrefixedUrls, STOP_TYPE, toStopScreenPrefixedUrl } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
-import { closeTransaction } from "../../../../src/services/transactionService";
+import { closeTransaction, getTransaction } from "../../../../src/services/transactionService";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { INDIVIDUAL_VERIFICATION_FULL, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
@@ -15,6 +15,7 @@ import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../.
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
 import { getPscIndividual } from "../../../../src/services/pscService";
 import { env } from "../../../../src/config";
+import { OPEN_PSC_TRANSACTION } from "../../../mocks/transaction.mock";
 
 jest.mock("../../../../src/services/pscVerificationService");
 const mockGetPscVerification = getPscVerification as jest.Mock;
@@ -34,11 +35,11 @@ jest.mock("../../../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
 mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 
-jest.mock("../../../../src/services/transactionService", () => ({
-    closeTransaction: jest.fn()
-}));
+jest.mock("../../../../src/services/transactionService");
 const mockCloseTransaction = closeTransaction as jest.Mock;
+const mockGetTransaction = getTransaction as jest.Mock;
 mockCloseTransaction.mockResolvedValue({});
+mockGetTransaction.mockResolvedValue(OPEN_PSC_TRANSACTION);
 
 describe("stop screen view tests", () => {
 

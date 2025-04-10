@@ -7,6 +7,8 @@ import { HttpStatusCode } from "axios";
 import request from "supertest";
 import { createOAuthApiClient } from "../../src/services/apiClientService";
 import { INDIVIDUAL_VERIFICATION_CREATED } from "../mocks/pscVerification.mock";
+import { getTransaction } from "../../src/services/transactionService";
+import { OPEN_PSC_TRANSACTION } from "../mocks/transaction.mock";
 
 jest.mock(".../../../src/services/companyProfileService");
 jest.mock("../../src/services/apiClientService");
@@ -31,6 +33,10 @@ const mockGet: Resource<PscVerification> = {
 };
 mockCreatePscVerification.mockResolvedValueOnce(mockCreate);
 mockGetPscVerification.mockResolvedValueOnce(mockGet);
+
+jest.mock("../../src/services/transactionService");
+const mockGetTransaction = getTransaction as jest.Mock;
+mockGetTransaction.mockResolvedValue(OPEN_PSC_TRANSACTION);
 
 describe("Authentication checked on all pages except for the start page", () => {
 
