@@ -1,5 +1,5 @@
 export const servicePathPrefix = "/persons-with-significant-control-verification";
-const urlWithTransactionIdAndSubmissionId = "/transaction/:transactionId/submission/:submissionId";
+export const urlWithTransactionIdAndSubmissionId = "/transaction/:transactionId/submission/:submissionId";
 
 export enum STOP_TYPE {
     COMPANY_STATUS = "company-status",

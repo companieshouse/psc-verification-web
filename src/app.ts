@@ -2,7 +2,7 @@ import cookieParser from "cookie-parser";
 import express from "express";
 import nunjucks from "nunjucks";
 import path from "path";
-import { CommonDataEventIds, ExternalUrls, servicePathPrefix } from "./constants";
+import { CommonDataEventIds, ExternalUrls, servicePathPrefix, urlWithTransactionIdAndSubmissionId } from "./constants";
 import { logger } from "./lib/logger";
 import { sessionMiddleware } from "./middleware/session";
 import routerDispatch from "./routerDispatch";
@@ -11,6 +11,7 @@ import { csrfProtectionMiddleware } from "./middleware/csrf";
 import csrfErrorHandler from "./middleware/csrfErrorHandler";
 import { pageNotFound } from "./middleware/pageNotFound";
 import { internalServerError } from "./middleware/internalServerError";
+import { blockClosedTransaction } from "./middleware/blockClosedTransaction";
 
 const app = express();
 
@@ -53,6 +54,9 @@ app.use(servicePathPrefix, sessionMiddleware);
 // attach csrf protection to middleware
 app.use(csrfProtectionMiddleware);
 app.use(csrfErrorHandler);
+
+// block transaction-related requests if transaction is closed
+app.use(servicePathPrefix + urlWithTransactionIdAndSubmissionId, blockClosedTransaction);
 
 // serve static files
 app.use(express.static(path.join(__dirname, "./../assets/public")));
