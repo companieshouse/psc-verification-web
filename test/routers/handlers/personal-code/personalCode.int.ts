@@ -14,6 +14,8 @@ import { IncomingMessage } from "http";
 import { getPscIndividual } from "../../../../src/services/pscService";
 import { PrefixedUrls, STOP_TYPE } from "../../../../src/constants";
 import { getLocalesService } from "../../../../src/utils/localise";
+import { getTransaction } from "../../../../src/services/transactionService";
+import { OPEN_PSC_TRANSACTION } from "../../../mocks/transaction.mock";
 
 jest.mock("../../../../src/services/pscVerificationService");
 jest.mock("../../../../src/services/pscService");
@@ -21,6 +23,10 @@ jest.mock("../../../../src/services/pscService");
 const mockGetPscVerification = getPscVerification as jest.Mock;
 const mockPatchPscVerification = patchPscVerification as jest.Mock;
 const mockGetPscIndividual = getPscIndividual as jest.Mock;
+
+jest.mock("../../../../src/services/transactionService");
+const mockGetTransaction = getTransaction as jest.Mock;
+mockGetTransaction.mockResolvedValue(OPEN_PSC_TRANSACTION);
 
 describe("personal code router/handler integration tests", () => {
     beforeAll(() => {

@@ -5,6 +5,8 @@ import { INDIVIDUAL_VERIFICATION_CREATED } from "../mocks/pscVerification.mock";
 import middlewareMocks from "../mocks/allMiddleware.mock";
 import app from "../../src/app";
 import { PSC_INDIVIDUAL } from "../mocks/psc.mock";
+import { getTransaction } from "../../src/services/transactionService";
+import { OPEN_PSC_TRANSACTION } from "../mocks/transaction.mock";
 
 jest.mock("../../src/services/pscVerificationService", () => ({
     getPscVerification: () => ({
@@ -18,6 +20,9 @@ jest.mock("../../src/services/pscService", () => ({
         resource: PSC_INDIVIDUAL
     })
 }));
+jest.mock("../../src/services/transactionService");
+const mockGetTransaction = getTransaction as jest.Mock;
+mockGetTransaction.mockResolvedValue(OPEN_PSC_TRANSACTION);
 
 beforeEach(() => {
     jest.clearAllMocks();
