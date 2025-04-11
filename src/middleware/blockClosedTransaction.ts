@@ -1,3 +1,5 @@
+import { HttpStatusCode } from "axios";
+import { HttpError } from "../lib/errors/httpError";
 import { logger } from "../lib/logger";
 import { TransactionStatus, getTransaction } from "../services/transactionService";
 
@@ -21,13 +23,14 @@ export const blockClosedTransaction = (req: any, res: any, next: any) => {
         .then(transaction => {
             if (transaction.status === TransactionStatus.CLOSED) {
                 logger.debug(`${transactionId} - Transaction is closed. Blocking request.`);
-                const err = new Error("Transaction is closed");
-                return next(err);
+                const httpError = new HttpError("Transaction is closed", HttpStatusCode.Gone);
+                return next(httpError);
             }
         })
         .catch(err => {
             logger.error(`${transactionId} - Error while checking transaction status. ${err}`);
-            return next(err);
+            const httpError = new HttpError(err, HttpStatusCode.InternalServerError);
+            return next(httpError);
         });
 
     next();
