@@ -13,6 +13,8 @@ import { getPscVerification, patchPscVerification } from "../../../../src/servic
 import app from "../../../../src/app";
 import { PscVerificationData, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { IncomingMessage } from "http";
+import { getTransaction } from "../../../../src/services/transactionService";
+import { OPEN_PSC_TRANSACTION } from "../../../mocks/transaction.mock";
 
 jest.mock("../../../../src/services/pscVerificationService");
 const mockGetPscVerification = getPscVerification as jest.Mock;
@@ -24,6 +26,10 @@ jest.mock("../../../../src/services/pscService", () => ({
         resource: PSC_INDIVIDUAL
     })
 }));
+
+jest.mock("../../../../src/services/transactionService");
+const mockGetTransaction = getTransaction as jest.Mock;
+mockGetTransaction.mockResolvedValue(OPEN_PSC_TRANSACTION);
 
 describe("individual statement router/handler integration tests", () => {
 

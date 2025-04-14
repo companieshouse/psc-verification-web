@@ -13,6 +13,34 @@ export const REFERENCE = "PscVerificationReference";
 export const DESCRIPTION = "PSC Verification Transaction";
 export enum TransactionStatus { OPEN = "open", CLOSED = "closed" }
 
+export const getTransaction = async (req: Request, transactionId: string): Promise<Transaction> => {
+    const apiClient: ApiClient = createOAuthApiClient(req.session);
+
+    logger.debug(`${getTransaction.name} - Retrieving transaction with id ${transactionId}`);
+    const sdkResponse: Resource<Transaction> | ApiErrorResponse = await apiClient.transaction.getTransaction(transactionId);
+
+    if (!sdkResponse) {
+        logger.error(`${getTransaction.name} - Transaction API GET request returned no response for transaction id ${transactionId}`);
+        return Promise.reject(new Error("No response from Transaction API"));
+    }
+
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= 400) {
+        logger.error(`${getTransaction.name} - HTTP status code ${sdkResponse.httpStatusCode} - Failed to get transaction for transaction id ${transactionId}`);
+        return Promise.reject(new Error(`Failed to get transaction: HTTP ${sdkResponse.httpStatusCode}`));
+    }
+
+    const castedSdkResponse: Resource<Transaction> = sdkResponse as Resource<Transaction>;
+
+    if (!castedSdkResponse.resource) {
+        logger.error(`${getTransaction.name} - Transaction API GET request returned no resource for transaction id ${transactionId}`);
+        return Promise.reject(new Error("No resource in Transaction API response"));
+    }
+
+    logger.debug(`${getTransaction.name} - Retrieved transaction: ${JSON.stringify(castedSdkResponse.resource)}`);
+
+    return Promise.resolve(castedSdkResponse.resource);
+};
+
 export const postTransaction = async (req: Request): Promise<Transaction> => {
 
     const companyNumber = req.query.companyNumber as string;
