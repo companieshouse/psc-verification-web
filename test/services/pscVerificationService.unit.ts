@@ -8,6 +8,7 @@ import { checkPlannedMaintenance, createPscVerification, getPscVerification, get
 import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PLANNED_MAINTENANCE, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_RESP_VALID, mockValidationStatusNameError } from "../mocks/pscVerification.mock";
 import { CREATED_PSC_TRANSACTION } from "../mocks/transaction.mock";
 import { logger } from "../../src/lib/logger";
+import { Responses } from "../../src/constants";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../src/services/apiClientService");
@@ -93,6 +94,46 @@ describe("pscVerificationService", () => {
 
             await expect(createPscVerification(req, CREATED_PSC_TRANSACTION, incompleteData)).rejects.toThrow(
                 new Error(`createPscVerification - Aborting: pscNotificationId is required for PSC Verification POST request for transaction ${TRANSACTION_ID}. Has the user tried to resume a journey after signing out and in again?`));
+        });
+        it("should return an ApiErrorResponse when problem with psc data", async () => {
+
+            const mockCastApiErrorResponse = {
+                httpStatusCode: HttpStatusCode.InternalServerError,
+                errors: [
+                    {
+                        errors: [
+                            {
+                                error: "Service Unavailable",
+                                errorValues: {
+                                    error: Responses.PROBLEM_WITH_PSC_DATA,
+                                    id: "12345678"
+                                },
+                                location: "/test/12345",
+                                locationType: "endpoint",
+                                type: "test"
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            const mockCastResponse = {
+                httpStatusCode: HttpStatusCode.InternalServerError,
+                mockCastApiErrorResponse
+            } as ApiErrorResponse;
+
+            mockCreatePscVerification.mockResolvedValueOnce(mockCastApiErrorResponse);
+
+            const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA);
+
+            expect(response.httpStatusCode).toBe(HttpStatusCode.InternalServerError);
+            const castedResource = response as ApiErrorResponse;
+            const castApiErrorResponse = castedResource.errors?.[0] as ApiErrorResponse;
+            const error = castApiErrorResponse?.errors?.[0].errorValues?.error;
+            expect(error).toEqual(Responses.PROBLEM_WITH_PSC_DATA);
+            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
+            expect(mockCreatePscVerification).toHaveBeenCalledTimes(1);
+            expect(mockCreatePscVerification).toHaveBeenCalledWith(TRANSACTION_ID, INITIAL_PSC_DATA);
         });
     });
 
