@@ -7,8 +7,9 @@ import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createAndLogError, logger } from "../lib/logger";
 import { createApiKeyClient, createOAuthApiClient } from "./apiClientService";
+import { Responses } from "../constants";
 
-export const createPscVerification = async (request: Request, transaction: Transaction, pscVerification: PscVerificationData): Promise<Resource<PscVerification>> => {
+export const createPscVerification = async (request: Request, transaction: Transaction, pscVerification: PscVerificationData): Promise<Resource<PscVerification> | ApiErrorResponse> => {
     if (pscVerification.pscNotificationId == null) {
         throw createAndLogError(`${createPscVerification.name} - Aborting: pscNotificationId is required for PSC Verification POST request for transaction ${transaction.id}. Has the user tried to resume a journey after signing out and in again?`);
     }
@@ -21,6 +22,17 @@ export const createPscVerification = async (request: Request, transaction: Trans
     if (!sdkResponse) {
         throw createAndLogError(`${createPscVerification.name} - PSC Verification POST request returned no response for transaction ${transaction.id}`);
     }
+
+    if (sdkResponse.httpStatusCode === HttpStatusCode.InternalServerError) {
+        const apiErrorResponseResource = sdkResponse as ApiErrorResponse;
+        const apiErrorResponse = apiErrorResponseResource.errors?.[0] as ApiErrorResponse;
+        const error = apiErrorResponse.errors?.[0].errorValues?.error as string;
+
+        if (error.match(Responses.PROBLEM_WITH_PSC_DATA as string)) {
+            return sdkResponse;
+        }
+    }
+
     if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Created) {
         throw createAndLogError(`${createPscVerification.name} - HTTP status code ${sdkResponse.httpStatusCode} - Failed to POST PSC Verification for transaction ${transaction.id}`);
     }

@@ -91,6 +91,15 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 extraData: [env.DSR_EMAIL_ADDRESS, env.DSR_PHONE_NUMBER]
             };
         }
+        case STOP_TYPE.PROBLEM_WITH_PSC_DATA: {
+            return {
+                ...baseViewData,
+                ...getLocaleInfo(locales, lang),
+                templateName: stopType,
+                currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
+                backURL: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang })
+            };
+        }
         default: {
             throw new Error("Unrecognised stop screen type: " + stopType);
         }

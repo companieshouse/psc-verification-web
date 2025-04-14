@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrefixedUrls } from "../../../constants";
+import { PrefixedUrls, STOP_TYPE } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { selectLang } from "../../../utils/localise";
 import { BaseViewData, GenericHandler } from "../generic";
@@ -8,8 +8,10 @@ import { postTransaction } from "../../../services/transactionService";
 import { PscVerification, PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { createPscVerification } from "../../../services/pscVerificationService";
 import { Resource } from "@companieshouse/api-sdk-node";
-import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
+import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { addSearchParams } from "../../../utils/queryParams";
+import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
+import { HttpStatusCode } from "axios";
 
 export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
 
@@ -21,19 +23,34 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
 
         // create a new submission for the company number provided
         const resource = await this.createNewSubmission(req, transaction);
-        logger.info(`${NewSubmissionHandler.name} - ${this.execute.name} - CREATED New Resource ${resource?.resource?.links.self}`);
-
-        // set up redirect to psc_code screen
+        const companyNumber = req.query.companyNumber as string;
         const lang = selectLang(req.query.lang);
-        const regex = "significant-control-verification/(.*)$";
-        const resourceId = resource.resource?.links.self.match(regex);
-        const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, transaction.id!, resourceId![1]);
 
+        let nextPageUrl : string = "";
+
+        if (this.isErrorResponse(resource)) {
+
+            // do error stuff
+            nextPageUrl = getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.PROBLEM_WITH_PSC_DATA);
+
+        } else {
+
+            const pscVerification = resource.resource;
+
+            // do normal stuff
+            logger.info(`${NewSubmissionHandler.name} - ${this.execute.name} - CREATED New Resource ${pscVerification?.links.self}`);
+
+            // set up redirect to psc_code screen=
+            const regex = "significant-control-verification/(.*)$";
+            const resourceId = pscVerification?.links.self.match(regex);
+            nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, transaction.id!, resourceId![1]);
+
+        }
         // send the redirect
-        return addSearchParams(nextPageUrl, { lang });
+        return addSearchParams(nextPageUrl, { companyNumber, lang });
     }
 
-    public async createNewSubmission (request: Request, transaction: Transaction): Promise<Resource<PscVerification>> {
+    public async createNewSubmission (request: Request, transaction: Transaction): Promise<Resource<PscVerification> | ApiErrorResponse> {
         const companyNumber = request.query.companyNumber as string;
         const pscNotificationId = request.query.selectedPscId as string;
         const verification: PscVerificationData = {
@@ -42,4 +59,9 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         };
         return createPscVerification(request, transaction, verification);
     }
+
+    public isErrorResponse (obj: any): obj is ApiErrorResponse {
+        return obj.httpStatusCode === HttpStatusCode.InternalServerError;
+    }
+
 }

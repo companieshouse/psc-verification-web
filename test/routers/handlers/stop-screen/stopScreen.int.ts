@@ -60,9 +60,7 @@ describe("stop screen view tests", () => {
         const expectedPrefix = "/persons-with-significant-control-verification/transaction/11111-22222-33333/submission/662a0de6a2c6f9aead0f32ab";
 
         const resp = await request(app).get(uri);
-
         const $ = cheerio.load(resp.text);
-
         expect(resp.status).toBe(HttpStatusCode.Ok);
 
         switch (stopType) {
@@ -100,6 +98,10 @@ describe("stop screen view tests", () => {
             case STOP_TYPE.SUPER_SECURE:
                 expect($("a.govuk-back-link").attr("href")).toBe(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=00006400&lang=en`);
                 expect($("a#mail-to-dsr").attr("href")).toBe(`mailto:${env.DSR_EMAIL_ADDRESS}`);
+                break;
+            case STOP_TYPE.PROBLEM_WITH_PSC_DATA:
+                expect($("a.govuk-back-link").attr("href")).toBe(`${PrefixedUrls.INDIVIDUAL_PSC_LIST}?companyNumber=00006400&lang=en`);
+                expect($("p.govuk-body").text()).toContain("You'll need to call or email Companies House to resolve it before you can provide verification details. You'll be asked to provide the company number.");
                 break;
             default:
                 throw new Error(`Untested STOP_TYPE value: ${stopType}`);
