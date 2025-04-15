@@ -13,11 +13,11 @@
 <h2 class="govuk-heading-m">{{ i18n.ind_psc_list_can_verify_heading }}</h2>
 <p class="govuk-body">{{ i18n.ind_psc_list_can_verify_description }}<b>{{ companyName }}</b>{{ i18n.ind_psc_list_can_verify_description2 }}</p>
     
-{% for psc in pscDetails | sort(attribute = 'pscName') %}
+{% for psc in canVerifyNowDetails | sort(attribute = 'pscSortName') %}
 
 {% set pscStatusText %}
   {{ govukTag({
-      text: i18n.ind_psc_list_status_unverified,
+      text: psc.pscVerificationStatus,
       classes: "govuk-tag--red"
   }) }}
 {% endset %}
@@ -82,9 +82,11 @@
     }
 }) }}
 
-{% set unverifiablePscStatusText %}
- {{ govukTag({
-      text: i18n.ind_psc_list_status_unverified,
+{% for psc in canVerifyLaterDetails | sort(attribute = 'pscSortName') %}
+
+{% set pscStatusText %}
+  {{ govukTag({
+      text: psc.pscVerificationStatus,
       classes: "govuk-tag--red"
   }) }}
 {% endset %}
@@ -92,7 +94,7 @@
 {{ govukSummaryList({
     card: {
         title: {
-        text: "[Name of the psc]"
+        text: psc.pscName
     }
   },
   rows: [
@@ -101,7 +103,7 @@
         text: i18n.ind_psc_list_summary_card_key1
       },
       value: {
-        html: "[partial_dob]"
+        html: psc.pscDob
       }
     },
     {
@@ -109,7 +111,7 @@
         text: i18n.ind_psc_list_summary_card_key2
       },
       value: {
-        html: "[verification_deadline]"
+        html: psc.pscVerificationDeadlineDate
       }
     },
     {
@@ -117,11 +119,60 @@
         text: i18n.ind_psc_list_summary_card_key3
       },
       value: {
-        html: unverifiablePscStatusText
+        html: pscStatusText
       }
     }
   ]
 }) }}
+
+{% endfor %}
+
+<h2 class="govuk-heading-m">{{ i18n.ind_psc_list_already_verified_details_description }}</h2>
+
+{% for psc in verifiedPscDetails | sort(attribute = 'pscSortName') %}
+
+{% set pscStatusText %}
+  {{ govukTag({
+      text: psc.pscVerificationStatus,
+      classes: "govuk-tag--green"
+  }) }}
+{% endset %}
+
+{{ govukSummaryList({
+    card: {
+        title: {
+        text: psc.pscName
+    }
+  },
+  rows: [
+    {
+      key: {
+        text: i18n.ind_psc_list_summary_card_key1
+      },
+      value: {
+        html: psc.pscDob
+      }
+    },
+    {
+      key: {
+        html: '<span class="govuk-tag--purple">Verification details provided on</span>'
+      },
+      value: {
+        html: '<span class="govuk-tag--purple">This is the APPT_VERIFICATION_EFF_DATE</br>We do not currently have this supplied from CHIPS</span>'
+      }
+    },
+    {
+      key: {
+        text: i18n.ind_psc_list_summary_card_key3
+      },
+      value: {
+        html: pscStatusText
+      }
+    }
+  ]
+}) }}
+
+{% endfor %}
 
 {% set pscNotFoundDetails %}
         <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description }}</p>
@@ -130,7 +181,7 @@
         <a href="mailto:{{ dsrEmailAddress }}" data-event-id="dsr-email-address-mailto">{{ dsrEmailAddress }}</a>
             {{ i18n.ind_psc_list_not_found_details_description4 }}{{ dsrPhoneNumber }}
             {{ i18n.ind_psc_list_not_found_details_description5 }}</p>
-    {% endset %}
+{% endset %}
 
 {{ govukDetails({
     summaryText: i18n.ind_psc_list_not_found_details_main_link,
