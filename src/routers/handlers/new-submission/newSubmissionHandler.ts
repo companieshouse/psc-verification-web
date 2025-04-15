@@ -30,18 +30,16 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
 
         if (this.isErrorResponse(resource)) {
 
-            // do error stuff
             nextPageUrl = getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.PROBLEM_WITH_PSC_DATA);
 
         } else {
 
             const pscVerification = resource.resource;
 
-            // do normal stuff
             logger.info(`${NewSubmissionHandler.name} - ${this.execute.name} - CREATED New Resource ${pscVerification?.links.self}`);
 
-            // set up redirect to psc_code screen=
-            const regex = "significant-control-verification/(.*)$";
+            // set up redirect to psc_code screen
+            const regex = "persons-with-significant-control-verification/(.*)$";
             const resourceId = pscVerification?.links.self.match(regex);
             nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, transaction.id!, resourceId![1]);
 

@@ -9,8 +9,8 @@
   {{ i18n.problem_with_psc_data_body }}
 </p>
 <p class="govuk-body">
-  <a class="govuk-link" href="mailto: enquiries@companieshouse.gov.uk">{{ i18n.problem_with_psc_data_email }}</a>
+  <a class="email-enquiries" href="mailto:{{ extraData[0] }}" target="_blank" data-event-id="email-enquiries">{{ extraData[0] }}</a>
 </p>
-<p class="govuk-body"> {{ i18n.problem_with_psc_data_telephone }} </p>
+<p class="govuk-body">{{ i18n.problem_with_psc_data_telephone }} {{ extraData[1] }} </p>
 
 {% endblock %}

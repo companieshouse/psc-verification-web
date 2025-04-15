@@ -28,7 +28,7 @@ export const createPscVerification = async (request: Request, transaction: Trans
         const apiErrorResponse = apiErrorResponseResource.errors?.[0] as ApiErrorResponse;
         const error = apiErrorResponse.errors?.[0].errorValues?.error as string;
 
-        if (error.match(Responses.PROBLEM_WITH_PSC_DATA as string)) {
+        if (RegExp(Responses.PROBLEM_WITH_PSC_DATA as string).exec(error)) {
             return sdkResponse;
         }
     }
