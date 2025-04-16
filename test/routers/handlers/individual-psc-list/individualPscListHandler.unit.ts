@@ -4,9 +4,10 @@ import { PSC_KIND_TYPE, Urls } from "../../../../src/constants";
 import { IndividualPscListHandler } from "../../../../src/routers/handlers/individual-psc-list/individualPscListHandler";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { getCompanyIndividualPscList } from "../../../../src/services/companyPscService";
+import { getPscIndividual } from "../../../../src/services/pscService";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
-import { INDIVIDUAL_PSCS_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST } from "../../../mocks/companyPsc.mock";
+import { VERIFIED_PSC, INDIVIDUAL_PSCS_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST, VERIFY_NOW_PSC, VERIFY_LATER_PSC } from "../../../mocks/companyPsc.mock";
 import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED } from "../../../mocks/pscVerification.mock";
 
 const mockGetPscVerification = getPscVerification as jest.Mock;
@@ -24,6 +25,7 @@ jest.mock("../../../../src/services/companyPscService");
 const mockGetCompanyIndividualPscList = getCompanyIndividualPscList as jest.Mock;
 
 jest.mock("../../../../src/services/pscService");
+const mockGetPscIndividual = getPscIndividual as jest.Mock;
 
 describe("psc list handler", () => {
 
@@ -44,6 +46,10 @@ describe("psc list handler", () => {
             const ordinaryAndSuperSecurePscs = [...INDIVIDUAL_PSCS_LIST, ...SUPER_SECURE_PSCS_EXCLUSIVE_LIST];
 
             mockGetCompanyIndividualPscList.mockResolvedValue(ordinaryAndSuperSecurePscs);
+            mockGetPscIndividual
+                .mockResolvedValueOnce(VERIFY_NOW_PSC)
+                .mockResolvedValueOnce(VERIFY_LATER_PSC)
+                .mockResolvedValueOnce(VERIFIED_PSC);
 
             const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_CREATED } });
             const handler = new IndividualPscListHandler();
