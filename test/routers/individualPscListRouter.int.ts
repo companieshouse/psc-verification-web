@@ -46,8 +46,7 @@ describe("GET psc individual list router", () => {
         expect(resp.status).toBe(HttpStatusCode.Ok);
         const $ = cheerio.load(resp.text);
         const pscNameCardTitles = [...$("div.govuk-summary-card__title-wrapper > h2").contents()].map(e => $(e).text().trim());
-        const templatePlaceholderName = "[Name of the psc]";
-        const expectedPscNames = [...INDIVIDUAL_PSCS_LIST.map(p => p.name), templatePlaceholderName];
+        const expectedPscNames = [...INDIVIDUAL_PSCS_LIST.map(p => p.name)];
         expect(pscNameCardTitles).toMatchObject(expectedPscNames);
     });
 
