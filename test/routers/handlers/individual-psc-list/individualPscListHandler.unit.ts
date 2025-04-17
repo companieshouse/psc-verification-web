@@ -7,7 +7,7 @@ import { getCompanyIndividualPscList } from "../../../../src/services/companyPsc
 import { getPscIndividual } from "../../../../src/services/pscService";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
-import { VERIFIED_PSC, INDIVIDUAL_PSCS_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST, VERIFY_NOW_PSC, VERIFY_LATER_PSC } from "../../../mocks/companyPsc.mock";
+import { INDIVIDUAL_PSCS_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST, VERIFIED_PSC, VERIFY_LATER_PSC, VERIFY_NOW_PSC } from "../../../mocks/companyPsc.mock";
 import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED } from "../../../mocks/pscVerification.mock";
 
 const mockGetPscVerification = getPscVerification as jest.Mock;
@@ -43,7 +43,7 @@ describe("psc list handler", () => {
                 }
             });
 
-            const ordinaryAndSuperSecurePscs = [...INDIVIDUAL_PSCS_LIST, ...SUPER_SECURE_PSCS_EXCLUSIVE_LIST];
+            const ordinaryAndSuperSecurePscs = [...INDIVIDUAL_PSCS_LIST, ...INDIVIDUAL_PSCS_LIST, ...SUPER_SECURE_PSCS_EXCLUSIVE_LIST];
 
             mockGetCompanyIndividualPscList.mockResolvedValue(ordinaryAndSuperSecurePscs);
             mockGetPscIndividual

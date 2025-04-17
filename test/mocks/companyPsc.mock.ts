@@ -276,10 +276,10 @@ export const VERIFY_NOW_PSC = {
     kind: PSC_KIND_TYPE.INDIVIDUAL,
     nameElements: {
         forename: "Jim",
-        surname: "Testerly",
+        surname: "VerifyNow",
         title: "Mr"
     },
-    name: "Mr Jim Testerly",
+    name: "Mr Jim VerifyNow",
     notifiedOn: "2024-03-13",
     nationality: "British",
     address: {
@@ -315,10 +315,10 @@ export const VERIFY_LATER_PSC = {
     kind: PSC_KIND_TYPE.INDIVIDUAL,
     nameElements: {
         forename: "Jim",
-        surname: "Testerly",
+        surname: "VerifyLater",
         title: "Mr"
     },
-    name: "Mr Jim Testerly",
+    name: "Mr Jim VerifyLater",
     notifiedOn: "2024-03-13",
     nationality: "British",
     address: {
@@ -354,10 +354,10 @@ export const VERIFIED_PSC = {
     kind: PSC_KIND_TYPE.INDIVIDUAL,
     nameElements: {
         forename: "Jim",
-        surname: "Testerly",
+        surname: "Verified",
         title: "Mr"
     },
-    name: "Mr Jim Testerly",
+    name: "Mr Jim Verified",
     notifiedOn: "2024-03-13",
     nationality: "British",
     address: {
