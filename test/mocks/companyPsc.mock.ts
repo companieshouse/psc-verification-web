@@ -270,118 +270,124 @@ export const SUPER_SECURE_PSCS_EXCLUSIVE_LIST = [
 ];
 
 export const VERIFY_NOW_PSC = {
-    naturesOfControl: [
-        "ownership-of-shares-25-to-50-percent-as-trust"
-    ],
-    kind: PSC_KIND_TYPE.INDIVIDUAL,
-    nameElements: {
-        forename: "Jim",
-        surname: "VerifyNow",
-        title: "Mr"
-    },
-    name: "Mr Jim VerifyNow",
-    notifiedOn: "2024-03-13",
-    nationality: "British",
-    address: {
-        postalCode: "CF14 3UZ",
-        premises: "1",
-        locality: "Cardiff",
-        addressLine1: "34 Silver Street",
-        addressLine2: "Silverstone",
-        careOf: "Care of",
-        poBox: "Po Box",
-        region: "UK"
-    },
-    countryOfResidence: "Wales",
-    dateOfBirth: {
-        year: "1970",
-        month: "1"
-    },
-    links: {
-        self: "/company/123456/persons-with-significant-control/individual/PSC1"
-    },
-    etag: "ETAG1",
-    verificationState: {
-        verificationStatus: "UNVERIFIED",
-        verificationStartDate: "2024-03-13",
-        verificationStatementDueDate: "2025-03-13"
+    resource: {
+        naturesOfControl: [
+            "ownership-of-shares-25-to-50-percent-as-trust"
+        ],
+        kind: PSC_KIND_TYPE.INDIVIDUAL,
+        nameElements: {
+            forename: "Jim",
+            surname: "VerifyNow",
+            title: "Mr"
+        },
+        name: "Mr Jim VerifyNow",
+        notifiedOn: "2024-03-13",
+        nationality: "British",
+        address: {
+            postalCode: "CF14 3UZ",
+            premises: "1",
+            locality: "Cardiff",
+            addressLine1: "34 Silver Street",
+            addressLine2: "Silverstone",
+            careOf: "Care of",
+            poBox: "Po Box",
+            region: "UK"
+        },
+        countryOfResidence: "Wales",
+        dateOfBirth: {
+            year: "1970",
+            month: "1"
+        },
+        links: {
+            self: "/company/123456/persons-with-significant-control/individual/PSC1"
+        },
+        etag: "ETAG1",
+        verificationState: {
+            verificationStatus: "UNVERIFIED",
+            verificationStartDate: "2024-03-13",
+            verificationStatementDueDate: "2025-03-13"
+        }
     }
 };
 
 export const VERIFY_LATER_PSC = {
-    naturesOfControl: [
-        "ownership-of-shares-25-to-50-percent-as-trust"
-    ],
-    kind: PSC_KIND_TYPE.INDIVIDUAL,
-    nameElements: {
-        forename: "Jim",
-        surname: "VerifyLater",
-        title: "Mr"
-    },
-    name: "Mr Jim VerifyLater",
-    notifiedOn: "2024-03-13",
-    nationality: "British",
-    address: {
-        postalCode: "CF14 3UZ",
-        premises: "1",
-        locality: "Cardiff",
-        addressLine1: "34 Silver Street",
-        addressLine2: "Silverstone",
-        careOf: "Care of",
-        poBox: "Po Box",
-        region: "UK"
-    },
-    countryOfResidence: "Wales",
-    dateOfBirth: {
-        year: "1970",
-        month: "1"
-    },
-    links: {
-        self: "/company/123456/persons-with-significant-control/individual/PSC1"
-    },
-    etag: "ETAG1",
-    verificationState: {
-        verificationStatus: "UNVERIFIED",
-        verificationStartDate: "3099-03-13",
-        verificationStatementDueDate: "3099-03-13"
+    resource: {
+        naturesOfControl: [
+            "ownership-of-shares-25-to-50-percent-as-trust"
+        ],
+        kind: PSC_KIND_TYPE.INDIVIDUAL,
+        nameElements: {
+            forename: "Jim",
+            surname: "VerifyLater",
+            title: "Mr"
+        },
+        name: "Mr Jim VerifyLater",
+        notifiedOn: "2024-03-13",
+        nationality: "British",
+        address: {
+            postalCode: "CF14 3UZ",
+            premises: "1",
+            locality: "Cardiff",
+            addressLine1: "34 Silver Street",
+            addressLine2: "Silverstone",
+            careOf: "Care of",
+            poBox: "Po Box",
+            region: "UK"
+        },
+        countryOfResidence: "Wales",
+        dateOfBirth: {
+            year: "1970",
+            month: "1"
+        },
+        links: {
+            self: "/company/123456/persons-with-significant-control/individual/PSC1"
+        },
+        etag: "ETAG1",
+        verificationState: {
+            verificationStatus: "UNVERIFIED",
+            verificationStartDate: "3099-03-13",
+            verificationStatementDueDate: "3099-03-13"
+        }
     }
 };
 
 export const VERIFIED_PSC = {
-    naturesOfControl: [
-        "ownership-of-shares-25-to-50-percent-as-trust"
-    ],
-    kind: PSC_KIND_TYPE.INDIVIDUAL,
-    nameElements: {
-        forename: "Jim",
-        surname: "Verified",
-        title: "Mr"
-    },
-    name: "Mr Jim Verified",
-    notifiedOn: "2024-03-13",
-    nationality: "British",
-    address: {
-        postalCode: "CF14 3UZ",
-        premises: "1",
-        locality: "Cardiff",
-        addressLine1: "34 Silver Street",
-        addressLine2: "Silverstone",
-        careOf: "Care of",
-        poBox: "Po Box",
-        region: "UK"
-    },
-    countryOfResidence: "Wales",
-    dateOfBirth: {
-        year: "1970",
-        month: "1"
-    },
-    links: {
-        self: "/company/123456/persons-with-significant-control/individual/PSC1"
-    },
-    etag: "ETAG1",
-    verificationState: {
-        verificationStatus: "VERIFIED",
-        verificationStartDate: "2025-03-13",
-        verificationStatementDueDate: "2025-03-13"
+    resource: {
+        naturesOfControl: [
+            "ownership-of-shares-25-to-50-percent-as-trust"
+        ],
+        kind: PSC_KIND_TYPE.INDIVIDUAL,
+        nameElements: {
+            forename: "Jim",
+            surname: "Verified",
+            title: "Mr"
+        },
+        name: "Mr Jim Verified",
+        notifiedOn: "2024-03-13",
+        nationality: "British",
+        address: {
+            postalCode: "CF14 3UZ",
+            premises: "1",
+            locality: "Cardiff",
+            addressLine1: "34 Silver Street",
+            addressLine2: "Silverstone",
+            careOf: "Care of",
+            poBox: "Po Box",
+            region: "UK"
+        },
+        countryOfResidence: "Wales",
+        dateOfBirth: {
+            year: "1970",
+            month: "1"
+        },
+        links: {
+            self: "/company/123456/persons-with-significant-control/individual/PSC1"
+        },
+        etag: "ETAG1",
+        verificationState: {
+            verificationStatus: "VERIFIED",
+            verificationStartDate: "2025-03-13",
+            verificationStatementDueDate: "2025-03-13"
+        }
     }
 };

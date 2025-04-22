@@ -17,6 +17,7 @@ interface PscListData {
     pscKind?: string,
     pscName?: string,
     pscDob?: string,
+    pscVerificationStatus: string,
     pscVerificationDeadlineDate: string
     pscSortName?: string,
 }
