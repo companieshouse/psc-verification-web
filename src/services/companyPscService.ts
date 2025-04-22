@@ -12,7 +12,7 @@ export const getCompanyIndividualPscList = async (request: Request, companyNumbe
     const response = await getCompanyPscList(request, companyNumber);
     const companyPscs = response.resource as CompanyPersonsWithSignificantControl;
 
-    logger.debug(`${getCompanyIndividualPscList.name} - company psc list response for company number ${companyNumber}:  ${JSON.stringify(companyPscs)}`);
+    logger.debug(`${getCompanyIndividualPscList.name} - company psc list response for company number ${companyNumber} has ${companyPscs?.items?.length || 0} item(s)`);
     if (!companyPscs?.items?.length) {
         logger.info(`${getCompanyIndividualPscList.name} - no pscs have been found for company ${companyNumber}`);
 
@@ -64,7 +64,10 @@ export const getCompanyPscList = async (request: Request, companyNumber: string)
         if (!sdkResponse || !sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
             throw createAndLogError(`${getCompanyPscList.name} - Failed to get company psc list for company number ${companyNumber} with start index ${startIndex} and items per page ${itemsPerPage}`);
         }
-        logger.debug(`${getCompanyPscList.name} - company psc list response for company number ${companyNumber} with start index ${startIndex} and items per page ${itemsPerPage}:  ${JSON.stringify(sdkResponse)}`);
+        logger.debug(`${getCompanyPscList.name} - company psc list response: ${JSON.stringify({
+            statusCode: sdkResponse.httpStatusCode,
+            resourceItemCount: (sdkResponse as Resource<CompanyPersonsWithSignificantControl>).resource?.items?.length || 0
+        })} for company number ${companyNumber} with start index ${startIndex} and items per page ${itemsPerPage}`);
 
         companyPscsSdkResponse = sdkResponse as Resource<CompanyPersonsWithSignificantControl>;
 
