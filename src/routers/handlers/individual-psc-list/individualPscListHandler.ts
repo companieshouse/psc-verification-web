@@ -49,34 +49,13 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const companyProfile = res.locals.companyProfile;
         const dsrEmailAddress = env.DSR_EMAIL_ADDRESS;
         const dsrPhoneNumber = env.DSR_PHONE_NUMBER;
-        let companyName: string = "";
-        let confirmationStatementDate: string = "";
 
-        if (companyProfile) {
-            companyName = companyProfile.companyName;
-            if (companyProfile.confirmationStatement) {
-                confirmationStatementDate = internationaliseDate(companyProfile.confirmationStatement.nextMadeUpTo, lang);
-            }
-        }
+        const companyName = companyProfile?.companyName ?? "";
+        const confirmationStatementDate = companyProfile?.confirmationStatement
+            ? internationaliseDate(companyProfile.confirmationStatement.nextMadeUpTo, lang)
+            : "";
 
-        let individualPscList: CompanyPersonWithSignificantControl[] = [];
-        const individualPscListWithVerificationState: PersonWithSignificantControl[] = [];
-        if (companyNumber) {
-            individualPscList = await getCompanyIndividualPscList(req, companyNumber);
-            for (const psc of individualPscList) {
-                try {
-                    const individualDetails = await getPscIndividual(companyNumber, this.getPscIdFromSelfLink(psc));
-                    if (individualDetails.resource) {
-                        individualPscListWithVerificationState.push(individualDetails.resource);
-                    }
-                } catch (error) {
-                    // not able to add the verification state to the PSC object, but we still add the PSC object to the list
-                    // this is to ensure that the user can still see the PSC in the list, and submit a verification
-                    logger.error(`${IndividualPscListHandler.name} - ${this.getViewData.name} - Error getting PSC individual details: ${error}`);
-                    individualPscListWithVerificationState.push(psc as PersonWithSignificantControl);
-                }
-            }
-        }
+        const individualPscListWithVerificationState: PersonWithSignificantControl[] = await this.getIndividualPscListWithVerificationState(companyNumber, req);
 
         const verifiedPscList = individualPscListWithVerificationState.filter(psc => psc.verificationState?.verificationStatus === "VERIFIED");
         const unverifiedPscList = individualPscListWithVerificationState.filter(psc => psc.verificationState?.verificationStatus !== "VERIFIED" || psc.verificationState === undefined);
@@ -114,6 +93,28 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         function resolveUrlTemplate (prefixedUrl: string): string | null {
             return addSearchParams(prefixedUrl, { companyNumber, lang });
         }
+    }
+
+    private async getIndividualPscListWithVerificationState (companyNumber: string, req: Request): Promise<PersonWithSignificantControl[]> {
+        let individualPscList: CompanyPersonWithSignificantControl[] = [];
+        const individualPscListWithVerificationState: PersonWithSignificantControl[] = [];
+        if (companyNumber) {
+            individualPscList = await getCompanyIndividualPscList(req, companyNumber);
+            for (const psc of individualPscList) {
+                try {
+                    const individualDetails = await getPscIndividual(companyNumber, this.getPscIdFromSelfLink(psc));
+                    if (individualDetails.resource) {
+                        individualPscListWithVerificationState.push(individualDetails.resource);
+                    }
+                } catch (error) {
+                    // not able to add the verification state to the PSC object, but we still add the PSC object to the list
+                    // this is to ensure that the user can still see the PSC in the list, and submit a verification
+                    logger.error(`${IndividualPscListHandler.name} - ${this.getViewData.name} - Error getting PSC individual details: ${error}`);
+                    individualPscListWithVerificationState.push(psc as PersonWithSignificantControl);
+                }
+            }
+        }
+        return individualPscListWithVerificationState;
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<IndividualPscListViewData>> {
