@@ -7,7 +7,8 @@ export enum STOP_TYPE {
     EMPTY_PSC_LIST = "empty-psc-list",
     PSC_DOB_MISMATCH = "psc-dob-mismatch",
     RP01_GUIDANCE = "rp01-guidance",
-    SUPER_SECURE = "super-secure"
+    SUPER_SECURE = "super-secure",
+    PROBLEM_WITH_PSC_DATA = "problem-with-psc-data"
 }
 
 export enum PSC_KIND_TYPE {
@@ -88,4 +89,9 @@ export const CommonDataEventIds = {
     CONTACT_US_LINK: "contact-us-link",
     CONTINUE_BUTTON: "continue-button",
     GO_BACK_AND_RETRY_LINK: "go-back-and-retry-link"
+} as const;
+
+// Used for api error responses
+export const Responses = {
+    PROBLEM_WITH_PSC_DATA: "We are currently unable to process a Verification filing for this PSC"
 } as const;

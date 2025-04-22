@@ -1,0 +1,16 @@
+{% set title = i18n.problem_with_psc_data_main_title %}
+
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+<h1 class="govuk-heading-l">{{ i18n.problem_with_psc_data_main_title }}</h1>
+<p class="govuk-body">
+  {{ i18n.problem_with_psc_data_body }}
+</p>
+<p class="govuk-body">
+  <a class="email-enquiries" href="mailto:{{ extraData[0] }}" target="_blank" data-event-id="email-enquiries">{{ extraData[0] }}</a>
+</p>
+<p class="govuk-body">{{ i18n.problem_with_psc_data_telephone }} {{ extraData[1] }} </p>
+
+{% endblock %}

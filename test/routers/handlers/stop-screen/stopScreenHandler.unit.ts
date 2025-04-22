@@ -114,6 +114,13 @@ describe("Stop screen handler", () => {
                         extraData: [env.DSR_EMAIL_ADDRESS, env.DSR_PHONE_NUMBER]
                     });
                     break;
+                case STOP_TYPE.PROBLEM_WITH_PSC_DATA:
+                    expect(viewData).toMatchObject({
+                        ...expectedViewData,
+                        currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`,
+                        backURL: `${PrefixedUrls.INDIVIDUAL_PSC_LIST}?companyNumber=00006400&lang=en`
+                    });
+                    break;
                 default:
                     throw new Error(`Untested STOP_TYPE value: ${stopType}`);
             }
