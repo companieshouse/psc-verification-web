@@ -124,6 +124,7 @@ export const CEASED_PSCS_EXCLUSIVE_LIST = [
 
 export const VALID_COMPANY_PSC_ITEMS = [
     {
+        // active corporate entity
         naturesOfControl: [
             "ownership-of-shares-50-to-75-percent-as-trust",
             "ownership-of-shares-50-to-75-percent",
@@ -168,6 +169,7 @@ export const VALID_COMPANY_PSC_ITEMS = [
         }
     },
     {
+        // active individual
         naturesOfControl: [
             "ownership-of-shares-25-to-50-percent-as-trust"
         ],
@@ -201,6 +203,7 @@ export const VALID_COMPANY_PSC_ITEMS = [
         etag: "223a177a441ad66021b14e22f1ed3e0060958761"
     },
     {
+        // ceased individual
         naturesOfControl: [
             "ownership-of-shares-25-to-50-percent-as-trust"
         ],
@@ -237,15 +240,40 @@ export const VALID_COMPANY_PSC_ITEMS = [
     }
 ];
 
-export const VALID_COMPANY_PSC_LIST: CompanyPersonsWithSignificantControl = {
-    ceasedCount: "2",
-    itemsPerPage: "25",
+export const VALID_COMPANY_PSC_LIST_PAGE_1: CompanyPersonsWithSignificantControl = {
+    ceasedCount: "1",
+    itemsPerPage: "3",
+    startIndex: "0",
     totalResults: "3",
     activeCount: "2",
     links: {
         self: "company/123456/persons-with-significant-control"
     },
     items: VALID_COMPANY_PSC_ITEMS
+};
+
+export const VALID_COMPANY_PSC_LIST_PAGE_2: CompanyPersonsWithSignificantControl = {
+    ceasedCount: "1",
+    itemsPerPage: "3",
+    startIndex: "3",
+    totalResults: "2",
+    activeCount: "2",
+    links: {
+        self: "company/123456/persons-with-significant-control"
+    },
+    items: VALID_COMPANY_PSC_ITEMS.slice(1)
+};
+
+export const VALID_COMPANY_PSC_LIST_PAGE_FINAL: CompanyPersonsWithSignificantControl = {
+    ceasedCount: "0",
+    itemsPerPage: "3",
+    startIndex: "6",
+    totalResults: "0",
+    activeCount: "0",
+    links: {
+        self: "company/123456/persons-with-significant-control"
+    },
+    items: []
 };
 
 export const SUPER_SECURE_PSCS_EXCLUSIVE_LIST = [
