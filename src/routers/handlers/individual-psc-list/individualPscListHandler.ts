@@ -8,6 +8,8 @@ import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn, internationaliseDate } from "../../utils";
 import { env } from "../../../config";
 import { logger } from "../../../lib/logger";
+import { getPscIndividual } from "../../../services/pscService";
+import { PersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/psc/types";
 
 interface PscListData {
     pscId: string,
@@ -15,7 +17,9 @@ interface PscListData {
     pscKind?: string,
     pscName?: string,
     pscDob?: string,
+    pscVerificationStatus: string,
     pscVerificationDeadlineDate: string
+    pscSortName?: string,
 }
 
 interface IndividualPscListViewData extends BaseViewData {
@@ -23,7 +27,9 @@ interface IndividualPscListViewData extends BaseViewData {
     confirmationStatementDate: string,
     dsrEmailAddress: string,
     dsrPhoneNumber: string,
-    pscDetails: PscListData[],
+    canVerifyNowDetails: PscListData[],
+    canVerifyLaterDetails: PscListData[],
+    verifiedPscDetails: PscListData[],
     exclusivelySuperSecure: boolean,
     selectedPscId: string | null,
     showNoPscsMessage: boolean,
@@ -43,27 +49,28 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const companyProfile = res.locals.companyProfile;
         const dsrEmailAddress = env.DSR_EMAIL_ADDRESS;
         const dsrPhoneNumber = env.DSR_PHONE_NUMBER;
-        let companyName: string = "";
-        let confirmationStatementDate: string = "";
 
-        if (companyProfile) {
-            companyName = companyProfile.companyName;
-            if (companyProfile.confirmationStatement) {
-                confirmationStatementDate = internationaliseDate(companyProfile.confirmationStatement.nextMadeUpTo, lang);
-            }
-        }
+        const companyName = companyProfile?.companyName ?? "";
+        const confirmationStatementDate = companyProfile?.confirmationStatement
+            ? internationaliseDate(companyProfile.confirmationStatement.nextMadeUpTo, lang)
+            : "";
 
-        let individualPscList: CompanyPersonWithSignificantControl[] = [];
-        if (companyNumber) {
-            individualPscList = await getCompanyIndividualPscList(req, companyNumber);
-        }
+        const individualPscListWithVerificationState: PersonWithSignificantControl[] = await this.getIndividualPscListWithVerificationState(companyNumber, req);
 
-        const allPscDetails = this.getViewPscDetails(individualPscList, lang);
-        const allSuperSecure = allPscDetails.every((psc) => psc.pscKind === PSC_KIND_TYPE.SUPER_SECURE);
-        const allCeased = allPscDetails.every((psc) => psc.pscCeasedOn != null);
+        const verifiedPscList = individualPscListWithVerificationState.filter(psc => psc.verificationState?.verificationStatus === "VERIFIED");
+        const unverifiedPscList = individualPscListWithVerificationState.filter(psc => psc.verificationState?.verificationStatus !== "VERIFIED" || psc.verificationState === undefined);
 
-        const exclusivelySuperSecure = allPscDetails.length > 0 && (allSuperSecure && !allCeased);
-        const showNoPscsMessage = allPscDetails.length === 0 || allCeased;
+        const canVerifyNow = unverifiedPscList.filter(psc => (psc.verificationState?.verificationStartDate !== undefined && new Date(psc.verificationState.verificationStartDate) <= new Date()) || psc.verificationState === undefined);
+        const canVerifyLater = unverifiedPscList.filter(psc => psc.verificationState?.verificationStartDate !== undefined && new Date(psc.verificationState?.verificationStartDate) > new Date());
+
+        const canVerifyNowDetails = this.getViewPscDetails(canVerifyNow, lang);
+        const canVerifyLaterDetails = this.getViewPscDetails(canVerifyLater, lang);
+        const verifiedPscDetails = this.getViewPscDetails(verifiedPscList, lang);
+
+        const allSuperSecure = individualPscListWithVerificationState.every(psc => psc.kind !== undefined && psc.kind === PSC_KIND_TYPE.SUPER_SECURE as unknown as typeof psc.kind);
+        const allCeased = individualPscListWithVerificationState.every(psc => psc.ceasedOn != null);
+        const exclusivelySuperSecure = individualPscListWithVerificationState.length > 0 && (allSuperSecure && !allCeased);
+        const showNoPscsMessage = individualPscListWithVerificationState.length === 0 || allCeased;
 
         return {
             ...baseViewData,
@@ -75,7 +82,9 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             confirmationStatementDate,
             dsrEmailAddress,
             dsrPhoneNumber,
-            pscDetails: allPscDetails.filter(psc => psc.pscKind === PSC_KIND_TYPE.INDIVIDUAL),
+            canVerifyNowDetails: canVerifyNowDetails.filter(psc => psc.pscKind === PSC_KIND_TYPE.INDIVIDUAL),
+            canVerifyLaterDetails: canVerifyLaterDetails.filter(psc => psc.pscKind === PSC_KIND_TYPE.INDIVIDUAL),
+            verifiedPscDetails: verifiedPscDetails.filter(psc => psc.pscKind === PSC_KIND_TYPE.INDIVIDUAL),
             exclusivelySuperSecure,
             showNoPscsMessage,
             templateName: Urls.INDIVIDUAL_PSC_LIST
@@ -84,6 +93,28 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         function resolveUrlTemplate (prefixedUrl: string): string | null {
             return addSearchParams(prefixedUrl, { companyNumber, lang });
         }
+    }
+
+    private async getIndividualPscListWithVerificationState (companyNumber: string, req: Request): Promise<PersonWithSignificantControl[]> {
+        let individualPscList: CompanyPersonWithSignificantControl[] = [];
+        const individualPscListWithVerificationState: PersonWithSignificantControl[] = [];
+        if (companyNumber) {
+            individualPscList = await getCompanyIndividualPscList(req, companyNumber);
+            for (const psc of individualPscList) {
+                try {
+                    const individualDetails = await getPscIndividual(companyNumber, this.getPscIdFromSelfLink(psc));
+                    if (individualDetails.resource) {
+                        individualPscListWithVerificationState.push(individualDetails.resource);
+                    }
+                } catch (error) {
+                    // not able to add the verification state to the PSC object, but we still add the PSC object to the list
+                    // this is to ensure that the user can still see the PSC in the list, and submit a verification
+                    logger.error(`${IndividualPscListHandler.name} - ${this.getViewData.name} - Error getting PSC individual details: ${error}`);
+                    individualPscListWithVerificationState.push(psc as PersonWithSignificantControl);
+                }
+            }
+        }
+        return individualPscListWithVerificationState;
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<IndividualPscListViewData>> {
@@ -96,9 +127,12 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         };
     }
 
-    private getViewPscDetails (individualPscList: CompanyPersonWithSignificantControl[], lang: string): PscListData[] {
-        return individualPscList.map(psc => {
+    private getViewPscDetails (individualPscListWithVerificationState: PersonWithSignificantControl[], lang: string): PscListData[] {
+        return individualPscListWithVerificationState.map(psc => {
             const pscFormattedDob = `${formatDateBorn(psc.dateOfBirth, lang)}`;
+            const pscSortName = [psc.nameElements?.surname, psc.nameElements?.forename, psc.nameElements?.otherForenames, psc.nameElements?.middleName]
+                .filter(name => name)
+                .join(" "); // ensure single space between names even if some are missing
 
             return {
                 pscId: psc.links.self.split("/").pop() as string,
@@ -106,8 +140,15 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
                 pscKind: psc.kind,
                 pscName: psc.name,
                 pscDob: pscFormattedDob,
-                pscVerificationDeadlineDate: "[pscVerificationDate]"
+                pscVerificationDeadlineDate: psc.verificationState?.verificationStatementDueDate === undefined ? "Unknown" : internationaliseDate(psc.verificationState?.verificationStatementDueDate.toString(), lang),
+                pscVerificationStatus: psc.verificationState?.verificationStatus ?? "UNKNOWN",
+                pscSortName: pscSortName
             };
         });
     }
+
+    private getPscIdFromSelfLink (psc: CompanyPersonWithSignificantControl): string {
+        return psc.links.self.split("/").pop() as string;
+    }
+
 }

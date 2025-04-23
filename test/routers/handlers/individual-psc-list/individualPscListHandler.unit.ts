@@ -4,10 +4,12 @@ import { PSC_KIND_TYPE, Urls } from "../../../../src/constants";
 import { IndividualPscListHandler } from "../../../../src/routers/handlers/individual-psc-list/individualPscListHandler";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { getCompanyIndividualPscList } from "../../../../src/services/companyPscService";
+import { getPscIndividual } from "../../../../src/services/pscService";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
-import { INDIVIDUAL_PSCS_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST } from "../../../mocks/companyPsc.mock";
+import { INDIVIDUAL_PSCS_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST, VERIFIED_PSC, VERIFY_LATER_PSC, VERIFY_NOW_PSC } from "../../../mocks/companyPsc.mock";
 import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED } from "../../../mocks/pscVerification.mock";
+import { VerificationStatusEnum } from "@companieshouse/api-sdk-node/dist/services/psc/types";
 
 const mockGetPscVerification = getPscVerification as jest.Mock;
 jest.mock("../../../../src/services/pscVerificationService");
@@ -24,6 +26,7 @@ jest.mock("../../../../src/services/companyPscService");
 const mockGetCompanyIndividualPscList = getCompanyIndividualPscList as jest.Mock;
 
 jest.mock("../../../../src/services/pscService");
+const mockGetPscIndividual = getPscIndividual as jest.Mock;
 
 describe("psc list handler", () => {
 
@@ -41,9 +44,14 @@ describe("psc list handler", () => {
                 }
             });
 
-            const ordinaryAndSuperSecurePscs = [...INDIVIDUAL_PSCS_LIST, ...SUPER_SECURE_PSCS_EXCLUSIVE_LIST];
+            const ordinaryAndSuperSecurePscs = [...INDIVIDUAL_PSCS_LIST, ...INDIVIDUAL_PSCS_LIST, ...SUPER_SECURE_PSCS_EXCLUSIVE_LIST];
 
             mockGetCompanyIndividualPscList.mockResolvedValue(ordinaryAndSuperSecurePscs);
+            mockGetPscIndividual
+                .mockResolvedValueOnce(VERIFY_NOW_PSC)
+                .mockResolvedValueOnce(VERIFY_NOW_PSC)
+                .mockResolvedValueOnce(VERIFY_LATER_PSC)
+                .mockResolvedValueOnce(VERIFIED_PSC);
 
             const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_CREATED } });
             const handler = new IndividualPscListHandler();
@@ -56,8 +64,12 @@ describe("psc list handler", () => {
                 currentUrl: `/persons-with-significant-control-verification/individual/psc-list?companyNumber=${COMPANY_NUMBER}&lang=en`,
                 nextPageUrl: `/persons-with-significant-control-verification/new-submission?companyNumber=${COMPANY_NUMBER}&lang=en&selectedPscId=`
             });
-            viewData.pscDetails.forEach(p => expect(p.pscKind).toBe(PSC_KIND_TYPE.INDIVIDUAL));
-
+            viewData.canVerifyNowDetails.forEach(p => expect(p.pscKind).toBe(PSC_KIND_TYPE.INDIVIDUAL));
+            viewData.canVerifyNowDetails.forEach(p => expect(p.pscVerificationStatus).toBe(VerificationStatusEnum.UNVERIFIED));
+            viewData.canVerifyLaterDetails.forEach(p => expect(p.pscKind).toBe(PSC_KIND_TYPE.INDIVIDUAL));
+            viewData.canVerifyLaterDetails.forEach(p => expect(p.pscVerificationStatus).toBe(VerificationStatusEnum.UNVERIFIED));
+            viewData.verifiedPscDetails.forEach(p => expect(p.pscKind).toBe(PSC_KIND_TYPE.INDIVIDUAL));
+            viewData.verifiedPscDetails.forEach(p => expect(p.pscVerificationStatus).toBe(VerificationStatusEnum.VERIFIED));
         });
     });
 });
