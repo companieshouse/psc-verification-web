@@ -60,8 +60,8 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const verifiedPscList = individualPscListWithVerificationState.filter(psc => psc.verificationState?.verificationStatus === "VERIFIED");
         const unverifiedPscList = individualPscListWithVerificationState.filter(psc => psc.verificationState?.verificationStatus !== "VERIFIED" || psc.verificationState === undefined);
 
-        const canVerifyNow = unverifiedPscList.filter(psc => (psc.verificationState?.verificationStartDate !== undefined && new Date(psc.verificationState.verificationStartDate) < new Date()) || psc.verificationState === undefined);
-        const canVerifyLater = unverifiedPscList.filter(psc => psc.verificationState?.verificationStatementDueDate !== undefined && new Date(psc.verificationState?.verificationStatementDueDate) >= new Date());
+        const canVerifyNow = unverifiedPscList.filter(psc => (psc.verificationState?.verificationStartDate !== undefined && new Date(psc.verificationState.verificationStartDate) <= new Date()) || psc.verificationState === undefined);
+        const canVerifyLater = unverifiedPscList.filter(psc => psc.verificationState?.verificationStartDate !== undefined && new Date(psc.verificationState?.verificationStartDate) > new Date());
 
         const canVerifyNowDetails = this.getViewPscDetails(canVerifyNow, lang);
         const canVerifyLaterDetails = this.getViewPscDetails(canVerifyLater, lang);
