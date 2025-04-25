@@ -11,8 +11,13 @@ const templatePathRoot = "error/";
 const fallbackTemplateName = "500-internal-server-error";
 
 // Convert camel case to status + hyphenated lowercase: NotFound -> 404-not-found
-function mapStatusCodeToTemplate (statusCode: HttpStatusCode): string {
+export function mapStatusCodeToTemplate (statusCode: HttpStatusCode): string {
     const statusType = HttpStatusCode[statusCode];
+
+    if (!statusType) {
+        logger.error(`mapStatusCodeToTemplate - Invalid status code: ${statusCode}`);
+        return fallbackTemplateName;
+    }
 
     const hyphenatedStatus = statusType
         .replace(/([a-z])([A-Z])/g, "$1-$2")
