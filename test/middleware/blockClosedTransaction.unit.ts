@@ -54,7 +54,7 @@ describe("blockClosedTransaction middleware", () => {
         expect(mockNext).toHaveBeenCalledWith(expect.any(HttpError));
         const error = mockNext.mock.lastCall![0];
         expect(error).toBeInstanceOf(HttpError);
-        expect(error.message).toBe("Transaction is closed");
+        expect(error.message).toBe("Transaction is closed; blocking request");
         expect(error.status).toBe(410); // HTTP GONE
     });
 
