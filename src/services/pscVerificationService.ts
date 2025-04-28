@@ -5,11 +5,17 @@ import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
-import { createAndLogError, logger } from "../lib/logger";
+import { createAndLogError, createAndLogHttpError, logger } from "../lib/logger";
 import { createApiKeyClient, createOAuthApiClient } from "./apiClientService";
 import { Responses } from "../constants";
 
 export const createPscVerification = async (request: Request, transaction: Transaction, pscVerification: PscVerificationData): Promise<Resource<PscVerification> | ApiErrorResponse> => {
+    if (!pscVerification) {
+        throw new Error(`getPscVerification - Aborting: PscVerificationData is required for PSC Verification POST request for transaction ${transaction.id}`);
+    }
+    if (!pscVerification.companyNumber) {
+        throw new Error(`createPscVerification - Aborting: companyNumber is required for PSC Verification POST request for transaction ${transaction.id}.`);
+    }
     if (pscVerification.pscNotificationId == null) {
         throw createAndLogError(`${createPscVerification.name} - Aborting: pscNotificationId is required for PSC Verification POST request for transaction ${transaction.id}. Has the user tried to resume a journey after signing out and in again?`);
     }
@@ -55,8 +61,17 @@ export const getPscVerification = async (request: Request, transactionId: string
     if (!sdkResponse) {
         throw createAndLogError(`${getPscVerification.name} - PSC Verification GET request returned no response for ${logReference}`);
     }
-    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
-        throw createAndLogError(`${getPscVerification.name} - HTTP status code ${sdkResponse.httpStatusCode} - Failed to GET PSC Verification for ${logReference}`);
+    switch (sdkResponse.httpStatusCode) {
+        case HttpStatusCode.Ok:
+            break; // Successful response, proceed further
+        case HttpStatusCode.Unauthorized:
+            // Show the Page Not Found page if the user is not authorized to view the resource
+            throw createAndLogHttpError(`${getPscVerification.name} - User not authorized owner for ${logReference}`, HttpStatusCode.NotFound);
+
+        case undefined:
+            throw createAndLogError(`${getPscVerification.name} - HTTP status code is undefined - Failed to GET PSC Verification for ${logReference}`);
+        default:
+            throw createAndLogHttpError(`${getPscVerification.name} - Failed to GET PSC Verification for ${logReference}`, sdkResponse.httpStatusCode);
     }
 
     const castedSdkResponse = sdkResponse as Resource<PscVerification>;
