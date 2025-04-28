@@ -55,7 +55,7 @@ describe("blockClosedTransaction middleware", () => {
         const error = mockNext.mock.lastCall![0];
         expect(error).toBeInstanceOf(HttpError);
         expect(error.message).toBe("Transaction is closed; blocking request");
-        expect(error.status).toBe(410); // HTTP GONE
+        expect(error.status).toBe(404);
     });
 
     it("should skip the middleware for the psc-verified screen", async () => {

@@ -22,7 +22,7 @@ export const blockClosedTransaction = (req: any, res: any, next: any) => {
     getTransaction(req, transactionId)
         .then(transaction => {
             if (transaction.status === TransactionStatus.CLOSED) {
-                const httpError = new HttpError("Transaction is closed; blocking request", HttpStatusCode.Gone);
+                const httpError = new HttpError("Transaction is closed; blocking request", HttpStatusCode.NotFound);
                 return next(httpError);
             }
         })
