@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { CsrfError } from "@companieshouse/web-security-node";
-import { StatusCodes } from "http-status-codes";
+import { HttpStatusCode } from "axios";
 
 const csrfErrorTemplateName = "error/403-forbidden";
 
@@ -14,7 +14,7 @@ const csrfErrorHandler = (
         return next(err);
     }
 
-    return res.status(StatusCodes.FORBIDDEN).render(csrfErrorTemplateName, {
+    return res.status(HttpStatusCode.Forbidden).render(csrfErrorTemplateName, {
         csrfErrors: true
     });
 };

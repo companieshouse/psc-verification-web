@@ -5,7 +5,8 @@ import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
-import { createAndLogError, createAndLogHttpError, logger } from "../lib/logger";
+import { createAndLogError, logger } from "../lib/logger";
+import { HttpError } from "../lib/errors/httpError";
 import { createApiKeyClient, createOAuthApiClient } from "./apiClientService";
 import { Responses } from "../constants";
 
@@ -66,12 +67,12 @@ export const getPscVerification = async (request: Request, transactionId: string
             break; // Successful response, proceed further
         case HttpStatusCode.Unauthorized:
             // Show the Page Not Found page if the user is not authorized to view the resource
-            throw createAndLogHttpError(`${getPscVerification.name} - User not authorized owner for ${logReference}`, HttpStatusCode.NotFound);
+            throw new HttpError(`${getPscVerification.name} - User not authorized owner for ${logReference}`, HttpStatusCode.NotFound);
 
         case undefined:
-            throw createAndLogError(`${getPscVerification.name} - HTTP status code is undefined - Failed to GET PSC Verification for ${logReference}`);
+            throw new Error(`${getPscVerification.name} - HTTP status code is undefined - Failed to GET PSC Verification for ${logReference}`);
         default:
-            throw createAndLogHttpError(`${getPscVerification.name} - Failed to GET PSC Verification for ${logReference}`, sdkResponse.httpStatusCode);
+            throw new HttpError(`${getPscVerification.name} - Failed to GET PSC Verification for ${logReference}`, sdkResponse.httpStatusCode);
     }
 
     const castedSdkResponse = sdkResponse as Resource<PscVerification>;

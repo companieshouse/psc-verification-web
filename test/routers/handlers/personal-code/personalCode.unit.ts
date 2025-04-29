@@ -7,6 +7,7 @@ import { COMPANY_NUMBER, IND_VERIFICATION_PERSONAL_CODE, PATCH_PERSONAL_CODE_DAT
 import { PersonalCodeHandler } from "../../../../src/routers/handlers/personal-code/personalCodeHandler";
 import { getValidationStatus, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import { logger } from "../../../../src/lib/logger";
+import { HttpError } from "../../../../src/lib/errors/httpError";
 
 jest.mock("../../../../src/services/pscVerificationService", () => ({
     getPscVerification: jest.fn(),
@@ -433,7 +434,7 @@ describe("Personal code handler", () => {
 
             const getViewData = jest.fn().mockResolvedValue(viewData);
             mockPatchPscVerification.mockImplementation(async () => {
-                throw new Error("Internal Server Error");
+                throw new HttpError("Internal Server Error", HttpStatusCode.InternalServerError);
             });
 
             const processHandlerException = jest.fn().mockReturnValue("Processed Internal Server Error");

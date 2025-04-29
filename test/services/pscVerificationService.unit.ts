@@ -56,8 +56,12 @@ describe("pscVerificationService", () => {
             const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA);
 
             expect(response.httpStatusCode).toBe(HttpStatusCode.Created);
-            const castedResource = response.resource as PscVerification;
-            expect(castedResource).toEqual(INDIVIDUAL_VERIFICATION_CREATED);
+            if ("resource" in response) {
+                const castedResource = response.resource as PscVerification;
+                expect(castedResource).toEqual(INDIVIDUAL_VERIFICATION_CREATED);
+            } else {
+                throw new Error("Response does not contain a resource");
+            }
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockCreatePscVerification).toHaveBeenCalledTimes(1);
             expect(mockCreatePscVerification).toHaveBeenCalledWith(TRANSACTION_ID, INITIAL_PSC_DATA);
