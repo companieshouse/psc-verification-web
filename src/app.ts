@@ -8,10 +8,11 @@ import { sessionMiddleware } from "./middleware/session";
 import routerDispatch from "./routerDispatch";
 import { isLive } from "./middleware/serviceLive";
 import { csrfProtectionMiddleware } from "./middleware/csrf";
-import csrfErrorHandler from "./middleware/csrfErrorHandler";
-import { pageNotFound } from "./middleware/pageNotFound";
-import { internalServerError } from "./middleware/internalServerError";
+import csrfErrorHandler from "./middleware/error-interceptors/csrfErrorInterceptor";
 import { blockClosedTransaction } from "./middleware/blockClosedTransaction";
+import { httpErrorInterceptor } from "./middleware/error-interceptors/httpErrorInterceptor";
+import { HttpError } from "./lib/errors/httpError";
+import { HttpStatusCode } from "axios";
 
 const app = express();
 
@@ -33,7 +34,7 @@ const nunjucksLoaderOpts = {
     noCache: process.env.NUNJUCKS_LOADER_NO_CACHE !== "true"
 };
 
-const njk = new nunjucks.Environment(
+export const njk = new nunjucks.Environment(
     new nunjucks.FileSystemLoader(app.get("views"),
         nunjucksLoaderOpts)
 );
@@ -79,11 +80,13 @@ app.enable("trust proxy");
 // channel all requests through router dispatch
 routerDispatch(app);
 
-// 404 - page not found error
-app.use(pageNotFound);
+// 404 page not found catch-all
+app.use((req: any, _) => {
+    throw new HttpError(`Page not found: ${req.url}`, HttpStatusCode.NotFound);
+});
 
-// 500 - internal server error
-app.use(internalServerError);
+// intercept HTTP errors
+app.use(httpErrorInterceptor);
 
 // unhandled exceptions
 process.on("uncaughtException", (err: any) => {
