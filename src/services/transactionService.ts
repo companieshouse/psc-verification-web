@@ -3,8 +3,9 @@ import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
+import { HttpStatusCode } from "axios";
 import { Request } from "express";
-import { StatusCodes } from "http-status-codes";
+import { HttpError } from "../lib/errors/httpError";
 import { logger } from "../lib/logger";
 import { createOAuthApiClient } from "./apiClientService";
 import { getCompanyProfile } from "./companyProfileService";
@@ -24,9 +25,9 @@ export const getTransaction = async (req: Request, transactionId: string): Promi
         return Promise.reject(new Error("No response from Transaction API"));
     }
 
-    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= 400) {
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= HttpStatusCode.BadRequest) {
         logger.error(`${getTransaction.name} - HTTP status code ${sdkResponse.httpStatusCode} - Failed to get transaction for transaction id ${transactionId}`);
-        return Promise.reject(new Error(`Failed to get transaction: HTTP ${sdkResponse.httpStatusCode}`));
+        return Promise.reject(new HttpError(`Failed to get transaction`, sdkResponse.httpStatusCode ?? HttpStatusCode.InternalServerError));
     }
 
     const castedSdkResponse: Resource<Transaction> = sdkResponse as Resource<Transaction>;
@@ -61,7 +62,7 @@ export const postTransaction = async (req: Request): Promise<Transaction> => {
         logger.error(`${postTransaction.name} - Transaction API POST request returned no response for company number ${companyNumber}`);
         return Promise.reject(sdkResponse);
     }
-    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= 400) {
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= HttpStatusCode.BadRequest) {
         logger.error(`${postTransaction.name} - HTTP status code ${sdkResponse.httpStatusCode} - Failed to post transaction for company number ${companyNumber}`);
         return Promise.reject(sdkResponse);
     }
@@ -99,7 +100,7 @@ export const putTransaction = async (req: Request,
         return Promise.reject(sdkResponse);
     }
 
-    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== StatusCodes.NO_CONTENT) {
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.NoContent) {
         logger.error(`${putTransaction.name} - HTTP status code ${sdkResponse.httpStatusCode} - Failed to put transaction for transaction id ${transactionId}`);
         return Promise.reject(sdkResponse);
     }

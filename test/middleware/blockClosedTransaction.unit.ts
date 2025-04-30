@@ -58,6 +58,20 @@ describe("blockClosedTransaction middleware", () => {
         expect(error.status).toBe(404);
     });
 
+    it("should return a NotFound error if the user is not authorized", async () => {
+        const req = generateRequest(PrefixedUrls.PERSONAL_CODE);
+        const res = httpMocks.createResponse();
+        const error401 = new HttpError("User not authorized owner for transaction", 401);
+        const error404 = new HttpError(`blockClosedTransaction - User not authorized owner for transaction ${TRANSACTION_ID}`, 404);
+
+        mockGetTransaction.mockRejectedValueOnce(error401);
+
+        await blockClosedTransaction(req, res, mockNext);
+
+        expect(mockGetTransaction).toHaveBeenCalledWith(req, TRANSACTION_ID);
+        expect(mockNext).toHaveBeenCalledWith(error404);
+    });
+
     it("should skip the middleware for the psc-verified screen", async () => {
         const req = generateRequest(PrefixedUrls.PSC_VERIFIED);
         const res = httpMocks.createResponse();

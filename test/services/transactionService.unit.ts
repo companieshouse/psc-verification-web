@@ -2,6 +2,7 @@ import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
+import { HttpError } from "../../src/lib/errors/httpError";
 import { createOAuthApiClient } from "../../src/services/apiClientService";
 import { getCompanyProfile } from "../../src/services/companyProfileService";
 import { DESCRIPTION, TransactionStatus, closeTransaction, getTransaction, postTransaction, putTransaction } from "../../src/services/transactionService";
@@ -68,7 +69,7 @@ describe("Transaction service", () => {
             };
             mockGetTransaction.mockResolvedValueOnce(mockResponse);
 
-            await expect(getTransaction(req, TRANSACTION_ID)).rejects.toThrow("Failed to get transaction: HTTP 400");
+            await expect(getTransaction(req, TRANSACTION_ID)).rejects.toThrow(new HttpError("Failed to get transaction", HttpStatusCode.BadRequest));
             expect(mockGetTransaction).toHaveBeenCalledWith(TRANSACTION_ID);
         });
 

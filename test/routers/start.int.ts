@@ -86,8 +86,13 @@ describe("Start router/handler integration tests", () => {
             });
 
             it("should render the service unavailable page for service root URL, and the time as expected", async () => {
-                const amendedPlannedMaintenanceOutOfService = { ...plannedMaintenanceResponseUp };
-                amendedPlannedMaintenanceOutOfService.resource.maintenance_end_time = SECOND_DATE;
+                const amendedPlannedMaintenanceOutOfService = {
+                    ...plannedMaintenanceResponseUp,
+                    resource: {
+                        ...plannedMaintenanceResponseUp.resource,
+                        maintenance_end_time: SECOND_DATE
+                    }
+                };
                 mockCheckPlannedMaintenance.mockResolvedValue(amendedPlannedMaintenanceOutOfService);
                 const resp = await request(app).get(servicePathPrefix);
 

@@ -8,6 +8,7 @@ export const logger: ApplicationLogger = createLogger(env.APP_NAME ?? PSC_VERIFI
 // tslint:disable-next-line:no-console
 console.log(`env.LOG_LEVEL set to ${env.LOG_LEVEL}`);
 
+// TODO: deprecate this in favour of logging in httpErrorInterceptor?
 export const createAndLogError = (description: string): Error => {
     const error = new Error(description);
     logger.error(`${error.stack}`);

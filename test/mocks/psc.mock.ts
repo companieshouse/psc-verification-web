@@ -1,10 +1,9 @@
-import { PersonWithSignificantControl, PscVerificationState, VerificationStatusEnum } from "@companieshouse/api-sdk-node/dist/services/psc/types";
-import { PSC_KIND_TYPE } from "../../src/constants";
+import { KindEnum, PersonWithSignificantControl, VerificationState, VerificationStatusEnum } from "@companieshouse/api-sdk-node/dist/services/psc/types";
 
 export const COMPANY_NUMBER = "12345678";
 export const PSC_ID = "67edfE436y35hetsie6zuAZtr";
 
-const PSC_VERIFICATION_STATE: PscVerificationState = {
+const PSC_VERIFICATION_STATE: VerificationState = {
     verificationStatus: VerificationStatusEnum.UNVERIFIED,
     verificationStartDate: new Date("2024-04-13"),
     verificationStatementDueDate: new Date("2024-04-27")
@@ -12,7 +11,7 @@ const PSC_VERIFICATION_STATE: PscVerificationState = {
 
 export const PSC_INDIVIDUAL: PersonWithSignificantControl = {
     naturesOfControl: ["ownership-of-shares-75-to-100-percent", "voting-rights-75-to-100-percent-as-trust"],
-    kind: PSC_KIND_TYPE.INDIVIDUAL,
+    kind: KindEnum.INDIVIDUAL_PERSON_WITH_SIGNIFICANT_CONTROL,
     name: "Sir Forename Middlename Surname",
     nameElements: {
         title: "Sir",

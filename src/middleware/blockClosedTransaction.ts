@@ -19,18 +19,24 @@ export const blockClosedTransaction = (req: any, res: any, next: any) => {
         return next();
     }
 
-    getTransaction(req, transactionId)
-        .then(transaction => {
+    (async function checkTransactionStatus () {
+        try {
+            const transaction = await getTransaction(req, transactionId);
             if (transaction.status === TransactionStatus.CLOSED) {
                 const httpError = new HttpError("Transaction is closed; blocking request", HttpStatusCode.NotFound);
                 return next(httpError);
+            } else {
+                return next();
             }
-        })
-        .catch(err => {
+        } catch (err: unknown) {
+            if ((err instanceof HttpError && err.status === HttpStatusCode.Unauthorized)) {
+                return next(new HttpError(`${blockClosedTransaction.name} - User not authorized owner for transaction ${transactionId}`, HttpStatusCode.NotFound));
+            }
             logger.error(`${transactionId} - Error while checking transaction status. ${err}`);
-            const httpError = new HttpError(err, HttpStatusCode.InternalServerError);
+            const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
+            const httpError = new HttpError(errorMessage, HttpStatusCode.InternalServerError);
             return next(httpError);
-        });
+        }
+    })();
 
-    next();
 };
