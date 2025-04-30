@@ -125,10 +125,6 @@ export const checkPlannedMaintenance = async (request: Request): Promise<ApiResp
     }
 
     const castedSdkResponse = sdkResponse as ApiResponse<PlannedMaintenance>;
-
-    if (!castedSdkResponse) {
-        throw createAndLogError(`${checkPlannedMaintenance.name} - PSC Verification API GET request returned no response`);
-    }
     logger.debug(`${checkPlannedMaintenance.name} - GET PSC Verification Planned Maintenance response: ${sdkResponse.httpStatusCode}`);
 
     return castedSdkResponse;
