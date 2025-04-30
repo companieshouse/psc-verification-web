@@ -52,7 +52,7 @@ export const httpErrorInterceptor = (err: HttpError | Error, req: Request, res: 
     res.render(templatePath, {
         ...defaultBaseViewData,
         ...getLocaleInfo(locales, lang),
-        currentUrl: req.url,
+        currentUrl: req.originalUrl,
         extraData: [env.CONTACT_US_LINK]
     });
 };
