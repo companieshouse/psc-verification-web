@@ -19,6 +19,7 @@
         "test:coverage": "sh ./scripts/jest_coverage.sh",
         "start": "npm run build && node dist/httpServer.js",
         "start:watch": "nodemon",
+        "chs-dev": "nodemon --legacy-watch",
         "sonarqube-base-branch": "sonar-scanner",
         "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main",
         "sonarqube": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); if [[ $branch == \"HEAD\" ]]; then echo $branch && npm run sonarqube-base-branch; else echo $branch && npm run sonarqube-pull-request; fi;"
@@ -105,19 +106,6 @@
         "chokidar": "3.5.3",
         "glob-parent": "6.0.2",
         "micromatch": "4.0.8"
-    },
-    "nodemonConfig": {
-        "watch": [
-            "./locales",
-            "./src",
-            "./assets/src"
-        ],
-        "ext": "ts,js,json,njk,scss,env",
-        "legacyWatch": true,
-        "ignore": [
-            "**/*.test.ts"
-        ],
-        "exec": "npm run build && node --inspect=0.0.0.0:9229 dist/httpServer.js"
     },
     "directories": {
         "test": "test"
