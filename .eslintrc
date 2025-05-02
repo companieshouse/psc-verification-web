@@ -24,7 +24,7 @@
         "check-file/filename-naming-convention": [
             "error",
             {
-              "src/**/*.*": "CAMEL_CASE",
+              "src/!(bin)/**/*.*": "CAMEL_CASE",
               "test/**/*.*": "CAMEL_CASE"
             },
             {
