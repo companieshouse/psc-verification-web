@@ -1,3 +1,5 @@
 {
-  "target": "minor"
+
+  "target": "latest",
+  "reject": ["*eslint*", "express", "govuk-frontend"]
 }
