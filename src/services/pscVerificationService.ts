@@ -13,13 +13,13 @@ import { DataIntegrityError, DataIntegrityErrorType } from "../lib/errors/dataIn
 
 export const createPscVerification = async (request: Request, transaction: Transaction, pscVerification: PscVerificationData): Promise<Resource<PscVerification> | ApiErrorResponse> => {
     if (!pscVerification) {
-        throw new Error(`getPscVerification - Aborting: PscVerificationData is required for PSC Verification POST request for transaction ${transaction.id}`);
+        throw new Error(`${createPscVerification.name} - Aborting: PscVerificationData is required for PSC Verification POST request for transaction ${transaction.id}`);
     }
     if (!pscVerification.companyNumber) {
-        throw new Error(`createPscVerification - Aborting: companyNumber is required for PSC Verification POST request for transaction ${transaction.id}.`);
+        throw new Error(`${createPscVerification.name} - Aborting: companyNumber is required for PSC Verification POST request for transaction ${transaction.id}.`);
     }
     if (pscVerification.pscNotificationId == null) {
-        throw new Error(`${createPscVerification.name} - Aborting: pscNotificationId is required for PSC Verification POST request for transaction ${transaction.id}. Has the user tried to resume a journey after signing out and in again?`);
+        throw new DataIntegrityError(`${createPscVerification.name} - Aborting: pscNotificationId is required for PSC Verification POST request for transaction ${transaction.id}.`, DataIntegrityErrorType.PSC_DATA);
     }
 
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
@@ -42,7 +42,7 @@ export const createPscVerification = async (request: Request, transaction: Trans
     if (!sdkResponse.httpStatusCode) {
         throw new Error(`${createPscVerification.name} - HTTP status code is undefined - Failed to POST PSC Verification for transaction ${transaction.id}`);
     } else if (sdkResponse.httpStatusCode >= 400 && sdkResponse.httpStatusCode < 500) {
-        throw new DataIntegrityError(`${createPscVerification.name} - ${sdkResponse.httpStatusCode} Failed to POST PSC Verification for transaction ${transaction.id}`, DataIntegrityErrorType.PSC_DATA);
+        throw new DataIntegrityError(`${createPscVerification.name} received ${sdkResponse.httpStatusCode} - Failed to POST PSC Verification for transaction ${transaction.id}`, DataIntegrityErrorType.PSC_DATA);
     } else if (sdkResponse.httpStatusCode !== HttpStatusCode.Created) {
         throw new HttpError(`${createPscVerification.name} - Failed to POST PSC Verification for transaction ${transaction.id}`, sdkResponse.httpStatusCode);
     }
