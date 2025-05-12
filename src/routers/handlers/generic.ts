@@ -4,7 +4,6 @@
 import { Request, Response } from "express";
 import { ExternalUrls, PrefixedUrls, servicePathPrefix } from "../../constants";
 import errorManifest from "../../lib/utils/error-manifests/errorManifest";
-import { createAndLogError } from "../../lib/logger";
 
 export interface BaseViewData {
     errors: any
@@ -45,7 +44,7 @@ export abstract class GenericHandler<T extends BaseViewData> {
             return err.stack;
         }
 
-        throw createAndLogError(this.errorManifest.generic.serverError.summary);
+        throw err;
     }
 
     populateViewData (req: Request, res: Response) {
