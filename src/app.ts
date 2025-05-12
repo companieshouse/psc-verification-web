@@ -13,6 +13,7 @@ import { blockClosedTransaction } from "./middleware/blockClosedTransaction";
 import { httpErrorInterceptor } from "./middleware/error-interceptors/httpErrorInterceptor";
 import { HttpError } from "./lib/errors/httpError";
 import { HttpStatusCode } from "axios";
+import { dataIntegrityErrorInterceptor } from "./middleware/error-interceptors/dataIntegrityErrorInterceptor";
 
 const app = express();
 
@@ -84,6 +85,8 @@ routerDispatch(app);
 app.use((req: any, _) => {
     throw new HttpError(`Page not found: ${req.url}`, HttpStatusCode.NotFound);
 });
+
+app.use(dataIntegrityErrorInterceptor);
 
 // intercept HTTP errors
 app.use(httpErrorInterceptor);
