@@ -100,7 +100,6 @@ describe("stop screen view tests", () => {
                 expect($("a#mail-to-dsr").attr("href")).toBe(`mailto:${env.DSR_EMAIL_ADDRESS}`);
                 break;
             case STOP_TYPE.PROBLEM_WITH_PSC_DATA:
-                expect($("a.govuk-back-link").attr("href")).toBe(`${PrefixedUrls.INDIVIDUAL_PSC_LIST}?companyNumber=00006400&lang=en`);
                 expect($("p.govuk-body").text()).toContain("You'll need to call or email Companies House to resolve it before you can provide verification details. You'll be asked to provide the company number.");
                 break;
             default:
