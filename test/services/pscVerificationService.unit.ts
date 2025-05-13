@@ -122,21 +122,7 @@ describe("pscVerificationService", () => {
             expect(response).toBeUndefined();
         });
 
-        it("should throw a HttpError when API status is anything other than 200 ok / 4XX", async () => {
-            const mockCreate: Resource<PscVerification> = {
-                httpStatusCode: HttpStatusCode.ServiceUnavailable
-            };
-            mockCreatePscVerification.mockResolvedValueOnce(mockCreate);
-
-            const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA).catch((error) => {
-                expect(error).toBeInstanceOf(HttpError);
-                expect(error).toHaveProperty("status", HttpStatusCode.ServiceUnavailable);
-                expect(error).toHaveProperty("message", `createPscVerification - Failed to POST PSC Verification for transaction ${TRANSACTION_ID}`);
-            });
-            expect(response).toBeUndefined();
-        });
-
-        it.each([400, 499])("should throw a DataIntegrityError when API status is a client error (4XX)", async (status) => {
+        it.each([400, 404])("should throw a DataIntegrityError when API status is 400/404", async (status) => {
             const mockCreate: Resource<PscVerification> = {
                 httpStatusCode: status
             };
@@ -146,6 +132,40 @@ describe("pscVerificationService", () => {
                 expect(error).toBeInstanceOf(DataIntegrityError);
                 expect(error).toHaveProperty("type", "PSC_DATA");
                 expect(error).toHaveProperty("message", `createPscVerification received ${status} - Failed to POST PSC Verification for transaction ${TRANSACTION_ID}`);
+            });
+            expect(response).toBeUndefined();
+        });
+
+        it.each([400, 404])("should parse API error response text when available & API status is 400/404", async (status) => {
+            const errorMessage = "Error message";
+            const mockCreate = {
+                httpStatusCode: status,
+                resource: {
+                    errors: [{
+                        error: errorMessage
+                    }]
+                }
+            };
+            mockCreatePscVerification.mockResolvedValueOnce(mockCreate);
+
+            const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA).catch((error) => {
+                expect(error).toBeInstanceOf(DataIntegrityError);
+                expect(error).toHaveProperty("type", "PSC_DATA");
+                expect(error).toHaveProperty("message", `createPscVerification received ${status} - ${errorMessage}`);
+            });
+            expect(response).toBeUndefined();
+        });
+
+        it("should throw a HttpError when an unsuccessful API status is otherwise unhandled", async () => {
+            const mockCreate: Resource<PscVerification> = {
+                httpStatusCode: HttpStatusCode.ServiceUnavailable
+            };
+            mockCreatePscVerification.mockResolvedValueOnce(mockCreate);
+
+            const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA).catch((error) => {
+                expect(error).toBeInstanceOf(HttpError);
+                expect(error).toHaveProperty("status", HttpStatusCode.ServiceUnavailable);
+                expect(error).toHaveProperty("message", `createPscVerification - Failed to POST PSC Verification for transaction ${TRANSACTION_ID}`);
             });
             expect(response).toBeUndefined();
         });
@@ -305,21 +325,7 @@ describe("pscVerificationService", () => {
             expect(response).toBeUndefined();
         });
 
-        it("should throw a HttpError when API status is anything other than 200 ok / 4XX", async () => {
-            const mockPatch: Resource<PscVerification> = {
-                httpStatusCode: HttpStatusCode.ServiceUnavailable
-            };
-            mockPatchPscVerification.mockResolvedValueOnce(mockPatch);
-
-            const response = await patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA).catch((error) => {
-                expect(error).toBeInstanceOf(HttpError);
-                expect(error).toHaveProperty("status", HttpStatusCode.ServiceUnavailable);
-                expect(error).toHaveProperty("message", `patchPscVerification - Failed to PATCH PSC Verification for resource with transactionId ${TRANSACTION_ID}, pscVerificationId ${PSC_VERIFICATION_ID}`);
-            });
-            expect(response).toBeUndefined();
-        });
-
-        it.each([400, 499])("should throw a DataIntegrityError when API status is a client error (4XX)", async (status) => {
+        it.each([400, 404])("should throw a DataIntegrityError when API status is 400/404", async (status) => {
             const mockPatch: Resource<PscVerification> = {
                 httpStatusCode: status
             };
@@ -329,6 +335,40 @@ describe("pscVerificationService", () => {
                 expect(error).toBeInstanceOf(DataIntegrityError);
                 expect(error).toHaveProperty("type", "PSC_DATA");
                 expect(error).toHaveProperty("message", `patchPscVerification received ${status} - Failed to PATCH PSC Verification for resource with transactionId ${TRANSACTION_ID}, pscVerificationId ${PSC_VERIFICATION_ID}`);
+            });
+            expect(response).toBeUndefined();
+        });
+
+        it.each([400, 404])("should parse API error response text when available & API status is 400/404", async (status) => {
+            const errorMessage = "Error message";
+            const mockPatch = {
+                httpStatusCode: status,
+                resource: {
+                    errors: [{
+                        error: errorMessage
+                    }]
+                }
+            };
+            mockPatchPscVerification.mockResolvedValueOnce(mockPatch);
+
+            const response = await patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA).catch((error) => {
+                expect(error).toBeInstanceOf(DataIntegrityError);
+                expect(error).toHaveProperty("type", "PSC_DATA");
+                expect(error).toHaveProperty("message", `patchPscVerification received ${status} - ${errorMessage}`);
+            });
+            expect(response).toBeUndefined();
+        });
+
+        it("should throw a HttpError when an unsuccessful API status is otherwise unhandled", async () => {
+            const mockPatch: Resource<PscVerification> = {
+                httpStatusCode: HttpStatusCode.ServiceUnavailable
+            };
+            mockPatchPscVerification.mockResolvedValueOnce(mockPatch);
+
+            const response = await patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA).catch((error) => {
+                expect(error).toBeInstanceOf(HttpError);
+                expect(error).toHaveProperty("status", HttpStatusCode.ServiceUnavailable);
+                expect(error).toHaveProperty("message", `patchPscVerification - Failed to PATCH PSC Verification for resource with transactionId ${TRANSACTION_ID}, pscVerificationId ${PSC_VERIFICATION_ID}`);
             });
             expect(response).toBeUndefined();
         });

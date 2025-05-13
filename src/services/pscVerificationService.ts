@@ -41,8 +41,9 @@ export const createPscVerification = async (request: Request, transaction: Trans
 
     if (!sdkResponse.httpStatusCode) {
         throw new Error(`${createPscVerification.name} - HTTP status code is undefined - Failed to POST PSC Verification for transaction ${transaction.id}`);
-    } else if (sdkResponse.httpStatusCode >= 400 && sdkResponse.httpStatusCode < 500) {
-        throw new DataIntegrityError(`${createPscVerification.name} received ${sdkResponse.httpStatusCode} - Failed to POST PSC Verification for transaction ${transaction.id}`, DataIntegrityErrorType.PSC_DATA);
+    } else if (sdkResponse.httpStatusCode === HttpStatusCode.BadRequest || sdkResponse.httpStatusCode === HttpStatusCode.NotFound) {
+        const message = (sdkResponse as any)?.resource?.errors?.[0]?.error ?? `Failed to POST PSC Verification for transaction ${transaction.id}`;
+        throw new DataIntegrityError(`${createPscVerification.name} received ${sdkResponse.httpStatusCode} - ${message}`, DataIntegrityErrorType.PSC_DATA);
     } else if (sdkResponse.httpStatusCode !== HttpStatusCode.Created) {
         throw new HttpError(`${createPscVerification.name} - Failed to POST PSC Verification for transaction ${transaction.id}`, sdkResponse.httpStatusCode);
     }
@@ -103,8 +104,9 @@ export const patchPscVerification = async (request: Request, transactionId: stri
 
     if (!sdkResponse.httpStatusCode) {
         throw new Error(`${patchPscVerification.name} - HTTP status code is undefined - Failed to PATCH PSC Verification for resource with ${logReference}`);
-    } else if (sdkResponse.httpStatusCode >= 400 && sdkResponse.httpStatusCode < 500) {
-        throw new DataIntegrityError(`${patchPscVerification.name} received ${sdkResponse.httpStatusCode} - Failed to PATCH PSC Verification for resource with ${logReference}`, DataIntegrityErrorType.PSC_DATA);
+    } else if (sdkResponse.httpStatusCode === HttpStatusCode.BadRequest || sdkResponse.httpStatusCode === HttpStatusCode.NotFound) {
+        const message = (sdkResponse as any)?.resource?.errors?.[0]?.error ?? `Failed to PATCH PSC Verification for resource with ${logReference}`;
+        throw new DataIntegrityError(`${patchPscVerification.name} received ${sdkResponse.httpStatusCode} - ${message}`, DataIntegrityErrorType.PSC_DATA);
     } else if (sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
         throw new HttpError(`${patchPscVerification.name} - Failed to PATCH PSC Verification for resource with ${logReference}`, sdkResponse.httpStatusCode);
     }
