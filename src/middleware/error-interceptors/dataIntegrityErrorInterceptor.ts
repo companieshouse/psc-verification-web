@@ -11,13 +11,11 @@ export function dataIntegrityErrorInterceptor (err: Error | DataIntegrityError, 
     }
     logger.error(`${err.name} (${err.type}): ${err.stack}`);
 
-    switch (err.type) {
-        case DataIntegrityErrorType.PSC_DATA:
-            res.status(HttpStatusCode.InternalServerError);
-            res.redirect(getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.PROBLEM_WITH_PSC_DATA));
-            break;
-        default:
-            return next(new Error(`Unhandled DataIntegrityError type: ${err.type}`));
+    if (err.type === DataIntegrityErrorType.PSC_DATA) {
+        res.status(HttpStatusCode.InternalServerError);
+        res.redirect(getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.PROBLEM_WITH_PSC_DATA));
+    } else {
+        return next(new Error(`Unhandled DataIntegrityError type: ${err.type}`));
     }
 
     return next();
