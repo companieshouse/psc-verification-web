@@ -117,8 +117,7 @@ describe("Stop screen handler", () => {
                 case STOP_TYPE.PROBLEM_WITH_PSC_DATA:
                     expect(viewData).toMatchObject({
                         ...expectedViewData,
-                        currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`,
-                        backURL: `${PrefixedUrls.INDIVIDUAL_PSC_LIST}?companyNumber=00006400&lang=en`
+                        currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`
                     });
                     break;
                 default:

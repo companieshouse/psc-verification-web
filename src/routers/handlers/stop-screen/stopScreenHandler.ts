@@ -97,7 +97,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 ...getLocaleInfo(locales, lang),
                 templateName: stopType,
                 currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
-                backURL: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang }),
                 extraData: [env.ENQUIRIES_EMAIL_ADDRESS, env.ENQUIRIES_PHONE_NUMBER]
             };
         }
