@@ -14,6 +14,7 @@ import { httpErrorInterceptor } from "./middleware/error-interceptors/httpErrorI
 import { HttpError } from "./lib/errors/httpError";
 import { HttpStatusCode } from "axios";
 import { dataIntegrityErrorInterceptor } from "./middleware/error-interceptors/dataIntegrityErrorInterceptor";
+import { requestLogger } from "./middleware/requestLogger";
 import { requestIdGenerator } from "./middleware/requestIdGenerator";
 
 const app = express();
@@ -56,6 +57,9 @@ app.use(requestIdGenerator);
 
 // initiate session and attach to middleware
 app.use(servicePathPrefix, sessionMiddleware);
+
+// log incoming requests pre & post processing
+app.use(requestLogger);
 
 // attach csrf protection to middleware
 app.use(csrfProtectionMiddleware);
