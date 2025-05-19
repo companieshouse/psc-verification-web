@@ -24,6 +24,7 @@ describe("requestIdGenerator middleware", () => {
 
         expect(req.headers?.["x-request-id"]).toBe(mockRequestId);
         expect(req.headers?.context).toBe(mockRequestId);
+        expect(res.setHeader).toHaveBeenCalledWith("x-request-id", mockRequestId);
         expect(next).toHaveBeenCalled();
     });
 
