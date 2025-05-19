@@ -52,4 +52,17 @@ describe("requestLogger middleware", () => {
         expect(logger.debug).toHaveBeenCalledWith(expect.stringContaining("CLOSED request mock-id after 6400.00ms"));
         mockHrtime.mockRestore();
     });
+
+    it("should log an error and use 'UNKNOWN' as request ID when x-request-id is missing", () => {
+        req.headers = {};
+
+        requestLogger(req as Request, res as Response, next);
+
+        expect(logger.error).toHaveBeenCalledWith(
+            `${requestLogger.name} - Request ID is missing. Ensure that the 'requestIdGenerator' middleware is called before this middleware.`
+        );
+        expect(logger.debugRequest).toHaveBeenCalledWith(req, expect.stringContaining("OPEN request UNKNOWN"));
+        expect(logger.debug).toHaveBeenCalledWith(expect.stringContaining("CLOSED request UNKNOWN"));
+        expect(next).toHaveBeenCalled();
+    });
 });
