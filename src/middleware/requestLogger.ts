@@ -31,13 +31,13 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction): 
     const startTime = process.hrtime();
 
     // Pre-process log
-    logger.debugRequest(req, `${requestLogger.name} - OPEN request with id="${requestId}": ${req.method} ${req.originalUrl}`);
+    logger.debugRequest(req, `${requestLogger.name} - OPEN request with requestId="${requestId}": ${req.method} ${req.originalUrl}`);
 
     // Post-process log
     res.on("finish", () => {
         const [seconds, nanoseconds] = process.hrtime(startTime);
         const durationInMs = (seconds * 1000 + nanoseconds / 1e6).toFixed(2);
-        logger.debug(`${requestLogger.name} - CLOSED request with id="${requestId}" after ${durationInMs}ms with status ${res.statusCode}`);
+        logger.debug(`${requestLogger.name} - CLOSED request with requestId="${requestId}" after ${durationInMs}ms with status ${res.statusCode}`);
     });
 
     return next();
