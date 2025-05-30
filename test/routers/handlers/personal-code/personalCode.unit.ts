@@ -410,7 +410,7 @@ describe("Personal code handler", () => {
         });
 
         it("Should redirect to the internal server error page when a server error response occurs", async () => {
-            jest.spyOn(logger, "error").mockImplementation(() => {});
+            jest.spyOn(logger, "debug").mockImplementation(() => {});
 
             const req = httpMocks.createRequest({
                 method: "POST",
@@ -447,7 +447,7 @@ describe("Personal code handler", () => {
 
             expect(viewData.errors).toBe("Processed Internal Server Error");
             expect(processHandlerException).toHaveBeenCalledWith(expect.objectContaining({ message: "Internal Server Error" }));
-            expect(logger.error).toHaveBeenCalled();
+            expect(logger.debug).toHaveBeenCalled();
 
         });
 

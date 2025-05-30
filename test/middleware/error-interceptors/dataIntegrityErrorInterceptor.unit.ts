@@ -34,7 +34,7 @@ describe("dataIntegrityErrorInterceptor", () => {
 
         dataIntegrityErrorInterceptor(error, req as Request, res as Response, next);
 
-        expect(logger.error).toHaveBeenCalledWith(`${error.name} (${error.type}): ${error.stack}`);
+        expect(logger.error).toHaveBeenCalledWith(`${error.stack}`);
         expect(res.status).toHaveBeenCalledWith(HttpStatusCode.InternalServerError);
         expect(res.redirect).toHaveBeenCalledWith("/persons-with-significant-control-verification/stop/problem-with-psc-data");
         expect(next).toHaveBeenCalled();

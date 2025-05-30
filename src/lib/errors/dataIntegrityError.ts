@@ -8,7 +8,7 @@ export class DataIntegrityError extends Error {
 
     constructor (message: string, type: DataIntegrityErrorType) {
         super(message);
-        this.name = "DataIntegrityError";
+        this.name = `DataIntegrityError (${type})`;
         this.type = type;
 
         // Maintains stack trace for where the error was thrown

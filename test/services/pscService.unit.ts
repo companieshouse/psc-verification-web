@@ -53,7 +53,7 @@ describe("PSC Service", () => {
                 await getPscIndividual(COMPANY_NUMBER, PSC_ID);
                 throw new Error("invalid expecting getPscIndividual to throw error");
             } catch (error: any) {
-                expect(error.message).toBe("getPscIndividual -  Failed to get PSC with verification state for companyNumber: 12345678 and PSC notification ID: 67edfE436y35hetsie6zuAZtr");
+                expect(error.message).toBe("Failed to get PSC with verification state for companyNumber=\"12345678\", notificationId=\"67edfE436y35hetsie6zuAZtr\"");
             }
         });
 
@@ -66,14 +66,14 @@ describe("PSC Service", () => {
             mockGetPscIndividual.mockResolvedValueOnce(mockGet);
 
             await expect(getPscIndividual(COMPANY_NUMBER, PSC_NOTIFICATION_ID)).rejects.toThrow(
-                new Error(`getPscIndividual - no PSC with verification state returned for companyNumber: ${COMPANY_NUMBER} and PSC notification ID: ${PSC_NOTIFICATION_ID}`));
+                new Error(`no PSC with verification state returned for companyNumber="${COMPANY_NUMBER}", notificationId="${PSC_NOTIFICATION_ID}"`));
         });
 
         it("should throw an Error when there is no response", async () => {
             mockGetPscIndividual.mockResolvedValueOnce(undefined);
 
             await expect(getPscIndividual(COMPANY_NUMBER, PSC_NOTIFICATION_ID)).rejects.toThrow(
-                new Error(`getPscIndividual -  Failed to get PSC with verification state for companyNumber: ${COMPANY_NUMBER} and PSC notification ID: ${PSC_NOTIFICATION_ID}`));
+                new Error(`Failed to get PSC with verification state for companyNumber="${COMPANY_NUMBER}", notificationId="${PSC_NOTIFICATION_ID}"`));
         });
 
         it("should throw an Error when the API resource is missing", async () => {
@@ -84,7 +84,7 @@ describe("PSC Service", () => {
             mockGetPscIndividual.mockResolvedValueOnce(mockGet);
 
             await expect(getPscIndividual(COMPANY_NUMBER, PSC_NOTIFICATION_ID)).rejects.toThrow(
-                new Error(`getPscIndividual -  Failed to get PSC with verification state for companyNumber: ${COMPANY_NUMBER} and PSC notification ID: ${PSC_NOTIFICATION_ID}`));
+                new Error(`Failed to get PSC with verification state for companyNumber="${COMPANY_NUMBER}", notificationId="${PSC_NOTIFICATION_ID}"`));
         });
 
     });

@@ -15,10 +15,10 @@ export const checkCompany = (req: Request, res: Response, next: NextFunction) =>
     const companyTypeAllowed: string[] = getPscVerificationCompanyLists(COMPANY_TYPE_ALLOWED);
 
     if (companyStatusNotAllowed.includes(companyProfile.companyStatus)) {
-        logger.debug(`${checkCompany.name} - Company Status ${companyProfile.companyStatus} for company number ${companyNumber} is not allowed`);
+        logger.debug(`Company Status ${companyProfile.companyStatus} for company with companyNumber="${companyNumber}" is not allowed`);
         res.redirect(addSearchParams(getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.COMPANY_STATUS), { companyNumber, lang }));
     } else if (!companyTypeAllowed.includes(companyProfile.type)) {
-        logger.debug(`${checkCompany.name} - Company Type ${companyProfile.type} for company number ${companyNumber} is not allowed`);
+        logger.debug(`Company Type ${companyProfile.type} for company with companyNumber="${companyNumber}" is not allowed`);
         res.redirect(addSearchParams(getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.COMPANY_TYPE), { companyNumber, lang }));
     } else {
         next();

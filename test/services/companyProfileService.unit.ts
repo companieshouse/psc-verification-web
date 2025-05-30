@@ -42,7 +42,7 @@ describe("CompanyProfileService", () => {
             const request = {} as Request;
 
             await expect(getCompanyProfile(request, COMPANY_NUMBER)).rejects.toThrow(
-                new Error(`getCompanyProfile -HTTP status code 500 - Failed to get company profile for company number ${COMPANY_NUMBER}`)
+                new Error(`HTTP status code 500 - Failed to get company profile for companyNumber="${COMPANY_NUMBER}"`)
             );
         });
 
@@ -52,7 +52,7 @@ describe("CompanyProfileService", () => {
             const request = {} as Request;
 
             await expect(getCompanyProfile(request, COMPANY_NUMBER)).rejects.toThrow(
-                new Error(`getCompanyProfile -HTTP status code 400 - Failed to get company profile for company number ${COMPANY_NUMBER}`)
+                new Error(`HTTP status code 400 - Failed to get company profile for companyNumber="${COMPANY_NUMBER}"`)
             );
         });
 
@@ -62,7 +62,7 @@ describe("CompanyProfileService", () => {
             const request = {} as Request;
 
             await expect(getCompanyProfile(request, COMPANY_NUMBER)).rejects.toThrow(
-                new Error(`getCompanyProfile - Company Profile API returned no response for company number ${COMPANY_NUMBER}`)
+                new Error(`Company Profile API returned no response for companyNumber="${COMPANY_NUMBER}"`)
             );
         });
 
@@ -72,7 +72,7 @@ describe("CompanyProfileService", () => {
             const request = {} as Request;
 
             await expect(getCompanyProfile(request, COMPANY_NUMBER)).rejects.toThrow(
-                new Error(`getCompanyProfile - Company Profile API returned no resource for company number ${COMPANY_NUMBER}`)
+                new Error(`Company Profile API returned no resource for companyNumber="${COMPANY_NUMBER}"`)
             );
         });
     });

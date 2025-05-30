@@ -1,6 +1,5 @@
 import { HttpStatusCode } from "axios";
 import { HttpError } from "../lib/errors/httpError";
-import { logger } from "../lib/logger";
 import { TransactionStatus, getTransaction } from "../services/transactionService";
 
 /**
@@ -30,10 +29,9 @@ export const blockClosedTransaction = (req: any, res: any, next: any) => {
             }
         } catch (err: unknown) {
             if ((err instanceof HttpError && err.status === HttpStatusCode.Unauthorized)) {
-                return next(new HttpError(`${blockClosedTransaction.name} - User not authorized owner for transaction ${transactionId}`, HttpStatusCode.NotFound));
+                return next(new HttpError(`User not authorized owner for transactionId="${transactionId}"`, HttpStatusCode.NotFound));
             }
-            logger.error(`${transactionId} - Error while checking transaction status. ${err}`);
-            const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
+            const errorMessage = err instanceof Error ? err.message : `failed to check transaction status for transactionId="${transactionId}"`;
             const httpError = new HttpError(errorMessage, HttpStatusCode.InternalServerError);
             return next(httpError);
         }

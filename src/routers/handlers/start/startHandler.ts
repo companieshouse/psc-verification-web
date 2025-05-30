@@ -33,7 +33,7 @@ export default class StartHandler extends GenericHandler<StartViewData> {
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<StartViewData>> {
-        logger.info(`${StartHandler.name} - ${this.executeGet.name}: called to serve start page`);
+        logger.info(`called to serve start page`);
 
         // ...process request here and return data for the view
         return {

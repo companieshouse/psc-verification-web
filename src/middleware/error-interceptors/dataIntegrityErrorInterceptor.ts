@@ -2,14 +2,14 @@ import { NextFunction, Request, Response } from "express";
 import { DataIntegrityError, DataIntegrityErrorType } from "../../lib/errors/dataIntegrityError";
 import { HttpStatusCode } from "axios";
 import { PrefixedUrls, STOP_TYPE } from "../../constants";
-import { logger } from "../../lib/logger";
 import { getUrlWithStopType } from "../../utils/url";
+import { logger } from "../../lib/logger";
 
 export function dataIntegrityErrorInterceptor (err: Error | DataIntegrityError, req: Request, res: Response, next: NextFunction): void {
     if (!(err instanceof DataIntegrityError)) {
         return next(err);
     }
-    logger.error(`${err.name} (${err.type}): ${err.stack}`);
+    logger.error(`${err.stack}`);
 
     if (err.type === DataIntegrityErrorType.PSC_DATA) {
         res.status(HttpStatusCode.InternalServerError);

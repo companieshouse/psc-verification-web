@@ -16,10 +16,10 @@ import { HttpStatusCode } from "axios";
 export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
 
     public async execute (req: Request, res: Response) {
-        logger.info(`${NewSubmissionHandler.name} - ${this.execute.name} called`);
+        logger.info(`called`);
         // create a new transaction
         const transaction: Transaction = await postTransaction(req);
-        logger.info(`${NewSubmissionHandler.name} - ${this.execute.name} - CREATED Transaction ${transaction.id!}`);
+        logger.info(`CREATED transaction with transactionId="${transaction.id}"`);
 
         // create a new submission for the company number provided
         const resource = await this.createNewSubmission(req, transaction);
@@ -29,14 +29,10 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         let nextPageUrl : string = "";
 
         if (this.isErrorResponse(resource)) {
-
             nextPageUrl = getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.PROBLEM_WITH_PSC_DATA);
-
         } else {
-
             const pscVerification = resource.resource;
-
-            logger.info(`${NewSubmissionHandler.name} - ${this.execute.name} - CREATED New Resource ${pscVerification?.links.self}`);
+            logger.info(`CREATED New Resource ${pscVerification?.links.self}`);
 
             // set up redirect to psc_code screen
             const regex = "persons-with-significant-control-verification/(.*)$";

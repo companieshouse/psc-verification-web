@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { logger } from "../lib/logger";
+import { requestIdGenerator } from "./requestIdGenerator";
 
 /**
  * Middleware to log incoming HTTP requests and their corresponding responses.
@@ -20,10 +21,13 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction): 
         return next();
     }
 
+    // Required due to res.on("finish") being asynchronous
+    const logPrefix = logger.getPrefix({ stackPos: 2 });
+
     // Extract the request ID from the headers; log error & use UNKNOWN if not present
     let requestId = req.headers["x-request-id"];
     if (!requestId) {
-        logger.error(`${requestLogger.name} - Request ID is missing. Ensure that the 'requestIdGenerator' middleware is called before this middleware.`);
+        logger.raw.error(`${logPrefix} Request ID is missing. Ensure that the '${requestIdGenerator.name}' middleware is called before this middleware.`);
         requestId = "UNKNOWN";
     }
 
@@ -31,13 +35,13 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction): 
     const startTime = process.hrtime();
 
     // Pre-process log
-    logger.debugRequest(req, `${requestLogger.name} - OPEN request with requestId="${requestId}": ${req.method} ${req.originalUrl}`);
+    logger.raw.debugRequest(req, `${logPrefix} OPEN request with requestId="${requestId}": ${req.method} ${req.originalUrl}`);
 
     // Post-process log
     res.on("finish", () => {
         const [seconds, nanoseconds] = process.hrtime(startTime);
         const durationInMs = (seconds * 1000 + nanoseconds / 1e6).toFixed(2);
-        logger.debug(`${requestLogger.name} - CLOSED request with requestId="${requestId}" after ${durationInMs}ms with status ${res.statusCode}`);
+        logger.raw.debug(`${logPrefix} CLOSED request with requestId="${requestId}" after ${durationInMs}ms with status ${res.statusCode}`);
     });
 
     return next();

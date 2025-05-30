@@ -18,30 +18,31 @@ const FALLBACK_TEMPLATE_NAME = "500-internal-server-error";
  * `HttpError` instances and falls back to a generic internal server error for
  * unhandled exceptions.
  *
- * @param err - The error object, which can be an instance of `HttpError` or a generic `Error`.
+ * @param error - The error object, which can be an instance of `HttpError` or a generic `Error`.
  * @param req - The Express request object.
  * @param res - The Express response object.
  * @param _next - The next middleware function in the chain (unused in this interceptor).
  */
-export const httpErrorInterceptor = (err: HttpError | Error, req: Request, res: Response, _next: NextFunction) => {
-    if (err instanceof HttpError) {
-        logger.error(`${err.name} (${err.status}): ${err.stack}`);
-        res.status(err.status);
+export const httpErrorInterceptor = (error: HttpError | Error, req: Request, res: Response, _next: NextFunction) => {
+    logger.debug(`Handling error for URL: ${req.url}`);
+    if (error instanceof HttpError) {
+        logger.raw.error(`${logger.getPrefix({ error })} ${error.status} ${error.stack}`);
+        res.status(error.status);
     } else {
         // Treat generic errors as an internal server error
-        logger.error(`${err.name} Unhandled error at URL: ${req.url}. ${err.stack}`);
+        logger.raw.error(`${logger.getPrefix({ error })} Unhandled error at URL: ${req.url}. ${error.stack}`);
         res.status(HttpStatusCode.InternalServerError);
     }
 
     // Determine the template name based on the status code
     let templateName = mapStatusCodeToTemplate(res.statusCode);
-    logger.info(`httpErrorInterceptor - Rendering template: ${templateName} for status code ${res.statusCode}`);
+    logger.info(`Rendering template: ${templateName} for status code ${res.statusCode}`);
 
     // Check if the template exists, else fallback to ISE template
     try {
         njk.getTemplate(TEMPLATE_PATH_ROOT + templateName + ".njk");
-    } catch (error) {
-        logger.error(`httpErrorInterceptor - Template not found: ${templateName}. Falling back to '${FALLBACK_TEMPLATE_NAME}'. ${error}`);
+    } catch (error: any) {
+        logger.error(`${error.message}. Falling back to error/${FALLBACK_TEMPLATE_NAME}.njk`);
         templateName = FALLBACK_TEMPLATE_NAME;
     }
 
@@ -62,7 +63,7 @@ export function mapStatusCodeToTemplate (statusCode: HttpStatusCode): string {
     const statusType = HttpStatusCode[statusCode];
 
     if (!statusType) {
-        logger.error(`httpErrorInterceptor::mapStatusCodeToTemplate - Invalid status code: ${statusCode}`);
+        logger.error(`Invalid status code: ${statusCode}`);
         return FALLBACK_TEMPLATE_NAME;
     }
 

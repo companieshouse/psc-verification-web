@@ -52,7 +52,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<PersonalCodeViewData>> {
-        logger.info(`${PersonalCodeHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+        logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
         const viewData = await this.getViewData(req, res);
 
         return {
@@ -62,7 +62,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
     }
 
     public async executePost (req: Request, res: Response): Promise<ViewModel<PersonalCodeViewData>> {
-        logger.info(`${PersonalCodeHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+        logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
         const viewData = await this.getViewData(req, res);
 
         try {
@@ -82,7 +82,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             const validator = new PscVerificationFormsValidator(lang);
             viewData.errors = await validator.validatePersonalCode(req.body, lang, viewData.pscName);
 
-            logger.debug(`${PersonalCodeHandler.name} - ${this.executePost.name} - patching personal code for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+            logger.debug(`patching personal code for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
             const patchResponse = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
             const validationStatusResponse = await getValidationStatus(req, req.params.transactionId, req.params.submissionId);
             const url = this.resolveNextPageUrl(validationStatusResponse, patchResponse);
@@ -90,7 +90,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
 
         } catch (err: any) {
-            logger.error(`${req.method} error: problem handling PSC details (personal code) request: ${err.message}`);
+            logger.debug(`problem handling personal code request: ${err.message}`);
             viewData.errors = this.processHandlerException(err);
         }
 

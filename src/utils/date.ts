@@ -12,7 +12,7 @@ export const toReadableFormat = (dateToConvert: string | undefined, lang = "en")
     const convertedDate = dateTime.setLocale(lang).toFormat("d MMMM yyyy");
 
     if (convertedDate === "Invalid DateTime") {
-        throw logger.info(`${toReadableFormat.name} - Unable to convert provided date ${dateToConvert}`);
+        throw logger.info(`Unable to convert provided date ${dateToConvert}`);
     }
 
     return convertedDate;
@@ -34,7 +34,7 @@ export const toHourDayDateFormat = (dateToConvert: string | undefined, lang = "e
     const convertedDate = dateTime.setLocale(lang).toFormat("cccc d MMMM yyyy");
 
     if (convertedHour === "Invalid DateTime" || convertedDate === "Invalid DateTime") {
-        throw logger.info(`${toHourDayDateFormat.name} - Unable to convert provided date ${dateToConvert}`);
+        throw logger.info(`Unable to convert provided date ${dateToConvert}`);
     }
 
     const locales = getLocalesService();

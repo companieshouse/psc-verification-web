@@ -65,7 +65,7 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<NameMismatchViewData>> {
-        logger.info(`${NameMismatchHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+        logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
         const viewData = await this.getViewData(req, res);
 
         return {
@@ -75,7 +75,7 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
     }
 
     public async executePost (req: Request, res: Response): Promise<ViewModel<NameMismatchViewData>> {
-        logger.info(`${NameMismatchHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+        logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
         const viewData = await this.getViewData(req, res);
 
         try {
@@ -95,11 +95,11 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
             const validator = new PscVerificationFormsValidator(lang);
             viewData.errors = await validator.validateNameMismatch(req.body, lang, viewData.pscName);
 
-            logger.debug(`${NameMismatchHandler.name} - ${this.executePost.name} - patching name mismatch reason for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+            logger.debug(`patching name mismatch reason for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
             await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
 
         } catch (err: any) {
-            logger.error(`${req.method} error: problem handling name mismatch request: ${err.message}`);
+            logger.debug(`problem handling name mismatch request: ${err.message}`);
             viewData.errors = this.processHandlerException(err);
         }
 

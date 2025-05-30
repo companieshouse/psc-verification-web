@@ -9,7 +9,7 @@ import { HttpStatusCode } from "axios";
 
 export const serviceUnavailable = handleExceptions(async (req: Request, res: Response, next: NextFunction) => {
 
-    logger.debug(`${serviceUnavailable.name} - Service Availability check`);
+    logger.debug(`Service Availability check`);
 
     const response: ApiResponse<PlannedMaintenance> = await checkPlannedMaintenance(req);
 

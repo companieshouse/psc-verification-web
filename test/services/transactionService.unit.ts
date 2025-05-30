@@ -69,7 +69,9 @@ describe("Transaction service", () => {
             };
             mockGetTransaction.mockResolvedValueOnce(mockResponse);
 
-            await expect(getTransaction(req, TRANSACTION_ID)).rejects.toThrow(new HttpError("Failed to get transaction", HttpStatusCode.BadRequest));
+            await expect(getTransaction(req, TRANSACTION_ID)).rejects.toThrow(
+                new HttpError(`Failed to get transaction with transactionId="${TRANSACTION_ID}"`, HttpStatusCode.BadRequest)
+            );
             expect(mockGetTransaction).toHaveBeenCalledWith(TRANSACTION_ID);
         });
 

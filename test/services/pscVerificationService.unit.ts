@@ -78,7 +78,7 @@ describe("pscVerificationService", () => {
 
             const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA).catch((error) => {
                 expect(error).toBeInstanceOf(Error);
-                expect(error).toHaveProperty("message", `createPscVerification - PSC Verification API POST request returned no resource for transaction ${TRANSACTION_ID}`);
+                expect(error).toHaveProperty("message", `PSC Verification API POST request returned no resource for transactionId="${TRANSACTION_ID}"`);
             });
             expect(response).toBeUndefined();
         });
@@ -86,7 +86,7 @@ describe("pscVerificationService", () => {
         it("should throw an error when PscVerification is undefined", async () => {
             const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, undefined as any).catch((error) => {
                 expect(error).toBeInstanceOf(Error);
-                expect(error).toHaveProperty("message", `createPscVerification - Aborting: PscVerificationData is required for PSC Verification POST request for transaction ${TRANSACTION_ID}`);
+                expect(error).toHaveProperty("message", `Aborting: PscVerificationData is required for PSC Verification POST request for transactionId="${TRANSACTION_ID}"`);
             });
             expect(response).toBeUndefined();
         });
@@ -97,7 +97,7 @@ describe("pscVerificationService", () => {
 
             const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, incompleteData as any).catch((error) => {
                 expect(error).toBeInstanceOf(Error);
-                expect(error).toHaveProperty("message", `createPscVerification - Aborting: companyNumber is required for PSC Verification POST request for transaction ${TRANSACTION_ID}.`);
+                expect(error).toHaveProperty("message", `Aborting: companyNumber is required for PSC Verification POST request for transactionId="${TRANSACTION_ID}"`);
             });
             expect(response).toBeUndefined();
         });
@@ -107,7 +107,7 @@ describe("pscVerificationService", () => {
 
             const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA).catch((error) => {
                 expect(error).toBeInstanceOf(Error);
-                expect(error).toHaveProperty("message", `createPscVerification - PSC Verification POST request returned no response for transaction ${TRANSACTION_ID}`);
+                expect(error).toHaveProperty("message", `PSC Verification POST request returned no response for transactionId="${TRANSACTION_ID}"`);
             });
             expect(response).toBeUndefined();
         });
@@ -117,7 +117,7 @@ describe("pscVerificationService", () => {
 
             const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA).catch((error) => {
                 expect(error).toBeInstanceOf(Error);
-                expect(error).toHaveProperty("message", `createPscVerification - HTTP status code is undefined - Failed to POST PSC Verification for transaction ${TRANSACTION_ID}`);
+                expect(error).toHaveProperty("message", `HTTP status code is undefined - Failed to POST PSC Verification for transactionId="${TRANSACTION_ID}"`);
             });
             expect(response).toBeUndefined();
         });
@@ -131,7 +131,7 @@ describe("pscVerificationService", () => {
             const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA).catch((error) => {
                 expect(error).toBeInstanceOf(DataIntegrityError);
                 expect(error).toHaveProperty("type", "PSC_DATA");
-                expect(error).toHaveProperty("message", `createPscVerification received ${status} - Failed to POST PSC Verification for transaction ${TRANSACTION_ID}`);
+                expect(error).toHaveProperty("message", `received ${status} - Failed to POST PSC Verification for transactionId="${TRANSACTION_ID}"`);
             });
             expect(response).toBeUndefined();
         });
@@ -151,7 +151,7 @@ describe("pscVerificationService", () => {
             const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA).catch((error) => {
                 expect(error).toBeInstanceOf(DataIntegrityError);
                 expect(error).toHaveProperty("type", "PSC_DATA");
-                expect(error).toHaveProperty("message", `createPscVerification received ${status} - ${errorMessage}`);
+                expect(error).toHaveProperty("message", `received ${status} - ${errorMessage}`);
             });
             expect(response).toBeUndefined();
         });
@@ -165,7 +165,7 @@ describe("pscVerificationService", () => {
             const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA).catch((error) => {
                 expect(error).toBeInstanceOf(HttpError);
                 expect(error).toHaveProperty("status", HttpStatusCode.ServiceUnavailable);
-                expect(error).toHaveProperty("message", `createPscVerification - Failed to POST PSC Verification for transaction ${TRANSACTION_ID}`);
+                expect(error).toHaveProperty("message", `Failed to POST PSC Verification for transactionId="${TRANSACTION_ID}"`);
             });
             expect(response).toBeUndefined();
         });
@@ -177,7 +177,7 @@ describe("pscVerificationService", () => {
 
             const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, incompleteData).catch((error) => {
                 expect(error).toBeInstanceOf(DataIntegrityError);
-                expect(error).toHaveProperty("message", `createPscVerification - Aborting: pscNotificationId is required for PSC Verification POST request for transaction ${TRANSACTION_ID}.`);
+                expect(error).toHaveProperty("message", `Aborting: pscNotificationId is required for PSC Verification POST request for transactionId="${TRANSACTION_ID}"`);
             });
             expect(response).toBeUndefined();
         });
@@ -209,7 +209,7 @@ describe("pscVerificationService", () => {
             const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA).catch((error) => {
                 expect(error).toBeInstanceOf(DataIntegrityError);
                 expect(error).toHaveProperty("type", "PSC_DATA");
-                expect(error).toHaveProperty("message", `createPscVerification - We are currently unable to process a Verification filing for this PSC - Failed to POST PSC Verification for transaction ${TRANSACTION_ID}`);
+                expect(error).toHaveProperty("message", `We are currently unable to process a Verification filing for this PSC - Failed to POST PSC Verification for transactionId="${TRANSACTION_ID}"`);
             });
 
             expect(response).toBeUndefined();
@@ -242,7 +242,7 @@ describe("pscVerificationService", () => {
                 httpStatusCode: HttpStatusCode.Unauthorized
             };
             mockGetPscVerification.mockResolvedValueOnce(mockGet);
-            const expectedMessage = `getPscVerification - User not authorized owner for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}`;
+            const expectedMessage = `User not authorized owner for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`;
 
             await expect(getPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(new HttpError(expectedMessage, HttpStatusCode.NotFound));
         });
@@ -253,9 +253,11 @@ describe("pscVerificationService", () => {
                 httpStatusCode: undefined
             };
             mockGetPscVerification.mockResolvedValueOnce(mockGet);
-            const expectedMessage = `getPscVerification - HTTP status code is undefined - Failed to GET PSC Verification for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}`;
+            const expectedMessage = `HTTP status code is undefined - Failed to GET PSC Verification for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`;
 
-            await expect(getPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(new Error(expectedMessage));
+            await expect(getPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
+                new Error(expectedMessage)
+            );
         });
 
         it("should throw an error when the response resource is undefined", async () => {
@@ -266,14 +268,14 @@ describe("pscVerificationService", () => {
             mockGetPscVerification.mockResolvedValueOnce(mockGet);
 
             await expect(getPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
-                new Error(`getPscVerification - PSC Verification API GET request returned no resource for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}`));
+                new Error(`PSC Verification API GET request returned no resource for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`));
         });
 
         it("should throw an Error when no response from API", async () => {
             mockGetPscVerification.mockResolvedValueOnce(undefined);
 
             await expect(getPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
-                new Error(`getPscVerification - PSC Verification GET request returned no response for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}`));
+                new Error(`PSC Verification GET request returned no response for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`));
         });
 
         it("should throw an Error when API status is unavailable", async () => {
@@ -283,7 +285,7 @@ describe("pscVerificationService", () => {
             mockGetPscVerification.mockResolvedValueOnce(mockGet);
 
             await expect(getPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
-                new HttpError(`getPscVerification - Failed to GET PSC Verification for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}`, HttpStatusCode.ServiceUnavailable));
+                new HttpError(`Failed to GET PSC Verification for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`, HttpStatusCode.ServiceUnavailable));
         });
     });
 
@@ -310,7 +312,7 @@ describe("pscVerificationService", () => {
 
             const response = await patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA).catch((error) => {
                 expect(error).toBeInstanceOf(Error);
-                expect(error).toHaveProperty("message", `patchPscVerification - PSC Verification PATCH request returned no response for resource with transactionId ${TRANSACTION_ID}, pscVerificationId ${PSC_VERIFICATION_ID}`);
+                expect(error).toHaveProperty("message", `PSC Verification PATCH request returned no response for resource with transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`);
             });
             expect(response).toBeUndefined();
         });
@@ -320,7 +322,7 @@ describe("pscVerificationService", () => {
 
             const response = await patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA).catch((error) => {
                 expect(error).toBeInstanceOf(Error);
-                expect(error).toHaveProperty("message", `patchPscVerification - HTTP status code is undefined - Failed to PATCH PSC Verification for resource with transactionId ${TRANSACTION_ID}, pscVerificationId ${PSC_VERIFICATION_ID}`);
+                expect(error).toHaveProperty("message", `HTTP status code is undefined - Failed to PATCH PSC Verification for resource with transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`);
             });
             expect(response).toBeUndefined();
         });
@@ -334,7 +336,10 @@ describe("pscVerificationService", () => {
             const response = await patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA).catch((error) => {
                 expect(error).toBeInstanceOf(DataIntegrityError);
                 expect(error).toHaveProperty("type", "PSC_DATA");
-                expect(error).toHaveProperty("message", `patchPscVerification received ${status} - Failed to PATCH PSC Verification for resource with transactionId ${TRANSACTION_ID}, pscVerificationId ${PSC_VERIFICATION_ID}`);
+                expect(error).toHaveProperty(
+                    "message",
+                    `received ${status} - Failed to PATCH PSC Verification for resource with transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}", context: \n{}`
+                );
             });
             expect(response).toBeUndefined();
         });
@@ -354,7 +359,7 @@ describe("pscVerificationService", () => {
             const response = await patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA).catch((error) => {
                 expect(error).toBeInstanceOf(DataIntegrityError);
                 expect(error).toHaveProperty("type", "PSC_DATA");
-                expect(error).toHaveProperty("message", `patchPscVerification received ${status} - ${errorMessage}`);
+                expect(error).toHaveProperty("message", `received ${status} - ${errorMessage}, context: \n{}`);
             });
             expect(response).toBeUndefined();
         });
@@ -368,7 +373,7 @@ describe("pscVerificationService", () => {
             const response = await patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA).catch((error) => {
                 expect(error).toBeInstanceOf(HttpError);
                 expect(error).toHaveProperty("status", HttpStatusCode.ServiceUnavailable);
-                expect(error).toHaveProperty("message", `patchPscVerification - Failed to PATCH PSC Verification for resource with transactionId ${TRANSACTION_ID}, pscVerificationId ${PSC_VERIFICATION_ID}`);
+                expect(error).toHaveProperty("message", `Failed to PATCH PSC Verification for resource with transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`);
             });
             expect(response).toBeUndefined();
         });
@@ -381,7 +386,7 @@ describe("pscVerificationService", () => {
             mockPatchPscVerification.mockResolvedValueOnce(mockPatch);
 
             await expect(patchPscVerification(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA)).rejects.toThrow(
-                new Error(`PSC Verification API PATCH request returned no resource with transactionId ${TRANSACTION_ID}, pscVerificationId ${PSC_VERIFICATION_ID}`));
+                new Error(`PSC Verification API PATCH request returned no resource with transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`));
 
         });
     });
@@ -408,7 +413,7 @@ describe("pscVerificationService", () => {
             mockCheckPlannedMaintenance.mockResolvedValueOnce(undefined);
 
             await expect(checkPlannedMaintenance(req)).rejects.toThrow(
-                new Error("checkPlannedMaintenance - PSC Verification GET maintenance request returned no response"));
+                new Error("PSC Verification GET maintenance request returned no response"));
         });
 
         it("should throw an Error when API status is unavailable", async () => {
@@ -418,7 +423,7 @@ describe("pscVerificationService", () => {
             mockCheckPlannedMaintenance.mockResolvedValueOnce(mockPlannedMaintenance);
 
             await expect(checkPlannedMaintenance(req)).rejects.toThrow(
-                new Error("checkPlannedMaintenance - HTTP status code 503 - Failed to GET Planned Maintenance response"));
+                new Error("HTTP status code 503 - Failed to GET Planned Maintenance response"));
         });
 
         it("should throw an error when the API call returns a non-OK HTTP status code", async () => {
@@ -429,7 +434,7 @@ describe("pscVerificationService", () => {
             mockCheckPlannedMaintenance.mockResolvedValue(mockErrorResponse);
 
             await expect(checkPlannedMaintenance(req)).rejects.toThrow(
-                "checkPlannedMaintenance - HTTP status code 500 - Failed to GET Planned Maintenance response"
+                "HTTP status code 500 - Failed to GET Planned Maintenance response"
             );
         });
 
@@ -441,7 +446,7 @@ describe("pscVerificationService", () => {
             mockCheckPlannedMaintenance.mockResolvedValue(mockErrorResponse);
 
             await expect(checkPlannedMaintenance(req)).rejects.toThrow(
-                "checkPlannedMaintenance - HTTP status code undefined - Failed to GET Planned Maintenance response"
+                "HTTP status code undefined - Failed to GET Planned Maintenance response"
             );
         });
 
@@ -518,20 +523,20 @@ describe("pscVerificationService", () => {
 
             mockGetValidationStatus.mockResolvedValueOnce(errorResponse);
 
-            await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrowErrorMatchingInlineSnapshot(
-                `"getValidationStatus - Error getting validation status: HTTP response is: 404 for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}"`);
+            await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
+                `Error getting validation status: HTTP response is 404 for transactionId="11111-22222-33333", pscVerificationId="662a0de6a2c6f9aead0f32ab"`
+            );
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
-
         });
 
         it("should throw an error when the response is null", async () => {
             mockGetValidationStatus.mockResolvedValueOnce(null);
 
-            await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrowErrorMatchingInlineSnapshot(
-                `"getValidationStatus - PSC Verification GET validation status request did not return a response for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}"`
+            await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
+                `PSC Verification GET validation status request did not return a response for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`
             );
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
@@ -547,14 +552,13 @@ describe("pscVerificationService", () => {
 
             mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
 
-            await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrowErrorMatchingInlineSnapshot(
-                `"getValidationStatus - Error getting validation status for transaction ${TRANSACTION_ID}, pscVerification ${PSC_VERIFICATION_ID}"`
+            await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
+                `Error getting validation status for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`
             );
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
-
         });
     });
 });

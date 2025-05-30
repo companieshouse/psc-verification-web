@@ -109,7 +109,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
                 } catch (error) {
                     // not able to add the verification state to the PSC object, but we still add the PSC object to the list
                     // this is to ensure that the user can still see the PSC in the list, and submit a verification
-                    logger.error(`${IndividualPscListHandler.name} - ${this.getViewData.name} - Error getting PSC individual details: ${error}`);
+                    logger.error(`Error getting PSC individual details: ${error}`);
                     individualPscListWithVerificationState.push(psc as PersonWithSignificantControl);
                 }
             }
@@ -118,7 +118,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<IndividualPscListViewData>> {
-        logger.info(`${IndividualPscListHandler.name} - ${this.executeGet.name} `);
+        logger.info(`called`);
         const viewData = await this.getViewData(req, res);
 
         return {
