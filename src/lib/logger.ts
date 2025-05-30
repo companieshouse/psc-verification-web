@@ -60,7 +60,7 @@ export class PrefixedLogger {
         // Default stack position is 3 unless specified:
         // - 0: the error
         // - 1: this.getPrefix() call
-        // - 2: PrefixedLogger.getPrefix() call
+        // - 2: PrefixedLogger.{debug,error,etc}() call
         // - 3: The actual method that called for the logger
         let { stackPos = 3, error } = options;
 
