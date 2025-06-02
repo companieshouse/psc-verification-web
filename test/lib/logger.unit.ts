@@ -116,4 +116,16 @@ describe("PrefixedLogger", () => {
         expect(prefix).toBe("");
         expect(mockRawLogger.error).toHaveBeenCalledWith(expect.stringContaining("unable to extract log prefix from stack trace"));
     });
+
+    it("should log an error and return an empty string when the stack trace can't be parsed", () => {
+        const mockError = new Error();
+        mockError.stack = [
+            "Error: Test error",
+            "    THIS CANNOT BE PARSED",
+            "    at Object.<anonymous> (/path/to/test.ts:15:25)"
+        ].join("\n");
+        const prefix = logger.getPrefix({ error: mockError });
+        expect(prefix).toBe("");
+        expect(mockRawLogger.error).toHaveBeenCalledWith(expect.stringContaining("unable to extract log prefix from stack trace"));
+    });
 });
