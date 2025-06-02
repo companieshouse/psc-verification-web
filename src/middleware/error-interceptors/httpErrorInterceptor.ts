@@ -41,8 +41,8 @@ export const httpErrorInterceptor = (error: HttpError | Error, req: Request, res
     // Check if the template exists, else fallback to ISE template
     try {
         njk.getTemplate(TEMPLATE_PATH_ROOT + templateName + ".njk");
-    } catch (error: any) {
-        logger.error(`${error.message}. Falling back to error/${FALLBACK_TEMPLATE_NAME}.njk`);
+    } catch (err: any) {
+        logger.error(`${err.message}. Falling back to error/${FALLBACK_TEMPLATE_NAME}.njk`);
         templateName = FALLBACK_TEMPLATE_NAME;
     }
 
