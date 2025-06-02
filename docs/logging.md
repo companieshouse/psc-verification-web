@@ -60,7 +60,6 @@ throw new HttpError(`PSC not found`, HttpStatusCode.NotFound);
   stack trace end
   -> ...
 ```
-2025-05-30T14:31:55.143+00:00 error: StartHandler::executeGet - 501 HttpError: not implemented
 
 ### Advanced
 `logger` is actually a custom wrapper (called `PrefixedLogger`) around [ch-structured-logging-node](https://github.com/companieshouse/ch-structured-logging-node)'s `ApplicationLogger`. All it does is prepend the `ClassName::methodName -` prefix to every log line.
