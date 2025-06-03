@@ -37,8 +37,8 @@ describe("requestLogger middleware", () => {
     it("should log the request and response details", () => {
         requestLogger(req as Request, res as Response, next);
 
-        expect(logger.debugRequest).toHaveBeenCalledWith(req, expect.stringContaining("OPEN request with requestId=\"mock-id\""));
-        expect(logger.debug).toHaveBeenCalledWith(expect.stringContaining("CLOSED request with requestId=\"mock-id\""));
+        expect(logger.raw.debugRequest).toHaveBeenCalledWith(req, expect.stringContaining("OPEN request with requestId=\"mock-id\""));
+        expect(logger.raw.debug).toHaveBeenCalledWith(expect.stringContaining("CLOSED request with requestId=\"mock-id\""));
         expect(next).toHaveBeenCalled();
     });
 
@@ -49,7 +49,7 @@ describe("requestLogger middleware", () => {
 
         requestLogger(req as Request, res as Response, next);
 
-        expect(logger.debug).toHaveBeenCalledWith(expect.stringContaining("CLOSED request with requestId=\"mock-id\" after 6400.00ms"));
+        expect(logger.raw.debug).toHaveBeenCalledWith(expect.stringContaining("CLOSED request with requestId=\"mock-id\" after 6400.00ms"));
         mockHrtime.mockRestore();
     });
 
@@ -58,11 +58,11 @@ describe("requestLogger middleware", () => {
 
         requestLogger(req as Request, res as Response, next);
 
-        expect(logger.error).toHaveBeenCalledWith(
-            `${requestLogger.name} - Request ID is missing. Ensure that the 'requestIdGenerator' middleware is called before this middleware.`
+        expect(logger.raw.error).toHaveBeenCalledWith(
+            expect.stringContaining(`Request ID is missing. Ensure that the 'requestIdGenerator' middleware is called before this middleware.`)
         );
-        expect(logger.debugRequest).toHaveBeenCalledWith(req, expect.stringContaining("OPEN request with requestId=\"UNKNOWN\""));
-        expect(logger.debug).toHaveBeenCalledWith(expect.stringContaining("CLOSED request with requestId=\"UNKNOWN\""));
+        expect(logger.raw.debugRequest).toHaveBeenCalledWith(req, expect.stringContaining("OPEN request with requestId=\"UNKNOWN\""));
+        expect(logger.raw.debug).toHaveBeenCalledWith(expect.stringContaining("CLOSED request with requestId=\"UNKNOWN\""));
         expect(next).toHaveBeenCalled();
     });
 });

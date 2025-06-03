@@ -2,7 +2,7 @@ import { Resource } from "@companieshouse/api-sdk-node";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { CompanyPersonWithSignificantControl, CompanyPersonsWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 import { Request } from "express";
-import { createAndLogError, logger } from "../lib/logger";
+import { logger } from "../lib/logger";
 import { createOAuthApiClient } from "./apiClientService";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
@@ -12,10 +12,9 @@ export const getCompanyIndividualPscList = async (request: Request, companyNumbe
     const response = await getCompanyPscList(request, companyNumber);
     const companyPscs = response.resource as CompanyPersonsWithSignificantControl;
 
-    logger.debug(`${getCompanyIndividualPscList.name} - company psc list response for company number ${companyNumber} has ${companyPscs?.items?.length || 0} item(s)`);
+    logger.debug(`company psc list response for company with companyNumber="${companyNumber}" has ${companyPscs?.items?.length || 0} item(s)`);
     if (!companyPscs?.items?.length) {
-        logger.info(`${getCompanyIndividualPscList.name} - no pscs have been found for company ${companyNumber}`);
-
+        logger.info(`no pscs have been found for company with companyNumber="${companyNumber}"`);
         return [];
     }
 
@@ -51,7 +50,7 @@ const constructCompanyPscResponse = (
 export const getCompanyPscList = async (request: Request, companyNumber: string): Promise<Resource<CompanyPersonsWithSignificantControl>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
 
-    logger.debug(`${getCompanyPscList.name} for company number ${companyNumber}`);
+    logger.debug(`for company with companyNumber="${companyNumber}"`);
     let sdkResponse: Resource<CompanyPersonsWithSignificantControl> | ApiErrorResponse;
     let companyPscsSdkResponse: Resource<CompanyPersonsWithSignificantControl>;
     let allItems: CompanyPersonWithSignificantControl[] = [];
@@ -62,12 +61,13 @@ export const getCompanyPscList = async (request: Request, companyNumber: string)
         sdkResponse = await oAuthApiClient.companyPsc.getCompanyPsc(companyNumber, startIndex, itemsPerPage);
 
         if (!sdkResponse || !sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
-            throw createAndLogError(`${getCompanyPscList.name} - Failed to get company psc list for company number ${companyNumber} with start index ${startIndex} and items per page ${itemsPerPage}`);
+            throw new Error(`Failed to get company psc list for companyNumber="${companyNumber}" with start index ${startIndex} and items per page ${itemsPerPage}`);
         }
-        logger.debug(`${getCompanyPscList.name} - company psc list response: ${JSON.stringify({
+
+        logger.debug(`company psc list response: ${JSON.stringify({
             statusCode: sdkResponse.httpStatusCode,
             resourceItemCount: (sdkResponse as Resource<CompanyPersonsWithSignificantControl>).resource?.items?.length || 0
-        })} for company number ${companyNumber} with start index ${startIndex} and items per page ${itemsPerPage}`);
+        })} for companyNumber="${companyNumber}" with start index ${startIndex} and items per page ${itemsPerPage}`);
 
         companyPscsSdkResponse = sdkResponse as Resource<CompanyPersonsWithSignificantControl>;
 
@@ -82,7 +82,7 @@ export const getCompanyPscList = async (request: Request, companyNumber: string)
     constructCompanyPscResponse(companyPscsSdkResponse, allItems, itemsPerPage, companyNumber);
 
     if (!companyPscsSdkResponse.resource) {
-        throw createAndLogError(`${getCompanyPscList.name} returned no resource for company number ${companyNumber}`);
+        throw new Error(`returned no resource for companyNumber="${companyNumber}"`);
     }
 
     return companyPscsSdkResponse;

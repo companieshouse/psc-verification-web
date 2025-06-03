@@ -43,7 +43,7 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<ConfirmCompanyViewData>> {
-        logger.info(`${ConfirmCompanyHandler.name} - ${this.executeGet.name} called`);
+        logger.info(`called`);
 
         const viewData = await this.getViewData(req, res);
         return {
@@ -53,7 +53,7 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
     }
 
     public async executePost (req: Request, res: Response) {
-        logger.info(`${ConfirmCompanyHandler.name} - ${this.executePost.name} called`);
+        logger.info(`called`);
         const companyNumber = req.body.companyNumber as string;
         const lang = selectLang(req.body.lang);
         return addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang });

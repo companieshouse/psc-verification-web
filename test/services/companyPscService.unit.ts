@@ -72,7 +72,7 @@ describe("companyPscService", () => {
             const response = await getCompanyPscList(request, COMPANY_NUMBER);
             throw new Error("invalid expecting getCompanyPscList to throw error");
         } catch (error: any) {
-            expect(error.message).toBe("getCompanyPscList - Failed to get company psc list for company number 12345678 with start index 0 and items per page 100");
+            expect(error.message).toBe("Failed to get company psc list for companyNumber=\"12345678\" with start index 0 and items per page 100");
         }
     });
 

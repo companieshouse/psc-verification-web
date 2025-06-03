@@ -32,7 +32,7 @@ export default class ServiceUnavailableHandler extends GenericHandler<ServiceUna
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<ServiceUnavailableViewData>> {
-        logger.info(`${ServiceUnavailableHandler.name} - ${this.executeGet.name}: called to serve Service Unavailable page`);
+        logger.info(`called to serve Service Unavailable page`);
 
         return {
             templatePath: ServiceUnavailableHandler.templatePath,

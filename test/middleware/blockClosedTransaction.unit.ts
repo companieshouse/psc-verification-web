@@ -62,7 +62,7 @@ describe("blockClosedTransaction middleware", () => {
         const req = generateRequest(PrefixedUrls.PERSONAL_CODE);
         const res = httpMocks.createResponse();
         const error401 = new HttpError("User not authorized owner for transaction", 401);
-        const error404 = new HttpError(`blockClosedTransaction - User not authorized owner for transaction ${TRANSACTION_ID}`, 404);
+        const error404 = new HttpError(`User not authorized owner for transactionId="${TRANSACTION_ID}"`, 404);
 
         mockGetTransaction.mockRejectedValueOnce(error401);
 

@@ -17,10 +17,10 @@ individualPscListRouter.get("/", handleExceptions(async (req: Request, res: Resp
     const { templatePath, viewData } = await handler.executeGet(req, res);
 
     if (viewData.exclusivelySuperSecure) {
-        logger.debug(`individualPscListRouter.get - PSCs are exclusively Super Secure for company number ${companyNumber}: paper filing is required`);
+        logger.debug(`PSCs are exclusively Super Secure for companyNumber="${companyNumber}": paper filing is required`);
         res.redirect(addSearchParams(getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.SUPER_SECURE), { companyNumber, lang }));
     } else if (viewData.showNoPscsMessage) {
-        logger.debug(`individualPscListRouter.get - there are no PSCs for company number ${companyNumber}`);
+        logger.debug(`there are no PSCs for companyNumber="${companyNumber}"`);
         res.redirect(addSearchParams(getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.EMPTY_PSC_LIST), { companyNumber, lang }));
     } else {
         res.render(templatePath, viewData);

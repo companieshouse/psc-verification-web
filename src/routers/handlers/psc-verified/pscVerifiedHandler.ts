@@ -51,16 +51,16 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<PscVerifiedViewData>> {
-        logger.info(`${PscVerifiedHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId} and ${req.params?.submissionId}`);
+        logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
         const viewData = await this.getViewData(req, res);
 
         await closeTransaction(req, req.params.transactionId, req.params.submissionId)
             .then((data) => {
-                console.log(data);
+                logger.info(`transaction closed successfully for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
             })
             .catch((err) => {
-            // TODO: handle failure properly (redirect to Error Screen? TBC)
-                console.log(err);
+                // TODO: handle failure properly (redirect to Error Screen? TBC)
+                logger.error(`error closing transaction for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}": ${err.message}`);
             });
 
         return {

@@ -55,7 +55,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<IndividualStatementViewData>> {
-        logger.info(`${IndividualStatementHandler.name} - ${this.executeGet.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+        logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
         const viewData = await this.getViewData(req, res);
 
         return {
@@ -65,7 +65,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
     }
 
     public async executePost (req: Request, res: Response): Promise<ViewModel<IndividualStatementViewData>> {
-        logger.info(`${IndividualStatementHandler.name} - ${this.executePost.name} called for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+        logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
         const viewData = await this.getViewData(req, res);
 
         try {
@@ -90,11 +90,11 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, req.params.transactionId, req.params.submissionId);
             viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
 
-            logger.debug(`${IndividualStatementHandler.name} - ${this.executePost.name} - patching individual verification statement for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+            logger.debug(`patching individual verification statement for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
             await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
 
         } catch (err: any) {
-            logger.info(`There was a problem executing ${req.method} for individual verification statement for transaction: ${req.params?.transactionId} and submissionId: ${req.params?.submissionId}`);
+            logger.debug(`There was a problem executing ${req.method} for individual verification statement for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
             viewData.errors = this.processHandlerException(err);
         }
 
