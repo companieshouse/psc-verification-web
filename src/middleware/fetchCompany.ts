@@ -11,7 +11,7 @@ export const fetchCompany = handleExceptions(async (req: Request, res: Response,
         logger.debug(`Retrieving company profile for company with companyNumber="${companyNumber}" ...`);
 
         const response: CompanyProfile = await getCompanyProfile(req, companyNumber);
-        // store the profile in the request.locals (per express SOP)
+        // store the profile in the res.locals (per express SOP)
         res.locals.companyProfile = response;
     } else {
         logger.error(`Cannot retrieve company profile: No company number provided`);

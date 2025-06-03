@@ -11,7 +11,7 @@ export const fetchVerification = handleExceptions(async (req: Request, res: Resp
         logger.debug(`Retrieving verification: transactionId="${transactionId}", resourceId="${resourceId}"`);
 
         const response = await getPscVerification(req, transactionId, resourceId);
-        // store the submission in the request.locals (per express SOP)
+        // store the submission in the res.locals (per express SOP)
         res.locals.submission = response.resource;
     } else {
         logger.error(`No transactionId or resourceId found in request path parameters`);
