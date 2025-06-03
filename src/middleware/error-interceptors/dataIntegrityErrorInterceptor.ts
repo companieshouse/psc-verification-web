@@ -5,7 +5,7 @@ import { PrefixedUrls, STOP_TYPE } from "../../constants";
 import { getUrlWithStopType } from "../../utils/url";
 import { logger } from "../../lib/logger";
 
-export function dataIntegrityErrorInterceptor (err: Error | DataIntegrityError, req: Request, res: Response, next: NextFunction): void {
+export function dataIntegrityErrorInterceptor (err: Error | DataIntegrityError, _: Request, res: Response, next: NextFunction): void {
     if (!(err instanceof DataIntegrityError)) {
         return next(err);
     }
@@ -17,6 +17,4 @@ export function dataIntegrityErrorInterceptor (err: Error | DataIntegrityError, 
     } else {
         return next(new Error(`Unhandled DataIntegrityError type: ${err.type}`));
     }
-
-    return next();
 }

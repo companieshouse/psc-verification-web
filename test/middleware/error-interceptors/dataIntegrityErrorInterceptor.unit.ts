@@ -37,7 +37,6 @@ describe("dataIntegrityErrorInterceptor", () => {
         expect(logger.error).toHaveBeenCalledWith(`${error.stack}`);
         expect(res.status).toHaveBeenCalledWith(HttpStatusCode.InternalServerError);
         expect(res.redirect).toHaveBeenCalledWith("/persons-with-significant-control-verification/stop/problem-with-psc-data");
-        expect(next).toHaveBeenCalled();
     });
 
     it("should pass unhandled DataIntegrityError types to the next middleware as a generic error", () => {
