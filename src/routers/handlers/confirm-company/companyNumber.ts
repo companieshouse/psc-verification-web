@@ -7,7 +7,7 @@ import { BaseViewData, GenericHandler } from "./../generic";
 
 export class CompanyNumberHandler extends GenericHandler<BaseViewData> {
 
-    public execute (req: Request, _response: Response) {
+    public execute (req: Request, res: Response) {
         logger.info(`called`);
 
         const lang = selectLang(req.query.lang);
@@ -16,6 +16,6 @@ export class CompanyNumberHandler extends GenericHandler<BaseViewData> {
         const companyLookup = addSearchParams(ExternalUrls.COMPANY_LOOKUP, { forward });
         logger.debug(`Company number redirect: ` + companyLookup);
 
-        return _response.redirect(companyLookup);
+        return res.redirect(companyLookup);
     }
 }
