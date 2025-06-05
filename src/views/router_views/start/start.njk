@@ -10,32 +10,9 @@
 {% block main_content %}
 
     <h1 class="govuk-heading-l">{{ i18n.start_main_title }}</h1>
-    <p class="govuk-body-l">{{ i18n.start_service_description }}</p>
 
-    {{ govukInsetText({
-        text: i18n.start_inset_text
-    }) }}
-
-    <p class="govuk-body">{{ i18n.start_service_restriction_description }}</p>
-
-    <h2 class="govuk-heading-m">{{ i18n.start_when_to_verify_heading }}</h2>
-     <p class="govuk-body">{{ i18n.start_when_to_verify_description1 }}{{idvImplementationDate}}.</p>
-     <p class="govuk-body">{{ i18n.start_when_to_verify_description2 }}{{idvImplementationDate}}{{ i18n.start_when_to_verify_description3 }}</p>
-     <p class="govuk-body">{{ i18n.start_when_to_verify_description4 }}{{idvImplementationDate}}{{ i18n.start_when_to_verify_description5 }}</p>
-
-     {{ govukWarningText({
-        text: i18n.start_warning_text
-    }) }}
-
-    <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>   
-
-    <p class="govuk-body"> {{i18n.start_before_list}} </p>
-
-    <ul class="govuk-list govuk-list--bullet">
-        <li>{{ i18n.start_before_list_item1 }}</li>
-        <li>{{ i18n.start_before_list_item2 }}</li>
-        <li>{{ i18n.start_before_list_item3 }}</li>
-    </ul>
+    <p class="govuk-body">{{ i18n.start_service_description_1 }}</p>
+    <p class="govuk-body">{{ i18n.start_service_description_2 }}</p>
 
     {% set startPersonalCodeDetails %}
         <p class="govuk-body">{{ i18n.start_personal_code_details_description }}</p>
@@ -52,6 +29,47 @@
             }
         }) }}
 
+    <p class="govuk-body">{{ i18n.start_service_restriction_description }}</p>
+
+    <h2 class="govuk-heading-m">{{ i18n.start_when_to_verify_heading }}</h2>
+    <p class="govuk-body">{{ i18n.start_when_to_verify_description_1 }}</p>
+    <p class="govuk-body">{{ i18n.start_when_to_verify_description_2 }}</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.start_when_to_verify_list_item_1 }}{{ idvImplementationDate }}</li>
+        <li>{{ i18n.start_when_to_verify_list_item_2 }}</li>
+    </ul>
+
+    <p class="govuk-body">
+        {{ i18n.start_when_to_verify_description_3 }}
+        <a href="https://www.gov.uk/guidance/when-you-need-to-verify-your-identity-for-companies-house" data-event-id="guidance-when-to-verify-link">
+            {{ i18n.start_when_to_verify_guidance_link }}
+        </a>.
+    </p>
+
+    {{ govukInsetText({
+        text: i18n.start_when_to_verify_inset_text
+    }) }}
+
+    {{ govukWarningText({
+        text: i18n.start_warning_text
+    }) }}
+
+    <h2 class="govuk-heading-m">{{ i18n.start_request_extension_heading }}</h2>
+    <p class="govuk-body">{{ i18n.start_request_extension_description }}</p>
+    {{ govukInsetText({
+        text: i18n.start_request_extension_inset_text
+    }) }}
+
+    <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>   
+    <p class="govuk-body"> {{i18n.start_before_list}} </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.start_before_list_item_1 }}</li>
+        <li>{{ i18n.start_before_list_item_2 }}</li>
+    </ul>
+
+    <p class="govuk-body">{{ i18n.start_before_personal_code_description }}</p>
     <p class="govuk-body">{{ i18n.start_guidance_duration_description }}</p>
     
     {{ govukButton({
@@ -64,5 +82,10 @@
             }
         }) }}
 
+    <h2 class="govuk-heading-m">{{ i18n.start_adapt_your_device_heading }}</h2>   
+    <p class="govuk-body">
+        <a href="https://mcmw.abilitynet.org.uk/" data-event-id="adapt-your-device-link">{{ i18n.start_adapt_your_device_link }}</a>.
+        {{ i18n.start_adapt_your_device_description }}
+    </p>
 
 {% endblock %}
