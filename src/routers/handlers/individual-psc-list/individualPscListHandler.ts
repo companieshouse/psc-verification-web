@@ -17,16 +17,16 @@ interface PscListData {
     pscKind?: string,
     pscName?: string,
     pscDob?: string,
-    pscVerificationStatus: string,
-    pscVerificationDeadlineDate: string
+    pscVerificationStartDate: string,
+    pscVerificationDeadlineDate: string,
     pscSortName?: string,
 }
 
 interface IndividualPscListViewData extends BaseViewData {
     companyName: string,
-    confirmationStatementDate: string,
     dsrEmailAddress: string,
     dsrPhoneNumber: string,
+    idvImplementationDate: string,
     canVerifyNowDetails: PscListData[],
     canVerifyLaterDetails: PscListData[],
     verifiedPscDetails: PscListData[],
@@ -49,11 +49,10 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const companyProfile = res.locals.companyProfile;
         const dsrEmailAddress = env.DSR_EMAIL_ADDRESS;
         const dsrPhoneNumber = env.DSR_PHONE_NUMBER;
+        const idvDate = env.IDV_IMPLEMENTATION_DATE; // "yyyymmdd"
+        const idvDateFormatted = [idvDate.slice(0, 4), idvDate.slice(4, 6), idvDate.slice(6, 8)].join("-"); // yyyy-mm-dd
 
         const companyName = companyProfile?.companyName ?? "";
-        const confirmationStatementDate = companyProfile?.confirmationStatement
-            ? internationaliseDate(companyProfile.confirmationStatement.nextMadeUpTo, lang)
-            : "";
 
         const individualPscListWithVerificationState: PersonWithSignificantControl[] = await this.getIndividualPscListWithVerificationState(companyNumber, req);
 
@@ -79,9 +78,9 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             backURL: resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY),
             nextPageUrl: resolveUrlTemplate(PrefixedUrls.NEW_SUBMISSION) + "&selectedPscId=",
             companyName,
-            confirmationStatementDate,
             dsrEmailAddress,
             dsrPhoneNumber,
+            idvImplementationDate: internationaliseDate(idvDateFormatted, lang),
             canVerifyNowDetails: canVerifyNowDetails.filter(psc => psc.pscKind === PSC_KIND_TYPE.INDIVIDUAL),
             canVerifyLaterDetails: canVerifyLaterDetails.filter(psc => psc.pscKind === PSC_KIND_TYPE.INDIVIDUAL),
             verifiedPscDetails: verifiedPscDetails.filter(psc => psc.pscKind === PSC_KIND_TYPE.INDIVIDUAL),
@@ -140,8 +139,8 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
                 pscKind: psc.kind,
                 pscName: psc.name,
                 pscDob: pscFormattedDob,
+                pscVerificationStartDate: psc.verificationState?.verificationStartDate === undefined ? "Unknown" : internationaliseDate(psc.verificationState?.verificationStartDate.toString(), lang),
                 pscVerificationDeadlineDate: psc.verificationState?.verificationStatementDueDate === undefined ? "Unknown" : internationaliseDate(psc.verificationState?.verificationStatementDueDate.toString(), lang),
-                pscVerificationStatus: psc.verificationState?.verificationStatus ?? "UNKNOWN",
                 pscSortName: pscSortName
             };
         });
