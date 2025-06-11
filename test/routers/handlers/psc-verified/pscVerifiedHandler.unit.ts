@@ -82,14 +82,15 @@ describe("PSC Verified handler", () => {
             expect(mockCloseTransaction).toHaveBeenCalledWith(request, TRANSACTION_ID, PSC_VERIFICATION_ID);
         });
 
-        it("Should throw an error when closeTransaction fails", async () => {
-            const errorMessage = "Transaction close failed";
-            mockCloseTransaction.mockRejectedValueOnce(new Error(errorMessage));
+        it.each([undefined, "something went wrong"])("Should throw an error when closeTransaction fails", async (message) => {
+            mockCloseTransaction.mockRejectedValueOnce(new Error(message));
             const handler = new PscVerifiedHandler();
 
-            await expect(handler.executeGet(request, response)).rejects.toThrow(
-                `failed to close transaction for transactionId="${TRANSACTION_ID}", submissionId="${PSC_VERIFICATION_ID}": ${errorMessage}`
-            );
+            const expectedError = message
+                ? `failed to close transaction for transactionId="${TRANSACTION_ID}", submissionId="${PSC_VERIFICATION_ID}": ${message}`
+                : `failed to close transaction for transactionId="${TRANSACTION_ID}", submissionId="${PSC_VERIFICATION_ID}"`;
+
+            await expect(handler.executeGet(request, response)).rejects.toThrow(expectedError);
 
             expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
             expect(mockCloseTransaction).toHaveBeenCalledTimes(1);
