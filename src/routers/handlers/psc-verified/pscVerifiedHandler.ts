@@ -59,8 +59,8 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
                 logger.info(`transaction closed successfully for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
             })
             .catch((err) => {
-                // TODO: handle failure properly (redirect to Error Screen? TBC)
-                logger.error(`error closing transaction for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}": ${err.message}`);
+                const message = err.message ? `: ${err.message}` : "";
+                throw new Error(`failed to close transaction for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"${message}`);
             });
 
         return {
