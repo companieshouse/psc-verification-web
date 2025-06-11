@@ -30,7 +30,7 @@ export const httpErrorInterceptor = (error: HttpError | Error, req: Request, res
         res.status(error.status);
     } else {
         // Treat generic errors as an internal server error
-        logger.raw.error(`${logger.getPrefix({ error })} Unhandled error at URL: ${req.url}. ${error.stack}`);
+        logger.raw.error(`${logger.getPrefix({ error })} Generic error at URL: ${req.url}. ${error.stack}`);
         res.status(HttpStatusCode.InternalServerError);
     }
 
