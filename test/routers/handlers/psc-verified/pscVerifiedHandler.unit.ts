@@ -40,10 +40,11 @@ describe("PSC Verified handler", () => {
     });
 
     describe("executeGet", () => {
+        let request: any;
+        let response: any;
 
-        it("Should close the transaction and resolve correct view data", async () => {
-            mockCloseTransaction.mockResolvedValueOnce(undefined);
-            const request = httpMocks.createRequest({
+        beforeEach(() => {
+            request = httpMocks.createRequest({
                 method: "GET",
                 url: Urls.PSC_VERIFIED,
                 params: {
@@ -54,7 +55,11 @@ describe("PSC Verified handler", () => {
                     pscType: "individual"
                 }
             });
-            const response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile } });
+            response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile } });
+        });
+
+        it("Should close the transaction and resolve correct view data", async () => {
+            mockCloseTransaction.mockResolvedValueOnce(undefined);
             const handler = new PscVerifiedHandler();
             const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
 
@@ -75,7 +80,19 @@ describe("PSC Verified handler", () => {
             expect(mockGetPscIndividual).toHaveBeenCalledWith(COMPANY_NUMBER, PSC_NOTIFICATION_ID);
             expect(mockCloseTransaction).toHaveBeenCalledTimes(1);
             expect(mockCloseTransaction).toHaveBeenCalledWith(request, TRANSACTION_ID, PSC_VERIFICATION_ID);
+        });
 
+        it("Should throw an error when closeTransaction fails", async () => {
+            const errorMessage = "Transaction close failed";
+            mockCloseTransaction.mockRejectedValueOnce(new Error(errorMessage));
+            const handler = new PscVerifiedHandler();
+
+            await expect(handler.executeGet(request, response)).rejects.toThrow(
+                `failed to close transaction for transactionId="${TRANSACTION_ID}", submissionId="${PSC_VERIFICATION_ID}": ${errorMessage}`
+            );
+
+            expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
+            expect(mockCloseTransaction).toHaveBeenCalledTimes(1);
         });
     });
 });
