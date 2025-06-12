@@ -5,7 +5,7 @@
     "main": "dist/httpServer.js",
     "engines": {
         "node": ">=22.0.0",
-        "npm": "^10"
+        "npm": ">=10"
     },
     "scripts": {
         "prebuild": "rm -rf ./dist",
