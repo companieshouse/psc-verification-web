@@ -6,7 +6,6 @@ export enum STOP_TYPE {
     COMPANY_TYPE = "company-type",
     EMPTY_PSC_LIST = "empty-psc-list",
     PSC_DOB_MISMATCH = "psc-dob-mismatch",
-    RP01_GUIDANCE = "rp01-guidance",
     SUPER_SECURE = "super-secure",
     PROBLEM_WITH_PSC_DATA = "problem-with-psc-data"
 }
@@ -19,7 +18,6 @@ export enum PSC_KIND_TYPE {
 export function toStopScreenUrl (stopType: STOP_TYPE) {
     switch (stopType) {
         case STOP_TYPE.PSC_DOB_MISMATCH:
-        case STOP_TYPE.RP01_GUIDANCE:
             return Urls.STOP_SCREEN_SUBMISSION;
         default:
             return Urls.STOP_SCREEN;
@@ -29,7 +27,6 @@ export function toStopScreenUrl (stopType: STOP_TYPE) {
 export function toStopScreenPrefixedUrl (stopType: STOP_TYPE) {
     switch (stopType) {
         case STOP_TYPE.PSC_DOB_MISMATCH:
-        case STOP_TYPE.RP01_GUIDANCE:
             return PrefixedUrls.STOP_SCREEN_SUBMISSION;
         default:
             return PrefixedUrls.STOP_SCREEN;

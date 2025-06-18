@@ -88,13 +88,6 @@ describe("stop screen view tests", () => {
                 expect($("a#reenter-personal-code").attr("href")).toBe(`${expectedPrefix}/individual/personal-code?lang=en`);
                 expect($("a#rp01-link").attr("href")).toBe(env.GET_RP01_LINK);
                 break;
-            case STOP_TYPE.RP01_GUIDANCE:
-                expect($("a.govuk-back-link").attr("href")).toBe(`${expectedPrefix}/stop/${STOP_TYPE.PSC_DOB_MISMATCH}?lang=en`);
-                expect($("a#get-rp01-form").attr("href")).toBe(env.GET_RP01_LINK);
-                expect($("a#get-psc01-form").attr("href")).toBe(env.GET_PSC01_LINK);
-                expect($("a#post-to-ch").attr("href")).toBe(env.POST_TO_CH_LINK);
-                expect($("a#verify-psc-service").attr("href")).toBe(PrefixedUrls.START);
-                break;
             case STOP_TYPE.SUPER_SECURE:
                 expect($("a.govuk-back-link").attr("href")).toBe(`${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=00006400&lang=en`);
                 expect($("a#mail-to-dsr").attr("href")).toBe(`mailto:${env.DSR_EMAIL_ADDRESS}`);

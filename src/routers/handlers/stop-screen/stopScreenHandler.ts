@@ -71,16 +71,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 extraData: [env.GET_RP01_LINK]
             };
         }
-        case STOP_TYPE.RP01_GUIDANCE: {
-            return {
-                ...baseViewData,
-                ...getLocaleInfo(locales, lang),
-                templateName: stopType,
-                currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
-                backURL: resolveUrlTemplate(stopScreenPrefixedUrl, STOP_TYPE.PSC_DOB_MISMATCH),
-                extraData: [env.GET_RP01_LINK, env.GET_PSC01_LINK, env.POST_TO_CH_LINK, PrefixedUrls.START]
-            };
-        }
         case STOP_TYPE.SUPER_SECURE: {
             return {
                 ...baseViewData,

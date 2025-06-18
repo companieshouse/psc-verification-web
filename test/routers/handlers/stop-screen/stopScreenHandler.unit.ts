@@ -99,13 +99,6 @@ describe("Stop screen handler", () => {
                             extraData: [env.GET_RP01_LINK]
                         });
                     break;
-                case STOP_TYPE.RP01_GUIDANCE:
-                    expect(viewData).toMatchObject({
-                        ...expectedViewData,
-                        backURL: `${expectedPrefix}/stop/${STOP_TYPE.PSC_DOB_MISMATCH}?lang=en`,
-                        extraData: [env.GET_RP01_LINK, env.GET_PSC01_LINK, env.POST_TO_CH_LINK, PrefixedUrls.START]
-                    });
-                    break;
                 case STOP_TYPE.SUPER_SECURE:
                     expect(viewData).toMatchObject({
                         ...expectedViewData,
