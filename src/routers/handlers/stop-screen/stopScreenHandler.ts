@@ -68,7 +68,7 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 templateName: stopType,
                 currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
                 backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
-                extraData: [resolveUrlTemplate(stopScreenPrefixedUrl, STOP_TYPE.RP01_GUIDANCE)]
+                extraData: [env.GET_RP01_LINK]
             };
         }
         case STOP_TYPE.RP01_GUIDANCE: {
