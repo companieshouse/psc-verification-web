@@ -96,7 +96,7 @@ describe("Stop screen handler", () => {
                         {
                             ...expectedViewData,
                             backURL: `${expectedPrefix}/individual/personal-code?lang=en`,
-                            extraData: [`${expectedPrefix}/stop/${STOP_TYPE.RP01_GUIDANCE}?lang=en`]
+                            extraData: [env.GET_RP01_LINK]
                         });
                     break;
                 case STOP_TYPE.RP01_GUIDANCE:
