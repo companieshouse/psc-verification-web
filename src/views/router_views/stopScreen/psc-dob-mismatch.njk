@@ -21,7 +21,7 @@
     <h2 class="govuk-heading-m">{{ i18n.dob_mismatch_check_dob }}</h2>
     <p class="govuk-body">
         {{ i18n.dob_mismatch_check_dob_webfiling }}
-        <a href="#" class="govuk-link" data-event-id="check-dob-webfiling-link">{{ i18n.dob_mismatch_check_dob_webfiling_link_text }}</a>.
+        <a href="{{ extraData[1] }}" class="govuk-link" data-event-id="check-dob-webfiling-link">{{ i18n.dob_mismatch_check_dob_webfiling_link_text }}</a>.
     </p>
     <p class="govuk-body">{{ i18n.dob_mismatch_if_wrong }}</p>
 
@@ -30,7 +30,7 @@
         <a href="{{ extraData[0] }}" class="govuk-link" id="rp01-link" data-event-id="rp01-link">{{ i18n.dob_mismatch_how_to_correct_details_rp01_link_text }}</a>.
     </p>
     <p class="govuk-body">{{ i18n.dob_mismatch_how_to_correct_details_par_2 }}
-        <a href="#" class="govuk-link" data-event-id="correct-dob-webfiling-link">{{ i18n.dob_mismatch_check_dob_webfiling_link_text }}</a>.
+        <a href="{{ extraData[1] }}" class="govuk-link" data-event-id="correct-dob-webfiling-link">{{ i18n.dob_mismatch_check_dob_webfiling_link_text }}</a>.
     </p>
     {% endset %}
 
