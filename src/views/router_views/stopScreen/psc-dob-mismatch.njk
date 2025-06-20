@@ -1,13 +1,16 @@
 {% extends "layouts/default.njk" %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% set title = i18n.dob_mismatch_main_title %}
 
 {% block main_content %}
 
     <h1 class="govuk-heading-l">{{ i18n.dob_mismatch_main_title }}</h1>
-    <p class="govuk-body">{{ i18n.dob_mismatch_reasons }}</p>
+    <p class="govuk-body">{{ i18n.dob_mismatch_description }}
+        <a href="#" class="govuk-link" data-event-id="request-an-extension-link">{{ i18n.dob_mismatch_description_link_text }}</a>.
+    </p>
 
-    <h3 class="govuk-heading-s">{{ i18n.dob_mismatch_check_personal_code }}</h3>
+    <h2 class="govuk-heading-m">{{ i18n.dob_mismatch_check_personal_code }}</h2>
     <p class="govuk-body">
         {{ i18n.dob_mismatch_character_code }}
         <a id="reenter-personal-code" href="{{ backURL }}" title="{{ i18n.dob_mismatch_try_again_link }}" class="govuk-link" data-event-id="{{ CommonDataEventIds.GO_BACK_AND_RETRY_LINK }}">
@@ -15,16 +18,34 @@
         </a>.
     </p>
 
-    <h3 class="govuk-heading-s">{{ i18n.dob_mismatch_check_dob }}</h3>
+    <h2 class="govuk-heading-m">{{ i18n.dob_mismatch_check_dob }}</h2>
     <p class="govuk-body">
-        {{ i18n.dob_mismatch_if_wrong }}
-        <a id="submit-paper-correction" href="{{ extraData[0] }}" title="{{ i18n.dob_mismatch_try_again_link }}" class="govuk-link" data-event-id="paper-correction-link">
-            {{ i18n.dob_mismatch_corrections_link_text -}}
-        </a>.
+        {{ i18n.dob_mismatch_check_dob_webfiling }}
+        <a href="{{ extraData[1] }}" class="govuk-link" data-event-id="check-dob-webfiling-link">{{ i18n.dob_mismatch_check_dob_webfiling_link_text }}</a>.
     </p>
-    <p class="govuk-body">{{ i18n.dob_mismatch_up_to_date }}</p>
+    <p class="govuk-body">{{ i18n.dob_mismatch_if_wrong }}</p>
 
-    <h3 class="govuk-heading-s">{{ i18n.dob_mismatch_authorised_agent }}</h3>
+    {% set howToCorrectDobDetails %}
+    <p class="govuk-body">{{ i18n.dob_mismatch_how_to_correct_details_par_1 }}
+        <a href="{{ extraData[0] }}" class="govuk-link" id="rp01-link" data-event-id="rp01-link">{{ i18n.dob_mismatch_how_to_correct_details_rp01_link_text }}</a>.
+    </p>
+    <p class="govuk-body">{{ i18n.dob_mismatch_how_to_correct_details_par_2 }}
+        <a href="{{ extraData[1] }}" class="govuk-link" data-event-id="correct-dob-webfiling-link">{{ i18n.dob_mismatch_check_dob_webfiling_link_text }}</a>.
+    </p>
+    {% endset %}
+
+    {{ govukDetails({
+        summaryText: i18n.dob_mismatch_how_to_correct_details,
+        html: howToCorrectDobDetails,
+        attributes: {
+            "data-event-id": "how-to-correct-dob-dropdown"
+        }
+    }) }}
+
+    <h2 class="govuk-heading-m">{{ i18n.dob_mismatch_authorised_agent }}</h2>
     <p class="govuk-body">{{ i18n.dob_mismatch_verified_identity }}</p>
+    <p class="govuk-body">{{ i18n.dob_mismatch_agent_can_correct }}
+        <a href="#" class="govuk-link" data-event-id="correct-details-service-link">{{ i18n.dob_mismatch_agent_can_correct_link_text }}</a>.
+    </p>
 
 {% endblock %}

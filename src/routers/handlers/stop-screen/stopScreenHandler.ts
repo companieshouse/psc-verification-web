@@ -68,17 +68,7 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 templateName: stopType,
                 currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
                 backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
-                extraData: [resolveUrlTemplate(stopScreenPrefixedUrl, STOP_TYPE.RP01_GUIDANCE)]
-            };
-        }
-        case STOP_TYPE.RP01_GUIDANCE: {
-            return {
-                ...baseViewData,
-                ...getLocaleInfo(locales, lang),
-                templateName: stopType,
-                currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
-                backURL: resolveUrlTemplate(stopScreenPrefixedUrl, STOP_TYPE.PSC_DOB_MISMATCH),
-                extraData: [env.GET_RP01_LINK, env.GET_PSC01_LINK, env.POST_TO_CH_LINK, PrefixedUrls.START]
+                extraData: [env.GET_RP01_LINK, env.WEBFILING_LOGIN_URL]
             };
         }
         case STOP_TYPE.SUPER_SECURE: {
