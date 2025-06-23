@@ -39,5 +39,6 @@ export default () => {
     process.env.PSC_DATA_API_FETCH_SIZE = "100";
     process.env.SERVICE_LIVE = "true";
     process.env.VERIFY_IDENTITY_LINK = "";
+    process.env.WEBFILING_LOGIN_URL = "https://ewf.companieshouse.gov.uk/";
     console.log("Global environment variables set");
 };

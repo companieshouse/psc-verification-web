@@ -96,15 +96,8 @@ describe("Stop screen handler", () => {
                         {
                             ...expectedViewData,
                             backURL: `${expectedPrefix}/individual/personal-code?lang=en`,
-                            extraData: [`${expectedPrefix}/stop/${STOP_TYPE.RP01_GUIDANCE}?lang=en`]
+                            extraData: [env.GET_RP01_LINK, env.WEBFILING_LOGIN_URL]
                         });
-                    break;
-                case STOP_TYPE.RP01_GUIDANCE:
-                    expect(viewData).toMatchObject({
-                        ...expectedViewData,
-                        backURL: `${expectedPrefix}/stop/${STOP_TYPE.PSC_DOB_MISMATCH}?lang=en`,
-                        extraData: [env.GET_RP01_LINK, env.GET_PSC01_LINK, env.POST_TO_CH_LINK, PrefixedUrls.START]
-                    });
                     break;
                 case STOP_TYPE.SUPER_SECURE:
                     expect(viewData).toMatchObject({
