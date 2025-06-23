@@ -7,8 +7,7 @@ export const toReadableFormat = (dateToConvert: string | undefined, lang = "en")
         return "";
     }
     const jsDate = new Date(dateToConvert);
-    const dateTime = DateTime.fromJSDate(jsDate);
-
+    const dateTime = DateTime.fromJSDate(jsDate, { zone: "UTC" }).setZone("Europe/London");
     const convertedDate = dateTime.setLocale(lang).toFormat("d MMMM yyyy");
 
     if (convertedDate === "Invalid DateTime") {
@@ -23,7 +22,7 @@ export const toHourDayDateFormat = (dateToConvert: string | undefined, lang = "e
         return "";
     }
     const jsDate = new Date(dateToConvert);
-    const dateTime = DateTime.fromJSDate(jsDate);
+    const dateTime = DateTime.fromJSDate(jsDate, { zone: "UTC" }).setZone("Europe/London");
 
     var convertedHour;
     if (dateTime.minute === 0) {
