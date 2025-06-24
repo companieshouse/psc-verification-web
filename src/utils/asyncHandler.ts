@@ -9,12 +9,7 @@ import { Handler, NextFunction, Request, Response } from "express";
  * @return {function} A new handler that wraps the original in a try/catch block.
  */
 export function handleExceptions (fn: (req: Request, res: Response, next: NextFunction) => Promise<void>): Handler {
-    return async (req, res, next) => {
-        try {
-            await fn(req, res, next);
-        } catch (e) {
-            // Pass the error to the next middleware
-            next(e);
-        }
+    return (req, res, next): void => {
+        fn(req, res, next).catch(next);
     };
 }
