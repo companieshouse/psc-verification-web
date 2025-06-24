@@ -16,20 +16,18 @@ export enum PSC_KIND_TYPE {
 }
 
 export function toStopScreenUrl (stopType: STOP_TYPE) {
-    switch (stopType) {
-        case STOP_TYPE.PSC_DOB_MISMATCH:
-            return Urls.STOP_SCREEN_SUBMISSION;
-        default:
-            return Urls.STOP_SCREEN;
+    if (stopType === STOP_TYPE.PSC_DOB_MISMATCH) {
+        return Urls.STOP_SCREEN_SUBMISSION;
+    } else {
+        return Urls.STOP_SCREEN;
     }
 }
 
 export function toStopScreenPrefixedUrl (stopType: STOP_TYPE) {
-    switch (stopType) {
-        case STOP_TYPE.PSC_DOB_MISMATCH:
-            return PrefixedUrls.STOP_SCREEN_SUBMISSION;
-        default:
-            return PrefixedUrls.STOP_SCREEN;
+    if (stopType === STOP_TYPE.PSC_DOB_MISMATCH) {
+        return PrefixedUrls.STOP_SCREEN_SUBMISSION;
+    } else {
+        return PrefixedUrls.STOP_SCREEN;
     }
 }
 
