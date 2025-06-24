@@ -25,7 +25,7 @@ export const toHourDayDateFormat = (dateToConvert: string | undefined, lang = "e
     const jsDate = new Date(dateToConvert);
     const dateTime = DateTime.fromJSDate(jsDate);
 
-    var convertedHour;
+    let convertedHour;
     if (dateTime.minute === 0) {
         convertedHour = dateTime.setLocale(lang).toFormat("ha").toLowerCase();
     } else {
