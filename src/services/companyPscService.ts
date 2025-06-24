@@ -60,7 +60,7 @@ export const getCompanyPscList = async (request: Request, companyNumber: string)
     do {
         sdkResponse = await oAuthApiClient.companyPsc.getCompanyPsc(companyNumber, startIndex, itemsPerPage);
 
-        if (!sdkResponse || !sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
+        if (!sdkResponse?.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
             throw new Error(`Failed to get company psc list for companyNumber="${companyNumber}" with start index ${startIndex} and items per page ${itemsPerPage}`);
         }
 
