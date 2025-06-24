@@ -1,3 +1,4 @@
+
 class Just<T> {
     // eslint-disable-next-line no-useless-constructor
     constructor (public value: T) { }
@@ -28,8 +29,8 @@ type Validator<T> = (input?: string | null) => Maybe<T>;
 class ValidatorBuilder<T> {
     // eslint-disable-next-line no-useless-constructor
     constructor (
-        private validateFn: (input?: string | null) => Maybe<T>,
-        private description: string = ""
+        private readonly validateFn: (input?: string | null) => Maybe<T>,
+        private readonly description: string = ""
     ) { }
 
     static from<T> (validateFn: Validator<T>): ValidatorBuilder<T> { // NOSONAR
@@ -110,21 +111,20 @@ const numberValidator = strValidator
         return num;
     });
 
-// Source: https://urlregex.com
-// eslint-disable-next-line no-useless-escape
-const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/i;
 const urlValidator = strValidator
     .map<string>((s) => s.trim())
     .map<string>((s) => {
-        if (!urlRegex.test(s)) {
-            throw new Error(`'${s}' is not a valid URL.`);
+        try {
+            const _ = new URL(s);
+        } catch (e) {
+            throw new Error(`'${s}' is not a valid URL. ${e}`);
         }
         return s;
     });
 
-// Source: https://regexpattern.com/email-address/
+// Source: https://colinhacks.com/essays/reasonable-email-regex
 // eslint-disable-next-line no-useless-escape
-const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
+const emailRegex = /^(?!\.)(?!.*\.\.)([a-z0-9_'+\-\.]*)[a-z0-9_'+\-]@([a-z0-9][a-z0-9\-]*\.)+[a-z]{2,}$/i;
 const emailValidator = strValidator
     .map<string>((s) => s.trim())
     .map<string>((s) => {
