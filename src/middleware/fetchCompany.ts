@@ -5,7 +5,7 @@ import { getCompanyProfile } from "../services/companyProfileService";
 import { handleExceptions } from "../utils/asyncHandler";
 
 export const fetchCompany = handleExceptions(async (req: Request, res: Response, next: NextFunction) => {
-    const companyNumber = res.locals.submission?.data?.companyNumber || req.query.companyNumber;
+    const companyNumber = res.locals.submission?.data?.companyNumber ?? req.query.companyNumber;
 
     if (companyNumber) {
         logger.debug(`Retrieving company profile for company with companyNumber="${companyNumber}" ...`);

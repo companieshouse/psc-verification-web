@@ -29,7 +29,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
         const pscDetailsResponse = await getPscIndividual(verification?.data.companyNumber as string, verification?.data.pscNotificationId as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const selectedStatements = verification?.data?.verificationDetails?.verificationStatements || [];
+        const selectedStatements = verification?.data?.verificationDetails?.verificationStatements ?? [];
         const selectedPscId = verification?.data?.pscNotificationId;
         const nameMismatch = verification?.data?.verificationDetails?.nameMismatchReason;
 

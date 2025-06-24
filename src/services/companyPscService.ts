@@ -12,7 +12,7 @@ export const getCompanyIndividualPscList = async (request: Request, companyNumbe
     const response = await getCompanyPscList(request, companyNumber);
     const companyPscs = response.resource as CompanyPersonsWithSignificantControl;
 
-    logger.debug(`company psc list response for company with companyNumber="${companyNumber}" has ${companyPscs?.items?.length || 0} item(s)`);
+    logger.debug(`company psc list response for company with companyNumber="${companyNumber}" has ${companyPscs?.items?.length ?? 0} item(s)`);
     if (!companyPscs?.items?.length) {
         logger.info(`no pscs have been found for company with companyNumber="${companyNumber}"`);
         return [];
@@ -66,7 +66,7 @@ export const getCompanyPscList = async (request: Request, companyNumber: string)
 
         logger.debug(`company psc list response: ${JSON.stringify({
             statusCode: sdkResponse.httpStatusCode,
-            resourceItemCount: (sdkResponse as Resource<CompanyPersonsWithSignificantControl>).resource?.items?.length || 0
+            resourceItemCount: (sdkResponse as Resource<CompanyPersonsWithSignificantControl>).resource?.items?.length ?? 0
         })} for companyNumber="${companyNumber}" with start index ${startIndex} and items per page ${itemsPerPage}`);
 
         companyPscsSdkResponse = sdkResponse as Resource<CompanyPersonsWithSignificantControl>;
