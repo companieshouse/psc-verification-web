@@ -12,7 +12,7 @@ interface StopScreenHandlerViewData extends BaseViewData {
 
 export class StopScreenHandler extends GenericHandler<StopScreenHandlerViewData> {
 
-    private static templateBasePath = "router_views/stopScreen/";
+    private static readonly templateBasePath = "router_views/stopScreen/";
 
     public async getViewData (req: Request, res: Response): Promise<StopScreenHandlerViewData> {
 

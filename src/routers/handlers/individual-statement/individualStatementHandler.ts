@@ -20,7 +20,7 @@ interface IndividualStatementViewData extends BaseViewData {
 }
 export class IndividualStatementHandler extends GenericHandler<IndividualStatementViewData> {
 
-    private static templatePath = "router_views/individualStatement/individual-statement";
+    private static readonly templatePath = "router_views/individualStatement/individual-statement";
 
     public async getViewData (req: Request, res: Response): Promise<IndividualStatementViewData> {
 

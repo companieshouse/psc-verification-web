@@ -11,7 +11,7 @@ interface StartViewData extends BaseViewData {idvImplementationDate: string}
 
 export default class StartHandler extends GenericHandler<StartViewData> {
 
-    public static templatePath = "router_views/start/start";
+    public static readonly templatePath = "router_views/start/start";
 
     public async getViewData (req: Request, res: Response): Promise<StartViewData> {
         const baseViewData = await super.getViewData(req, res);
