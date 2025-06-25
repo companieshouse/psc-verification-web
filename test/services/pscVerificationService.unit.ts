@@ -4,7 +4,7 @@ import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createApiKeyClient, createOAuthApiClient } from "../../src/services/apiClientService";
-import { checkPlannedMaintenance, createPscVerification, getPscVerification, getValidationStatus, patchPscVerification } from "../../src/services/pscVerificationService";
+import { checkPlannedMaintenance, createPscVerification, getPersonalCodeValidationStatus, getPscVerification, getValidationStatus, patchPscVerification } from "../../src/services/pscVerificationService";
 import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PLANNED_MAINTENANCE, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_RESP_VALID, mockValidationStatusNameError } from "../mocks/pscVerification.mock";
 import { CREATED_PSC_TRANSACTION } from "../mocks/transaction.mock";
 import { logger } from "../../src/lib/logger";
@@ -554,6 +554,116 @@ describe("pscVerificationService", () => {
 
             await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
                 `Error getting validation status for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`
+            );
+
+            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+        });
+    });
+
+    describe("getPersonalCodeValidationStatus", () => {
+        let expected: Resource<ValidationStatusResponse> | ApiErrorResponse;
+
+        it("should return status 200 OK with no errors when the validation status is valid", async () => {
+            expected = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    isValid: true,
+                    errors: []
+                }
+            } as Resource<ValidationStatusResponse>;
+
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: VALIDATION_STATUS_RESP_VALID
+            };
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
+
+            const response = await getPersonalCodeValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            expect(response).toEqual(expected);
+            expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
+            const castedResource = response as unknown as ValidationStatusResponse;
+            expect(castedResource).toEqual(expected);
+            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+        });
+
+        it("should return status 200 OK with a validation error when there is a UVID name mismatch", async () => {
+            jest.spyOn(logger, "error").mockImplementation(() => { /* No-op */ });
+
+            expected = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    isValid: false,
+                    errors: [
+                        mockValidationStatusNameError
+                    ]
+                }
+            } as Resource<ValidationStatusResponse>;
+
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: VALIDATION_STATUS_INVALID_NAME
+            };
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
+
+            const response = await getPersonalCodeValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+            expect(response).toEqual(expected);
+            expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
+            const castedResource = response as unknown as ValidationStatusResponse;
+            expect(castedResource).toEqual(expected);
+            expect(logger.error).toHaveBeenCalled();
+
+            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+
+        });
+
+        it("should throw an error when the HTTP status code is not 200 OK", async () => {
+            const errorMessage = "There was an error!";
+            const errorResponse: ApiErrorResponse = {
+                httpStatusCode: 404,
+                errors: [{ error: errorMessage }]
+            };
+
+            mockGetValidationStatus.mockResolvedValueOnce(errorResponse);
+
+            await expect(getPersonalCodeValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
+                `Error getting validation status: HTTP response is 404 for transactionId="11111-22222-33333", pscVerificationId="662a0de6a2c6f9aead0f32ab"`
+            );
+
+            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+        });
+
+        it("should throw an error when the response is null", async () => {
+            mockGetValidationStatus.mockResolvedValueOnce(null);
+
+            await expect(getPersonalCodeValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
+                `PSC Verification GET validation status request did not return a response for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`
+            );
+
+            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+        });
+
+        it("should throw an error when the validationStatus.resource is undefined", async () => {
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: undefined
+            };
+
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
+
+            await expect(getPersonalCodeValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
+                `Validation status resource is undefined for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`
             );
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);

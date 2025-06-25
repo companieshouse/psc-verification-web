@@ -8,7 +8,7 @@ import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../.
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn } from "../../utils";
 import { PscVerification, PscVerificationData, ValidationStatusResponse } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
-import { getValidationStatus, patchPscVerification } from "../../../services/pscVerificationService";
+import { getPersonalCodeValidationStatus, patchPscVerification } from "../../../services/pscVerificationService";
 import { getPscIndividual } from "../../../services/pscService";
 import { PscVerificationFormsValidator } from "../../../lib/validation/form-validators/pscVerification";
 import { Resource } from "@companieshouse/api-sdk-node";
@@ -84,7 +84,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
             logger.debug(`patching personal code for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
             const patchResponse = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
-            const validationStatusResponse = await getValidationStatus(req, req.params.transactionId, req.params.submissionId);
+            const validationStatusResponse = await getPersonalCodeValidationStatus(req, req.params.transactionId, req.params.submissionId);
             const url = this.resolveNextPageUrl(validationStatusResponse, patchResponse);
             const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(url, req.params.transactionId, req.params.submissionId);
             viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;

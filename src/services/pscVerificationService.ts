@@ -167,3 +167,41 @@ export const getValidationStatus = async (request: Request, transactionId: strin
 
     return validationStatus;
 };
+
+export const getPersonalCodeValidationStatus = async (request: Request, transactionId: string, pscVerificationId: string): Promise<Resource<ValidationStatusResponse>> => {
+    const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
+    const logReference = `transactionId="${transactionId}", pscVerificationId="${pscVerificationId}"`;
+
+    logger.debug(`Retrieving PSC verification validation status for ${logReference}`);
+    const sdkResponse: Resource<ValidationStatusResponse> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.getValidationStatus(transactionId, pscVerificationId);
+
+    if (!sdkResponse) {
+        throw new Error(`PSC Verification GET validation status request did not return a response for ${logReference}`);
+    }
+
+    if (sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
+        throw new Error(`Error getting validation status: HTTP response is ${sdkResponse.httpStatusCode} for ${logReference}`);
+    }
+
+    const validationStatus = sdkResponse as Resource<ValidationStatusResponse>;
+
+    if (!validationStatus.resource) {
+        throw new Error(`Validation status resource is undefined for ${logReference}`);
+    }
+
+    const filteredErrors = validationStatus.resource.errors.filter(
+        (error: { location?: string }) => error.location !== "$.verification_statement"
+    );
+    validationStatus.resource.errors = filteredErrors;
+    if (filteredErrors.length === 0) {
+        validationStatus.resource.isValid = true;
+    }
+
+    if (validationStatus.resource?.isValid === false) {
+        logger.error(`Validation errors for ${logReference}: ` + JSON.stringify(validationStatus.resource.errors.slice(0, 10)));
+    } else if (validationStatus.resource?.isValid === undefined) {
+        throw new Error(`Error getting validation status for ${logReference}`);
+    }
+
+    return validationStatus;
+};
