@@ -9,5 +9,9 @@
     "cSpell.words": [
         "PIWIK",
         "uvid"
-    ]
+    ],
+    "sonarlint.connectedMode.project": {
+        "connectionId": "new-sonarqube",
+        "projectKey": "uk.gov.companieshouse:psc-verification-web"
+    }
 }
