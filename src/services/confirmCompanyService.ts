@@ -3,7 +3,7 @@ import { LocalesService } from "@companieshouse/ch-node-utils";
 import { toReadableFormat } from "../utils/date";
 
 export const buildAddress = (companyProfile: CompanyProfile): string => {
-    var addressArray: string[] = [companyProfile.registeredOfficeAddress.poBox,
+    const addressArray: string[] = [companyProfile.registeredOfficeAddress.poBox,
         companyProfile.registeredOfficeAddress.premises, companyProfile.registeredOfficeAddress.addressLineOne,
         companyProfile.registeredOfficeAddress.addressLineTwo, companyProfile.registeredOfficeAddress.locality,
         companyProfile.registeredOfficeAddress.region, companyProfile.registeredOfficeAddress.country,

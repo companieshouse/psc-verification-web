@@ -1,4 +1,3 @@
-
 export enum DataIntegrityErrorType {
     PSC_DATA = "PSC_DATA",
 }

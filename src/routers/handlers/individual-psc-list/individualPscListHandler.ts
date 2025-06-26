@@ -141,7 +141,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
                 pscDob: pscFormattedDob,
                 pscVerificationStartDate: psc.verificationState?.verificationStartDate === undefined ? "Unknown" : internationaliseDate(psc.verificationState?.verificationStartDate.toString(), lang),
                 pscVerificationDeadlineDate: psc.verificationState?.verificationStatementDueDate === undefined ? "Unknown" : internationaliseDate(psc.verificationState?.verificationStatementDueDate.toString(), lang),
-                pscSortName: pscSortName
+                pscSortName
             };
         });
     }

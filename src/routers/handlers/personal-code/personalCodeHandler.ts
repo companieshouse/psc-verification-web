@@ -72,9 +72,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             const queryParams = new URLSearchParams(req.url.split("?")[1]);
             const verification: PscVerificationData = {
                 pscNotificationId: req.query?.selectedPscId as string,
-                verificationDetails: {
-                    uvid: uvid
-                }
+                verificationDetails: { uvid }
             };
 
             queryParams.set("lang", lang);

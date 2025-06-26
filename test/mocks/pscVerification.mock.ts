@@ -1,4 +1,3 @@
-
 import { Resource } from "@companieshouse/api-sdk-node";
 import { Links, NameMismatchReasonEnum, PlannedMaintenance, PscVerification, PscVerificationData, ValidationStatusError, ValidationStatusResponse, VerificationStatementEnum } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
@@ -170,7 +169,7 @@ export const VALIDATION_STATUS_RESOURCE_VALID: Resource<ValidationStatusResponse
     httpStatusCode: HttpStatusCode.Ok
 };
 
-const createMockValidationStatusError = (errorMessage: string) : ValidationStatusError => {
+const createMockValidationStatusError = (errorMessage: string): ValidationStatusError => {
     return {
         error: errorMessage,
         location: "$.uvid_match",
