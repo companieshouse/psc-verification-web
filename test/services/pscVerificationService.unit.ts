@@ -663,7 +663,7 @@ describe("pscVerificationService", () => {
             mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
 
             await expect(getPersonalCodeValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
-                `Validation status resource is undefined for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`
+                `Error getting validation status for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`
             );
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
