@@ -1,7 +1,7 @@
 {
     "name": "psc-verification-web",
     "version": "1.0.0",
-    "description": "A starter web application for Node.js with Typescript",
+    "description": "Service to enable PSCs to supply their verification details",
     "main": "dist/httpServer.js",
     "engines": {
         "node": ">=22.0.0",
@@ -99,11 +99,11 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/companieshouse/node-review-web-starter-ts.git"
+        "url": "git+https://github.com/companieshouse/psc-verification-web.git"
     },
     "keywords": [],
     "bugs": {
-        "url": "https://github.com/companieshouse/node-review-web-starter-ts/issues"
+        "url": "https://github.com/companieshouse/psc-verification-web/issues"
     },
-    "homepage": "https://github.com/companieshouse/node-review-web-starter-ts#readme"
+    "homepage": "https://github.com/companieshouse/psc-verification-web#readme"
 }
