@@ -25,7 +25,7 @@ interface NameMismatchViewData extends BaseViewData {
 
 export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
 
-    private static templatePath = "router_views/nameMismatch/name-mismatch";
+    private static readonly templatePath = "router_views/nameMismatch/name-mismatch";
 
     public async getViewData (req: Request, res: Response): Promise<NameMismatchViewData> {
 

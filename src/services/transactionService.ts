@@ -58,20 +58,17 @@ export const postTransaction = async (req: Request): Promise<Transaction> => {
     const sdkResponse: Resource<Transaction> | ApiErrorResponse = await oAuthApiClient.transaction.postTransaction(transaction);
 
     if (!sdkResponse) {
-        logger.error(`Transaction API POST request returned no response for companyNumber="${companyNumber}"`);
-        return Promise.reject(sdkResponse);
+        return Promise.reject(new Error(`No response from Transaction API for companyNumber="${companyNumber}"`));
     }
 
     if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= HttpStatusCode.BadRequest) {
-        logger.error(`HTTP status code ${sdkResponse.httpStatusCode} - Failed to post transaction with companyNumber="${companyNumber}"`);
-        return Promise.reject(sdkResponse);
+        return Promise.reject(new Error(`HTTP status code ${sdkResponse.httpStatusCode} - Failed to post transaction with companyNumber="${companyNumber}"`));
     }
 
     const castedSdkResponse: Resource<Transaction> = sdkResponse as Resource<Transaction>;
 
     if (!castedSdkResponse.resource) {
-        logger.error(`Transaction API POST request returned no resource for companyNumber="${companyNumber}"`);
-        return Promise.reject(sdkResponse);
+        return Promise.reject(new Error(`No resource in Transaction API response for companyNumber="${companyNumber}"`));
     }
 
     logger.debug(`Received transaction with status code ${sdkResponse.httpStatusCode} for companyNumber="${companyNumber}"`);
@@ -93,13 +90,11 @@ export const putTransaction = async (req: Request, transactionId: string, descri
     const sdkResponse: ApiResponse<Transaction> | ApiErrorResponse = await apiClient.transaction.putTransaction(transaction);
 
     if (!sdkResponse) {
-        logger.error(`Transaction API PUT request returned no response for transactionId="${transactionId}"`);
-        return Promise.reject(sdkResponse);
+        return Promise.reject(new Error(`No response from Transaction API for transactionId="${transactionId}"`));
     }
 
     if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.NoContent) {
-        logger.error(`HTTP status code ${sdkResponse.httpStatusCode} - Failed to put transaction with transactionId="${transactionId}"`);
-        return Promise.reject(sdkResponse);
+        return Promise.reject(new Error(`HTTP status code ${sdkResponse.httpStatusCode} - Failed to put transaction with transactionId="${transactionId}"`));
     }
 
     const castedSdkResponse: ApiResponse<Transaction> = sdkResponse as ApiResponse<Transaction>;
@@ -114,8 +109,7 @@ export const closeTransaction = async (req: Request, transactionId: string, obje
 
     const putResponse: ApiResponse<Transaction> = await putTransaction(req, transactionId, DESCRIPTION, TransactionStatus.CLOSED, objectId)
         .catch((sdkResponse) => {
-            logger.error(`Failed to close transaction with transactionId="${transactionId}"`);
-            return Promise.reject(sdkResponse);
+            return Promise.reject(new Error(`Failed to close transaction with transactionId="${transactionId}"`));
         });
 
     logger.debug(`Closed transaction with transactionId="${transactionId}"`);

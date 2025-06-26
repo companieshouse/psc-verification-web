@@ -24,7 +24,7 @@ interface PersonalCodeViewData extends BaseViewData {
 
 export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
 
-    private static templatePath = "router_views/personalCode/personal-code";
+    private static readonly templatePath = "router_views/personalCode/personal-code";
 
     public async getViewData (req: Request, res: Response): Promise<PersonalCodeViewData> {
 
@@ -40,7 +40,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             ...getLocaleInfo(locales, lang),
             pscName: pscIndividual.resource?.name!,
             monthYearBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
-            personalCode: verification?.data?.verificationDetails?.uvid || "",
+            personalCode: verification?.data?.verificationDetails?.uvid ?? "",
             currentUrl: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
             backURL: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang }),
             templateName: Urls.PERSONAL_CODE

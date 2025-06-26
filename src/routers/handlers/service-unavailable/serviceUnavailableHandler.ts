@@ -13,7 +13,7 @@ interface ServiceUnavailableViewData extends BaseViewData {
 
 export default class ServiceUnavailableHandler extends GenericHandler<ServiceUnavailableViewData> {
 
-    public static templatePath = "router_views/serviceUnavailable/service-unavailable";
+    public static readonly templatePath = "router_views/serviceUnavailable/service-unavailable";
 
     public async getViewData (req: Request, res: Response): Promise<ServiceUnavailableViewData> {
         const baseViewData = await super.getViewData(req, res);
