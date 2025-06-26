@@ -20,7 +20,7 @@ interface IndividualStatementViewData extends BaseViewData {
 }
 export class IndividualStatementHandler extends GenericHandler<IndividualStatementViewData> {
 
-    private static templatePath = "router_views/individualStatement/individual-statement";
+    private static readonly templatePath = "router_views/individualStatement/individual-statement";
 
     public async getViewData (req: Request, res: Response): Promise<IndividualStatementViewData> {
 
@@ -29,7 +29,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
         const pscDetailsResponse = await getPscIndividual(verification?.data.companyNumber as string, verification?.data.pscNotificationId as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const selectedStatements = verification?.data?.verificationDetails?.verificationStatements || [];
+        const selectedStatements = verification?.data?.verificationDetails?.verificationStatements ?? [];
         const selectedPscId = verification?.data?.pscNotificationId;
         const nameMismatch = verification?.data?.verificationDetails?.nameMismatchReason;
 

@@ -11,7 +11,7 @@ import { TransactionStatus, getTransaction } from "../services/transactionServic
  * @param next - The next middleware function in the request-response cycle.
  */
 export const blockClosedTransaction = (req: any, res: any, next: any) => {
-    const transactionId = req.params.transactionId || req.query.transactionId;
+    const transactionId = req.params.transactionId ?? req.query.transactionId;
 
     // Skip the middleware for the psc-verified screen
     if (req.path.includes("psc-verified")) {

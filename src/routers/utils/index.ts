@@ -16,7 +16,7 @@ export { StartRouter, HealthCheckRouter, CompanyNumberRouter, ConfirmCompanyRout
 export function formatDateBorn (dateOfBirth: any, lang: string): string {
     try {
         const formattedMonth = Intl.DateTimeFormat(lang, { month: "long" }).format(new Date("" + dateOfBirth?.month));
-        const formattedYear = dateOfBirth?.year?.toString() || ""; // Default to an empty string if year is null or undefined
+        const formattedYear = dateOfBirth?.year?.toString() ?? ""; // Default to an empty string if year is null or undefined
         return `${formattedMonth} ${formattedYear}`;
     } catch (error) {
         logger.error(`Error formatting date: ${error}`);

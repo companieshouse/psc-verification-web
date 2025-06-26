@@ -111,7 +111,9 @@ describe("Transaction service", () => {
             const req = {} as Request;
             req.query = { companyNumber: COMPANY_NUMBER };
 
-            await expect(postTransaction(req)).rejects.toBeUndefined();
+            await expect(postTransaction(req)).rejects.toThrow(
+                `No response from Transaction API for companyNumber="${COMPANY_NUMBER}"`
+            );
         });
 
         it.each([400, 404, undefined])("should reject when response from transaction service has status %p", async (status) => {
@@ -122,7 +124,9 @@ describe("Transaction service", () => {
             const req = {} as Request;
             req.query = { companyNumber: COMPANY_NUMBER };
 
-            await expect(postTransaction(req)).rejects.toBe(mockResponse);
+            await expect(postTransaction(req)).rejects.toThrow(
+                `HTTP status code ${status} - Failed to post transaction with companyNumber="${COMPANY_NUMBER}"`
+            );
         });
 
         it("should reject when response from transaction service has no resource", async () => {
@@ -134,7 +138,9 @@ describe("Transaction service", () => {
             const req = {} as Request;
             req.query = { companyNumber: COMPANY_NUMBER };
 
-            await expect(postTransaction(req)).rejects.toBe(mockResponse);
+            await expect(postTransaction(req)).rejects.toThrow(
+                `No resource in Transaction API response for companyNumber="${COMPANY_NUMBER}"`
+            );
         });
 
     });
@@ -160,7 +166,9 @@ describe("Transaction service", () => {
             mockPutTransaction.mockResolvedValueOnce(undefined);
             const req = {} as Request;
 
-            await expect(putTransaction(req, TRANSACTION_ID, DESCRIPTION, TransactionStatus.OPEN, PSC_VERIFICATION_ID)).rejects.toBeUndefined();
+            await expect(putTransaction(req, TRANSACTION_ID, DESCRIPTION, TransactionStatus.OPEN, PSC_VERIFICATION_ID)).rejects.toThrow(
+                `No response from Transaction API for transactionId="${TRANSACTION_ID}"`
+            );
         });
 
         it.each([400, 404, 405, undefined])("should reject when response from transaction service has status %p", async (status) => {
@@ -170,7 +178,9 @@ describe("Transaction service", () => {
             mockPutTransaction.mockResolvedValueOnce(mockResponse);
             const req = {} as Request;
 
-            await expect(putTransaction(req, TRANSACTION_ID, DESCRIPTION, TransactionStatus.OPEN, PSC_VERIFICATION_ID)).rejects.toBe(mockResponse);
+            await expect(putTransaction(req, TRANSACTION_ID, DESCRIPTION, TransactionStatus.OPEN, PSC_VERIFICATION_ID)).rejects.toThrow(
+                `HTTP status code ${status} - Failed to put transaction with transactionId="${TRANSACTION_ID}"`
+            );
         });
     });
 
@@ -197,7 +207,9 @@ describe("Transaction service", () => {
             const req = {} as Request;
             req.query = { companyNumber: COMPANY_NUMBER };
 
-            await expect(closeTransaction(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toBeUndefined();
+            await expect(closeTransaction(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
+                `Failed to close transaction with transactionId="${TRANSACTION_ID}"`
+            );
         });
 
         it.each([400, 404, 405, undefined])("should reject when response from transaction service has status %p", async (status) => {
@@ -207,7 +219,9 @@ describe("Transaction service", () => {
             mockPutTransaction.mockResolvedValueOnce(mockResponse);
             const req = {} as Request;
 
-            await expect(closeTransaction(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toBe(mockResponse);
+            await expect(closeTransaction(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
+                `Failed to close transaction with transactionId="${TRANSACTION_ID}"`
+            );
         });
     });
 
