@@ -5,7 +5,7 @@ import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { COMPANY_NUMBER, IND_VERIFICATION_PERSONAL_CODE, PATCH_PERSONAL_CODE_DATA, PATCH_RESP_NO_NAME_MISMATCH, PATCH_RESP_WITH_NAME_MISMATCH, PSC_NOTIFICATION_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID, VALIDATION_STATUS_RESOURCE_INVALID_DOB, VALIDATION_STATUS_RESOURCE_INVALID_DOB_NAME, VALIDATION_STATUS_RESOURCE_INVALID_NAME, VALIDATION_STATUS_RESOURCE_VALID } from "../../../mocks/pscVerification.mock";
 import { PersonalCodeHandler } from "../../../../src/routers/handlers/personal-code/personalCodeHandler";
-import { getPersonalCodeValidationStatus, patchPscVerification } from "../../../../src/services/pscVerificationService";
+import { getValidationStatus, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import { logger } from "../../../../src/lib/logger";
 import { HttpError } from "../../../../src/lib/errors/httpError";
 
@@ -13,7 +13,7 @@ jest.mock("../../../../src/services/pscVerificationService", () => ({
     getPscVerification: jest.fn(),
     patchPscVerification: jest.fn(),
     getPscIndividual: jest.fn(),
-    getPersonalCodeValidationStatus: jest.fn()
+    getValidationStatus: jest.fn()
 }));
 
 jest.mock("../../../../src/services/pscService", () => ({
@@ -118,7 +118,7 @@ describe("Personal code handler", () => {
     });
 
     describe("executePost", () => {
-        const mockGetValidationStatus = getPersonalCodeValidationStatus as jest.Mock;
+        const mockGetValidationStatus = getValidationStatus as jest.Mock;
         const mockPatchPscVerification = patchPscVerification as jest.Mock;
 
         it("should return the PSC statement page when the validation status is valid", async () => {
@@ -400,7 +400,7 @@ describe("Personal code handler", () => {
             const result = await handler.executePost(req, res);
 
             expect(patchPscVerification).toHaveBeenCalledTimes(0);
-            expect(getPersonalCodeValidationStatus).toHaveBeenCalledTimes(0);
+            expect(getValidationStatus).toHaveBeenCalledTimes(0);
             expect(result.viewData.errors).toBeDefined();
             expect(result.viewData.errors.personalCode).toEqual({
                 summary: "Enter the Companies House personal code for Ralph Tudor",

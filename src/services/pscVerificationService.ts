@@ -142,10 +142,11 @@ export const checkPlannedMaintenance = async (request: Request): Promise<ApiResp
     return castedSdkResponse;
 };
 
-const fetchValidationStatus = async (
+export const getValidationStatus = async (
     request: Request,
     transactionId: string,
-    pscVerificationId: string
+    pscVerificationId: string,
+    excludedErrorLocations: string[] = []
 ): Promise<Resource<ValidationStatusResponse>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
     const logReference = `transactionId="${transactionId}", pscVerificationId="${pscVerificationId}"`;
@@ -163,52 +164,19 @@ const fetchValidationStatus = async (
     }
 
     const validationStatus = sdkResponse as Resource<ValidationStatusResponse>;
-
-    return validationStatus;
-};
-
-export const getValidationStatus = async (
-    request: Request,
-    transactionId: string,
-    pscVerificationId: string
-): Promise<Resource<ValidationStatusResponse>> => {
-    const validationStatus = await fetchValidationStatus(request, transactionId, pscVerificationId);
-    const logReference = `transactionId="${transactionId}", pscVerificationId="${pscVerificationId}"`;
-
+    if (excludedErrorLocations.length > 0 && validationStatus.resource?.errors) {
+        const filteredErrors = validationStatus.resource.errors.filter(
+            (error: { location?: string }) => !excludedErrorLocations.includes(error.location ?? "")
+        );
+        validationStatus.resource.errors = filteredErrors;
+        if (filteredErrors.length === 0) {
+            validationStatus.resource.isValid = true;
+        }
+    }
     if (validationStatus.resource?.isValid === false) {
         logger.error(`Validation errors for ${logReference}: ` + JSON.stringify(validationStatus.resource.errors.slice(0, 10)));
     } else if (validationStatus.resource?.isValid === undefined) {
         throw new Error(`Error getting validation status for ${logReference}`);
     }
-
-    return validationStatus;
-};
-
-export const getPersonalCodeValidationStatus = async (
-    request: Request,
-    transactionId: string,
-    pscVerificationId: string
-): Promise<Resource<ValidationStatusResponse>> => {
-    const validationStatus = await fetchValidationStatus(request, transactionId, pscVerificationId);
-    const logReference = `transactionId="${transactionId}", pscVerificationId="${pscVerificationId}"`;
-
-    if (!validationStatus.resource) {
-        throw new Error(`Error getting validation status for ${logReference}`);
-    }
-
-    const filteredErrors = validationStatus.resource.errors.filter(
-        (error: { location?: string }) => error.location !== "$.verification_statement"
-    );
-    validationStatus.resource.errors = filteredErrors;
-    if (filteredErrors.length === 0) {
-        validationStatus.resource.isValid = true;
-    }
-
-    if (validationStatus.resource?.isValid === false) {
-        logger.error(`Validation errors for ${logReference}: ` + JSON.stringify(validationStatus.resource.errors.slice(0, 10)));
-    } else if (validationStatus.resource?.isValid === undefined) {
-        throw new Error(`Error getting validation status for ${logReference}`);
-    }
-
     return validationStatus;
 };

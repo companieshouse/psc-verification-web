@@ -7,7 +7,7 @@ import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddlewar
 import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { INDIVIDUAL_VERIFICATION_PATCH, PATCH_INDIVIDUAL_DATA, PATCH_RESP_WITH_NAME_MISMATCH, PSC_NOTIFICATION_ID, PSC_VERIFICATION_ID, TRANSACTION_ID, UVID, VALIDATION_STATUS_INVALID_DOB, VALIDATION_STATUS_INVALID_DOB_NAME, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_INVALID_UVID, VALIDATION_STATUS_RESP_VALID, mockOutOfServiceResponse } from "../../../mocks/pscVerification.mock";
-import { getPersonalCodeValidationStatus, getPscVerification, patchPscVerification } from "../../../../src/services/pscVerificationService";
+import { getPscVerification, getValidationStatus, patchPscVerification } from "../../../../src/services/pscVerificationService";
 import app from "../../../../src/app";
 import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { IncomingMessage } from "http";
@@ -156,7 +156,7 @@ describe("personal code router/handler integration tests", () => {
     });
 
     describe("POST method", () => {
-        const mockGetValidationStatus = getPersonalCodeValidationStatus as jest.Mock;
+        const mockGetValidationStatus = getValidationStatus as jest.Mock;
 
         it("Should redirect to the PSC individual statement page when the validation status is valid with a redirect status code", async () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, TRANSACTION_ID, PSC_VERIFICATION_ID);
