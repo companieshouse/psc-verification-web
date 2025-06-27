@@ -1,3 +1,4 @@
 {
+    "reject": [ "sonarqube-scanner" ],
     "target": "minor"
 }

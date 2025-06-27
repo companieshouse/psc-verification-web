@@ -84,12 +84,18 @@
         "nodemon": "^3.1.10",
         "nyc": "^17.1.0",
         "sass": "1.89.2",
-        "sonarqube-scanner": "^4.3.0",
+        "sonarqube-scanner": "3.5.0",
         "supertest": "^7.1.1",
         "ts-jest": "^29.4.0",
         "ts-node": "^10.9.2",
         "typescript": "^5.8.3",
         "typescript-eslint": "^8.35.0"
+    },
+    "@comments devDependencies": {
+        "@package sonarqube-scanner": [
+            "We're using an older version of sonarqube-scanner as v4 removed the ability to use environment variables in the sonar-project.properties file.",
+            "See this confluence page for more details: https://companieshouse.atlassian.net/wiki/spaces/DEVOPS/pages/4927324161/Sonarqube+Configuration+and+Migration#Node-pitfalls"
+        ]
     },
     "overrides": {
         "chokidar": "3.5.3",
