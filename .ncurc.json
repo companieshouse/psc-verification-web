@@ -1,5 +1,4 @@
 {
-
-  "target": "latest",
-  "reject": ["*eslint*", "express", "govuk-frontend"]
+    "reject": [ "sonarqube-scanner" ],
+    "target": "minor"
 }

@@ -84,9 +84,7 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
 
             const queryParams = new URLSearchParams(req.url.split("?")[1]);
             const verification: PscVerificationData = {
-                verificationDetails: {
-                    nameMismatchReason: nameMismatchReason
-                }
+                verificationDetails: { nameMismatchReason }
             };
 
             queryParams.set("lang", lang);

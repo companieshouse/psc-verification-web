@@ -43,7 +43,7 @@ describe("Stop screen handler", () => {
                 params: {
                     transactionId: TRANSACTION_ID,
                     submissionId: PSC_VERIFICATION_ID,
-                    stopType: stopType
+                    stopType
                 },
                 query: {
                     companyNumber: "00006400"

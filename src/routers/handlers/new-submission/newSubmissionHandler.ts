@@ -48,8 +48,8 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         const companyNumber = request.query.companyNumber as string;
         const pscNotificationId = request.query.selectedPscId as string;
         const verification: PscVerificationData = {
-            companyNumber: companyNumber,
-            pscNotificationId: pscNotificationId
+            companyNumber,
+            pscNotificationId
         };
         return createPscVerification(request, transaction, verification);
     }

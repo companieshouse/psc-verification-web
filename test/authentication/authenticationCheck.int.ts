@@ -1,6 +1,6 @@
 import middlewareMocks from "../mocks/allMiddleware.mock";
-import app from ".../../../src/app";
-import { PrefixedUrls } from ".../../../src/constants";
+import app from "../../src/app";
+import { PrefixedUrls } from "../../src/constants";
 import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
@@ -10,7 +10,7 @@ import { INDIVIDUAL_VERIFICATION_CREATED } from "../mocks/pscVerification.mock";
 import { getTransaction } from "../../src/services/transactionService";
 import { OPEN_PSC_TRANSACTION } from "../mocks/transaction.mock";
 
-jest.mock(".../../../src/services/companyProfileService");
+jest.mock("../../src/services/companyProfileService");
 jest.mock("../../src/services/apiClientService");
 
 const mockCreatePscVerification = jest.fn();

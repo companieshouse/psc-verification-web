@@ -42,7 +42,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             currentUrl: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_STATEMENT),
             backURL: resolveBackUrl(nameMismatch),
             templateName: Urls.INDIVIDUAL_STATEMENT,
-            selectedPscId: selectedPscId
+            selectedPscId
         };
 
         function resolveBackUrl (nameMismatchReason: any): string | null {

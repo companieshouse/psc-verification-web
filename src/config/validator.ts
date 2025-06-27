@@ -1,6 +1,4 @@
-
 class Just<T> {
-    // eslint-disable-next-line no-useless-constructor
     constructor (public value: T) { }
     isJust (): this is Just<T> {
         return true;
@@ -27,7 +25,6 @@ type Maybe<T> = Just<T> | Nothing;
 type Validator<T> = (input?: string | null) => Maybe<T>;
 
 class ValidatorBuilder<T> {
-    // eslint-disable-next-line no-useless-constructor
     constructor (
         private readonly validateFn: (input?: string | null) => Maybe<T>,
         private readonly description: string = ""

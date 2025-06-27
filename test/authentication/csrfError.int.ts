@@ -1,11 +1,11 @@
 import request from "supertest";
 import * as cheerio from "cheerio";
 import { HttpStatusCode } from "axios";
-import { PrefixedUrls } from ".../../../src/constants";
+import { PrefixedUrls } from "../../src/constants";
 import mockSessionMiddleware from "../mocks/sessionMiddleware.mock";
 import mockAuthenticationMiddleware from "../mocks/authenticationMiddleware.mock";
 import { csrfProtectionMiddleware } from "../../src/middleware/csrf";
-import app from ".../../../src/app";
+import app from "../../src/app";
 import { CsrfError } from "@companieshouse/web-security-node";
 
 jest.mock("../../src/middleware/csrf");

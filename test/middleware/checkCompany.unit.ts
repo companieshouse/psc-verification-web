@@ -1,4 +1,3 @@
-
 import * as httpMocks from "node-mocks-http";
 import { HttpStatusCode } from "axios";
 import { PrefixedUrls } from "../../src/constants";

@@ -51,7 +51,7 @@ export const postTransaction = async (req: Request): Promise<Transaction> => {
     const transaction: Transaction = {
         reference: REFERENCE,
         description: DESCRIPTION,
-        companyName: companyName
+        companyName
     };
 
     logger.debug(`Creating transaction with companyNumber="${companyNumber}"`);

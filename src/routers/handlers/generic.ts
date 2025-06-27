@@ -22,9 +22,9 @@ export const defaultBaseViewData: Partial<BaseViewData> = {
     errors: {},
     isSignedIn: false,
     backURL: null,
-    servicePathPrefix: servicePathPrefix,
+    servicePathPrefix,
     Urls: PrefixedUrls,
-    ExternalUrls: ExternalUrls,
+    ExternalUrls,
     currentUrl: null,
     userEmail: null,
     title: "Apply to file with Companies House using software",
@@ -49,13 +49,11 @@ export abstract class GenericHandler<T extends BaseViewData> {
 
     populateViewData (req: Request, res: Response) {
         const { signin_info: signInInfo } = req.session?.data ?? {};
-        // eslint-disable-next-line camelcase
         const isSignedIn = signInInfo?.signed_in !== undefined;
         this.viewData.isSignedIn = isSignedIn;
 
         if (!isSignedIn) { return; }
 
-        // eslint-disable-next-line camelcase
         const userEmail = signInInfo?.user_profile?.email;
         if (!userEmail) {
             throw new Error("GenericHandler unable to get email. Email is undefined.");

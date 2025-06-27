@@ -34,7 +34,7 @@ const constructCompanyPscResponse = (
     companyNumber: string
 ): void => {
     response.resource = {
-        items: items,
+        items,
         startIndex: "0",
         itemsPerPage: itemsPerPage.toString(),
         totalResults: items.length.toString(),
