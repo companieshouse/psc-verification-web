@@ -1,4 +1,3 @@
-
 class Just<T> {
     constructor (public value: T) { }
     isJust (): this is Just<T> {
@@ -119,7 +118,6 @@ const urlValidator = strValidator
         }
         return s;
     });
-
 
 // Source: https://colinhacks.com/essays/reasonable-email-regex
 // eslint-disable-next-line no-useless-escape
