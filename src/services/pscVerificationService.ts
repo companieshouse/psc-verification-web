@@ -142,12 +142,18 @@ export const checkPlannedMaintenance = async (request: Request): Promise<ApiResp
     return castedSdkResponse;
 };
 
-export const getValidationStatus = async (request: Request, transactionId: string, pscVerificationId: string): Promise<Resource<ValidationStatusResponse>> => {
+export const getValidationStatus = async (
+    request: Request,
+    transactionId: string,
+    pscVerificationId: string,
+    excludedErrorLocations: string[] = []
+): Promise<Resource<ValidationStatusResponse>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
     const logReference = `transactionId="${transactionId}", pscVerificationId="${pscVerificationId}"`;
 
     logger.debug(`Retrieving PSC verification validation status for ${logReference}`);
-    const sdkResponse: Resource<ValidationStatusResponse> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.getValidationStatus(transactionId, pscVerificationId);
+    const sdkResponse: Resource<ValidationStatusResponse> | ApiErrorResponse =
+        await oAuthApiClient.pscVerificationService.getValidationStatus(transactionId, pscVerificationId);
 
     if (!sdkResponse) {
         throw new Error(`PSC Verification GET validation status request did not return a response for ${logReference}`);
@@ -158,12 +164,19 @@ export const getValidationStatus = async (request: Request, transactionId: strin
     }
 
     const validationStatus = sdkResponse as Resource<ValidationStatusResponse>;
-
+    if (excludedErrorLocations.length > 0 && validationStatus.resource?.errors) {
+        const filteredErrors = validationStatus.resource.errors.filter(
+            (error: { location?: string }) => !excludedErrorLocations.includes(error.location ?? "")
+        );
+        validationStatus.resource.errors = filteredErrors;
+        if (filteredErrors.length === 0) {
+            validationStatus.resource.isValid = true;
+        }
+    }
     if (validationStatus.resource?.isValid === false) {
         logger.error(`Validation errors for ${logReference}: ` + JSON.stringify(validationStatus.resource.errors.slice(0, 10)));
     } else if (validationStatus.resource?.isValid === undefined) {
         throw new Error(`Error getting validation status for ${logReference}`);
     }
-
     return validationStatus;
 };
