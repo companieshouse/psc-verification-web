@@ -560,5 +560,114 @@ describe("pscVerificationService", () => {
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
         });
+
+        it("should filter out errors by excludedErrorLocations and set isValid true if all errors are excluded", async () => {
+            const errorToExclude = {
+                error: "Name mismatch",
+                location: "/name",
+                locationType: "field"
+            };
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    isValid: false,
+                    errors: [errorToExclude]
+                }
+            };
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
+
+            const response = await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID, ["/name"]);
+            expect(response.resource && response.resource.errors).toEqual([]);
+            expect(response.resource && response.resource.isValid).toBe(true);
+        });
+
+        it("should filter out only specified errors by excludedErrorLocations and leave others", async () => {
+            const errorToExclude = {
+                error: "Name mismatch",
+                location: "/name",
+                locationType: "field"
+            };
+            const errorToKeep = {
+                error: "DOB mismatch",
+                location: "/dob",
+                locationType: "field"
+            };
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    isValid: false,
+                    errors: [errorToExclude, errorToKeep]
+                }
+            };
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
+
+            const response = await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID, ["/name"]);
+            expect(response.resource && response.resource.errors).toEqual([errorToKeep]);
+            expect(response.resource && response.resource.isValid).toBe(false);
+        });
+
+        it("should not filter errors if excludedErrorLocations is empty", async () => {
+            const error1 = {
+                error: "Name mismatch",
+                location: "/name",
+                locationType: "field"
+            };
+            const error2 = {
+                error: "DOB mismatch",
+                location: "/dob",
+                locationType: "field"
+            };
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    isValid: false,
+                    errors: [error1, error2]
+                }
+            };
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
+
+            const response = await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID, []);
+            expect(response.resource && response.resource.errors).toEqual([error1, error2]);
+            expect(response.resource && response.resource.isValid).toBe(false);
+        });
+
+        it("should log error if isValid is false", async () => {
+            const error = {
+                error: "Some error",
+                location: "/some",
+                locationType: "field"
+            };
+            jest.spyOn(logger, "error").mockImplementation(() => { /* No-op */ });
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    isValid: false,
+                    errors: [error]
+                }
+            };
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
+
+            await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID);
+            expect(logger.error).toHaveBeenCalled();
+        });
+
+        it("should throw if isValid is undefined", async () => {
+            const error = {
+                error: "Some error",
+                location: "/some",
+                locationType: "field"
+            };
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    errors: [error]
+                }
+            };
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
+
+            await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
+                `Error getting validation status for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`
+            );
+        });
     });
 });
