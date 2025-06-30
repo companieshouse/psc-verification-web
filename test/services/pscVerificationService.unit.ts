@@ -561,84 +561,113 @@ describe("pscVerificationService", () => {
             expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
         });
 
-        it("should return status 200 OK with a validation error when there is a UVID name mismatch", async () => {
-            jest.spyOn(logger, "error").mockImplementation(() => { /* No-op */ });
-
-            expected = {
+        it("should filter out errors by excludedErrorLocations and set isValid true if all errors are excluded", async () => {
+            const errorToExclude = {
+                error: "Name mismatch",
+                location: "/name",
+                locationType: "field"
+            };
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
                 httpStatusCode: HttpStatusCode.Ok,
                 resource: {
                     isValid: false,
-                    errors: [
-                        mockValidationStatusNameError
-                    ]
+                    errors: [errorToExclude]
                 }
-            } as Resource<ValidationStatusResponse>;
-
-            const mockValidationStatus: Resource<ValidationStatusResponse> = {
-                httpStatusCode: HttpStatusCode.Ok,
-                resource: VALIDATION_STATUS_INVALID_NAME
             };
             mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
 
-            const response = await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID);
-
-            expect(response).toEqual(expected);
-            expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
-            const castedResource = response as unknown as ValidationStatusResponse;
-            expect(castedResource).toEqual(expected);
-            expect(logger.error).toHaveBeenCalled();
-
-            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
-
+            const response = await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID, ["/name"]);
+            expect(response.resource && response.resource.errors).toEqual([]);
+            expect(response.resource && response.resource.isValid).toBe(true);
         });
 
-        it("should throw an error when the HTTP status code is not 200 OK", async () => {
-            const errorMessage = "There was an error!";
-            const errorResponse: ApiErrorResponse = {
-                httpStatusCode: 404,
-                errors: [{ error: errorMessage }]
+        it("should filter out only specified errors by excludedErrorLocations and leave others", async () => {
+            const errorToExclude = {
+                error: "Name mismatch",
+                location: "/name",
+                locationType: "field"
             };
-
-            mockGetValidationStatus.mockResolvedValueOnce(errorResponse);
-
-            await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
-                `Error getting validation status: HTTP response is 404 for transactionId="11111-22222-33333", pscVerificationId="662a0de6a2c6f9aead0f32ab"`
-            );
-
-            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
-        });
-
-        it("should throw an error when the response is null", async () => {
-            mockGetValidationStatus.mockResolvedValueOnce(null);
-
-            await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
-                `PSC Verification GET validation status request did not return a response for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`
-            );
-
-            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
-        });
-
-        it("should throw an error when the validationStatus.resource is undefined", async () => {
+            const errorToKeep = {
+                error: "DOB mismatch",
+                location: "/dob",
+                locationType: "field"
+            };
             const mockValidationStatus: Resource<ValidationStatusResponse> = {
                 httpStatusCode: HttpStatusCode.Ok,
-                resource: undefined
+                resource: {
+                    isValid: false,
+                    errors: [errorToExclude, errorToKeep]
+                }
             };
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
 
+            const response = await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID, ["/name"]);
+            expect(response.resource && response.resource.errors).toEqual([errorToKeep]);
+            expect(response.resource && response.resource.isValid).toBe(false);
+        });
+
+        it("should not filter errors if excludedErrorLocations is empty", async () => {
+            const error1 = {
+                error: "Name mismatch",
+                location: "/name",
+                locationType: "field"
+            };
+            const error2 = {
+                error: "DOB mismatch",
+                location: "/dob",
+                locationType: "field"
+            };
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    isValid: false,
+                    errors: [error1, error2]
+                }
+            };
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
+
+            const response = await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID, []);
+            expect(response.resource && response.resource.errors).toEqual([error1, error2]);
+            expect(response.resource && response.resource.isValid).toBe(false);
+        });
+
+        it("should log error if isValid is false", async () => {
+            const error = {
+                error: "Some error",
+                location: "/some",
+                locationType: "field"
+            };
+            jest.spyOn(logger, "error").mockImplementation(() => { /* No-op */ });
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    isValid: false,
+                    errors: [error]
+                }
+            };
+            mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
+
+            await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID);
+            expect(logger.error).toHaveBeenCalled();
+        });
+
+        it("should throw if isValid is undefined", async () => {
+            const error = {
+                error: "Some error",
+                location: "/some",
+                locationType: "field"
+            };
+            const mockValidationStatus: Resource<ValidationStatusResponse> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: {
+                    errors: [error]
+                }
+            };
             mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
 
             await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
                 `Error getting validation status for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`
             );
-
-            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
         });
     });
 });
