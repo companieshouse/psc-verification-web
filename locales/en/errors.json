@@ -1,6 +1,4 @@
 {
     "server_error_summary" : "There was an error processing the request.",
-    "error_summary_title" : "There is a problem",
-    "default_error_summary" : "Your request contains validation errors",
-    "default_error_inline" : "Your request contains validation errors"
+    "error_summary_title" : "There is a problem"
 }

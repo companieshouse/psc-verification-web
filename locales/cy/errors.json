@@ -1,6 +1,4 @@
 {
-    "server_error_summary": "To be translated: server_error_summary",
-    "error_summary_title": "To be translated: error_summary_title",
-    "default_error_summary": "To be translated: default_error_summary",
-    "default_error_inline": "To be translated: default_error_inline"
+    "server_error_summary": "Roedd gwall wrth brosesu\u0027r cais.",
+    "error_summary_title": "Mae yna broblem"
 }
