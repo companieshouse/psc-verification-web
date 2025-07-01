@@ -3,6 +3,7 @@ import { Validators, addProtocolIfMissing, readEnv } from "./validator";
 const { str, url, bool, port } = Validators;
 
 export const env = readEnv(process.env, {
+    ACCOUNT_URL: str.describe("Host URL for the account service"),
     API_URL: str.describe("API base URL for service interaction"),
     APP_NAME: str.describe("Name of the application"),
     CACHE_SERVER: str.describe("Name of the server cache"),
