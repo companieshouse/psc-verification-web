@@ -71,6 +71,7 @@ app.use(servicePathPrefix + urlWithTransactionIdAndSubmissionId, blockClosedTran
 // serve static files
 app.use(express.static(path.join(__dirname, "./../assets/public")));
 
+njk.addGlobal("accountUrl", process.env.ACCOUNT_URL);
 njk.addGlobal("cdnUrlCss", process.env.CDN_URL_CSS);
 njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
 njk.addGlobal("cdnHost", process.env.CDN_HOST);

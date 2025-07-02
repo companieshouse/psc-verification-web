@@ -1,4 +1,5 @@
 export default () => {
+    process.env.ACCOUNT_URL = "http://account.chs.local";
     process.env.API_URL = "http://api.chs.local";
     process.env.APP_NAME = "psc-verification-web";
     process.env.CACHE_SERVER = "cache_server";

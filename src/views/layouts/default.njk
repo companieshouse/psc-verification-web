@@ -4,6 +4,7 @@
 {% import "add-lang-to-url.njk" as lang2url %}
 {% from "csrf-token-input/macro.njk" import csrfTokenInput %}
 {% include "partials/__meta_header.njk" %}
+{% from "navbar.njk" import addNavbar %}
 
   <body class="govuk-template__body" >
 
@@ -16,7 +17,16 @@
 
     <div class="govuk-width-container ">
       {% if isSignedIn %}
-        {% include "partials/signout-bar.njk" %}
+        {% set signInHref = chsUrl + "/signin" %}
+        {% set userAccountHref = accountUrl + "/user/account?lang=" + lang %}
+        {% set signOutHref = chsUrl + "/signout" %}
+
+        {% set menuItems = [
+          { id: "your-details", href: userAccountHref , displayText: i18n.global_manage_account_link },
+          { id: "user-signout", href: signOutHref, displayText: i18n.global_sign_out_link }
+        ] | reject("falsy") %}
+
+        {{ addNavbar(signInHref, menuItems, userEmail, lang) }}
       {% endif %}
 
       {% if backURL %}
