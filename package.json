@@ -27,7 +27,7 @@
     "author": "Moses Wejuli <mwejuli@companieshouse.gov.uk>",
     "license": "MIT",
     "dependencies": {
-        "@companieshouse/api-sdk-node": "^2.0.272",
+        "@companieshouse/api-sdk-node": "github:companieshouse/api-sdk-node#spike/persist-request-id",
         "@companieshouse/ch-node-utils": "^2.1.2",
         "@companieshouse/node-session-handler": "^5.2.3",
         "@companieshouse/structured-logging-node": "^2.0.2",
