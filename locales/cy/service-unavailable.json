@@ -1,8 +1,8 @@
 {
-    "service_unavailable_main_title": "To be translated: service_unavailable_main_title",
-    "service_unavailable_use": "To be translated: service_unavailable_use",
-    "service_unavailable_time_preposition": "am",
-    "service_unavailable_when_available_start_again": "To be translated: service_unavailable_when_available_start_again",
-    "service_unavailable_contact_us_1": "To be translated: service_unavailable_contact_us_1",
-    "service_unavailable_contact_us_2": "To be translated: service_unavailable_contact_us_2"
+    "service_unavailable_main_title": "Mae\u0027n ddrwg gennym, nid yw\u0027r gwasanaeth ar gael",
+    "service_unavailable_use": "Byddwch yn gallu defnyddio\u0027r gwasanaeth o ",
+    "service_unavailable_time_preposition": "ar",
+    "service_unavailable_when_available_start_again": "Nid ydym wedi cadw eich atebion. Pan fydd y gwasanaeth ar gael, bydd yn rhaid i chi ddechrau eto.",
+    "service_unavailable_contact_us_1": "Cysylltwch \u00e2 ni",
+    "service_unavailable_contact_us_2": "os oes angen i chi siarad \u00e2 rhywun am ddarparu manylion gwiriad hunaniaeth ar gyfer person sydd \u00e2 rheolaeth arwyddocaol."
 }
