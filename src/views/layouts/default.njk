@@ -22,7 +22,7 @@
         {% set signOutHref = chsUrl + "/signout" %}
 
         {% set menuItems = [
-          { id: "your-details", href: userAccountHref , displayText: i18n.global_manage_account },
+          { id: "your-details", href: userAccountHref , displayText: i18n.global_manage_account_link },
           { id: "user-signout", href: signOutHref, displayText: i18n.global_sign_out_link }
         ] | reject("falsy") %}
 
