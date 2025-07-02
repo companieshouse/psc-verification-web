@@ -10,6 +10,7 @@ import { HttpError } from "../lib/errors/httpError";
 import { createApiKeyClient, createOAuthApiClient } from "./apiClientService";
 import { Responses } from "../constants";
 import { DataIntegrityError, DataIntegrityErrorType } from "../lib/errors/dataIntegrityError";
+import { extractRequestIdHeader } from "../routers/utils";
 
 export const createPscVerification = async (request: Request, transaction: Transaction, pscVerification: PscVerificationData): Promise<Resource<PscVerification> | ApiErrorResponse> => {
     if (!pscVerification) {
@@ -25,7 +26,9 @@ export const createPscVerification = async (request: Request, transaction: Trans
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
 
     logger.debug(`Creating PSC verification resource for transactionId="${transaction.id}": ${transaction.description}`);
-    const sdkResponse: Resource<PscVerification> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.postPscVerification(transaction.id as string, pscVerification);
+
+    const headers = extractRequestIdHeader(request);
+    const sdkResponse: Resource<PscVerification> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.postPscVerification(transaction.id as string, pscVerification, headers);
 
     if (!sdkResponse) {
         throw new Error(`PSC Verification POST request returned no response for transactionId="${transaction.id}"`);

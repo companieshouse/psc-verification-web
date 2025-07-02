@@ -65,7 +65,7 @@ describe("pscVerificationService", () => {
             }
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockCreatePscVerification).toHaveBeenCalledTimes(1);
-            expect(mockCreatePscVerification).toHaveBeenCalledWith(TRANSACTION_ID, INITIAL_PSC_DATA);
+            expect(mockCreatePscVerification).toHaveBeenCalledWith(TRANSACTION_ID, INITIAL_PSC_DATA, {});
         });
 
         it("should throw an error when the response is empty", async () => {
@@ -215,7 +215,7 @@ describe("pscVerificationService", () => {
             expect(response).toBeUndefined();
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockCreatePscVerification).toHaveBeenCalledTimes(1);
-            expect(mockCreatePscVerification).toHaveBeenCalledWith(TRANSACTION_ID, INITIAL_PSC_DATA);
+            expect(mockCreatePscVerification).toHaveBeenCalledWith(TRANSACTION_ID, INITIAL_PSC_DATA, {});
         });
     });
 
