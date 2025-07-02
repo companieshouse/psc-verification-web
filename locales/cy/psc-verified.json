@@ -1,13 +1,13 @@
 {
-    "psc_verified_main_title": "To be translated: psc_verified_main_title",
-    "psc_verified_reference_number_statement": "To be translated: psc_verified_reference_number_statement",
-    "psc_verified_company_number": "To be translated: psc_verified_company_number",
-    "psc_verified_company_name": "To be translated: psc_verified_company_name",
-    "psc_verified_psc_name": "To be translated: psc_verified_psc_name",
-    "psc_verified_confirmation_email_text": "To be translated: psc_verified_confirmation_email_text",
-    "psc_verified_process_submission_text": "To be translated: psc_verified_process_submission_text",
-    "psc_verified_next_heading": "To be translated: psc_verified_next_heading",
-    "psc_verified_next_body": "To be translated: psc_verified_next_body",
-    "psc_verified_verification_details_link": "To be translated: psc_verified_verification_details_link",
-    "psc_verified_another_company_verification_link": "To be translated: psc_verified_another_company_verification_link"
+    "psc_verified_main_title": "Mae\u0027r manylion gwiriad hunaniaeth wedi eu cyflwyno",
+    "psc_verified_reference_number_statement": "Eich rhif cyfeirnod",
+    "psc_verified_company_number": "Rhif y cwmni",
+    "psc_verified_company_name": "Enw\u0027r cwmni",
+    "psc_verified_psc_name": "Enw\u0027A",
+    "psc_verified_confirmation_email_text": "Rydym wedi anfon e-bost cadarnhau at ",
+    "psc_verified_process_submission_text": "Byddwn yn prosesu\u0027r cyflwyniad cyn gynted \u00e2 phosibl, ac yn anfon e-bost atoch i roi gwybod i chi os caiff ei dderbyn neu ei wrthod.",
+    "psc_verified_next_heading": "Beth ydych chi eisiau gwneud nesaf?",
+    "psc_verified_next_body": "Darparu manylion gwiriad hunaniaeth neu ofyn am estyniad ar gyfer:",
+    "psc_verified_verification_details_link": "PRhA arall o ",
+    "psc_verified_another_company_verification_link": "PRhA o gwmni gwahanol"
 }
