@@ -9,7 +9,7 @@
   "name_mismatch_preferred_name": "Enw a ffefrir ",
   "name_mismatch_translation_or_convention": "Cyfieithiad neu gonfensiwn enwi gwahanol",
   "name_mismatch_register_incorrect": "Gwall ar y gofrestr gyhoeddus",
-  "name_mismatch_prefer_not_to_say": "To be translated: name_mismatch_prefer_not_to_say",
-  "name_mismatch_error_summary": "Byddai'n well gen i beidio â dweud",
+  "name_mismatch_prefer_not_to_say": "Byddai'n well gen i beidio â dweud",
+  "name_mismatch_error_summary": "Dywedwch wrthym pam mae'r enw ar y gofrestr gyhoeddus yn wahanol i'r enw a ddefnyddiwyd gan y PRhA hwn ar gyfer gwiriad hunaniaeth",
   "name_mismatch_error_inline": "Dywedwch wrthym pam mae'r enw ar y gofrestr gyhoeddus yn wahanol i'r enw a ddefnyddiwyd gan y PRhA hwn ar gyfer gwiriad hunaniaeth"
 }
