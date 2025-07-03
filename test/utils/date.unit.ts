@@ -24,8 +24,8 @@ describe("Utils date functions", () => {
             ["10 Nov 23 12:00 GMT", "12pm on Friday 10 November 2023", "en"],
             ["10 Nov 23 00:00 GMT", "12am on Friday 10 November 2023", "en"],
             ["10 Nov 23 12:04 GMT", "12:04pm on Friday 10 November 2023", undefined],
-            ["10 Nov 23 12:04 GMT", "12:04yh am Dydd Gwener 10 Tachwedd 2023", "cy"],
-            ["10 Nov 23 12:00 GMT", "12yh am Dydd Gwener 10 Tachwedd 2023", "cy"],
+            ["10 Nov 23 12:04 GMT", "12:04yh ar Dydd Gwener 10 Tachwedd 2023", "cy"],
+            ["10 Nov 23 12:00 GMT", "12yh ar Dydd Gwener 10 Tachwedd 2023", "cy"],
             [undefined, "", "en"],
             ["2025-11-15T07:00:00Z", "7am on Saturday 15 November 2025", "en"], // Maintenance ISO (UTC) correct DST conversion
             ["2025-06-15T07:00:00Z", "8am on Sunday 15 June 2025", "en"] // Maintenance ISO (UTC) correct DST conversion
