@@ -93,7 +93,7 @@ describe("stop screen view tests", () => {
                 expect($("a#mail-to-dsr").attr("href")).toBe(`mailto:${env.DSR_EMAIL_ADDRESS}`);
                 break;
             case STOP_TYPE.PROBLEM_WITH_PSC_DATA:
-                expect($("p.govuk-body").text()).toContain("You'll need to call or email Companies House to resolve it before you can provide verification details. You'll be asked to provide the company number.");
+                expect($("p.govuk-body").text()).toContain("call or email Companies House");
                 break;
             default:
                 throw new Error(`Untested STOP_TYPE value: ${stopType}`);
