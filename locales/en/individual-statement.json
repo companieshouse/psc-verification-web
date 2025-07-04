@@ -1,8 +1,7 @@
 {
     "individual_statement_title": "Confirm the identity verification statement",
-    "individual_statement_value": "individual_statement",
     "individual_statement_part1": "I confirm that ",
-    "individual_statement_part2": " has verified their identity in accordance with the Companies Act 2006.",
+    "individual_statement_part2": "has verified their identity in accordance with the Companies Act 2006.",
     "individual_statement_born": "Born ",
     "individual_statement_button": "Confirm and submit",
     "individual_statement_error_summary": "Select the identity verification statement",
