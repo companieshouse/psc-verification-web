@@ -1,7 +1,6 @@
 {
-  "company_status_main_title": "You cannot provide verification details for this company through this service",
-  "company_status_main_heading": "Companies that are dissolved or converted closed cannot use this service",
-  "company_status_statement_1": "'s status on the Companies House register is currently either dissolved or converted closed.",
+  "company_status_main_heading": "Companies that are dissolved, converted or closed cannot use this service",
+  "company_status_statement_1": "(Company name)’s status on the Companies House register is currently either dissolved, converted or closed.",
   "company_status_statement_2": "This means its PSCs do not need to provide their verification details.",
   "company_status_wrong_company_action": "If this is the wrong company, ",
   "company_status_wrong_company_action_text": "go back and enter a different company number",
@@ -32,7 +31,7 @@
   "dob_mismatch_if_wrong": "If the date of birth we hold is wrong, they’ll need to submit a filing to correct it. When it’s been corrected, you can continue with this service.",
   "dob_mismatch_how_to_correct_details": "How to correct the date of birth",
   "dob_mismatch_how_to_correct_details_par_1": "If you were added as a PSC as part of the company’s registration with Companies House, your date of birth can be corrected using the ",
-  "dob_mismatch_how_to_correct_details_rp01_link_text": "‘Replace a document not meeting requirements (RP01)’ paper form",
+  "dob_mismatch_how_to_correct_details_rp01_link_text": "'Replace a document not meeting requirements (RP01)' paper form",
   "dob_mismatch_how_to_correct_details_par_2": "If you were added as a PSC after the company was registered with us, it can be corrected using our ",
   "dob_mismatch_authorised_agent": "If you verified using an authorised agent, check they entered the correct date of birth",
   "dob_mismatch_verified_identity": "Contact the agent and ask them to check if they entered your details correctly when they told us they'd verified your identity.",
