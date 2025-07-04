@@ -7,5 +7,16 @@
     "global_continue_button": "Parhau",
     "global_back_link": "Yn ôl",
     "global_sign_out_link": "Allgofnodi",
-    "global_manage_account_link": "Rheoli eich cyfrif"
+    "global_manage_account_link": "Rheoli eich cyfrif",
+    "global_footer_policies": "Polisïau",
+    "global_footer_cookies": "Cwcis",
+    "global_footer_contact_us": "Cysylltwch â ni",
+    "global_footer_developers": "Developers",
+    "global_footer_ogl_v3": "Drwydded Llywodraeth Agored v3.0",
+    "global_footer_licence_p1": "Mae'r holl gynnwys ar gael o dan y ",
+    "global_footer_licence_p2": ", ac eithrio lle nodir yn wahanol",
+    "global_footer_crown_copyright": "© Hawlfraint y Goron",
+    "global_footer_accessibility_statement": "Datganiad hygyrchedd",
+    "global_footer_manage_your_prototype": "Rheoli eich prototeip",
+    "global_footer_clear_data": "Clirio data"
 }
