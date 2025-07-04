@@ -1,15 +1,15 @@
 {
-  "name_mismatch_title": "Pam mae'r enw ar y gofrestr gyhoeddus yn wahanol i'r enw a ddefnyddiwyd gan y PRhA hwn ar gyfer gwiriad hunaniaeth?",
+  "name_mismatch_title": "Pam mae’r enw ar y gofrestr gyhoeddus yn wahanol i’r enw a ddefnyddiwyd gan y PRhA hwn ar gyfer gwiriad hunaniaeth?",
   "name_mismatch_born": "Ganwyd ",
-  "name_mismatch_details_par1": "Dywedwch wrthym pam nad yw'r enwau yn cyfateb. Efallai y byddwn yn cysylltu â chi os oes angen mwy o wybodaeth arnom.",
-  "name_mismatch_details_par2": "Dylech hefyd ystyried a oes angen i'r cwmni hwn wneud hynny ",
+  "name_mismatch_details_par1": "Dywedwch wrthym pam nad yw’r enwau yn cyfateb. Efallai y byddwn yn cysylltu â chi os oes angen mwy o wybodaeth arnom.",
+  "name_mismatch_details_par2": "Dylech hefyd ystyried a oes angen i’r cwmni hwn wneud hynny ",
   "name_mismatch_details_par2_link": "diweddaru enw PRhA ar y gofrestr gyhoeddus (yn agor mewn tab newydd)",
   "name_mismatch_details_par2_after_link": ".",
-  "name_mismatch_legally_changed": "Enw wedi'i newid yn gyfreithiol (er enghraifft, priodas neu ysgariad)",
+  "name_mismatch_legally_changed": "Enw wedi’i newid yn gyfreithiol (er enghraifft, priodas neu ysgariad)",
   "name_mismatch_preferred_name": "Enw a ffefrir ",
   "name_mismatch_translation_or_convention": "Cyfieithiad neu gonfensiwn enwi gwahanol",
   "name_mismatch_register_incorrect": "Gwall ar y gofrestr gyhoeddus",
-  "name_mismatch_prefer_not_to_say": "Byddai'n well gen i beidio â dweud",
-  "name_mismatch_error_summary": "Dywedwch wrthym pam mae'r enw ar y gofrestr gyhoeddus yn wahanol i'r enw a ddefnyddiwyd gan y PRhA hwn ar gyfer gwiriad hunaniaeth",
-  "name_mismatch_error_inline": "Dywedwch wrthym pam mae'r enw ar y gofrestr gyhoeddus yn wahanol i'r enw a ddefnyddiwyd gan y PRhA hwn ar gyfer gwiriad hunaniaeth"
+  "name_mismatch_prefer_not_to_say": "Byddai’n well gen i beidio â dweud",
+  "name_mismatch_error_summary": "Dywedwch wrthym pam mae’r enw ar y gofrestr gyhoeddus yn wahanol i’r enw a ddefnyddiwyd gan y PRhA hwn ar gyfer gwiriad hunaniaeth",
+  "name_mismatch_error_inline": "Dywedwch wrthym pam mae’r enw ar y gofrestr gyhoeddus yn wahanol i’r enw a ddefnyddiwyd gan y PRhA hwn ar gyfer gwiriad hunaniaeth"
 }
