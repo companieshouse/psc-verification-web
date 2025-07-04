@@ -42,11 +42,11 @@
   "empty_psc_list_link": "read the guidance on people with significant control (PSCs)",
   "super_secure_main_title": "You cannot provide verification details for this company's PSCs online",
   "super_secure_statement_1": "The details of this company and its people with significant control (PSC) are protected from being shown on the Companies House register.",
-  "super_secure_statement_2": "This means you'll need to provide the verification details of the company's PSCs using a paper form.",
+  "super_secure_statement_2": "This means you'll need to provide the verification details of the company’s PSCs using a paper form.",
   "super_secure_statement_3_1": "To request a paper form, email",
   "super_secure_statement_3_2": "or call",
   "super_secure_statement_3_3": ", and provide the company name and number.",
   "problem_with_psc_data_main_title": "There is a problem with the PSC data on our records",
-  "problem_with_psc_data_body": "You'll need to call or email Companies House to resolve it before you can provide verification details. You'll be asked to provide the company number.",
+  "problem_with_psc_data_body": "You’ll need to call or email Companies House to resolve it before you can provide verification details. You’ll be asked to provide the company number.",
   "problem_with_psc_data_telephone": "Telephone: "
 }

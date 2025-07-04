@@ -11,7 +11,7 @@
         "uvid"
     ],
     "sonarlint.connectedMode.project": {
-        "connectionId": "new-sonarqube",
+        "connectionId": "SonarQube Enterprise",
         "projectKey": "uk.gov.companieshouse:psc-verification-web"
     }
 }
