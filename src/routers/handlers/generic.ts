@@ -44,6 +44,7 @@ export function populateViewData<T extends BaseViewData> (viewData: T, req: Requ
         viewData.userEmail = userEmail;
     } else {
         logger.error("GenericHandler unable to get email. Email is undefined.");
+        viewData.userEmail = ""; // Blank email to avoid a scenario where the email is undefined
     }
 }
 
