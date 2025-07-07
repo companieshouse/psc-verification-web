@@ -3,14 +3,19 @@ import { HttpError } from "../../../src/lib/errors/httpError";
 import { HttpStatusCode } from "axios";
 import httpMocks from "node-mocks-http";
 import { njk } from "../../../src/app";
+import { getViewData } from "../../../src/routers/handlers/generic";
 
 jest.mock("../../../src/app", () => ({
     njk: {
         getTemplate: jest.fn()
     }
 }));
+jest.mock("../../../src/routers/handlers/generic", () => ({
+    getViewData: jest.fn()
+}));
 
 const mockGetTemplate = njk.getTemplate as jest.Mock;
+const mockGetViewData = getViewData as jest.Mock;
 
 describe("httpErrorInterceptor", () => {
     const mockRender = jest.fn();
@@ -25,27 +30,30 @@ describe("httpErrorInterceptor", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        mockGetViewData.mockResolvedValue({}); // Ensure getViewData resolves
     });
 
-    it("should handle HttpError and render the correct template", () => {
+    it("should handle HttpError and render the correct template", async () => {
         const error = new HttpError("Not Found", HttpStatusCode.NotFound);
 
         httpErrorInterceptor(error, req, res, next);
+        await new Promise(process.nextTick);
 
         expect(res.statusCode).toBe(HttpStatusCode.NotFound);
         expect(mockRender).toHaveBeenCalledWith("error/404-not-found", expect.any(Object));
     });
 
-    it("should handle generic Error and render the fallback template", () => {
+    it("should handle generic Error and render the fallback template", async () => {
         const error = new Error("Unhandled error");
 
         httpErrorInterceptor(error, req, res, next);
+        await new Promise(process.nextTick);
 
         expect(res.statusCode).toBe(HttpStatusCode.InternalServerError);
         expect(mockRender).toHaveBeenCalledWith("error/500-internal-server-error", expect.any(Object));
     });
 
-    it("should fall back to the default template if the specific template is missing", () => {
+    it("should fall back to the default template if the specific template is missing", async () => {
         const error = new HttpError("Not Found", HttpStatusCode.NotFound);
 
         mockGetTemplate.mockImplementationOnce(() => {
@@ -53,6 +61,7 @@ describe("httpErrorInterceptor", () => {
         });
 
         httpErrorInterceptor(error, req, res, next);
+        await new Promise(process.nextTick);
 
         expect(res.statusCode).toBe(HttpStatusCode.NotFound);
         expect(mockGetTemplate).toHaveBeenCalledWith("error/404-not-found.njk");
