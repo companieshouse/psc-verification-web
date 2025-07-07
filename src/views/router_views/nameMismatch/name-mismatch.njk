@@ -5,8 +5,8 @@
 
 {% set title = i18n.name_mismatch_title%}
 
-{% set nameAndDateBirthText = 
-    [pscName," ","(",i18n.name_mismatch_born,monthYearBorn,")"] | join 
+{% set nameAndDateBirthText =
+    [pscName," ","(",i18n.name_mismatch_born,monthYearBorn,")"] | join
 %}
 
 {% block main_content %}
@@ -27,8 +27,8 @@
 
         <p class="govuk-body">
             {{ i18n.name_mismatch_details_par2 }}
-            <a href="https://www.gov.uk/file-changes-to-a-company-with-companies-house" class="govuk-link" rel="noreferrer noopener" target="_blank" data-event-id="update-name-on-register-link">
-              {{ i18n.name_mismatch_details_par2_link }}
+            <a href={{ i18n.name_mismatch_details_par2_link }} class="govuk-link" rel="noreferrer noopener" target="_blank" data-event-id="update-name-on-register-link">
+              {{ i18n.name_mismatch_details_par2_pre_link }}
             </a>
             {{- i18n.name_mismatch_details_par2_after_link }}
         </p>
@@ -82,7 +82,7 @@
                     attributes:{
                         "data-event-id": "prefer-not-to-say-radio-option"
                     }
-                }                                
+                }
             ]
         } %}
 
