@@ -4,6 +4,7 @@
 import { Request, Response } from "express";
 import { ExternalUrls, PrefixedUrls, servicePathPrefix } from "../../constants";
 import errorManifest from "../../lib/utils/error-manifests/errorManifest";
+import { logger } from "../../lib/logger";
 
 export interface BaseViewData {
     errors: any
@@ -31,42 +32,43 @@ export const defaultBaseViewData: Partial<BaseViewData> = {
     templateName: null
 } as const;
 
-export interface Redirect {
-    redirect: string
+export function populateViewData<T extends BaseViewData> (viewData: T, req: Request, res: Response): void {
+    const { signin_info: signInInfo } = req.session?.data ?? {};
+    const isSignedIn = signInInfo?.signed_in !== undefined;
+    viewData.isSignedIn = isSignedIn;
+
+    if (!isSignedIn) { return; }
+
+    const userEmail = signInInfo?.user_profile?.email;
+    if (userEmail) {
+        viewData.userEmail = userEmail;
+    } else {
+        logger.error("GenericHandler unable to get email. Email is undefined.");
+        viewData.userEmail = ""; // Blank email to avoid a scenario where the email is undefined
+    }
+}
+
+export async function getViewData<T extends BaseViewData> (req: Request, res: Response, lang: string = "en"): Promise<T> {
+    const viewData = defaultBaseViewData as T;
+    populateViewData(viewData, req, res);
+    return viewData;
 }
 
 export abstract class GenericHandler<T extends BaseViewData> {
     protected errorManifest!: ReturnType<typeof errorManifest>;
     private viewData!: T;
 
+    async getViewData (req: Request, res: Response, lang: string = "en"): Promise<T> {
+        this.errorManifest = errorManifest(lang);
+        this.viewData = await getViewData<T>(req, res, lang);
+        return this.viewData;
+    }
+
     processHandlerException (err: any): Object {
         if (err.name === "VALIDATION_ERRORS") {
             return err.stack;
         }
-
         throw err;
-    }
-
-    populateViewData (req: Request, res: Response) {
-        const { signin_info: signInInfo } = req.session?.data ?? {};
-        const isSignedIn = signInInfo?.signed_in !== undefined;
-        this.viewData.isSignedIn = isSignedIn;
-
-        if (!isSignedIn) { return; }
-
-        const userEmail = signInInfo?.user_profile?.email;
-        if (!userEmail) {
-            throw new Error("GenericHandler unable to get email. Email is undefined.");
-        }
-
-        this.viewData.userEmail = userEmail;
-    }
-
-    async getViewData (req: Request, res: Response, lang: string = "en"): Promise<T> {
-        this.errorManifest = errorManifest(lang);
-        this.viewData = defaultBaseViewData as T;
-        this.populateViewData(req, res);
-        return this.viewData;
     }
 }
 

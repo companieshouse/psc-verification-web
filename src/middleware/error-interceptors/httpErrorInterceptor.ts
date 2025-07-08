@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { logger } from "../../lib/logger";
 import { HttpError } from "../../lib/errors/httpError";
-import { defaultBaseViewData } from "../../routers/handlers/generic";
+import { getViewData } from "../../routers/handlers/generic";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../utils/localise";
 import { njk } from "../../app";
 import { HttpStatusCode } from "axios";
@@ -50,11 +50,13 @@ export const httpErrorInterceptor = (error: HttpError | Error, req: Request, res
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
 
-    res.render(templatePath, {
-        ...defaultBaseViewData,
-        ...getLocaleInfo(locales, lang),
-        currentUrl: req.originalUrl,
-        extraData: [env.CONTACT_US_LINK]
+    getViewData(req, res, lang).then((baseViewData) => {
+        res.render(templatePath, {
+            ...baseViewData,
+            ...getLocaleInfo(locales, lang),
+            currentUrl: req.originalUrl,
+            extraData: [env.CONTACT_US_LINK]
+        });
     });
 };
 
