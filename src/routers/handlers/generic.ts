@@ -59,7 +59,7 @@ export abstract class GenericHandler<T extends BaseViewData> {
     private viewData!: T;
 
     async getViewData (req: Request, res: Response, lang: string = "en"): Promise<T> {
-        this.errorManifest = errorManifest();
+        this.errorManifest = errorManifest(lang);
         this.viewData = await getViewData<T>(req, res, lang);
         return this.viewData;
     }
