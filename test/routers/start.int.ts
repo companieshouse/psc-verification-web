@@ -127,7 +127,7 @@ describe("Start router/handler integration tests", () => {
 
             const expectedLinks = [
                 { href: "https://resources.companieshouse.gov.uk/serviceInformation.shtml", text: "Policies" },
-                { href: "help/cookies", text: "Cookies" },
+                { href: "/help/cookies", text: "Cookies" },
                 { href: "https://www.gov.uk/government/organisations/companies-house#org-contacts", text: "Contact us" },
                 { href: "accessibility-statement", text: "Accessibility" }
             ];
