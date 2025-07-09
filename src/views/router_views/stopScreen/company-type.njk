@@ -1,10 +1,10 @@
-{% set title = i18n.company_type_main_title %}
+{% set title = i18n.company_type_main_heading %}
 
 {% extends "layouts/default.njk" %}
 
 {% block main_content %}
 
-    <h1 class="govuk-heading-l">{{ i18n.company_type_main_title }}</h1>
+    <h1 class="govuk-heading-l">{{ i18n.company_type_main_heading }}</h1>
     {% set intro_statement = [i18n.company_type_intro_start, extraData[0], i18n.company_type_intro_end] | join(" ") %}
     <p class="govuk-body">{{ intro_statement }}</p>
     <ul id="allowed-company-types" class="govuk-list govuk-list--bullet">
