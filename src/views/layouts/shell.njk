@@ -1,32 +1,48 @@
-<!DOCTYPE html>
-<!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
-<!--[(if gt IE 8) | (!IE)]><!--><html lang="en" class="govuk-template"><!--<![endif]-->
-    {% import "add-lang-to-url.njk" as lang2url %}
-    {% include "partials/__meta_header.njk" %}
+{# Extends the Companies House Page Template: https://github.com/companieshouse/ch-node-utils/blob/2.0.0/docs/page-template.md #}
+{% extends "ch-node-utils/templates/layouts/template.njk" %}
 
-    <body class="govuk-template__body" >
+{% from "govuk/components/skip-link/macro.njk" import govukSkipLink %}
+{% import "add-lang-to-url.njk" as lang2url %}
 
-        <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
-        {# {% include "partials/cookie_consent_banner.njk" %} #}
+{% block pageTitle %}{{ title }}{% endblock %}
 
-        <a href="#main-page-content" class="govuk-skip-link">{{ i18n.global_skip_to_main_content }}</a>
+{% block head %}
+  {{ super() }}
+  {% include "partials/__meta_header.njk" %}
+{% endblock %}
 
-        {% include "partials/__header.njk" %}
+{% block header %}
+  {% include "partials/__header.njk" %}
+{% endblock %}
 
-        <div class="govuk-width-container ">
 
-            {% include "locales-banner.njk" %}
-            <main class="govuk-main-wrapper " id="main-content">
+{% block bodyStart %}
+  {% block skipLink %}
+    {{ govukSkipLink({
+      text: i18n.global_skip_to_main_content,
+      href: "#" + mainContentId
+    }) }}
+  {% endblock %}
+{% endblock %}
 
-                <div class="govuk-grid-row">
-                    {% block main_content %}
-                    {% endblock %}
-                </div>
+{% block beforeContent %}
+  {% include "locales-banner.njk" %}
+{% endblock %}
 
-            </main>
-        </div>
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-{{ gridColumnClass | default('two-thirds') }}" id="{{ mainContentId }}">
+      {% include "partials/error-summary.njk" %}
+      {% block main_content %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}
 
-        {% include "partials/__footer.njk" %}
+{% block footer %}
+  {% include "partials/__footer.njk" %}
+{% endblock %}
 
-    </body>
-</html>
+{% block bodyEnd %}
+  {{ super() }}
+  {% include "partials/__meta_footer.njk" %}
+{% endblock %}
