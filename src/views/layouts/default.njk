@@ -1,55 +1,56 @@
-<!DOCTYPE html>
-<!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
-<!--[(if gt IE 8) | (!IE)]><!--><html lang="en" class="govuk-template"><!--<![endif]-->
-{% import "add-lang-to-url.njk" as lang2url %}
-{% from "csrf-token-input/macro.njk" import csrfTokenInput %}
-{% include "partials/__meta_header.njk" %}
+{# Extends the Companies House Page Template: https://github.com/companieshouse/ch-node-utils/blob/2.0.0/docs/page-template.md #}
+{% extends "ch-node-utils/templates/layouts/template.njk" %}
+
+{% from "govuk/components/skip-link/macro.njk" import govukSkipLink %}
+{% from "web-security-node/components/csrf-token-input/macro.njk" import csrfTokenInput %}
 {% from "navbar.njk" import addNavbar %}
+{% import "add-lang-to-url.njk" as lang2url %}
 
-  <body class="govuk-template__body" >
+{% set mainContentId = "main-page-content" %}
 
-    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
-    {% include "partials/cookie_consent_banner.njk" %}
+{% block pageTitle %}{{ title }}{% endblock %}
 
-    <a href="#main-page-content" class="govuk-skip-link">{{ i18n.global_skip_to_main_content }}</a>
+{% block head %}
+  {{ super() }}
+  {% include "partials/__meta_header.njk" %}
+{% endblock %}
 
-    {% include "partials/__header.njk" %}
+{% block header %}
+  {% include "partials/__header.njk" %}
+{% endblock %}
 
-    <div class="govuk-width-container ">
-      {% if isSignedIn %}
-        {% set signInHref = chsUrl + "/signin" %}
-        {% set userAccountHref = accountUrl + "/user/account?lang=" + lang %}
-        {% set signOutHref = chsUrl + "/signout" %}
+{% block bodyStart %}
+  {% include "partials/cookie_consent_banner.njk" %}
+  {% block skipLink %}
+    {{ govukSkipLink({
+      text: i18n.global_skip_to_main_content,
+      href: "#" + mainContentId
+    }) }}
+  {% endblock %}
+{% endblock %}
 
-        {% set menuItems = [
-          { id: "your-details", href: userAccountHref , displayText: i18n.global_manage_account_link },
-          { id: "user-signout", href: signOutHref, displayText: i18n.global_sign_out_link }
-        ] | reject("falsy") %}
+{% block beforeContent %}
+  {% include "partials/phase_banner.njk" %}
+  {% include "partials/nav/top.njk" %}
+  {% include "partials/back-link.njk" %}
+  {% include "locales-banner.njk" %}
+{% endblock %}
 
-        {{ addNavbar(signInHref, menuItems, userEmail, lang) }}
-      {% endif %}
-
-      {% if backURL %}
-        <a href="{{ backURL }}" class="govuk-back-link" data-event-id="back-link">{{ i18n.global_back_link }}</a>
-      {% endif %}
-
-      {% include "locales-banner.njk" %}
-      <main class="govuk-main-wrapper " id="main-content">
-
-        <div class="govuk-grid-row">
-
-          {% include "partials/error-summary.njk" %}
-
-          <div class="govuk-grid-column-{{ gridColumnClass | default('two-thirds') }}" id="main-page-content">
-            {% block main_content %}
-            {% endblock %}
-          </div>
-        </div>
-
-      </main>
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-{{ gridColumnClass | default('two-thirds') }}" id="{{ mainContentId }}">
+      {% include "partials/error-summary.njk" %}
+      {% block main_content %}{% endblock %}
     </div>
+  </div>
+{% endblock %}
 
-    {% include "partials/__footer.njk" %}
+{% block footer %}
+  {% include "partials/__footer.njk" %}
+{% endblock %}
 
-  </body>
-</html>
+{% block bodyEnd %}
+  {{ super() }}
+  {% include "partials/__meta_footer.njk" %}
+{% endblock %}
+
