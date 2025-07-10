@@ -3,8 +3,8 @@
 
 {% from "govuk/components/skip-link/macro.njk" import govukSkipLink %}
 {% from "web-security-node/components/csrf-token-input/macro.njk" import csrfTokenInput %}
-{% from "navbar.njk" import addNavbar %}
-{% import "add-lang-to-url.njk" as lang2url %}
+{% from "ch-node-utils/templates/navbar.njk" import addNavbar %}
+{% import "ch-node-utils/templates/add-lang-to-url.njk" as lang2url %}
 
 {% set mainContentId = "main-page-content" %}
 
@@ -33,7 +33,7 @@
   {% include "partials/phase_banner.njk" %}
   {% include "partials/nav/top.njk" %}
   {% include "partials/back-link.njk" %}
-  {% include "locales-banner.njk" %}
+  {% include "ch-node-utils/templates/locales-banner.njk" %}
 {% endblock %}
 
 {% block content %}

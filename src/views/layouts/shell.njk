@@ -2,7 +2,7 @@
 {% extends "ch-node-utils/templates/layouts/template.njk" %}
 
 {% from "govuk/components/skip-link/macro.njk" import govukSkipLink %}
-{% import "add-lang-to-url.njk" as lang2url %}
+{% import "ch-node-utils/templates/add-lang-to-url.njk" as lang2url %}
 
 {% block pageTitle %}{{ title }}{% endblock %}
 
@@ -26,7 +26,7 @@
 {% endblock %}
 
 {% block beforeContent %}
-  {% include "locales-banner.njk" %}
+  {% include "ch-node-utils/templates/locales-banner.njk" %}
 {% endblock %}
 
 {% block content %}

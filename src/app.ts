@@ -23,20 +23,12 @@ const app = express();
 // service availability page
 app.use(isLive);
 
-const nodeModulePaths = [
-    "node_modules/govuk-frontend/dist",
-    "node_modules/@companieshouse",
-    "node_modules/@companieshouse/ch-node-utils/templates",
-    "node_modules/@companieshouse/web-security-node/components"
-];
-
 app.set("views", [
     path.join(__dirname, "views"),
-    // The following is for when using ts-node since the working directory is src
-    ...nodeModulePaths.flatMap(p => [
-        path.join(__dirname, p),
-        path.join(__dirname, "../" + p)
-    ])
+    path.join(__dirname, "../node_modules/govuk-frontend/dist"), // This is for when using ts-node since the working directory is src
+    path.join(__dirname, "node_modules/govuk-frontend/dist"),
+    path.join(__dirname, "../node_modules/@companieshouse"),
+    path.join(__dirname, "node_modules/@companieshouse")
 ]);
 
 const nunjucksLoaderOpts = {
