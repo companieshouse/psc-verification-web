@@ -6,7 +6,6 @@ import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddlewar
 import app from "../../../../src/app";
 import { PrefixedUrls } from "../../../../src/constants";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
-import { closeTransaction } from "../../../../src/services/transactionService";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_FULL, PSC_NOTIFICATION_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
@@ -33,12 +32,6 @@ jest.mock("../../../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
 mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 
-jest.mock("../../../../src/services/transactionService", () => ({
-    closeTransaction: jest.fn()
-}));
-const mockCloseTransaction = closeTransaction as jest.Mock;
-mockCloseTransaction.mockResolvedValue({});
-
 describe("psc verified view tests", () => {
 
     beforeEach(() => {
@@ -59,8 +52,6 @@ describe("psc verified view tests", () => {
         const response = await request(app).get(uri);
 
         expect(response.status).toBe(200);
-        expect(mockCloseTransaction).toHaveBeenCalledTimes(1);
-        expect(mockCloseTransaction).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID);
 
         // TODO: replace expectations below with checks on page HTML contents
         expect(mockGetPscVerification).toHaveBeenCalledTimes(1);

@@ -101,7 +101,7 @@ describe("individual statement router/handler integration tests", () => {
 
     describe("POST method", () => {
 
-        it("Should redirect to the PSC verified page with a redirect status code", async () => {
+        it("Should redirect to the close transaction with a redirect status code", async () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, TRANSACTION_ID, PSC_VERIFICATION_ID);
             const verification: PscVerificationData = {
                 verificationDetails: {
@@ -109,10 +109,16 @@ describe("individual statement router/handler integration tests", () => {
                 }
             };
             mockPatchPscVerification.mockResolvedValueOnce({
-                HttpStatusCode: HttpStatusCode.Ok,
+                httpStatusCode: HttpStatusCode.Ok,
                 resource: {
                     ...INDIVIDUAL_VERIFICATION_FULL, ...verification
                 }
+            });
+
+            // Ensure GET verification mock is set for POST handler
+            mockGetPscVerification.mockResolvedValue({
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: INDIVIDUAL_VERIFICATION_FULL
             });
 
             const resp = await request(app)
@@ -122,7 +128,7 @@ describe("individual statement router/handler integration tests", () => {
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
-            expect(resp.header.location).toBe(`${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, TRANSACTION_ID, PSC_VERIFICATION_ID)}?lang=en`);
+            expect(resp.header.location).toBe(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.CLOSE_TRANSACTION, TRANSACTION_ID, PSC_VERIFICATION_ID));
         });
     });
 });

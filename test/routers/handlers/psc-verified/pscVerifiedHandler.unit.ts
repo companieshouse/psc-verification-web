@@ -5,7 +5,6 @@ import { PscVerifiedHandler } from "../../../../src/routers/handlers/psc-verifie
 import { getPscIndividual } from "../../../../src/services/pscService";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
-import { closeTransaction } from "../../../../src/services/transactionService";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_FULL, PSC_NOTIFICATION_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
@@ -23,12 +22,6 @@ const mockGetPscVerification = getPscVerification as jest.Mock;
 
 jest.mock("../../../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
-
-jest.mock("../../../../src/services/transactionService", () => ({
-    closeTransaction: jest.fn()
-}));
-
-const mockCloseTransaction = closeTransaction as jest.Mock;
 
 describe("PSC Verified handler", () => {
     beforeEach(() => {
@@ -58,8 +51,7 @@ describe("PSC Verified handler", () => {
             response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile } });
         });
 
-        it("Should close the transaction and resolve correct view data", async () => {
-            mockCloseTransaction.mockResolvedValueOnce(undefined);
+        it("Should resolve correct view data", async () => {
             const handler = new PscVerifiedHandler();
             const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
 
@@ -78,22 +70,6 @@ describe("PSC Verified handler", () => {
             expect(mockGetCompanyProfile).not.toHaveBeenCalled();
             expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
             expect(mockGetPscIndividual).toHaveBeenCalledWith(COMPANY_NUMBER, PSC_NOTIFICATION_ID);
-            expect(mockCloseTransaction).toHaveBeenCalledTimes(1);
-            expect(mockCloseTransaction).toHaveBeenCalledWith(request, TRANSACTION_ID, PSC_VERIFICATION_ID);
-        });
-
-        it.each([undefined, "something went wrong"])("Should throw an error when closeTransaction fails", async (message) => {
-            mockCloseTransaction.mockRejectedValueOnce(new Error(message));
-            const handler = new PscVerifiedHandler();
-
-            const expectedError = message
-                ? `failed to close transaction for transactionId="${TRANSACTION_ID}", submissionId="${PSC_VERIFICATION_ID}": ${message}`
-                : `failed to close transaction for transactionId="${TRANSACTION_ID}", submissionId="${PSC_VERIFICATION_ID}"`;
-
-            await expect(handler.executeGet(request, response)).rejects.toThrow(expectedError);
-
-            expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
-            expect(mockCloseTransaction).toHaveBeenCalledTimes(1);
         });
     });
 });
