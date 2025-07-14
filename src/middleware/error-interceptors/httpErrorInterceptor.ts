@@ -55,7 +55,8 @@ export const httpErrorInterceptor = (error: HttpError | Error, req: Request, res
             ...baseViewData,
             ...getLocaleInfo(locales, lang),
             currentUrl: req.originalUrl,
-            extraData: [env.CONTACT_US_LINK]
+            extraData: [env.CONTACT_US_LINK],
+            templateName: templatePath
         });
     });
 };
