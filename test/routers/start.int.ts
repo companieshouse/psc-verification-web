@@ -129,7 +129,7 @@ describe("Start router/handler integration tests", () => {
                 { href: "https://resources.companieshouse.gov.uk/serviceInformation.shtml", text: "Policies" },
                 { href: "/help/cookies", text: "Cookies" },
                 { href: "https://www.gov.uk/government/organisations/companies-house#org-contacts", text: "Contact us" },
-                { href: "accessibility-statement", text: "Accessibility" }
+                { href: "/persons-with-significant-control-verification/accessibility-statement", text: "Accessibility" }
             ];
 
             const footerLinks = $(".govuk-footer__inline-list-item a");

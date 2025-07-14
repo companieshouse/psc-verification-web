@@ -32,7 +32,7 @@ export function toStopScreenPrefixedUrl (stopType: STOP_TYPE) {
 }
 
 export const Urls = {
-    ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
+    ACCESSIBILITY_STATEMENT: "/accessibility-statement",
     HEALTHCHECK: "/healthcheck",
     START: "/start",
     COMPANY_NUMBER: "/company-number",
