@@ -142,6 +142,27 @@ describe("Start router/handler integration tests", () => {
 
         });
 
+        it("should render the footer with the expected links in Welsh when user has selected 'Cymraeg' link", async () => {
+            const resp = await request(app).get(`${servicePathPrefix}?lang=cy`);
+            expect(resp.status).toBe(HttpStatusCode.Ok);
+            const $ = cheerio.load(resp.text);
+
+            const expectedLinks = [
+                { href: "https://resources.companieshouse.gov.uk/serviceInformation.shtml", text: "Polisïau" },
+                { href: "/help/cookies", text: "Cwcis" },
+                { href: "https://www.gov.uk/government/organisations/companies-house#org-contacts", text: "Cysylltwch â ni" },
+                { href: "/persons-with-significant-control-verification/accessibility-statement?lang=cy", text: "Hygyrchedd" }
+            ];
+
+            const footerLinks = $(".govuk-footer__inline-list-item a");
+            expect(footerLinks.length).toBe(expectedLinks.length);
+
+            expectedLinks.forEach((link, i) => {
+                expect(footerLinks.eq(i).attr("href")).toBe(link.href);
+                expect(footerLinks.eq(i).text().trim()).toBe(link.text);
+            });
+        });
+
         it("should render the Open Government Licence link correctly", async () => {
 
             const resp = await request(app).get(servicePathPrefix);
