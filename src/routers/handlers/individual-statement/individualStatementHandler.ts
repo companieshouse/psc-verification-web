@@ -88,7 +88,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
 
             queryParams.delete("selectedStatements");
             const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.CLOSE_TRANSACTION, req.params.transactionId, req.params.submissionId);
-            viewData.nextPageUrl = nextPageUrl;
+            viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
 
             logger.debug(`patching individual verification statement for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
             await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);

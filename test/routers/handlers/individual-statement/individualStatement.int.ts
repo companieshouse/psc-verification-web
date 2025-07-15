@@ -128,7 +128,7 @@ describe("individual statement router/handler integration tests", () => {
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledWith(expect.any(IncomingMessage), TRANSACTION_ID, PSC_VERIFICATION_ID, verification);
-            expect(resp.header.location).toBe(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.CLOSE_TRANSACTION, TRANSACTION_ID, PSC_VERIFICATION_ID));
+            expect(resp.header.location).toBe(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.CLOSE_TRANSACTION, TRANSACTION_ID, PSC_VERIFICATION_ID) + "?lang=en");
         });
     });
 });

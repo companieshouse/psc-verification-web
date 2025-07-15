@@ -59,19 +59,4 @@ describe("CloseTransactionHandler", () => {
         await expect(handler.closeTransaction(req as Request)).rejects.toThrow("failed to close transaction");
     });
 
-    it("should build verified redirect url with correct params", () => {
-        const url = handler.getVerifiedRedirectUrl(req as Request, res as Response);
-        expect(url).toContain("/close-transaction");
-        expect(url).toContain("lang=en");
-        expect(url).toContain("tx123");
-        expect(url).toContain("sub456");
-    });
-
-    it("should build verified redirect url with no lang", () => {
-        req.query = {};
-        const url = handler.getVerifiedRedirectUrl(req as Request, res as Response);
-        expect(url).toContain("/close-transaction");
-        expect(url).toContain("tx123");
-        expect(url).toContain("sub456");
-    });
 });

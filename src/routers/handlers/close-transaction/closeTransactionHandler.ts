@@ -31,14 +31,4 @@ export class CloseTransactionHandler {
                 throw new Error(`failed to close transaction for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"${message}`);
             });
     }
-
-    getVerifiedRedirectUrl (req: Request, res: Response): string {
-        const { transactionId, submissionId } = req.params;
-        const lang = req.query.lang ? "lang=" + String(req.query.lang) : "";
-        let url = `/close-transaction/transaction/${transactionId}/submission/${submissionId}`;
-        if (lang) {
-            url += `?${lang}`;
-        }
-        return url;
-    }
 }
