@@ -2,7 +2,7 @@ import cookieParser from "cookie-parser";
 import express from "express";
 import nunjucks from "nunjucks";
 import path from "path";
-import { CommonDataEventIds, ExternalUrls, servicePathPrefix, urlWithTransactionIdAndSubmissionId } from "./constants";
+import { CommonDataEventIds, ExternalUrls, PrefixedUrls, servicePathPrefix, urlWithTransactionIdAndSubmissionId } from "./constants";
 import { logger } from "./lib/logger";
 import { sessionMiddleware } from "./middleware/session";
 import routerDispatch from "./routerDispatch";
@@ -82,6 +82,7 @@ njk.addGlobal("PIWIK_START_GOAL_ID", process.env.PIWIK_START_GOAL_ID);
 njk.addGlobal("PIWIK_SITE_ID", process.env.PIWIK_SITE_ID);
 njk.addGlobal("PIWIK_URL", process.env.PIWIK_URL);
 njk.addGlobal("verifyIdentityLink", process.env.VERIFY_IDENTITY_LINK);
+njk.addGlobal("accessibilityStatementLink", PrefixedUrls.ACCESSIBILITY_STATEMENT);
 njk.addGlobal("govukFrontendVersion", getGOVUKFrontendVersion());
 njk.addGlobal("govukRebrand", true);
 

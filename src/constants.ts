@@ -32,7 +32,7 @@ export function toStopScreenPrefixedUrl (stopType: STOP_TYPE) {
 }
 
 export const Urls = {
-    ACCESSIBILITY_STATEMENT: "/persons-with-significant-control-verification",
+    ACCESSIBILITY_STATEMENT: "/accessibility-statement",
     HEALTHCHECK: "/healthcheck",
     START: "/start",
     COMPANY_NUMBER: "/company-number",
@@ -43,6 +43,7 @@ export const Urls = {
     NAME_MISMATCH: `${urlWithTransactionIdAndSubmissionId}/individual/psc-why-this-name`,
     INDIVIDUAL_STATEMENT: `${urlWithTransactionIdAndSubmissionId}/individual/psc-statement`,
     SERVICE_UNAVAILABLE: "/service-unavailable",
+    CLOSE_TRANSACTION: `${urlWithTransactionIdAndSubmissionId}/close-transaction`,
     PSC_VERIFIED: `${urlWithTransactionIdAndSubmissionId}/psc-verified`,
     STOP_SCREEN: "/stop/:stopType",
     STOP_SCREEN_SUBMISSION: `${urlWithTransactionIdAndSubmissionId}/stop/:stopType`
@@ -60,6 +61,7 @@ export const PrefixedUrls = {
     NAME_MISMATCH: servicePathPrefix + Urls.NAME_MISMATCH,
     INDIVIDUAL_STATEMENT: servicePathPrefix + Urls.INDIVIDUAL_STATEMENT,
     SERVICE_UNAVAILABLE: servicePathPrefix + Urls.SERVICE_UNAVAILABLE,
+    CLOSE_TRANSACTION: servicePathPrefix + Urls.CLOSE_TRANSACTION,
     PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
     STOP_SCREEN: servicePathPrefix + Urls.STOP_SCREEN,
     STOP_SCREEN_SUBMISSION: servicePathPrefix + Urls.STOP_SCREEN_SUBMISSION,
