@@ -34,7 +34,11 @@ export class CloseTransactionHandler {
 
     getVerifiedRedirectUrl (req: Request, res: Response): string {
         const { transactionId, submissionId } = req.params;
-        const lang = req.query.lang ? "lang=" + req.query.lang : "";
-        return `/close-transaction/transaction/${transactionId}/submission/${submissionId}${lang ? `?${lang}` : ""}`;
+        const lang = req.query.lang ? "lang=" + String(req.query.lang) : "";
+        let url = `/close-transaction/transaction/${transactionId}/submission/${submissionId}`;
+        if (lang) {
+            url += `?${lang}`;
+        }
+        return url;
     }
 }
