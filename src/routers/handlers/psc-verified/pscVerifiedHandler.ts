@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { getPscIndividual } from "../../../services/pscService";
-import { closeTransaction } from "../../../services/transactionService";
 import { ExternalUrls, PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
@@ -53,15 +52,6 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
     public async executeGet (req: Request, res: Response): Promise<ViewModel<PscVerifiedViewData>> {
         logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
         const viewData = await this.getViewData(req, res);
-
-        await closeTransaction(req, req.params.transactionId, req.params.submissionId)
-            .then((data) => {
-                logger.info(`transaction closed successfully for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
-            })
-            .catch((err) => {
-                const message = err.message ? `: ${err.message}` : "";
-                throw new Error(`failed to close transaction for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"${message}`);
-            });
 
         return {
             templatePath: PscVerifiedHandler.templatePath,
