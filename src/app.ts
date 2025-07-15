@@ -16,6 +16,7 @@ import { HttpStatusCode } from "axios";
 import { dataIntegrityErrorInterceptor } from "./middleware/error-interceptors/dataIntegrityErrorInterceptor";
 import { requestLogger } from "./middleware/requestLogger";
 import { requestIdGenerator } from "./middleware/requestIdGenerator";
+import { getGOVUKFrontendVersion } from "@companieshouse/ch-node-utils";
 
 const app = express();
 
@@ -24,12 +25,10 @@ app.use(isLive);
 
 app.set("views", [
     path.join(__dirname, "views"),
-    path.join(__dirname, "../node_modules/govuk-frontend/dist"), // This if for when using ts-node since the working directory is src
+    path.join(__dirname, "../node_modules/govuk-frontend/dist"), // This is for when using ts-node since the working directory is src
     path.join(__dirname, "node_modules/govuk-frontend/dist"),
-    path.join(__dirname, "../node_modules/@companieshouse/ch-node-utils/templates/"),
-    path.join(__dirname, "node_modules/@companieshouse/ch-node-utils/templates/"),
-    path.join(__dirname, "../node_modules/@companieshouse/web-security-node/components"),
-    path.join(__dirname, "node_modules/@companieshouse/web-security-node/components")
+    path.join(__dirname, "../node_modules/@companieshouse"),
+    path.join(__dirname, "node_modules/@companieshouse")
 ]);
 
 const nunjucksLoaderOpts = {
@@ -69,7 +68,7 @@ app.use(csrfErrorHandler);
 app.use(servicePathPrefix + urlWithTransactionIdAndSubmissionId, blockClosedTransaction);
 
 // serve static files
-app.use(express.static(path.join(__dirname, "./../assets/public")));
+app.use(express.static(path.join(__dirname, "/../assets/public")));
 
 njk.addGlobal("accountUrl", process.env.ACCOUNT_URL);
 njk.addGlobal("cdnUrlCss", process.env.CDN_URL_CSS);
@@ -84,6 +83,9 @@ njk.addGlobal("PIWIK_SITE_ID", process.env.PIWIK_SITE_ID);
 njk.addGlobal("PIWIK_URL", process.env.PIWIK_URL);
 njk.addGlobal("verifyIdentityLink", process.env.VERIFY_IDENTITY_LINK);
 njk.addGlobal("accessibilityStatementLink", PrefixedUrls.ACCESSIBILITY_STATEMENT);
+njk.addGlobal("govukFrontendVersion", getGOVUKFrontendVersion());
+njk.addGlobal("govukRebrand", true);
+
 // if app is behind a front-facing proxy, and to use the X-Forwarded-* headers to determine the connection and the IP address of the client
 app.enable("trust proxy");
 

@@ -1,0 +1,12 @@
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+  {% if backURL %}
+    {{ govukBackLink({
+    href: backURL,
+    text: i18n.global_back_link,
+    attributes: {
+      "data-event-id": "back-link"
+    }
+  }) }}
+  {% endif %}
