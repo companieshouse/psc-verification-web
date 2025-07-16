@@ -24,7 +24,7 @@ describe("CompanyNumber router/handler integration tests", () => {
             const resp = await request(app).get(PrefixedUrls.COMPANY_NUMBER)
                 .expect(HttpStatusCode.Found);
 
-            const encodedURI = "/company-lookup/search?forward=%2Fpersons-with-significant-control-verification%2Fconfirm-company%3FcompanyNumber%3D%7BcompanyNumber%7D%26lang%3Den";
+            const encodedURI = "/company-lookup/search?forward=%2Fpersons-with-significant-control-verification%2Fconfirm-company%3FcompanyNumber%3D%7BcompanyNumber%7D%26lang%3Den&lang=en";
             expect(resp.text).toBe(`Found. Redirecting to ${encodedURI}`);
         });
     });
