@@ -51,7 +51,7 @@
                 {
                   href: [nextPageUrl+psc.pscId ],
                   text: i18n.ind_psc_list_summary_card_verify_link,
-                  visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link + " for " + psc.pscName,
+                  visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link + i18n.ind_psc_list_summary_card_verify_link_for + psc.pscName,
                   attributes: {
                       "data-event-id": "provide-verification-details-link"
                   }
@@ -59,7 +59,7 @@
                 {
                   href: "",
                   text: i18n.ind_psc_list_summary_card_extension_link,
-                  visuallyHiddenText: i18n.ind_psc_list_summary_card_extension_link  + " for " + psc.pscName,
+                  visuallyHiddenText: i18n.ind_psc_list_summary_card_extension_link + i18n.ind_psc_list_summary_card_verify_link_for + psc.pscName,
                   attributes: {
                       "data-event-id": "request-extension-link"
                   }
