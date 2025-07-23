@@ -31,7 +31,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         const baseViewData = await super.getViewData(req, res);
         const verification: PscVerification = res.locals.submission;
         const companyNumber = verification.data.companyNumber as string;
-        const pscIndividual = await getPscIndividual(companyNumber, verification.data.pscNotificationId as string);
+        const pscIndividual = await getPscIndividual(req, companyNumber, verification.data.pscNotificationId as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
 

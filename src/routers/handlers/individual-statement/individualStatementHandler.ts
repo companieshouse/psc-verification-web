@@ -26,7 +26,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
 
         const baseViewData = await super.getViewData(req, res);
         const verification = res.locals.submission;
-        const pscDetailsResponse = await getPscIndividual(verification?.data.companyNumber as string, verification?.data.pscNotificationId as string);
+        const pscDetailsResponse = await getPscIndividual(req, verification?.data.companyNumber as string, verification?.data.pscNotificationId as string);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const selectedStatements = verification?.data?.verificationDetails?.verificationStatements ?? [];

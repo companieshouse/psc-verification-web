@@ -101,7 +101,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             individualPscList = await getCompanyIndividualPscList(req, companyNumber);
             for (const psc of individualPscList) {
                 try {
-                    const individualDetails = await getPscIndividual(companyNumber, this.getPscIdFromSelfLink(psc));
+                    const individualDetails = await getPscIndividual(req, companyNumber, this.getPscIdFromSelfLink(psc));
                     if (individualDetails.resource) {
                         individualPscListWithVerificationState.push(individualDetails.resource);
                     }

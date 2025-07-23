@@ -69,7 +69,7 @@ describe("PSC Verified handler", () => {
             expect(mockGetPscVerification).not.toHaveBeenCalled();
             expect(mockGetCompanyProfile).not.toHaveBeenCalled();
             expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
-            expect(mockGetPscIndividual).toHaveBeenCalledWith(COMPANY_NUMBER, PSC_NOTIFICATION_ID);
+            expect(mockGetPscIndividual).toHaveBeenCalledWith(request, COMPANY_NUMBER, PSC_NOTIFICATION_ID);
         });
     });
 });
