@@ -16,6 +16,7 @@ import { HttpStatusCode } from "axios";
 import { dataIntegrityErrorInterceptor } from "./middleware/error-interceptors/dataIntegrityErrorInterceptor";
 import { requestLogger } from "./middleware/requestLogger";
 import { requestIdGenerator } from "./middleware/requestIdGenerator";
+import { getGOVUKFrontendVersion } from "@companieshouse/ch-node-utils";
 
 const app = express();
 
@@ -82,7 +83,7 @@ njk.addGlobal("PIWIK_SITE_ID", process.env.PIWIK_SITE_ID);
 njk.addGlobal("PIWIK_URL", process.env.PIWIK_URL);
 njk.addGlobal("verifyIdentityLink", process.env.VERIFY_IDENTITY_LINK);
 njk.addGlobal("accessibilityStatementLink", PrefixedUrls.ACCESSIBILITY_STATEMENT);
-njk.addGlobal("govukFrontendVersion", "5.11.0");
+njk.addGlobal("govukFrontendVersion", getGOVUKFrontendVersion());
 njk.addGlobal("govukRebrand", true);
 
 // if app is behind a front-facing proxy, and to use the X-Forwarded-* headers to determine the connection and the IP address of the client
