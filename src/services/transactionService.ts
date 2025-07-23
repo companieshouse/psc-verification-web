@@ -18,7 +18,8 @@ export const getTransaction = async (req: Request, transactionId: string): Promi
     const apiClient: ApiClient = createOAuthApiClient(req.session);
 
     logger.debug(`Retrieving transaction with transactionId="${transactionId}"`);
-    const sdkResponse: Resource<Transaction> | ApiErrorResponse = await apiClient.transaction.getTransaction(transactionId);
+    const requestId = req.headers["x-request-id"] as string | undefined;
+    const sdkResponse: Resource<Transaction> | ApiErrorResponse = await apiClient.transaction.getTransaction(transactionId, requestId);
 
     if (!sdkResponse) {
         logger.error(`Transaction API GET request returned no response for transactionId="${transactionId}"`);
@@ -55,7 +56,8 @@ export const postTransaction = async (req: Request): Promise<Transaction> => {
     };
 
     logger.debug(`Creating transaction with companyNumber="${companyNumber}"`);
-    const sdkResponse: Resource<Transaction> | ApiErrorResponse = await oAuthApiClient.transaction.postTransaction(transaction);
+    const requestId = req.headers["x-request-id"] as string | undefined;
+    const sdkResponse: Resource<Transaction> | ApiErrorResponse = await oAuthApiClient.transaction.postTransaction(transaction, requestId);
 
     if (!sdkResponse) {
         return Promise.reject(new Error(`No response from Transaction API for companyNumber="${companyNumber}"`));
@@ -87,7 +89,8 @@ export const putTransaction = async (req: Request, transactionId: string, descri
     };
 
     logger.debug(`Updating transaction with transactionId="${transactionId}", status="${transactionStatus}"`);
-    const sdkResponse: ApiResponse<Transaction> | ApiErrorResponse = await apiClient.transaction.putTransaction(transaction);
+    const requestId = req.headers["x-request-id"] as string | undefined;
+    const sdkResponse: ApiResponse<Transaction> | ApiErrorResponse = await apiClient.transaction.putTransaction(transaction, requestId);
 
     if (!sdkResponse) {
         return Promise.reject(new Error(`No response from Transaction API for transactionId="${transactionId}"`));
