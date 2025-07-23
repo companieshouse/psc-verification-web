@@ -66,7 +66,8 @@ export const getPscVerification = async (request: Request, transactionId: string
     const logReference = `transactionId="${transactionId}", pscVerificationId="${pscVerificationId}"`;
 
     logger.debug(`Retrieving PSC verification for ${logReference}`);
-    const sdkResponse: Resource<PscVerification> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.getPscVerification(transactionId, pscVerificationId);
+    const headers = extractRequestIdHeader(request);
+    const sdkResponse: Resource<PscVerification> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.getPscVerification(transactionId, pscVerificationId, headers);
 
     if (!sdkResponse) {
         throw new Error(`PSC Verification GET request returned no response for ${logReference}`);
@@ -99,7 +100,8 @@ export const patchPscVerification = async (request: Request, transactionId: stri
     const logReference = `transactionId="${transactionId}", pscVerificationId="${pscVerificationId}"`;
 
     logger.debug(`Patching PSC verification resource with with ${logReference}`);
-    const sdkResponse: Resource<PscVerification> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.patchPscVerification(transactionId, pscVerificationId, pscVerification);
+    const headers = extractRequestIdHeader(request);
+    const sdkResponse: Resource<PscVerification> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.patchPscVerification(transactionId, pscVerificationId, pscVerification, headers);
 
     if (!sdkResponse) {
         throw new Error(`PSC Verification PATCH request returned no response for resource with ${logReference}`);
@@ -130,7 +132,8 @@ export const checkPlannedMaintenance = async (request: Request): Promise<ApiResp
     const apiClient: ApiClient = createApiKeyClient();
 
     logger.debug(`Checking Planned Maintenance for PSC Verification API service`);
-    const sdkResponse: ApiResponse<PlannedMaintenance> | ApiErrorResponse = await apiClient.pscVerificationService.checkPlannedMaintenance();
+    const headers = extractRequestIdHeader(request);
+    const sdkResponse: ApiResponse<PlannedMaintenance> | ApiErrorResponse = await apiClient.pscVerificationService.checkPlannedMaintenance(headers);
 
     if (!sdkResponse) {
         throw new Error(`PSC Verification GET maintenance request returned no response`);
@@ -155,8 +158,9 @@ export const getValidationStatus = async (
     const logReference = `transactionId="${transactionId}", pscVerificationId="${pscVerificationId}"`;
 
     logger.debug(`Retrieving PSC verification validation status for ${logReference}`);
+    const headers = extractRequestIdHeader(request);
     const sdkResponse: Resource<ValidationStatusResponse> | ApiErrorResponse =
-        await oAuthApiClient.pscVerificationService.getValidationStatus(transactionId, pscVerificationId);
+        await oAuthApiClient.pscVerificationService.getValidationStatus(transactionId, pscVerificationId, headers);
 
     if (!sdkResponse) {
         throw new Error(`PSC Verification GET validation status request did not return a response for ${logReference}`);

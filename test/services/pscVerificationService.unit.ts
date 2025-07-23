@@ -234,7 +234,7 @@ describe("pscVerificationService", () => {
             expect(castedResource).toEqual(INDIVIDUAL_VERIFICATION_FULL);
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetPscVerification).toHaveBeenCalledTimes(1);
-            expect(mockGetPscVerification).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+            expect(mockGetPscVerification).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID, {});
         });
 
         it("should throw an error when the response status is 401 Unauthorized", async () => {
@@ -304,7 +304,7 @@ describe("pscVerificationService", () => {
             expect(castedResource).toEqual(INDIVIDUAL_VERIFICATION_PATCH);
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
-            expect(mockPatchPscVerification).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA);
+            expect(mockPatchPscVerification).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_DATA, {});
         });
 
         it("should throw an Error when no response from API", async () => {
@@ -406,7 +406,7 @@ describe("pscVerificationService", () => {
             expect(castedResource).toEqual(PLANNED_MAINTENANCE);
             expect(mockCreateApiKeyClient).toHaveBeenCalledTimes(1);
             expect(mockCheckPlannedMaintenance).toHaveBeenCalledTimes(1);
-            expect(mockCheckPlannedMaintenance).toHaveBeenCalledWith();
+            expect(mockCheckPlannedMaintenance).toHaveBeenCalledWith({});
         });
 
         it("should throw an Error when no response from API", async () => {
@@ -478,7 +478,7 @@ describe("pscVerificationService", () => {
             expect(castedResource).toEqual(expected);
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID, {});
         });
 
         it("should return status 200 OK with a validation error when there is a UVID name mismatch", async () => {
@@ -500,7 +500,7 @@ describe("pscVerificationService", () => {
             };
             mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
 
-            const response = await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID);
+            const response = await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID, {});
 
             expect(response).toEqual(expected);
             expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
@@ -510,7 +510,7 @@ describe("pscVerificationService", () => {
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID, {});
 
         });
 
@@ -529,7 +529,7 @@ describe("pscVerificationService", () => {
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID, {});
         });
 
         it("should throw an error when the response is null", async () => {
@@ -541,7 +541,7 @@ describe("pscVerificationService", () => {
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID, {});
         });
 
         it("should throw an error when the validationStatus.resource is undefined", async () => {
@@ -558,7 +558,7 @@ describe("pscVerificationService", () => {
 
             expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
             expect(mockGetValidationStatus).toHaveBeenCalledTimes(1);
-            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID);
+            expect(mockGetValidationStatus).toHaveBeenCalledWith(TRANSACTION_ID, PSC_VERIFICATION_ID, {});
         });
 
         it("should filter out errors by excludedErrorLocations and set isValid true if all errors are excluded", async () => {
