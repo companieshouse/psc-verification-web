@@ -7,6 +7,7 @@ import { createOAuthApiClient } from "./apiClientService";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
 import { PSC_KIND_TYPE } from "../constants";
+import { extractRequestIdHeader } from "../routers/utils";
 
 export const getCompanyIndividualPscList = async (request: Request, companyNumber: string): Promise<CompanyPersonWithSignificantControl[]> => {
     const response = await getCompanyPscList(request, companyNumber);
@@ -58,7 +59,8 @@ export const getCompanyPscList = async (request: Request, companyNumber: string)
     const itemsPerPage = process.env.PSC_DATA_API_FETCH_SIZE ? parseInt(process.env.PSC_DATA_API_FETCH_SIZE, 10) : 100;
 
     do {
-        sdkResponse = await oAuthApiClient.companyPsc.getCompanyPsc(companyNumber, startIndex, itemsPerPage);
+        const headers = extractRequestIdHeader(request);
+        sdkResponse = await oAuthApiClient.companyPsc.getCompanyPsc(companyNumber, startIndex, itemsPerPage, headers);
 
         if (!sdkResponse?.httpStatusCode || sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
             throw new Error(`Failed to get company psc list for companyNumber="${companyNumber}" with start index ${startIndex} and items per page ${itemsPerPage}`);
