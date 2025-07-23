@@ -19,6 +19,7 @@
     "ind_psc_list_summary_card_status_verified": "Verified",
     "ind_psc_list_summary_card_status_unverified": "Unverified",
     "ind_psc_list_summary_card_verify_link": "Provide verification details",
+    "ind_psc_list_summary_card_verify_link_for": " for ",
     "ind_psc_list_summary_card_extension_link": "Request extension",
     "ind_psc_list_cannot_verify_heading": "PSCs that cannot provide verification details yet",
     "ind_psc_list_cannot_verify_description_1": "These PSCs for ",
