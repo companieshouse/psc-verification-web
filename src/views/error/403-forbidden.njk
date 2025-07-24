@@ -1,13 +1,12 @@
 {% extends "layouts/default.njk" %}
-{% from "web-security-node/components/csrf-error/macro.njk" import csrfError %}
+{% from "web-security-node/components/csrf-error/macro.njk" import csrfErrorContent %}
 
 {% set title = "Forbidden" %}
 
 {% block main_content %}
   {% if csrfErrors %}
     {{
-      csrfError({})
+      csrfErrorContent({})
     }}
   {% endif %}
-
 {% endblock %}
