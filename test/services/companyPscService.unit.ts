@@ -56,9 +56,9 @@ describe("companyPscService", () => {
 
         expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyPsc).toHaveBeenCalledTimes(3);
-        expect(mockGetCompanyPsc).toHaveBeenCalledWith(COMPANY_NUMBER, 0, 3);
-        expect(mockGetCompanyPsc).toHaveBeenCalledWith(COMPANY_NUMBER, 3, 3);
-        expect(mockGetCompanyPsc).toHaveBeenCalledWith(COMPANY_NUMBER, 6, 3);
+        expect(mockGetCompanyPsc).toHaveBeenCalledWith(COMPANY_NUMBER, 0, 3, {});
+        expect(mockGetCompanyPsc).toHaveBeenCalledWith(COMPANY_NUMBER, 3, 3, {});
+        expect(mockGetCompanyPsc).toHaveBeenCalledWith(COMPANY_NUMBER, 6, 3, {});
 
     });
 

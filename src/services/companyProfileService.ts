@@ -6,12 +6,14 @@ import { Request } from "express";
 import { createOAuthApiClient } from "./apiClientService";
 import { logger } from "../lib/logger";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
+import { extractRequestIdHeader } from "../routers/utils";
 
 export const getCompanyProfile = async (request: Request, companyNumber: string): Promise<CompanyProfile> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
 
     logger.debug(`Get company profile with companyNumber="${companyNumber}"`);
-    const sdkResponse: Resource<CompanyProfile> | ApiErrorResponse = await oAuthApiClient.companyProfile.getCompanyProfile(companyNumber);
+    const headers = extractRequestIdHeader(request);
+    const sdkResponse: Resource<CompanyProfile> | ApiErrorResponse = await oAuthApiClient.companyProfile.getCompanyProfile(companyNumber, headers);
 
     if (!sdkResponse) {
         throw new Error(`Company Profile API returned no response for companyNumber="${companyNumber}"`);
