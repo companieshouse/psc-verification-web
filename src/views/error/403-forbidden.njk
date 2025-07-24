@@ -10,4 +10,26 @@
     }}
   {% endif %}
 
+  {# Hacky fix for layout issue 
+     The csrfError macro adds a second div with the class 'govuk-grid-column-two-thirds'
+     https://github.com/companieshouse/web-security-node/blob/0c02a67cb1390a802361636a5ec86dddedfa4fa7/components/csrf-error/macro.njk#L3
+     This script removes one of the divs and its parent to prevent the content being squished.
+  #}
+  <script>
+    function deleteButPreserveChildren(element) {
+      if (element) {
+        var parent = element.parentNode;
+        while (element.firstChild) {
+          parent.insertBefore(element.firstChild, element);
+        }
+        parent.removeChild(element);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var mainDiv = document.getElementById('main-page-content');
+      deleteButPreserveChildren(mainDiv.parentNode);
+      deleteButPreserveChildren(mainDiv);
+    });
+  </script>
 {% endblock %}
