@@ -20,7 +20,8 @@ const csrfErrorHandler = (err: CsrfError | Error, req: Request, res: Response, n
             ...getLocaleInfo(locales, lang),
             currentUrl: req.originalUrl,
             templateName: csrfErrorTemplateName,
-            csrfErrors: true
+            csrfErrors: true,
+            englishOnly: true
         });
     });
 };

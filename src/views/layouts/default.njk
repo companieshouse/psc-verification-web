@@ -33,7 +33,9 @@
   {% include "partials/phase_banner.njk" %}
   {% include "partials/nav/top.njk" %}
   {% include "partials/back-link.njk" %}
-  {% include "ch-node-utils/templates/locales-banner.njk" %}
+  {% if not englishOnly %}
+    {% include "ch-node-utils/templates/locales-banner.njk" %}
+  {% endif %}
 {% endblock %}
 
 {% block content %}
