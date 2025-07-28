@@ -15,14 +15,14 @@
 ] | join %}
 
 {% block main_content %}
+    <span class="govuk-caption-xl">
+        {{ nameAndDateBirthText }}
+    </span>
+    <h1 class="govuk-heading-l" id="personal-code--title">
+        {{ title }}
+    </h1>
     <form action="" method="post">
         {% include "includes/csrf-token.njk" %}
-        <span class="govuk-caption-xl">
-            {{ nameAndDateBirthText }}
-        </span>
-        <h1 class="govuk-heading-l" id="personal-code--title">
-            {{ title }}
-        </h1>
         
         <div class="govuk-form-group">
             {% set inputOptions = {
