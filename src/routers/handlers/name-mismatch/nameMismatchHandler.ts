@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
-import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
@@ -34,8 +33,7 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
         const companyNumber = verification.data.companyNumber as string;
         const pscIndividual = await getPscIndividual(req, companyNumber, verification.data.pscNotificationId as string);
         const nameMismatch = verification.data.verificationDetails?.nameMismatchReason ?? "" as string;
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
+        const lang = res.locals.locale.lang;
         // Note enums match the API
         const legalNameChange = NameMismatchReasonEnum.LEGAL_NAME_CHANGE;
         const preferredName = NameMismatchReasonEnum.PREFERRED_NAME;
@@ -45,9 +43,9 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
 
         return {
             ...baseViewData,
-            ...getLocaleInfo(locales, lang),
+            ...res.locals.locale,
             pscName: pscIndividual.resource?.name!,
-            monthYearBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, selectLang(req.query.lang)),
+            monthYearBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, res.locals.locale.lang),
             nameMismatch,
             legalNameChange,
             preferredName,
@@ -79,7 +77,7 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
         const viewData = await this.getViewData(req, res);
 
         try {
-            const lang = selectLang(req.query.lang);
+            const lang = res.locals.locale.lang;
             const nameMismatchReason = req.body.nameMismatch;
 
             const queryParams = new URLSearchParams(req.url.split("?")[1]);

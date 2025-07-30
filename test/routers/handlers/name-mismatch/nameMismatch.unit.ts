@@ -52,7 +52,7 @@ describe("Name mismatch handler", () => {
                 query: { selectedPscId: PSC_NOTIFICATION_ID }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED } });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, locale: { lang: "en" } } });
             const handler = new NameMismatchHandler();
 
             const { templatePath } = await handler.executeGet(req, res);
@@ -74,7 +74,7 @@ describe("Name mismatch handler", () => {
                     lang: "en"
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED } });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, locale: { lang: "en" } } });
             const handler = new NameMismatchHandler();
 
             const { viewData } = await handler.executeGet(req, res);
@@ -100,7 +100,7 @@ describe("Name mismatch handler", () => {
                 }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED } });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, locale: { lang: "en" } } });
             const handler = new NameMismatchHandler();
             const resp = await handler.executeGet(req, res);
 
@@ -144,6 +144,7 @@ describe("Name mismatch handler", () => {
                     lang: "en"
                 }
             };
+            res.locals.locale = { lang: "en" };
 
             const handler = new NameMismatchHandler();
 
@@ -180,6 +181,7 @@ describe("Name mismatch handler", () => {
                     pscNotificationId: PSC_NOTIFICATION_ID
                 }
             };
+            res.locals.locale = { lang: "en" };
 
             const errors = {
                 status: 200,

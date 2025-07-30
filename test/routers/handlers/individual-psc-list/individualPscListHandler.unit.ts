@@ -52,7 +52,7 @@ describe("psc list handler", () => {
                 .mockResolvedValueOnce(VERIFY_LATER_PSC)
                 .mockResolvedValueOnce(VERIFIED_PSC);
 
-            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_CREATED } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_CREATED, locale: { lang: "en" } } });
             const handler = new IndividualPscListHandler();
 
             const { templatePath, viewData } = await handler.executeGet(req, res);

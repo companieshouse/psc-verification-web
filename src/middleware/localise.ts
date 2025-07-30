@@ -1,5 +1,6 @@
 import { LanguageNames, LocalesService } from "@companieshouse/ch-node-utils";
 import { env } from "../config/index";
+import { NextFunction, Request, Response } from "express";
 
 export const selectLang = (lang: any): string => {
     switch (lang) {
@@ -9,7 +10,7 @@ export const selectLang = (lang: any): string => {
     }
 };
 
-export const getLocaleInfo = (locales: LocalesService, lang: string) => {
+const getLocaleInfo = (locales: LocalesService, lang: string) => {
     return {
         languageEnabled: locales.enabled,
         languages: LanguageNames.sourceLocales(locales.localesFolder),
@@ -19,3 +20,10 @@ export const getLocaleInfo = (locales: LocalesService, lang: string) => {
 };
 
 export const getLocalesService = () => LocalesService.getInstance(env.LOCALES_PATH, env.LOCALES_ENABLED === "true");
+
+export function localise (req: Request, res: Response, next: NextFunction) {
+    const localesService = getLocalesService();
+    const lang = selectLang(req.query.lang);
+    res.locals.locale = getLocaleInfo(localesService, lang);
+    next();
+}

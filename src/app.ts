@@ -17,6 +17,7 @@ import { dataIntegrityErrorInterceptor } from "./middleware/error-interceptors/d
 import { requestLogger } from "./middleware/requestLogger";
 import { requestIdGenerator } from "./middleware/requestIdGenerator";
 import { getGOVUKFrontendVersion } from "@companieshouse/ch-node-utils";
+import { localise } from "./middleware/localise";
 
 const app = express();
 
@@ -63,6 +64,9 @@ app.use(requestLogger);
 // attach csrf protection to middleware
 app.use(csrfProtectionMiddleware);
 app.use(csrfErrorHandler);
+
+// attach language localisation middleware
+app.use(localise);
 
 // block transaction-related requests if transaction is closed
 app.use(servicePathPrefix + urlWithTransactionIdAndSubmissionId, blockClosedTransaction);

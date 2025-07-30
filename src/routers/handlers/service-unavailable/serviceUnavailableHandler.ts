@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
-import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { env } from "../../../config";
 import { toHourDayDateFormat } from "../../../utils/date";
@@ -17,13 +16,12 @@ export default class ServiceUnavailableHandler extends GenericHandler<ServiceUna
 
     public async getViewData (req: Request, res: Response): Promise<ServiceUnavailableViewData> {
         const baseViewData = await super.getViewData(req, res);
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
+        const lang = res.locals.locale.lang;
         const maintenanceEndTime = toHourDayDateFormat(res.locals.maintenanceEndTime, lang);
 
         return {
             ...baseViewData,
-            ...getLocaleInfo(locales, lang),
+            ...res.locals.locale,
             isSignedIn: false,
             currentUrl: addSearchParams(PrefixedUrls.SERVICE_UNAVAILABLE, { lang }),
             templateName: Urls.SERVICE_UNAVAILABLE,

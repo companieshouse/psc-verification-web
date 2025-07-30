@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { PrefixedUrls, STOP_TYPE } from "../../../constants";
 import { logger } from "../../../lib/logger";
-import { selectLang } from "../../../utils/localise";
 import { BaseViewData, GenericHandler } from "../generic";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { postTransaction } from "../../../services/transactionService";
@@ -24,7 +23,7 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         // create a new submission for the company number provided
         const resource = await this.createNewSubmission(req, transaction);
         const companyNumber = req.query.companyNumber as string;
-        const lang = selectLang(req.query.lang);
+        const lang = res.locals.locale.lang;
 
         let nextPageUrl : string = "";
 

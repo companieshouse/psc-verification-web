@@ -3,7 +3,6 @@ import { PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getPscIndividual } from "../../../services/pscService";
 import { patchPscVerification } from "../../../services/pscVerificationService";
-import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
@@ -27,18 +26,17 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
         const baseViewData = await super.getViewData(req, res);
         const verification = res.locals.submission;
         const pscDetailsResponse = await getPscIndividual(req, verification?.data.companyNumber as string, verification?.data.pscNotificationId as string);
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
+        const lang = res.locals.locale.lang;
         const selectedStatements = verification?.data?.verificationDetails?.verificationStatements ?? [];
         const selectedPscId = verification?.data?.pscNotificationId;
         const nameMismatch = verification?.data?.verificationDetails?.nameMismatchReason;
 
         return {
             ...baseViewData,
-            ...getLocaleInfo(locales, lang),
+            ...res.locals.locale,
             pscName: pscDetailsResponse.resource?.name!,
             selectedStatements,
-            dateOfBirth: formatDateBorn(pscDetailsResponse.resource?.dateOfBirth, selectLang(req.query.lang)),
+            dateOfBirth: formatDateBorn(pscDetailsResponse.resource?.dateOfBirth, lang),
             currentUrl: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_STATEMENT),
             backURL: resolveBackUrl(nameMismatch),
             templateName: Urls.INDIVIDUAL_STATEMENT,
@@ -69,7 +67,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
         const viewData = await this.getViewData(req, res);
 
         try {
-            const lang = selectLang(req.query.lang);
+            const lang = res.locals.locale.lang;
             const statement: VerificationStatementEnum = req.body.pscIndividualStatement; // a single string rather than string[] is returned (because there is only 1 checkbox in the group?)
             const selectedStatements = [statement];
 

@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import { logger } from "../lib/logger";
-import { getLocalesService } from "./localise";
+import { getLocalesService } from "../middleware/localise";
 
 export const toReadableFormat = (dateToConvert: string | undefined, lang = "en"): string => {
     if (!dateToConvert) {

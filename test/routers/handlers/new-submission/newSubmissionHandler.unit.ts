@@ -27,7 +27,7 @@ const request = httpMocks.createRequest({
     }
 });
 
-const response = httpMocks.createResponse({ locals: {} });
+const response = httpMocks.createResponse({ locals: { locale: { lang: "en" } } });
 
 describe("new submission handler tests", () => {
 

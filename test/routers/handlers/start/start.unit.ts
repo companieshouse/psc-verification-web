@@ -12,6 +12,7 @@ describe("start handler", () => {
             });
 
             const res = httpMocks.createResponse({});
+            res.locals.locale = { lang: "en" };
             const handler = new StartHandler();
 
             const { templatePath, viewData } = await handler.executeGet(req, res);

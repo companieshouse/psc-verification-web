@@ -24,6 +24,7 @@ describe("httpErrorInterceptor", () => {
         query: { lang: "en" }
     });
     const res = httpMocks.createResponse();
+    res.locals.locale = { lang: "en" };
     res.render = mockRender;
 
     const next = jest.fn();

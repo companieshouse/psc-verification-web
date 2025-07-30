@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import { logger } from "../../lib/logger";
 import { HttpError } from "../../lib/errors/httpError";
 import { getViewData } from "../../routers/handlers/generic";
-import { getLocaleInfo, getLocalesService, selectLang } from "../../utils/localise";
 import { njk } from "../../app";
 import { HttpStatusCode } from "axios";
 import { env } from "../../config";
+import { selectLang } from "../localise";
 
 const TEMPLATE_PATH_ROOT = "error/";
 const FALLBACK_TEMPLATE_NAME = "500-internal-server-error";
@@ -47,13 +47,12 @@ export const httpErrorInterceptor = (error: HttpError | Error, req: Request, res
     }
 
     const templatePath = TEMPLATE_PATH_ROOT + templateName;
-    const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
+    const lang = selectLang(res.locals.locale.lang);
 
     getViewData(req, res, lang).then((baseViewData) => {
         res.render(templatePath, {
             ...baseViewData,
-            ...getLocaleInfo(locales, lang),
+            ...res.locals.locale,
             currentUrl: req.originalUrl,
             extraData: [env.CONTACT_US_LINK],
             templateName: templatePath

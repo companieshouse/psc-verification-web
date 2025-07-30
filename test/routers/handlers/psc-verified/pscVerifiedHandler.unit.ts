@@ -48,7 +48,7 @@ describe("PSC Verified handler", () => {
                     pscType: "individual"
                 }
             });
-            response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile } });
+            response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile, locale: { lang: "en" } } });
         });
 
         it("Should resolve correct view data", async () => {

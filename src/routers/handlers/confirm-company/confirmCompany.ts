@@ -4,9 +4,9 @@ import { ExternalUrls, PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { getCompanyProfile } from "../../../services/companyProfileService";
 import { buildAddress, formatForDisplay } from "../../../services/confirmCompanyService";
-import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
+import { getLocalesService } from "../../../middleware/localise";
 
 interface ConfirmCompanyViewData extends BaseViewData {
     company: CompanyProfile
@@ -20,7 +20,7 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
     public async getViewData (req: Request, res: Response): Promise<ConfirmCompanyViewData> {
 
         const baseViewData = await super.getViewData(req, res);
-        const lang = selectLang(req.query.lang);
+        const lang = res.locals.locale.lang;
         const locales = getLocalesService();
         const companyNumber = req.query.companyNumber as string;
         const companyProfile: CompanyProfile = await getCompanyProfile(req, companyNumber);
@@ -33,7 +33,7 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
 
         return {
             ...baseViewData,
-            ...getLocaleInfo(locales, lang),
+            ...res.locals.locale,
             currentUrl,
             backURL: companyLookup,
             company,
@@ -55,7 +55,7 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
     public async executePost (req: Request, res: Response) {
         logger.info(`called`);
         const companyNumber = req.body.companyNumber as string;
-        const lang = selectLang(req.body.lang);
+        const lang = res.locals.locale.lang;
         return addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang });
     }
 }

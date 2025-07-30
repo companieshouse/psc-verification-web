@@ -50,7 +50,7 @@ describe("Individual statement handler", () => {
                 query: { selectedPscId: PSC_NOTIFICATION_ID }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, locale: { lang: "en" } } });
             const handler = new IndividualStatementHandler();
 
             const { templatePath } = await handler.executeGet(req, res);
@@ -74,7 +74,7 @@ describe("Individual statement handler", () => {
                     lang: "en"
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, locale: { lang: "en" } } });
             const handler = new IndividualStatementHandler();
 
             const { viewData } = await handler.executeGet(req, res);
@@ -101,7 +101,7 @@ describe("Individual statement handler", () => {
                     lang: "en"
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL_NAME_MISMATCH } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL_NAME_MISMATCH, locale: { lang: "en" } } });
             const handler = new IndividualStatementHandler();
 
             const { viewData } = await handler.executeGet(req, res);
@@ -124,7 +124,7 @@ describe("Individual statement handler", () => {
                     pscType: "individual"
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, locale: { lang: "en" } } });
             const handler = new IndividualStatementHandler();
 
             const { viewData } = await handler.executeGet(req, res);
@@ -155,6 +155,7 @@ describe("Individual statement handler", () => {
                 }
             });
             const res = httpMocks.createResponse();
+            res.locals.locale = { lang: "en" };
             const handler = new IndividualStatementHandler();
 
             const resp = await handler.executePost(req, res);
@@ -189,6 +190,7 @@ describe("Individual statement handler", () => {
                     pscNotificationId: PSC_NOTIFICATION_ID
                 }
             };
+            res.locals.locale = { lang: "en" };
 
             const errors = {
                 status: 400,
