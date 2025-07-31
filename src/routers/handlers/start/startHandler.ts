@@ -15,13 +15,12 @@ export default class StartHandler extends GenericHandler<StartViewData> {
     public async getViewData (req: Request, res: Response): Promise<StartViewData> {
         const baseViewData = await super.getViewData(req, res);
         // adding language functionality
-        const lang = res.locals.locale.lang;
+        const lang = res.locals.lang;
         const idvDate = env.IDV_IMPLEMENTATION_DATE; // "yyyymmdd"
         const idvDateFormatted = [idvDate.slice(0, 4), idvDate.slice(4, 6), idvDate.slice(6, 8)].join("-"); // yyyy-mm-dd
 
         return {
             ...baseViewData,
-            ...res.locals.locale,
             isSignedIn: false,
             idvImplementationDate: internationaliseDate(idvDateFormatted, lang),
             currentUrl: addSearchParams(PrefixedUrls.START, { lang }),

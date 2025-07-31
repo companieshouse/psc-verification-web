@@ -26,14 +26,13 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
         const baseViewData = await super.getViewData(req, res);
         const verification = res.locals.submission;
         const pscDetailsResponse = await getPscIndividual(req, verification?.data.companyNumber as string, verification?.data.pscNotificationId as string);
-        const lang = res.locals.locale.lang;
+        const lang = res.locals.lang;
         const selectedStatements = verification?.data?.verificationDetails?.verificationStatements ?? [];
         const selectedPscId = verification?.data?.pscNotificationId;
         const nameMismatch = verification?.data?.verificationDetails?.nameMismatchReason;
 
         return {
             ...baseViewData,
-            ...res.locals.locale,
             pscName: pscDetailsResponse.resource?.name!,
             selectedStatements,
             dateOfBirth: formatDateBorn(pscDetailsResponse.resource?.dateOfBirth, lang),
@@ -67,7 +66,7 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
         const viewData = await this.getViewData(req, res);
 
         try {
-            const lang = res.locals.locale.lang;
+            const lang = res.locals.lang;
             const statement: VerificationStatementEnum = req.body.pscIndividualStatement; // a single string rather than string[] is returned (because there is only 1 checkbox in the group?)
             const selectedStatements = [statement];
 

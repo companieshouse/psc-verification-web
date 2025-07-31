@@ -42,7 +42,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
     public async getViewData (req: Request, res: Response): Promise<IndividualPscListViewData> {
 
         const baseViewData = await super.getViewData(req, res);
-        const lang = res.locals.locale.lang;
+        const lang = res.locals.lang;
         const companyNumber = req.query.companyNumber as string;
         const companyProfile = res.locals.companyProfile;
         const dsrEmailAddress = env.DSR_EMAIL_ADDRESS;
@@ -71,7 +71,6 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
         return {
             ...baseViewData,
-            ...res.locals.locale,
             currentUrl: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_PSC_LIST),
             backURL: resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY),
             nextPageUrl: resolveUrlTemplate(PrefixedUrls.NEW_SUBMISSION) + "&selectedPscId=",

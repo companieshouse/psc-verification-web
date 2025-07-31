@@ -2,7 +2,10 @@ import { LanguageNames, LocalesService } from "@companieshouse/ch-node-utils";
 import { env } from "../config/index";
 import { NextFunction, Request, Response } from "express";
 
-export const selectLang = (lang: any): string => {
+export const selectLang = (lang?: any): string => {
+    if (!lang) {
+        return "en"; // Default to English if no language is specified
+    }
     switch (lang) {
         case "cy": return "cy";
         case "en":
@@ -24,6 +27,8 @@ export const getLocalesService = () => LocalesService.getInstance(env.LOCALES_PA
 export function localise (req: Request, res: Response, next: NextFunction) {
     const localesService = getLocalesService();
     const lang = selectLang(req.query.lang);
-    res.locals.locale = getLocaleInfo(localesService, lang);
+    const locale = getLocaleInfo(localesService, lang);
+    Object.assign(res.locals, locale); // Add locale info to res.locals
+
     next();
 }

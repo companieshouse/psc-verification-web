@@ -13,7 +13,6 @@ const csrfErrorHandler = (err: CsrfError | Error, req: Request, res: Response, n
     getViewData(req, res).then((baseViewData) => {
         return res.status(HttpStatusCode.Forbidden).render(csrfErrorTemplateName, {
             ...baseViewData,
-            ...res.locals.locale,
             currentUrl: req.originalUrl,
             templateName: csrfErrorTemplateName,
             csrfErrors: true,

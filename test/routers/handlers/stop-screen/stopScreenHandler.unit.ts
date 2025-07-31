@@ -49,7 +49,7 @@ describe("Stop screen handler", () => {
                     companyNumber: "00006400"
                 }
             });
-            const response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile, locale: { lang: "en" } } });
+            const response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile, lang: "en" } });
             const handler = new StopScreenHandler();
             const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
             const expectedStopUri = getUrlWithStopType(toStopScreenPrefixedUrl(stopType), stopType);

@@ -23,7 +23,7 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         // create a new submission for the company number provided
         const resource = await this.createNewSubmission(req, transaction);
         const companyNumber = req.query.companyNumber as string;
-        const lang = res.locals.locale.lang;
+        const lang = res.locals.lang;
 
         let nextPageUrl : string = "";
 

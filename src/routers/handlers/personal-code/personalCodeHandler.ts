@@ -31,11 +31,10 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         const verification: PscVerification = res.locals.submission;
         const companyNumber = verification.data.companyNumber as string;
         const pscIndividual = await getPscIndividual(req, companyNumber, verification.data.pscNotificationId as string);
-        const lang = res.locals.locale.lang;
+        const lang = res.locals.lang;
 
         return {
             ...baseViewData,
-            ...res.locals.locale,
             pscName: pscIndividual.resource?.name!,
             monthYearBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, lang),
             personalCode: verification?.data?.verificationDetails?.uvid ?? "",
@@ -64,7 +63,7 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
         const viewData = await this.getViewData(req, res);
 
         try {
-            const lang = res.locals.locale.lang;
+            const lang = res.locals.lang;
             const uvid = req.body.personalCode;
 
             const queryParams = new URLSearchParams(req.url.split("?")[1]);

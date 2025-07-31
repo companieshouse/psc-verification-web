@@ -16,12 +16,11 @@ export default class ServiceUnavailableHandler extends GenericHandler<ServiceUna
 
     public async getViewData (req: Request, res: Response): Promise<ServiceUnavailableViewData> {
         const baseViewData = await super.getViewData(req, res);
-        const lang = res.locals.locale.lang;
+        const lang = res.locals.lang;
         const maintenanceEndTime = toHourDayDateFormat(res.locals.maintenanceEndTime, lang);
 
         return {
             ...baseViewData,
-            ...res.locals.locale,
             isSignedIn: false,
             currentUrl: addSearchParams(PrefixedUrls.SERVICE_UNAVAILABLE, { lang }),
             templateName: Urls.SERVICE_UNAVAILABLE,

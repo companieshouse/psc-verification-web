@@ -9,7 +9,7 @@ export class CompanyNumberHandler extends GenericHandler<BaseViewData> {
     public execute (req: Request, res: Response) {
         logger.info(`called`);
 
-        const lang = res.locals.locale.lang;
+        const lang = res.locals.lang;
         const forward = decodeURI(addSearchParams(ExternalUrls.COMPANY_LOOKUP_FORWARD, { companyNumber: "{companyNumber}", lang }));
         // addSearchParams() encodes the URI, so need to decode value before second call
         const companyLookup = addSearchParams(ExternalUrls.COMPANY_LOOKUP, { forward, lang });

@@ -33,7 +33,7 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
         const companyNumber = verification.data.companyNumber as string;
         const pscIndividual = await getPscIndividual(req, companyNumber, verification.data.pscNotificationId as string);
         const nameMismatch = verification.data.verificationDetails?.nameMismatchReason ?? "" as string;
-        const lang = res.locals.locale.lang;
+        const lang = res.locals.lang;
         // Note enums match the API
         const legalNameChange = NameMismatchReasonEnum.LEGAL_NAME_CHANGE;
         const preferredName = NameMismatchReasonEnum.PREFERRED_NAME;
@@ -43,9 +43,8 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
 
         return {
             ...baseViewData,
-            ...res.locals.locale,
             pscName: pscIndividual.resource?.name!,
-            monthYearBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, res.locals.locale.lang),
+            monthYearBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, res.locals.lang),
             nameMismatch,
             legalNameChange,
             preferredName,
@@ -77,7 +76,7 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
         const viewData = await this.getViewData(req, res);
 
         try {
-            const lang = res.locals.locale.lang;
+            const lang = res.locals.lang;
             const nameMismatchReason = req.body.nameMismatch;
 
             const queryParams = new URLSearchParams(req.url.split("?")[1]);

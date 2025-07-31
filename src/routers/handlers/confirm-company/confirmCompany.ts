@@ -20,7 +20,7 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
     public async getViewData (req: Request, res: Response): Promise<ConfirmCompanyViewData> {
 
         const baseViewData = await super.getViewData(req, res);
-        const lang = res.locals.locale.lang;
+        const lang = res.locals.lang;
         const locales = getLocalesService();
         const companyNumber = req.query.companyNumber as string;
         const companyProfile: CompanyProfile = await getCompanyProfile(req, companyNumber);
@@ -33,7 +33,6 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
 
         return {
             ...baseViewData,
-            ...res.locals.locale,
             currentUrl,
             backURL: companyLookup,
             company,
@@ -55,7 +54,7 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
     public async executePost (req: Request, res: Response) {
         logger.info(`called`);
         const companyNumber = req.body.companyNumber as string;
-        const lang = res.locals.locale.lang;
+        const lang = res.locals.lang;
         return addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang });
     }
 }

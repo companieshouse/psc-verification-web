@@ -22,7 +22,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
     public async getViewData (req: Request, res: Response): Promise<PscVerifiedViewData> {
 
         const baseViewData = await super.getViewData(req, res);
-        const lang = res.locals.locale.lang;
+        const lang = res.locals.lang;
         const transactionId = req.params.transactionId;
         const submissionId = req.params.submissionId;
         const verification = res.locals.submission;
@@ -35,7 +35,6 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
 
         return {
             ...baseViewData,
-            ...res.locals.locale,
             currentUrl: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, transactionId, submissionId), { lang }),
             companyName,
             companyNumber,

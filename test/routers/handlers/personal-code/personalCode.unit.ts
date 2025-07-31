@@ -54,7 +54,7 @@ describe("Personal code handler", () => {
                 query: { selectedPscId: PSC_NOTIFICATION_ID }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE, locale: { lang: "en" } } });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE, lang: "en" } });
             const handler = new PersonalCodeHandler();
 
             const { templatePath } = await handler.executeGet(req, res);
@@ -76,7 +76,7 @@ describe("Personal code handler", () => {
                     lang: "en"
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE, locale: { lang: "en" } } });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE, lang: "en" } });
             const handler = new PersonalCodeHandler();
 
             const { viewData } = await handler.executeGet(req, res);
@@ -102,7 +102,7 @@ describe("Personal code handler", () => {
                 }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE, locale: { lang: "en" } } });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE, lang: "en" } });
             const handler = new PersonalCodeHandler();
 
             const resp = await handler.executeGet(req, res);
@@ -151,7 +151,7 @@ describe("Personal code handler", () => {
                     lang: "en"
                 }
             };
-            res.locals.locale = { lang: "en" };
+            res.locals.lang = "en";
 
             const handler = new PersonalCodeHandler();
 
@@ -192,7 +192,7 @@ describe("Personal code handler", () => {
                     lang: "en"
                 }
             };
-            res.locals.locale = { lang: "en" };
+            res.locals.lang = "en";
 
             const handler = new PersonalCodeHandler();
 
@@ -232,7 +232,7 @@ describe("Personal code handler", () => {
                     lang: "en"
                 }
             };
-            res.locals.locale = { lang: "en" };
+            res.locals.lang = "en";
 
             const handler = new PersonalCodeHandler();
 
@@ -272,7 +272,7 @@ describe("Personal code handler", () => {
                     lang: "en"
                 }
             };
-            res.locals.locale = { lang: "en" };
+            res.locals.lang = "en";
 
             const handler = new PersonalCodeHandler();
 
@@ -311,7 +311,7 @@ describe("Personal code handler", () => {
                     lang: "en"
                 }
             };
-            res.locals.locale = { lang: "en" };
+            res.locals.lang = "en";
 
             const handler = new PersonalCodeHandler();
 
@@ -350,7 +350,7 @@ describe("Personal code handler", () => {
                     lang: "en"
                 }
             };
-            res.locals.locale = { lang: "en" };
+            res.locals.lang = "en";
 
             const handler = new PersonalCodeHandler();
 
@@ -387,7 +387,7 @@ describe("Personal code handler", () => {
                     pscNotificationId: PSC_NOTIFICATION_ID
                 }
             };
-            res.locals.locale = { lang: "en" };
+            res.locals.lang = "en";
 
             const errors = {
                 status: 400,
@@ -437,7 +437,7 @@ describe("Personal code handler", () => {
             });
 
             const res = httpMocks.createResponse();
-            res.locals.locale = { lang: "en" };
+            res.locals.lang = "en";
             const viewData = { errors: null };
 
             const getViewData = jest.fn().mockResolvedValue(viewData);

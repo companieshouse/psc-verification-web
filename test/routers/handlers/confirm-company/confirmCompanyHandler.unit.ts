@@ -21,8 +21,7 @@ const request = httpMocks.createRequest({
     }
 });
 const response = httpMocks.createResponse();
-response.locals = {};
-response.locals.locale = { lang: "en" };
+response.locals = { lang: "en" };
 
 describe("confirm company handler tests", () => {
     describe("executeGet tests", () => {
