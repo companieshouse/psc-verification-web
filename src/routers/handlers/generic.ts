@@ -48,7 +48,7 @@ export function populateViewData<T extends BaseViewData> (viewData: T, req: Requ
     }
 }
 
-export async function getViewData<T extends BaseViewData> (req: Request, res: Response, lang: string = "en"): Promise<T> {
+export async function getViewData<T extends BaseViewData> (req: Request, res: Response): Promise<T> {
     const viewData = defaultBaseViewData as T;
     populateViewData(viewData, req, res);
     return viewData;
@@ -60,7 +60,7 @@ export abstract class GenericHandler<T extends BaseViewData> {
 
     async getViewData (req: Request, res: Response, lang: string = "en"): Promise<T> {
         this.errorManifest = errorManifest(lang);
-        this.viewData = await getViewData<T>(req, res, lang);
+        this.viewData = await getViewData<T>(req, res);
         return this.viewData;
     }
 

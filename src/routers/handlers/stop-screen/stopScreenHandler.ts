@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { PrefixedUrls, STOP_TYPE, toStopScreenPrefixedUrl } from "../../../constants";
-import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { addSearchParams } from "../../../utils/queryParams";
 import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
@@ -35,8 +34,7 @@ export class StopScreenHandler extends GenericHandler<StopScreenHandlerViewData>
 const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, baseViewData: BaseViewData) => {
 
     const companyNumber = req.query.companyNumber as string;
-    const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
+    const lang = res.locals.lang;
     const companyProfile = res.locals.companyProfile;
     const companyName = companyProfile?.companyName;
     const stopScreenPrefixedUrl = toStopScreenPrefixedUrl(stopType);
@@ -46,7 +44,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
         case STOP_TYPE.COMPANY_TYPE:
             return {
                 ...baseViewData,
-                ...getLocaleInfo(locales, lang),
                 templateName: stopType,
                 currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
                 backURL: addSearchParams(resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY), { companyNumber }),
@@ -55,7 +52,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
         case STOP_TYPE.EMPTY_PSC_LIST: {
             return {
                 ...baseViewData,
-                ...getLocaleInfo(locales, lang),
                 templateName: stopType,
                 currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
                 backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang })
@@ -64,7 +60,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
         case STOP_TYPE.PSC_DOB_MISMATCH: {
             return {
                 ...baseViewData,
-                ...getLocaleInfo(locales, lang),
                 templateName: stopType,
                 currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
                 backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
@@ -74,7 +69,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
         case STOP_TYPE.SUPER_SECURE: {
             return {
                 ...baseViewData,
-                ...getLocaleInfo(locales, lang),
                 templateName: stopType,
                 currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
                 backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang }),
@@ -84,7 +78,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
         case STOP_TYPE.PROBLEM_WITH_PSC_DATA: {
             return {
                 ...baseViewData,
-                ...getLocaleInfo(locales, lang),
                 templateName: stopType,
                 currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
                 extraData: [env.ENQUIRIES_EMAIL_ADDRESS, env.ENQUIRIES_PHONE_NUMBER]
