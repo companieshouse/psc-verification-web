@@ -1,5 +1,5 @@
 # Matomo
-Matomo (formerly Piwik) is the analytics software we use for psc-verification-web. This document covers how we interact with Matomo in this codebase. For documentation on using Matomo to view analytics, see [this Confluence section](https://companieshouse.atlassian.net/wiki/spaces/S5/pages/1929183485/Piwik+Matomo#Using-Piwik%2FMatomo).
+Matomo (formerly Piwik) is the analytics software we use for psc-verification-web. For documentation on using Matomo to view analytics, see [this Confluence section](https://companieshouse.atlassian.net/wiki/spaces/S5/pages/1929183485/Piwik+Matomo#Using-Piwik%2FMatomo).
 
 This document covers how we use Matomo in psc-verification-web specifically.
 
