@@ -91,6 +91,16 @@ CompanyService::getCompany
 #### Usage in error interceptors
 Since error interceptors are already dealing with an `Error`, the default strategy of instantiating a new `Error` won't work since the throwing code is referenced only in the original `Error`. In this case, there's an option to pass it through via: `logger.getPrefix({ error: error })`. See [httpErrorInterceptor.ts](https://github.com/companieshouse/psc-verification-web/blob/main/src/middleware/error-interceptors/httpErrorInterceptor.ts) for a real example.
 
+## Inspecting logs
+
+### Local Docker
+```shell
+docker logs psc-verification-web
+```
+
+### ECS
+See [this Confluence section](https://companieshouse.atlassian.net/wiki/spaces/Arch/pages/4211278319/ECS+Support+Documentation#Checking-Logs-in-CloudWatch).
+
 ## Best practices
 
 ### Identifiers
