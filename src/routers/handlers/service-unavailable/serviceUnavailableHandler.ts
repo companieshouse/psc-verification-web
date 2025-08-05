@@ -21,7 +21,7 @@ export default class ServiceUnavailableHandler extends GenericHandler<ServiceUna
 
         return {
             ...baseViewData,
-            isSignedIn: false,
+            hideNavbar: true,
             currentUrl: addSearchParams(PrefixedUrls.SERVICE_UNAVAILABLE, { lang }),
             templateName: Urls.SERVICE_UNAVAILABLE,
             extraData: [maintenanceEndTime, env.CONTACT_US_LINK]

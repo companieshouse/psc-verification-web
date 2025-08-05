@@ -4,53 +4,33 @@
 import { Request, Response } from "express";
 import { ExternalUrls, PrefixedUrls, servicePathPrefix } from "../../constants";
 import errorManifest from "../../lib/utils/error-manifests/errorManifest";
-import { logger } from "../../lib/logger";
 
 export interface BaseViewData {
     errors: any
     title: string
-    isSignedIn: boolean
     backURL: string | null
     servicePathPrefix: string
     Urls: typeof PrefixedUrls
     ExternalUrls: typeof ExternalUrls
-    userEmail: string | null
     currentUrl: string | null
+    hideNavbar: boolean
     templateName: string | null
 }
 
 export const defaultBaseViewData: Partial<BaseViewData> = {
     errors: {},
-    isSignedIn: false,
     backURL: null,
     servicePathPrefix,
     Urls: PrefixedUrls,
     ExternalUrls,
     currentUrl: null,
-    userEmail: null,
+    hideNavbar: false,
     title: "Apply to file with Companies House using software",
     templateName: null
 } as const;
 
-export function populateViewData<T extends BaseViewData> (viewData: T, req: Request, res: Response): void {
-    const { signin_info: signInInfo } = req.session?.data ?? {};
-    const isSignedIn = signInInfo?.signed_in !== undefined;
-    viewData.isSignedIn = isSignedIn;
-
-    if (!isSignedIn) { return; }
-
-    const userEmail = signInInfo?.user_profile?.email;
-    if (userEmail) {
-        viewData.userEmail = userEmail;
-    } else {
-        logger.error("GenericHandler unable to get email. Email is undefined.");
-        viewData.userEmail = ""; // Blank email to avoid a scenario where the email is undefined
-    }
-}
-
 export async function getViewData<T extends BaseViewData> (req: Request, res: Response): Promise<T> {
     const viewData = defaultBaseViewData as T;
-    populateViewData(viewData, req, res);
     return viewData;
 }
 

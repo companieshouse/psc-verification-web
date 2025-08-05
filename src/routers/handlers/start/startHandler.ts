@@ -21,7 +21,7 @@ export default class StartHandler extends GenericHandler<StartViewData> {
 
         return {
             ...baseViewData,
-            isSignedIn: false,
+            hideNavbar: true,
             idvImplementationDate: internationaliseDate(idvDateFormatted, lang),
             currentUrl: addSearchParams(PrefixedUrls.START, { lang }),
             backURL: null,
