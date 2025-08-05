@@ -67,7 +67,7 @@ app.use(csrfProtectionMiddleware);
 app.use(csrfErrorHandler);
 
 // attach language localisation middleware
-app.use(localise);
+app.use(servicePathPrefix, localise);
 
 // attach user email view data injector middleware
 app.use(servicePathPrefix, getUserEmail);
