@@ -28,7 +28,7 @@ app.use(servicePathPrefix, sessionMiddleware);
 router.use(Urls.NAME_MISMATCH, authenticate, fetchVerification, NameMismatchRouter);
 ```
 
-Method 1 applies `sessionMiddleware` to any routes matching `servicePathPrefix`, which is `"/persons-with-significant-control-verification"`.
+Method 1 applies `sessionMiddleware` to any routes matching `servicePathPrefix`. This will match `"/persons-with-significant-control-verification"` and any of its sub-paths like `"/persons-with-significant-control-verification/start"`.
 
 Method 2 applies `authenticate` and `fetchVerification` to just the `Urls.NAME_MISMATCH` path. `router.use` will accept any number of middleware or a spread list:
 ```ts
