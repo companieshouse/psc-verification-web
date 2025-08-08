@@ -6,7 +6,7 @@ In psc-verification-web, middleware is used for any logic that must run once on 
 
 - **Session Management**: Managing user sessions, including storing and retrieving session data.
 - **Authentication**: Ensuring that users are authenticated via web-security-node's [authMiddleware](https://github.com/companieshouse/web-security-node/blob/master/src/index.ts).
-- **Error Handling**: Capturing and handling errors present users with appropriate error screens. For more details, see [Error Handling](./error-handling.md).
+- **Error Handling**: Capturing and handling errors to present users with appropriate error screens. For more details, see [Error Handling](./error-handling.md).
 - **Request Logging**: Logging details of incoming requests for debugging and monitoring purposes.
 - **Fetching Data**: Loading data required for request handling, such as company profile and identity verification details.
 - **Security**: Handling certain security measures such as CSRF protection.
@@ -30,7 +30,7 @@ router.use(Urls.NAME_MISMATCH, authenticate, fetchVerification, NameMismatchRout
 
 Method 1 applies `sessionMiddleware` to any routes matching `servicePathPrefix`, which is `"/persons-with-significant-control-verification"`.
 
-Method 2 applies `authenticate` and `fetchVerification` to just the `Urls.NAME_MISMATCH` route. `router.use` will accept any number of middleware or a spread list:
+Method 2 applies `authenticate` and `fetchVerification` to just the `Urls.NAME_MISMATCH` path. `router.use` will accept any number of middleware or a spread list:
 ```ts
 const middleware = [authenticate, fetchVerification];
 router.use(Urls.NAME_MISMATCH, ...middleware, NameMismatchRouter);
