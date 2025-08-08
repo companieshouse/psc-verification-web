@@ -5,7 +5,8 @@ This directory contains low-level design docs on the following topics:
 
 ## General
 
-* [Error Handling](./error-handling.md)
+* [Application design](./application-design.md)
+* [Error handling](./error-handling.md)
 
 ## Logging & Monitoring
 
