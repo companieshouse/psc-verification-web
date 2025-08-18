@@ -36,6 +36,32 @@ interface IndividualPscListViewData extends BaseViewData {
     nextPageUrl: string | null
 }
 
+// IDV status predicate: VERIFIED
+export const pscIsVerified = (psc: PersonWithSignificantControl): boolean => {
+    const verificationStartDate = psc.identityVerificationDetails?.appointmentVerificationStartOn;
+    const verificationEndDate = psc.identityVerificationDetails?.appointmentVerificationEndOn;
+    const startDateIsPast = verificationStartDate !== undefined && new Date(verificationStartDate) <= new Date();
+    const endDateIsFuture = verificationEndDate !== undefined && new Date(verificationEndDate) > new Date();
+    return startDateIsPast && endDateIsFuture;
+};
+
+// IDV status predicate: UNVERIFIED
+export const pscIsUnverified = (psc: PersonWithSignificantControl): boolean => {
+    return !pscIsVerified(psc);
+};
+
+// IDV status predicate: DUE
+// NOTE: If a PSC has no verification statement date, they are considered due for verification
+export const pscCanVerifyNow = (psc: PersonWithSignificantControl): boolean => {
+    const verificationStatementDate = psc.identityVerificationDetails?.appointmentVerificationStatementDate;
+    return verificationStatementDate === undefined || new Date(verificationStatementDate) <= new Date();
+};
+
+// IDV status predicate: NOT YET REQUIRED
+export const pscCanVerifyLater = (psc: PersonWithSignificantControl): boolean => {
+    return !pscCanVerifyNow(psc);
+};
+
 export class IndividualPscListHandler extends GenericHandler<IndividualPscListViewData> {
 
     private static readonly templatePath = "router_views/individualPscList/individual-psc-list";
@@ -54,22 +80,22 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
         const companyName = companyProfile?.companyName ?? "";
 
-        const individualPscListWithVerificationState: PersonWithSignificantControl[] = await this.getIndividualPscListWithVerificationState(companyNumber, req);
+        const individualPscListWithIdvDetails: PersonWithSignificantControl[] = await this.getIndividualPscListWithIdvDetails(companyNumber, req);
 
-        const verifiedPscList = individualPscListWithVerificationState.filter(psc => psc.verificationState?.verificationStatus === "VERIFIED");
-        const unverifiedPscList = individualPscListWithVerificationState.filter(psc => psc.verificationState?.verificationStatus !== "VERIFIED" || psc.verificationState === undefined);
+        const verifiedPscList = individualPscListWithIdvDetails.filter(pscIsVerified);
+        const unverifiedPscList = individualPscListWithIdvDetails.filter(pscIsUnverified);
 
-        const canVerifyNow = unverifiedPscList.filter(psc => (psc.verificationState?.verificationStartDate !== undefined && new Date(psc.verificationState.verificationStartDate) <= new Date()) || psc.verificationState === undefined);
-        const canVerifyLater = unverifiedPscList.filter(psc => psc.verificationState?.verificationStartDate !== undefined && new Date(psc.verificationState?.verificationStartDate) > new Date());
+        const canVerifyNow = unverifiedPscList.filter(pscCanVerifyNow);
+        const canVerifyLater = unverifiedPscList.filter(pscCanVerifyLater);
 
         const canVerifyNowDetails = this.getViewPscDetails(canVerifyNow, lang);
         const canVerifyLaterDetails = this.getViewPscDetails(canVerifyLater, lang);
         const verifiedPscDetails = this.getViewPscDetails(verifiedPscList, lang);
 
-        const allSuperSecure = individualPscListWithVerificationState.every(psc => psc.kind !== undefined && psc.kind === PSC_KIND_TYPE.SUPER_SECURE as unknown as typeof psc.kind);
-        const allCeased = individualPscListWithVerificationState.every(psc => psc.ceasedOn != null);
-        const exclusivelySuperSecure = individualPscListWithVerificationState.length > 0 && (allSuperSecure && !allCeased);
-        const showNoPscsMessage = individualPscListWithVerificationState.length === 0 || allCeased;
+        const allSuperSecure = individualPscListWithIdvDetails.every(psc => psc.kind !== undefined && psc.kind === PSC_KIND_TYPE.SUPER_SECURE as unknown as typeof psc.kind);
+        const allCeased = individualPscListWithIdvDetails.every(psc => psc.ceasedOn != null);
+        const exclusivelySuperSecure = individualPscListWithIdvDetails.length > 0 && (allSuperSecure && !allCeased);
+        const showNoPscsMessage = individualPscListWithIdvDetails.length === 0 || allCeased;
 
         return {
             ...baseViewData,
@@ -94,26 +120,26 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         }
     }
 
-    private async getIndividualPscListWithVerificationState (companyNumber: string, req: Request): Promise<PersonWithSignificantControl[]> {
+    private async getIndividualPscListWithIdvDetails (companyNumber: string, req: Request): Promise<PersonWithSignificantControl[]> {
         let individualPscList: CompanyPersonWithSignificantControl[] = [];
-        const individualPscListWithVerificationState: PersonWithSignificantControl[] = [];
+        const individualPscListWithIdvDetails: PersonWithSignificantControl[] = [];
         if (companyNumber) {
             individualPscList = await getCompanyIndividualPscList(req, companyNumber);
             for (const psc of individualPscList) {
                 try {
                     const individualDetails = await getPscIndividual(req, companyNumber, this.getPscIdFromSelfLink(psc));
                     if (individualDetails.resource) {
-                        individualPscListWithVerificationState.push(individualDetails.resource);
+                        individualPscListWithIdvDetails.push(individualDetails.resource);
                     }
                 } catch (error) {
-                    // not able to add the verification state to the PSC object, but we still add the PSC object to the list
+                    // not able to add the identity verification details to the PSC object, but we still add the PSC object to the list
                     // this is to ensure that the user can still see the PSC in the list, and submit a verification
                     logger.error(`Error getting PSC individual details: ${error}`);
-                    individualPscListWithVerificationState.push(psc as PersonWithSignificantControl);
+                    individualPscListWithIdvDetails.push(psc as PersonWithSignificantControl);
                 }
             }
         }
-        return individualPscListWithVerificationState;
+        return individualPscListWithIdvDetails;
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<IndividualPscListViewData>> {
@@ -132,6 +158,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
             const pscSortName = [psc.nameElements?.surname, psc.nameElements?.forename, psc.nameElements?.otherForenames, psc.nameElements?.middleName]
                 .filter(name => name)
                 .join(" "); // ensure single space between names even if some are missing
+            const idvDetails = psc.identityVerificationDetails;
 
             return {
                 pscId: psc.links.self.split("/").pop() as string,
@@ -139,8 +166,8 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
                 pscKind: psc.kind,
                 pscName: psc.name,
                 pscDob: pscFormattedDob,
-                pscVerificationStartDate: psc.verificationState?.verificationStartDate === undefined ? "" : internationaliseDate(psc.verificationState?.verificationStartDate.toString(), lang),
-                pscVerificationDeadlineDate: psc.verificationState?.verificationStatementDueDate === undefined ? "" : internationaliseDate(psc.verificationState?.verificationStatementDueDate.toString(), lang),
+                pscVerificationStartDate: this.getLocalizedDate(idvDetails?.appointmentVerificationStatementDate, lang),
+                pscVerificationDeadlineDate: this.getLocalizedDate(idvDetails?.appointmentVerificationStatementDueOn, lang),
                 pscSortName
             };
         });
@@ -148,6 +175,10 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
     private getPscIdFromSelfLink (psc: CompanyPersonWithSignificantControl): string {
         return psc.links.self.split("/").pop() as string;
+    }
+
+    private getLocalizedDate (date: Date | undefined, lang: string): string {
+        return date === undefined ? "" : internationaliseDate(date.toString(), lang);
     }
 
 }
