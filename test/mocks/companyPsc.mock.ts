@@ -330,10 +330,11 @@ export const VERIFY_NOW_PSC = {
             self: "/company/123456/persons-with-significant-control/individual/PSC1"
         },
         etag: "ETAG1",
-        verificationState: {
-            verificationStatus: "UNVERIFIED",
-            verificationStartDate: "2024-03-13",
-            verificationStatementDueDate: "2025-03-13"
+        identityVerificationDetails: {
+            appointmentVerificationEndOn: undefined,
+            appointmentVerificationStatementDate: new Date("2025-04-01"),
+            appointmentVerificationStatementDueOn: new Date("2025-04-14"),
+            appointmentVerificationStartOn: undefined
         }
     }
 };
@@ -371,10 +372,11 @@ export const VERIFY_LATER_PSC = {
             self: "/company/123456/persons-with-significant-control/individual/PSC1"
         },
         etag: "ETAG1",
-        verificationState: {
-            verificationStatus: "UNVERIFIED",
-            verificationStartDate: "3099-03-13",
-            verificationStatementDueDate: "3099-03-13"
+        identityVerificationDetails: {
+            appointmentVerificationEndOn: undefined,
+            appointmentVerificationStatementDate: new Date("3099-04-01"),
+            appointmentVerificationStatementDueOn: new Date("3099-04-14"),
+            appointmentVerificationStartOn: undefined
         }
     }
 };
@@ -412,10 +414,11 @@ export const VERIFIED_PSC = {
             self: "/company/123456/persons-with-significant-control/individual/PSC1"
         },
         etag: "ETAG1",
-        verificationState: {
-            verificationStatus: "VERIFIED",
-            verificationStartDate: "2025-03-13",
-            verificationStatementDueDate: "2025-03-13"
+        identityVerificationDetails: {
+            appointmentVerificationEndOn: new Date("3099-04-27"),
+            appointmentVerificationStatementDate: new Date("2025-04-01"),
+            appointmentVerificationStatementDueOn: new Date("2025-04-14"),
+            appointmentVerificationStartOn: new Date("2025-04-13")
         }
     }
 };

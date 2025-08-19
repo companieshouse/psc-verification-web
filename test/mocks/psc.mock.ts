@@ -1,12 +1,13 @@
-import { KindEnum, PersonWithSignificantControl, VerificationState, VerificationStatusEnum } from "@companieshouse/api-sdk-node/dist/services/psc/types";
+import { IdentityVerificationDetails, KindEnum, PersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/psc/types";
 
 export const COMPANY_NUMBER = "12345678";
 export const PSC_ID = "67edfE436y35hetsie6zuAZtr";
 
-const PSC_VERIFICATION_STATE: VerificationState = {
-    verificationStatus: VerificationStatusEnum.UNVERIFIED,
-    verificationStartDate: new Date("2024-04-13"),
-    verificationStatementDueDate: new Date("2024-04-27")
+const PSC_IDENTITY_VERIFICATION_DETAILS: IdentityVerificationDetails = {
+    appointmentVerificationEndOn: new Date("2024-04-27"),
+    appointmentVerificationStatementDate: new Date("2024-04-13"),
+    appointmentVerificationStatementDueOn: new Date("2024-04-27"),
+    appointmentVerificationStartOn: new Date("2024-04-13")
 };
 
 export const PSC_INDIVIDUAL: PersonWithSignificantControl = {
@@ -33,5 +34,5 @@ export const PSC_INDIVIDUAL: PersonWithSignificantControl = {
     dateOfBirth: { year: "2000", month: "04" },
     etag: "etag",
     notifiedOn: "2023-01-31",
-    verificationState: PSC_VERIFICATION_STATE
+    identityVerificationDetails: PSC_IDENTITY_VERIFICATION_DETAILS
 };
