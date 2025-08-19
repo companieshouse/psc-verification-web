@@ -10,6 +10,11 @@ import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
 import { INDIVIDUAL_PSCS_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST, VERIFIED_PSC, VERIFY_LATER_PSC, VERIFY_NOW_PSC } from "../../../mocks/companyPsc.mock";
 import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED } from "../../../mocks/pscVerification.mock";
 import { PersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/psc/types";
+import { DateTime } from "luxon";
+
+function daysFromNow (days: number): Date {
+    return DateTime.now().plus({ days }).toJSDate();
+}
 
 const mockGetPscVerification = getPscVerification as jest.Mock;
 jest.mock("../../../../src/services/pscVerificationService");
@@ -81,8 +86,8 @@ describe("psc list handler", () => {
             it("should return true if verification start date is in the past and end date is in the future", () => {
                 const psc = mockPsc({
                     identityVerificationDetails: {
-                        appointmentVerificationStartOn: new Date("2025-08-01"),
-                        appointmentVerificationEndOn: new Date("2025-08-31")
+                        appointmentVerificationStartOn: daysFromNow(-10),
+                        appointmentVerificationEndOn: daysFromNow(10)
                     }
                 });
                 expect(pscIsVerified(psc)).toBe(true);
@@ -92,8 +97,8 @@ describe("psc list handler", () => {
             it("should return false if verification start date is in the future", () => {
                 const psc = mockPsc({
                     identityVerificationDetails: {
-                        appointmentVerificationStartOn: new Date("2025-09-01"),
-                        appointmentVerificationEndOn: new Date("2025-09-30")
+                        appointmentVerificationStartOn: daysFromNow(10),
+                        appointmentVerificationEndOn: daysFromNow(24)
                     }
                 });
                 expect(pscIsVerified(psc)).toBe(false);
@@ -103,8 +108,8 @@ describe("psc list handler", () => {
             it("should return false if verification end date is in the past", () => {
                 const psc = mockPsc({
                     identityVerificationDetails: {
-                        appointmentVerificationStartOn: new Date("2025-07-01"),
-                        appointmentVerificationEndOn: new Date("2025-07-31")
+                        appointmentVerificationStartOn: daysFromNow(-20),
+                        appointmentVerificationEndOn: daysFromNow(-10)
                     }
                 });
                 expect(pscIsVerified(psc)).toBe(false);
@@ -124,7 +129,7 @@ describe("psc list handler", () => {
             it("should return true if verification statement date is in the past", () => {
                 const psc = mockPsc({
                     identityVerificationDetails: {
-                        appointmentVerificationStatementDate: new Date("2025-08-01")
+                        appointmentVerificationStatementDate: daysFromNow(-10)
                     }
                 });
                 expect(pscCanVerifyNow(psc)).toBe(true);
@@ -134,7 +139,7 @@ describe("psc list handler", () => {
             it("should return false if verification statement date is in the future", () => {
                 const psc = mockPsc({
                     identityVerificationDetails: {
-                        appointmentVerificationStatementDate: new Date("2025-09-01")
+                        appointmentVerificationStatementDate: daysFromNow(10)
                     }
                 });
                 expect(pscCanVerifyNow(psc)).toBe(false);
