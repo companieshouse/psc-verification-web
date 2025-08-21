@@ -26,7 +26,7 @@ You can run tests directly from VSCode by using the built-in test runner or the 
 Each git commit will trigger a pre-commit hook that will block the commit unless all tests pass.
 
 ### SonarQube analysis
-When a GitHub PR is pushed or updated, SonarQube will perform an analysis on the new code. New code must have test coverage of >80%. Clicking through to SonarQube's analysis report is useful for identifying exactly which lines or conditions are uncovered.
+When a GitHub PR is pushed or updated, SonarQube will perform an analysis on the new code. New code must have test coverage of >=80%. Clicking through to SonarQube's analysis report is useful for identifying exactly which lines or conditions are uncovered.
 
 ![SonarQube coverage report link](images/sonar-coverage-report.png)
 > Clicking this link will show you the full coverage report.
