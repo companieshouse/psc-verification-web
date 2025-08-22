@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import { handleExceptions } from "../utils/asyncHandler";
 import StartHandler from "./handlers/start/startHandler";
 
 const startRouter: Router = Router();
 
-startRouter.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+startRouter.get("/", handleExceptions(async (req: Request, res: Response) => {
 
     const handler = new StartHandler();
     const { templatePath, viewData } = await handler.executeGet(req, res);

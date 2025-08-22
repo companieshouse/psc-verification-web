@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import { handleExceptions } from "../utils/asyncHandler";
 import { PersonalCodeHandler } from "./handlers/personal-code/personalCodeHandler";
 
@@ -10,7 +10,7 @@ personalCodeRouter.get("/", handleExceptions(async (req: Request, res: Response)
     res.render(templatePath, viewData);
 }));
 
-personalCodeRouter.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+personalCodeRouter.post("/", handleExceptions(async (req: Request, res: Response) => {
     const handler = new PersonalCodeHandler();
     const params = await handler.executePost(req, res);
 
