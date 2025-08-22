@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import { handleExceptions } from "../utils/asyncHandler";
 import { NameMismatchHandler } from "./handlers/name-mismatch/nameMismatchHandler";
 
@@ -10,7 +10,7 @@ nameMismatchRouter.get("/", handleExceptions(async (req: Request, res: Response)
     res.render(templatePath, viewData);
 }));
 
-nameMismatchRouter.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+nameMismatchRouter.post("/", handleExceptions(async (req: Request, res: Response) => {
     const handler = new NameMismatchHandler();
     const params = await handler.executePost(req, res);
 

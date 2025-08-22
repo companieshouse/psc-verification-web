@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import { handleExceptions } from "../utils/asyncHandler";
 import { IndividualStatementHandler } from "./handlers/individual-statement/individualStatementHandler";
 
@@ -10,7 +10,7 @@ individualStatementRouter.get("/", handleExceptions(async (req: Request, res: Re
     res.render(templatePath, viewData);
 }));
 
-individualStatementRouter.post("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+individualStatementRouter.post("/", handleExceptions(async (req: Request, res: Response) => {
     const handler = new IndividualStatementHandler();
     const params = await handler.executePost(req, res);
 
