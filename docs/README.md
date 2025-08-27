@@ -7,6 +7,7 @@ This directory contains low-level design docs on the following topics:
 
 * [Error Handling](./error-handling.md)
 * [Testing](./testing.md)
+* [Deployment](./deployment.md)
 
 ## Logging & Monitoring
 
