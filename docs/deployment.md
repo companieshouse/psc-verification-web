@@ -16,6 +16,8 @@ Deployment to the staging environment is generally held until several code chang
 -	Backout plan for unsuccessful releases.
 -	The service version to release.
 
+For further information, please refer to the [Release Process](https://companieshouse.atlassian.net/wiki/spaces/Arch/pages/3677093667/Release+Notes+Template) page here.
+
 Config changes required (if applicable).
 A service now ticket is created and linked to the above release notes, allowing the release team to track the process.
 When all information is in place, a request can be made to the release team via a slack channel (release_chs), requesting the following code changes be applied to the staging environment.
