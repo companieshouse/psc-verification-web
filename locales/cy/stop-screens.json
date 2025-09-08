@@ -34,8 +34,6 @@
   "dob_mismatch_how_to_correct_details_par_2": "Os cawsoch eich ychwanegu fel PRhA ar ôl i’r cwmni gael ei gofrestru gyda ni, gellir ei gywiro gan ddefnyddio ein ",
   "dob_mismatch_authorised_agent": "Os gwnaethoch gwblhau gwiriad gan ddefnyddio asiant awdurdodedig, gwiriwch eu bod wedi cofnodi’r dyddiad geni cywir",
   "dob_mismatch_verified_identity": "Cysylltwch â’r asiant a gofynnwch iddynt wirio a wnaethant roi eich manylion yn gywir pan ddywedon nhw wrthym eu bod wedi cwblhau gwiriad hunaniaeth.",
-  "dob_mismatch_agent_can_correct": "Gallant gywiro'r manylion a ddarparwyd ar eich cyfer gan ddefnyddio'r ",
-  "dob_mismatch_agent_can_correct_link_text": "gwasanaeth [service name]",
   "empty_psc_list_body": "Nid oes unrhyw PRhA gan y cwmni hwn. Am wybodaeth am sut i adnabod a chofnodi PRhA cwmni, ",
   "empty_psc_list_link": "darllenwch y cyfarwyddyd ar bobl sydd â rheolaeth arwyddocaol (PRhA)",
   "super_secure_main_title": "Ni allwch ddarparu manylion gwiriad ar gyfer PRhA y cwmni hwn ar-lein",
