@@ -32,7 +32,7 @@
         "@companieshouse/node-session-handler": "^5.2.4",
         "@companieshouse/structured-logging-node": "^2.0.2",
         "@companieshouse/web-security-node": "^4.4.10",
-        "axios": "^1.10.0",
+        "axios": "^1.12.2",
         "cookie-parser": "1.4.7",
         "express": "^5.1.0",
         "govuk-frontend": "5.11.0",
