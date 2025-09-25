@@ -9,7 +9,6 @@ import { serviceUnavailable } from "./middleware/serviceUnavailable";
 import { checkCompany } from "./middleware/checkCompany";
 
 const routerDispatch = (app: Application) => {
-
     const router = Router();
     // Required for endpoint prefix
     app.use(servicePathPrefix, router);
