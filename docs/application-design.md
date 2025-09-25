@@ -35,6 +35,10 @@ Method 2 applies `authenticate` and `fetchVerification` to just the `Urls.NAME_M
 const middleware = [authenticate, fetchVerification];
 router.use(Urls.NAME_MISMATCH, ...middleware, NameMismatchRouter);
 ```
+> ⚠️ **Important:** The supplied middleware list will be executed in the order given (i.e. left to right), as is standard in the Express.js web framework. This is important if a middleware is stateful (e.g. retrieving data to be made available to middleware executed later in the sequence).
+
+> ⚠️ **Caution:** In general, middleware should be stateless. Stateless middleware is easier to test, maintain, and reuse, and avoids unintended side effects or data leakage between requests. Statefulness is used only when necessary, and care is taken to ensure correct execution order and data handling.
+
 
 ## Router/Handler/Service Architecture
 In psc-verification-web, the responsibilities of handling each request are split into the following:
