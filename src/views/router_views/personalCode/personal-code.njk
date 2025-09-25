@@ -18,15 +18,20 @@
     <span class="govuk-caption-xl">
         {{ nameAndDateBirthText }}
     </span>
-    <h1 class="govuk-heading-l" id="personal-code--title">
-        {{ title }}
-    </h1>
+    {% set heading %}
+        <h1 class="govuk-heading-l" id="personal-code--title">
+            {{ title }}
+        </h1>
+    {% endset %}
     <form action="" method="post">
         {% include "includes/csrf-token.njk" %}
-        
+
         <div class="govuk-form-group">
             {% set inputOptions = {
                 id: "personalCode",
+                label: {
+                    html: heading
+                },
                 classes: "govuk-input--width-10 govuk-input--extra-letter-spacing",
                 name: "personalCode",
                 value: personalCode
@@ -35,6 +40,7 @@
             {% if errors is not undefined and errors is not null and errors | length %}
                 {% set inputOptions = {
                     id: inputOptions.id,
+                    label: inputOptions.label,
                     classes: inputOptions.classes,
                     name: inputOptions.name,
                     value: inputOptions.value,
@@ -70,7 +76,7 @@
                     }
                 })
             }}
-            
+
             {{ govukButton({
                     attributes: {
                         id: "submit", "data-event-id": CommonDataEventIds.CONTINUE_BUTTON
