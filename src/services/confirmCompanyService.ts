@@ -8,13 +8,14 @@ export const buildAddress = (companyProfile: CompanyProfile): string => {
         companyProfile.registeredOfficeAddress.addressLineTwo, companyProfile.registeredOfficeAddress.locality,
         companyProfile.registeredOfficeAddress.region, companyProfile.registeredOfficeAddress.country,
         companyProfile.registeredOfficeAddress.postalCode];
-    let address = "";
+    let address = "<address>";
     for (const addressValue of addressArray) {
         if (addressValue != null && addressValue !== "") {
             address = address + addressValue;
             address = address + "<br>";
         }
     }
+    address = address + "</address>";
     return address;
 };
 
