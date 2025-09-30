@@ -21,6 +21,7 @@ const request = httpMocks.createRequest({
     }
 });
 const response = httpMocks.createResponse();
+response.locals = { lang: "en" };
 
 describe("confirm company handler tests", () => {
     describe("executeGet tests", () => {
@@ -52,7 +53,6 @@ describe("confirm company handler tests", () => {
                     lang: "en"
                 }
             });
-            const response = httpMocks.createResponse();
             const handler = new ConfirmCompanyHandler();
             const redirectUrl = await handler.executePost(request, response);
             expect(redirectUrl).toBe(`${PrefixedUrls.INDIVIDUAL_PSC_LIST}?companyNumber=${COMPANY_NUMBER}&lang=en`);
