@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { CompanyPersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 import { getCompanyIndividualPscList } from "../../../services/companyPscService";
-import { PSC_KIND_TYPE, PrefixedUrls, Urls } from "../../../constants";
+import { ExternalUrls, PSC_KIND_TYPE, PrefixedUrls, Urls } from "../../../constants";
 import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
@@ -20,6 +20,7 @@ interface PscListData {
     pscVerificationStartDate: string,
     pscVerificationDeadlineDate: string,
     pscSortName?: string,
+    requestExtensionUrl?: string,
 }
 
 interface IndividualPscListViewData extends BaseViewData {
@@ -88,7 +89,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const canVerifyNow = unverifiedPscList.filter(pscCanVerifyNow);
         const canVerifyLater = unverifiedPscList.filter(pscCanVerifyLater);
 
-        const canVerifyNowDetails = this.getViewPscDetails(canVerifyNow, lang);
+        const canVerifyNowDetails = this.getViewPscDetails(canVerifyNow, lang, companyNumber); // pass company number to generate request extension link
         const canVerifyLaterDetails = this.getViewPscDetails(canVerifyLater, lang);
         const verifiedPscDetails = this.getViewPscDetails(verifiedPscList, lang);
 
@@ -152,23 +153,26 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         };
     }
 
-    private getViewPscDetails (individualPscListWithVerificationState: PersonWithSignificantControl[], lang: string): PscListData[] {
+    private getViewPscDetails (individualPscListWithVerificationState: PersonWithSignificantControl[], lang: string, companyNumber?: string): PscListData[] {
         return individualPscListWithVerificationState.map(psc => {
+            const selectedPscId = psc.links.self.split("/").pop() as string;
             const pscFormattedDob = `${formatDateBorn(psc.dateOfBirth, lang)}`;
             const pscSortName = [psc.nameElements?.surname, psc.nameElements?.forename, psc.nameElements?.otherForenames, psc.nameElements?.middleName]
                 .filter(name => name)
                 .join(" "); // ensure single space between names even if some are missing
             const idvDetails = psc.identityVerificationDetails;
+            const requestExtensionUrl = companyNumber ? addSearchParams(ExternalUrls.REQUEST_AN_EXTENSION, { companyNumber, selectedPscId, lang }) : undefined;
 
             return {
-                pscId: psc.links.self.split("/").pop() as string,
+                pscId: selectedPscId,
                 pscCeasedOn: psc.ceasedOn,
                 pscKind: psc.kind,
                 pscName: psc.name,
                 pscDob: pscFormattedDob,
                 pscVerificationStartDate: this.getLocalizedDate(idvDetails?.appointmentVerificationStatementDate, lang),
                 pscVerificationDeadlineDate: this.getLocalizedDate(idvDetails?.appointmentVerificationStatementDueOn, lang),
-                pscSortName
+                pscSortName,
+                requestExtensionUrl
             };
         });
     }
