@@ -71,6 +71,7 @@ export const PrefixedUrls = {
 export const ExternalUrls = {
     COMPANY_LOOKUP: "/company-lookup/search",
     COMPANY_LOOKUP_FORWARD: servicePathPrefix + "/confirm-company",
+    REQUEST_AN_EXTENSION: "/persons-with-significant-control-extension/new-submission",
     SIGNOUT: "/signout"
 } as const;
 
