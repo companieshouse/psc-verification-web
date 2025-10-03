@@ -73,6 +73,58 @@ describe("psc list handler", () => {
             viewData.canVerifyLaterDetails.forEach(p => expect(p.pscKind).toBe(PSC_KIND_TYPE.INDIVIDUAL));
             viewData.verifiedPscDetails.forEach(p => expect(p.pscKind).toBe(PSC_KIND_TYPE.INDIVIDUAL));
         });
+
+        it("should generate requestExtensionUrl for PSCs in canVerifyNowDetails", async () => {
+            const req = httpMocks.createRequest({
+                method: "GET",
+                url: Urls.INDIVIDUAL_PSC_LIST,
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    lang: "en"
+                }
+            });
+
+            mockGetCompanyIndividualPscList.mockResolvedValue([VERIFY_NOW_PSC.resource]);
+            mockGetPscIndividual.mockResolvedValueOnce(VERIFY_NOW_PSC);
+
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_CREATED } });
+            const handler = new IndividualPscListHandler();
+
+            const { viewData } = await handler.executeGet(req, res);
+
+            expect(viewData.canVerifyNowDetails.length).toBeGreaterThan(0);
+            for (const psc of viewData.canVerifyNowDetails) {
+                expect(psc.requestExtensionUrl).toBeDefined();
+                expect(psc.requestExtensionUrl).toContain("/persons-with-significant-control-extension/new-submission");
+                expect(psc.requestExtensionUrl).toContain(`companyNumber=${COMPANY_NUMBER}`);
+                expect(psc.requestExtensionUrl).toContain(`selectedPscId=${psc.pscId}`);
+                expect(psc.requestExtensionUrl).toContain("lang=en");
+            }
+        });
+
+        it("should not generate requestExtensionUrl for PSCs in canVerifyLaterDetails", async () => {
+            const req = httpMocks.createRequest({
+                method: "GET",
+                url: Urls.INDIVIDUAL_PSC_LIST,
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    lang: "en"
+                }
+            });
+
+            mockGetCompanyIndividualPscList.mockResolvedValue([VERIFY_LATER_PSC.resource]);
+            mockGetPscIndividual.mockResolvedValueOnce(VERIFY_LATER_PSC);
+
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_CREATED } });
+            const handler = new IndividualPscListHandler();
+
+            const { viewData } = await handler.executeGet(req, res);
+
+            expect(viewData.canVerifyLaterDetails.length).toBeGreaterThan(0);
+            for (const psc of viewData.canVerifyLaterDetails) {
+                expect(psc.requestExtensionUrl).toBeUndefined();
+            }
+        });
     });
 
     describe("IndividualPscListHandler Predicates", () => {
