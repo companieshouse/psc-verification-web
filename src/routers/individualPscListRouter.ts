@@ -1,5 +1,5 @@
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
-import { NextFunction, Request, Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import { PrefixedUrls, STOP_TYPE } from "../constants";
 import { handleExceptions } from "../utils/asyncHandler";
 import { addSearchParams } from "../utils/queryParams";
@@ -9,7 +9,7 @@ import { IndividualPscListHandler } from "./handlers/individual-psc-list/individ
 
 const individualPscListRouter: Router = Router({ mergeParams: true });
 
-individualPscListRouter.get("/", handleExceptions(async (req: Request, res: Response, _next: NextFunction) => {
+individualPscListRouter.get("/", handleExceptions(async (req: Request, res: Response) => {
     const handler = new IndividualPscListHandler();
     const companyProfile: CompanyProfile = res.locals?.companyProfile;
     const companyNumber = companyProfile.companyNumber;

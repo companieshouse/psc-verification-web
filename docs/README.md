@@ -1,7 +1,16 @@
 
 # Documentation
 
-This directory contains developer docs on the following topics:
+This directory contains low-level design docs on the following topics:
+
+## General
+
+* [Application Design](./application-design.md)
+* [Error Handling](./error-handling.md)
+* [Testing](./testing.md)
+* [Deployment](./deployment.md)
+
+## Logging & Monitoring
 
 * [Logging](./logging.md)
-* [Error Handling](./error-handling.md)
+* [Matomo Analytics](./matomo.md)
