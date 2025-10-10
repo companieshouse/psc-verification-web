@@ -95,7 +95,7 @@ describe("psc list handler", () => {
             expect(viewData.canVerifyNowDetails.length).toBeGreaterThan(0);
             for (const psc of viewData.canVerifyNowDetails) {
                 expect(psc.requestExtensionUrl).toBeDefined();
-                expect(psc.requestExtensionUrl).toContain("/persons-with-significant-control-extension/new-submission");
+                expect(psc.requestExtensionUrl).toContain("/persons-with-significant-control-extension/requesting-an-extension");
                 expect(psc.requestExtensionUrl).toContain(`companyNumber=${COMPANY_NUMBER}`);
                 expect(psc.requestExtensionUrl).toContain(`selectedPscId=${psc.pscId}`);
                 expect(psc.requestExtensionUrl).toContain("lang=en");
