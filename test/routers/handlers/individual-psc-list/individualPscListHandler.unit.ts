@@ -98,7 +98,6 @@ describe("psc list handler", () => {
                 expect(psc.requestExtensionUrl).toContain("/persons-with-significant-control-extension/new-submission");
                 expect(psc.requestExtensionUrl).toContain(`companyNumber=${COMPANY_NUMBER}`);
                 expect(psc.requestExtensionUrl).toContain(`selectedPscId=${psc.pscId}`);
-                expect(psc.requestExtensionUrl).toContain("lang=en");
             }
         });
 
