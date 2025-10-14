@@ -38,7 +38,6 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             pscName: pscIndividual.resource?.name!,
             monthYearBorn: formatDateBorn(pscIndividual.resource?.dateOfBirth, lang),
             personalCode: verification?.data?.verificationDetails?.uvid ?? "",
-            currentUrl: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
             backURL: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang }),
             templateName: Urls.PERSONAL_CODE
         };

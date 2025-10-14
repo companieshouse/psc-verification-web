@@ -19,6 +19,7 @@ import { requestIdGenerator } from "./middleware/requestIdGenerator";
 import { getGOVUKFrontendVersion } from "@companieshouse/ch-node-utils";
 import { localise } from "./middleware/localise";
 import { getEmailFromSession } from "./middleware/getEmailFromSession";
+import { injectGenericViewData } from "./middleware/injectGenericViewData";
 
 const app = express();
 
@@ -66,14 +67,13 @@ app.use(requestLogger);
 app.use(csrfProtectionMiddleware);
 app.use(csrfErrorHandler);
 
-// attach language localisation middleware
-app.use(servicePathPrefix, localise);
-
-// attach user email view data injector middleware
-app.use(servicePathPrefix, getEmailFromSession);
-
 // block transaction-related requests if transaction is closed
 app.use(servicePathPrefix + urlWithTransactionIdAndSubmissionId, blockClosedTransaction);
+
+// populate res.locals with data for rendering Nunjucks views
+app.use(servicePathPrefix, localise);
+app.use(servicePathPrefix, getEmailFromSession);
+app.use(servicePathPrefix, injectGenericViewData);
 
 // serve static files
 app.use(express.static(path.join(__dirname, "/../assets/public")));

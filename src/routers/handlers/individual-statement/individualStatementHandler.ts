@@ -36,7 +36,6 @@ export class IndividualStatementHandler extends GenericHandler<IndividualStateme
             pscName: pscDetailsResponse.resource?.name!,
             selectedStatements,
             dateOfBirth: formatDateBorn(pscDetailsResponse.resource?.dateOfBirth, lang),
-            currentUrl: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_STATEMENT),
             backURL: resolveBackUrl(nameMismatch),
             templateName: Urls.INDIVIDUAL_STATEMENT,
             selectedPscId

@@ -12,7 +12,6 @@ export interface BaseViewData {
     servicePathPrefix: string
     Urls: typeof PrefixedUrls
     ExternalUrls: typeof ExternalUrls
-    currentUrl: string | null
     hideNavbar: boolean
     templateName: string | null
 }
@@ -23,7 +22,6 @@ export const defaultBaseViewData: Partial<BaseViewData> = {
     servicePathPrefix,
     Urls: PrefixedUrls,
     ExternalUrls,
-    currentUrl: null,
     hideNavbar: false,
     title: "Apply to file with Companies House using software",
     templateName: null

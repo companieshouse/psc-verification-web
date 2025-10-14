@@ -26,14 +26,12 @@ export class ConfirmCompanyHandler extends GenericHandler<ConfirmCompanyViewData
         const companyProfile: CompanyProfile = await getCompanyProfile(req, companyNumber);
         const company = formatForDisplay(companyProfile, locales, lang);
         const address = buildAddress(companyProfile);
-        const currentUrl = addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber: companyProfile.companyNumber, lang });
         const forward = decodeURI(addSearchParams(ExternalUrls.COMPANY_LOOKUP_FORWARD, { companyNumber: "{companyNumber}", lang }));
         // addSearchParams() encodes the URI, so need to decode value before second call
         const companyLookup = addSearchParams(ExternalUrls.COMPANY_LOOKUP, { forward });
 
         return {
             ...baseViewData,
-            currentUrl,
             backURL: companyLookup,
             company,
             address,

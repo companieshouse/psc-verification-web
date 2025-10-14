@@ -3,7 +3,6 @@ import { getPscIndividual } from "../../../services/pscService";
 import { ExternalUrls, PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { addSearchParams } from "../../../utils/queryParams";
-import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 
 interface PscVerifiedViewData extends BaseViewData {
@@ -35,7 +34,6 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
 
         return {
             ...baseViewData,
-            currentUrl: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, transactionId, submissionId), { lang }),
             companyName,
             companyNumber,
             pscName: pscDetailsResponse.resource?.name!,

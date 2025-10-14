@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-import { PrefixedUrls, Urls } from "../../../constants";
+import { Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { env } from "../../../config";
 import { toHourDayDateFormat } from "../../../utils/date";
-import { addSearchParams } from "../../../utils/queryParams";
 
 interface ServiceUnavailableViewData extends BaseViewData {
   extraData?: string[];
@@ -22,7 +21,6 @@ export default class ServiceUnavailableHandler extends GenericHandler<ServiceUna
         return {
             ...baseViewData,
             hideNavbar: true,
-            currentUrl: addSearchParams(PrefixedUrls.SERVICE_UNAVAILABLE, { lang }),
             templateName: Urls.SERVICE_UNAVAILABLE,
             extraData: [maintenanceEndTime, env.CONTACT_US_LINK]
         };

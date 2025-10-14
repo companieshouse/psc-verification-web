@@ -50,7 +50,6 @@ export const httpErrorInterceptor = (error: HttpError | Error, req: Request, res
     getViewData(req, res).then((baseViewData) => {
         res.render(templatePath, {
             ...baseViewData,
-            currentUrl: req.originalUrl,
             extraData: [env.CONTACT_US_LINK],
             templateName: templatePath
         });

@@ -51,7 +51,6 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
             translationOrDifferentConvention,
             publicRegisterError,
             preferNotToSay,
-            currentUrl: resolveUrlTemplate(PrefixedUrls.NAME_MISMATCH),
             backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
             templateName: Urls.NAME_MISMATCH
         };

@@ -45,7 +45,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
             return {
                 ...baseViewData,
                 templateName: stopType,
-                currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
                 backURL: addSearchParams(resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY), { companyNumber }),
                 extraData: [companyName, resolveUrlTemplate(PrefixedUrls.COMPANY_NUMBER), env.CONTACT_US_LINK]
             };
@@ -53,7 +52,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
             return {
                 ...baseViewData,
                 templateName: stopType,
-                currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
                 backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang })
             };
         }
@@ -61,7 +59,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
             return {
                 ...baseViewData,
                 templateName: stopType,
-                currentUrl: resolveUrlTemplate(stopScreenPrefixedUrl, stopType),
                 backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
                 extraData: [env.GET_RP01_LINK, env.WEBFILING_LOGIN_URL]
             };
@@ -70,7 +67,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
             return {
                 ...baseViewData,
                 templateName: stopType,
-                currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
                 backURL: addSearchParams(PrefixedUrls.CONFIRM_COMPANY, { companyNumber, lang }),
                 extraData: [env.DSR_EMAIL_ADDRESS, env.DSR_PHONE_NUMBER]
             };
@@ -79,7 +75,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
             return {
                 ...baseViewData,
                 templateName: stopType,
-                currentUrl: addSearchParams(getUrlWithStopType(stopScreenPrefixedUrl, stopType), { companyNumber, lang }),
                 extraData: [env.ENQUIRIES_EMAIL_ADDRESS, env.ENQUIRIES_PHONE_NUMBER]
             };
         }

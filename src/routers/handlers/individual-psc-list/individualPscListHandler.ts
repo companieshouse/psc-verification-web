@@ -98,7 +98,6 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
         return {
             ...baseViewData,
-            currentUrl: resolveUrlTemplate(PrefixedUrls.INDIVIDUAL_PSC_LIST),
             backURL: resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY),
             nextPageUrl: resolveUrlTemplate(PrefixedUrls.NEW_SUBMISSION) + "&selectedPscId=",
             companyName,

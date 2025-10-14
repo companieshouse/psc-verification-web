@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
-import { PrefixedUrls, Urls } from "../../../constants";
+import { Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
-import { addSearchParams } from "../../../utils/queryParams";
 import { internationaliseDate } from "../../utils";
 import { env } from "../../../config";
 
@@ -23,7 +22,6 @@ export default class StartHandler extends GenericHandler<StartViewData> {
             ...baseViewData,
             hideNavbar: true,
             idvImplementationDate: internationaliseDate(idvDateFormatted, lang),
-            currentUrl: addSearchParams(PrefixedUrls.START, { lang }),
             backURL: null,
             templateName: Urls.START
         };
