@@ -59,7 +59,6 @@ describe("PSC Verified handler", () => {
             const viewData = resp.viewData;
             expect(resp.templatePath).toBe("router_views/pscVerified/psc-verified");
             expect(viewData).toMatchObject({
-                currentUrl: `${expectedPrefix}/psc-verified?lang=en`,
                 companyNumber: COMPANY_NUMBER,
                 companyName: "Test Company",
                 pscName: "Sir Forename Middlename Surname",

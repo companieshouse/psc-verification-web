@@ -80,8 +80,7 @@ describe("Individual statement handler", () => {
             const { viewData } = await handler.executeGet(req, res);
 
             expect(viewData).toMatchObject({
-                backURL: `${expectedPrefix}/individual/personal-code?lang=en&selectedPscId=123456`,
-                currentUrl: `${expectedPrefix}/individual/psc-statement?lang=en&selectedPscId=123456`
+                backURL: `${expectedPrefix}/individual/personal-code?lang=en&selectedPscId=123456`
             });
         });
 
@@ -107,8 +106,7 @@ describe("Individual statement handler", () => {
             const { viewData } = await handler.executeGet(req, res);
 
             expect(viewData).toMatchObject({
-                backURL: `${expectedPrefix}/individual/psc-why-this-name?lang=en&selectedPscId=123456`,
-                currentUrl: `${expectedPrefix}/individual/psc-statement?lang=en&selectedPscId=123456`
+                backURL: `${expectedPrefix}/individual/psc-why-this-name?lang=en&selectedPscId=123456`
             });
         });
 

@@ -38,8 +38,7 @@ describe("confirm company handler tests", () => {
             const { viewData } = await handler.executeGet(request, response);
 
             expect(viewData).toMatchObject({
-                backURL: `/company-lookup/search?forward=%2Fpersons-with-significant-control-verification%2Fconfirm-company%3FcompanyNumber%3D%7BcompanyNumber%7D%26lang%3Den`,
-                currentUrl: `/persons-with-significant-control-verification/confirm-company?companyNumber=${COMPANY_NUMBER}&lang=en`
+                backURL: `/company-lookup/search?forward=%2Fpersons-with-significant-control-verification%2Fconfirm-company%3FcompanyNumber%3D%7BcompanyNumber%7D%26lang%3Den`
             });
         });
     });

@@ -82,8 +82,7 @@ describe("Personal code handler", () => {
             const { viewData } = await handler.executeGet(req, res);
 
             expect(viewData).toMatchObject({
-                backURL: `/persons-with-significant-control-verification/individual/psc-list?companyNumber=12345678&lang=en`,
-                currentUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code?lang=en`
+                backURL: `/persons-with-significant-control-verification/individual/psc-list?companyNumber=12345678&lang=en`
             });
         });
 

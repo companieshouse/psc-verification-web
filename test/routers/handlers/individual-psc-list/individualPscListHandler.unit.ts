@@ -66,7 +66,6 @@ describe("psc list handler", () => {
             expect(templatePath).toBe("router_views/individualPscList/individual-psc-list");
             expect(viewData).toMatchObject({
                 backURL: `/persons-with-significant-control-verification/confirm-company?companyNumber=${COMPANY_NUMBER}&lang=en`,
-                currentUrl: `/persons-with-significant-control-verification/individual/psc-list?companyNumber=${COMPANY_NUMBER}&lang=en`,
                 nextPageUrl: `/persons-with-significant-control-verification/new-submission?companyNumber=${COMPANY_NUMBER}&lang=en&selectedPscId=`
             });
             viewData.canVerifyNowDetails.forEach(p => expect(p.pscKind).toBe(PSC_KIND_TYPE.INDIVIDUAL));
