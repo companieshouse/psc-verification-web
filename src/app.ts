@@ -84,13 +84,13 @@ njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
 njk.addGlobal("cdnHost", process.env.CDN_HOST);
 njk.addGlobal("chsUrl", process.env.CHS_URL);
 njk.addGlobal("CommonDataEventIds", CommonDataEventIds);
+njk.addGlobal("PrefixedUrls", PrefixedUrls);
 njk.addGlobal("ExternalUrls", ExternalUrls);
 njk.addGlobal("PIWIK_SERVICE_NAME", process.env.PIWIK_SERVICE_NAME);
 njk.addGlobal("PIWIK_START_GOAL_ID", process.env.PIWIK_START_GOAL_ID);
 njk.addGlobal("PIWIK_SITE_ID", process.env.PIWIK_SITE_ID);
 njk.addGlobal("PIWIK_URL", process.env.PIWIK_URL);
 njk.addGlobal("verifyIdentityLink", process.env.VERIFY_IDENTITY_LINK);
-njk.addGlobal("accessibilityStatementLink", PrefixedUrls.ACCESSIBILITY_STATEMENT);
 njk.addGlobal("govukFrontendVersion", getGOVUKFrontendVersion());
 njk.addGlobal("govukRebrand", true);
 

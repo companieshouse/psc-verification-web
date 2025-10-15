@@ -2,26 +2,19 @@
 // It contains methods that are common to multiple route handlers
 
 import { Request, Response } from "express";
-import { ExternalUrls, PrefixedUrls, servicePathPrefix } from "../../constants";
 import errorManifest from "../../lib/utils/error-manifests/errorManifest";
 
 export interface BaseViewData {
     errors: any
     title: string
     backURL: string | null
-    servicePathPrefix: string
-    Urls: typeof PrefixedUrls
-    ExternalUrls: typeof ExternalUrls
     hideNavbar: boolean
-    templateName: string | null
+    templateName: string | null // Required for Matomo analytics
 }
 
 export const defaultBaseViewData: Partial<BaseViewData> = {
     errors: {},
     backURL: null,
-    servicePathPrefix,
-    Urls: PrefixedUrls,
-    ExternalUrls,
     hideNavbar: false,
     title: "Apply to file with Companies House using software",
     templateName: null
