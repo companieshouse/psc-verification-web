@@ -11,6 +11,7 @@ import { INDIVIDUAL_PSCS_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST, VERIFIED_PSC, V
 import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED } from "../../../mocks/pscVerification.mock";
 import { PersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/psc/types";
 import { DateTime } from "luxon";
+import { env } from "process";
 
 function daysFromNow (days: number): Date {
     return DateTime.now().plus({ days }).toJSDate();
