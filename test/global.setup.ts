@@ -38,6 +38,7 @@ export default () => {
     process.env.PIWIK_URL = "PIWIK_SITE_ID";
     process.env.POST_TO_CH_LINK = "https://www.gov.uk/government/news/posting-documents-to-companies-house";
     process.env.PSC_DATA_API_FETCH_SIZE = "100";
+    process.env.PSC_EXTENSIONS_PATH = "/persons-with-significant-control-extensions/requesting-an-extension";
     process.env.SERVICE_LIVE = "true";
     process.env.VERIFY_IDENTITY_LINK = "";
     process.env.WEBFILING_LOGIN_URL = "https://ewf.companieshouse.gov.uk/";

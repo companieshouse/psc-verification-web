@@ -71,7 +71,7 @@ describe("individual PSC list view", () => {
 
             // Extension link should exist and have correct href
             expect(extensionLink.length).toBe(1);
-            expect(extensionLink.attr("href")).toMatch(/\/persons-with-significant-control-extension\/requesting-an-extension\?companyNumber=.*&selectedPscId=.*&lang=.*/);
+            expect(extensionLink.attr("href")).toMatch(/\/persons-with-significant-control-extensions\/requesting-an-extension\?companyNumber=.*&selectedPscId=.*&lang=.*/);
             expect(extensionLink.attr("href")).toContain(`companyNumber=${COMPANY_NUMBER}`);
         });
     });

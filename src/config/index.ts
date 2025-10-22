@@ -73,6 +73,7 @@ export const env = readEnv(process.env, {
     PIWIK_URL: str.describe("Link to the matomo dashboard"),
     PIWIK_SITE_ID: str.describe("Matomo Site Id represents the environment"),
     PIWIK_START_GOAL_ID: str.describe("Goal Id for the start button used by matomo"),
+    PSC_EXTENSIONS_PATH: str.describe("Path to build the PSC_EXTENSIONS link"),
     PSC_DATA_API_FETCH_SIZE: str.describe("Number of records fetched from the PSC data API in a single request"),
     POST_TO_CH_LINK: url.describe("Link to guidance on submission by post"),
     SERVICE_LIVE: str.describe("Prevent use of service until Implementation"),
