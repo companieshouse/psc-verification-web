@@ -11,6 +11,7 @@ import { INDIVIDUAL_PSCS_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST, VERIFIED_PSC, V
 import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED } from "../../../mocks/pscVerification.mock";
 import { PersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/psc/types";
 import { DateTime } from "luxon";
+import { env } from "process";
 
 function daysFromNow (days: number): Date {
     return DateTime.now().plus({ days }).toJSDate();
@@ -132,7 +133,7 @@ describe("psc list handler", () => {
             expect(viewData.canVerifyNowDetails.length).toBeGreaterThan(0);
             for (const psc of viewData.canVerifyNowDetails) {
                 expect(psc.requestExtensionUrl).toBeDefined();
-                expect(psc.requestExtensionUrl).toContain("/persons-with-significant-control-extensions/requesting-an-extension");
+                expect(psc.requestExtensionUrl).toContain(env.PSC_EXTENSIONS_PATH);
                 expect(psc.requestExtensionUrl).toContain(`companyNumber=${COMPANY_NUMBER}`);
                 expect(psc.requestExtensionUrl).toContain(`selectedPscId=${psc.pscId}`);
                 expect(psc.requestExtensionUrl).toContain("lang=en");
