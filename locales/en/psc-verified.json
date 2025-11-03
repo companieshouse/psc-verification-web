@@ -9,5 +9,8 @@
     "psc_verified_next_heading": "What do you want to do next?",
     "psc_verified_next_body": "Provide identity verification details or request an extension for:",
     "psc_verified_verification_details_link": "another PSC of ",
-    "psc_verified_another_company_verification_link": "a PSC of a different company"
+    "psc_verified_another_company_verification_link": "a PSC of a different company",
+    "confirmation_feedback_title": "Feedback",
+    "confirmation_feedback_info": "Help us improve this service. ",
+    "confirmation_feedback_link": "Complete our quick survey (opens in new tab)."
 }
