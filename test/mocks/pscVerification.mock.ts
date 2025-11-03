@@ -37,7 +37,7 @@ export const INDIVIDUAL_DATA_NAME_MISMATCH: PscVerificationData = {
     pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
         verificationStatements: [VerificationStatementEnum.INDIVIDUAL_VERIFIED],
-        nameMismatchReason: NameMismatchReasonEnum.DIFFERENT_NAMING_CONVENTION
+        nameMismatchReason: NameMismatchReasonEnum.TRANSLATION_OR_DIFF_CONV
     }
 };
 
@@ -54,7 +54,7 @@ export const PATCHED_PERSONAL_CODE_WITH_NAME_MISMATCH_DATA: PscVerificationData 
     pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
         uvid: UVID,
-        nameMismatchReason: NameMismatchReasonEnum.PREFER_NOT_TO_SAY
+        nameMismatchReason: NameMismatchReasonEnum.NOT_TO_SAY
     }
 };
 
@@ -78,7 +78,7 @@ export const PATCHED_NAME_MISMATCH_DATA: PscVerificationData = {
     companyNumber: COMPANY_NUMBER,
     pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
-        nameMismatchReason: NameMismatchReasonEnum.LEGAL_NAME_CHANGE
+        nameMismatchReason: NameMismatchReasonEnum.LEGALLY_CHANGED
     }
 };
 
