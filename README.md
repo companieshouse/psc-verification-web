@@ -111,7 +111,9 @@ NUNJUCKS_LOADER_NO_CACHE| Flag to control the caching of templates in the Nunjuc
 NUNJUCKS_LOADER_WATCH| Flag to enable or disable watching for file changes in the Nunjucks loader |
 PIWIK_SERVICE_NAME| Service name used by Matomo scripts |
 PIWIK_SITE_ID| Matomo Site Id represents the environment |
-PIWIK_START_GOAL_ID| Goal Id for the start button used by matomo |
+PIWIK_START_GOAL_ID| Goal Id for the start button – used by matomo |
+PIWIK_VERIFY_GOAL_ID| Goal Id for the "Provide verification details" button – used by matomo |
+PIWIK_REQUEST_EXTENSION_GOAL_ID| Goal Id for the "Request extension" button – used by matomo |
 PIWIK_URL| Link to the matomo dashboard |
 POST_TO_CH_LINK| Link to guidance on submission by post |
 PSC_DATA_API_FETCH_SIZE| Pagination window for psc-data-api |
