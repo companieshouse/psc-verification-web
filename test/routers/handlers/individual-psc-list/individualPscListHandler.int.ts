@@ -61,8 +61,8 @@ describe("individual PSC list view", () => {
 
         // For each summary card, check for verify and request extension links
         summaryCards.each((_, card) => {
-            const verifyLink = $(card).find("a[data-event-id='provide-verification-details-link']");
-            const extensionLink = $(card).find("a[data-event-id='request-extension-link']");
+            const verifyLink = $(card).find("a:contains('Provide verification details')");
+            const extensionLink = $(card).find("a:contains('Request extension')");
 
             // Verify link should exist and have correct href
             expect(verifyLink.length).toBe(1);

@@ -74,6 +74,12 @@ export const ExternalUrls = {
     SIGNOUT: "/signout"
 } as const;
 
+export const PiwikGoalIds = {
+    START: process.env.PIWIK_START_GOAL_ID,
+    VERIFY: process.env.PIWIK_VERIFY_GOAL_ID,
+    REQUEST_EXTENSION: process.env.PIWIK_REQUEST_EXTENSION_GOAL_ID
+} as const;
+
 // used as Session keys (Redis)
 export const SessionKeys = {
     COMPANY_NUMBER: "companyNumber"
