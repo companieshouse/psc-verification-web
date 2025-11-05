@@ -54,7 +54,7 @@ export const PATCHED_PERSONAL_CODE_WITH_NAME_MISMATCH_DATA: PscVerificationData 
     pscNotificationId: PSC_NOTIFICATION_ID,
     verificationDetails: {
         uvid: UVID,
-        nameMismatchReason: NameMismatchReasonEnum.NOT_TO_SAY
+        nameMismatchReason: NameMismatchReasonEnum.NOT_SAY
     }
 };
 

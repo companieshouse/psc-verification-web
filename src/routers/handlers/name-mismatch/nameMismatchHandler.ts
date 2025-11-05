@@ -41,7 +41,7 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
         const preferredName = NameMismatchReasonEnum.PREFERRED_NAME;
         const translationOrDifferentConvention = NameMismatchReasonEnum.TRANSLATION_OR_DIFF_CONV;
         const publicRegisterError = NameMismatchReasonEnum.REGISTER_ERROR;
-        const preferNotToSay = NameMismatchReasonEnum.NOT_TO_SAY;
+        const preferNotToSay = NameMismatchReasonEnum.NOT_SAY;
 
         return {
             ...baseViewData,

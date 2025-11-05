@@ -202,7 +202,7 @@ describe("name mismatch router/handler integration tests", () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.NAME_MISMATCH, TRANSACTION_ID, PSC_VERIFICATION_ID);
             const verification: PscVerificationData = {
                 verificationDetails: {
-                    nameMismatchReason: NameMismatchReasonEnum.NOT_TO_SAY
+                    nameMismatchReason: NameMismatchReasonEnum.NOT_SAY
                 }
             };
 
@@ -215,7 +215,7 @@ describe("name mismatch router/handler integration tests", () => {
 
             const resp = await request(app)
                 .post(uri)
-                .send({ nameMismatch: NameMismatchReasonEnum.NOT_TO_SAY });
+                .send({ nameMismatch: NameMismatchReasonEnum.NOT_SAY });
 
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);
