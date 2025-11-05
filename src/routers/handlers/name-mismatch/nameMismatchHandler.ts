@@ -37,11 +37,11 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         // Note enums match the API
-        const legalNameChange = NameMismatchReasonEnum.LEGAL_NAME_CHANGE;
+        const legalNameChange = NameMismatchReasonEnum.LEGALLY_CHANGED;
         const preferredName = NameMismatchReasonEnum.PREFERRED_NAME;
-        const translationOrDifferentConvention = NameMismatchReasonEnum.DIFFERENT_NAMING_CONVENTION;
-        const publicRegisterError = NameMismatchReasonEnum.PUBLIC_REGISTER_ERROR;
-        const preferNotToSay = NameMismatchReasonEnum.PREFER_NOT_TO_SAY;
+        const translationOrDifferentConvention = NameMismatchReasonEnum.TRANSLATION_OR_DIFF_CONV;
+        const publicRegisterError = NameMismatchReasonEnum.REGISTER_ERROR;
+        const preferNotToSay = NameMismatchReasonEnum.NOT_SAY;
 
         return {
             ...baseViewData,
