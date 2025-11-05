@@ -5,7 +5,7 @@
     "ind_psc_list_why_diff_dates_dropdown_text": "Why might some PSCs have different dates?",
     "ind_psc_list_why_diff_dates_description_1": "The dates of your 14 day period depend on when you were registered as a PSC with Companies House, and whether you're also a director of this company.",
     "ind_psc_list_why_diff_dates_description_2": "If you were already a PSC on ",
-    "ind_psc_list_why_diff_dates_description_3": "If you're also a director of this company, your 14 day period starts from the company's confirmation statement date, as it was on ",
+    "ind_psc_list_why_diff_dates_description_3": "If you're also a director of this company, your 14 day period starts from the day after the company's confirmation statement date, as it was on ",
     "ind_psc_list_why_diff_dates_description_4": "If you're not also a director of this company, your 14 day period starts from the first day of your birth month. For example, if your date of birth is 22 May 1980, your 14 day period starts on 1 May 2026.",
     "ind_psc_list_why_diff_dates_description_5": "If you were registered as a PSC after ",
     "ind_psc_list_why_diff_dates_description_6": "When you were added to the Companies House register, we sent you a letter directing you to verify your identity. Your 14 day period started on the date of that letter.",
