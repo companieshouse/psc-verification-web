@@ -138,7 +138,7 @@ describe("name mismatch router/handler integration tests", () => {
                 { value: "PREFERRED_NAME", text: "Preferred name", eventId: "preferred-name-radio-option" },
                 { value: "TRANSLATION_OR_DIFF_CONV", text: "Translation or a different naming convention", eventId: "translation-or-different-naming-convention-radio-option" },
                 { value: "REGISTER_ERROR", text: "Error on the public register", eventId: "register-incorrect-radio-option" },
-                { value: "NOT_TO_SAY", text: "Prefer not to say", eventId: "prefer-not-to-say-radio-option" }
+                { value: "NOT_SAY", text: "Prefer not to say", eventId: "prefer-not-to-say-radio-option" }
             ];
 
             const renderedRadios = $("input[type=\"radio\"]");
