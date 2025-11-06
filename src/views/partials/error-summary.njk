@@ -15,7 +15,7 @@
         {% else %}
           {% for key,err in errors %}
         <li>
-          <a href="#{{ key }}-error">{{ err.summary }}</a>
+          <a href="#{{ key }}">{{ err.summary }}</a>
         </li>
           {% endfor %}
         {% endif %}
@@ -23,4 +23,7 @@
     </div>
   </div>
 </div>
+<script>
+  document.title = "Error - " + document.title;
+</script>
 {% endif %}
