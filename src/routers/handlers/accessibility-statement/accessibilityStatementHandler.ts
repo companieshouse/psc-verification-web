@@ -16,7 +16,7 @@ export default class AccessibilityStatementHandler extends GenericHandler<BaseVi
 
         return {
             ...baseViewData,
-            ...getLocaleInfo(locales, lang),
+            ...getLocaleInfo(locales, "en"), // To be removed when translations are added
             isSignedIn: false,
             currentUrl: addSearchParams(PrefixedUrls.ACCESSIBILITY_STATEMENT, { lang }),
             backURL: null,
