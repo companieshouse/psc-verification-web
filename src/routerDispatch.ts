@@ -7,6 +7,7 @@ import { fetchVerification } from "./middleware/fetchVerification";
 import { fetchCompany } from "./middleware/fetchCompany";
 import { serviceUnavailable } from "./middleware/serviceUnavailable";
 import { checkCompany } from "./middleware/checkCompany";
+import accessibilityStatementRouter from "./routers/accessibilityStatementRouter";
 
 const routerDispatch = (app: Application) => {
 
@@ -14,6 +15,7 @@ const routerDispatch = (app: Application) => {
     // Required for endpoint prefix
     app.use(servicePathPrefix, router);
     router.use(Urls.START, serviceUnavailable, StartRouter);
+    router.use(Urls.ACCESSIBILITY_STATEMENT, accessibilityStatementRouter);
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
     router.use(Urls.COMPANY_NUMBER, authenticate, CompanyNumberRouter);
     router.use(Urls.CONFIRM_COMPANY, authenticate, ConfirmCompanyRouter);
