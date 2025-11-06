@@ -13,6 +13,7 @@ export default class AccessibilityStatementHandler extends GenericHandler<BaseVi
         const baseViewData = await super.getViewData(req, res);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
+        res.locals.englishOnly = true; // To be removed when translations are added
 
         return {
             ...baseViewData,
