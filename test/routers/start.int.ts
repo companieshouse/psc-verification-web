@@ -129,7 +129,7 @@ describe("Start router/handler integration tests", () => {
                 { href: "https://resources.companieshouse.gov.uk/serviceInformation.shtml", text: "Policies" },
                 { href: "/help/cookies", text: "Cookies" },
                 { href: "https://www.gov.uk/government/organisations/companies-house#org-contacts", text: "Contact us" },
-                { href: "/persons-with-significant-control-verification/accessibility-statement", text: "Accessibility" }
+                { href: "/persons-with-significant-control-verification/accessibility-statement", text: "Accessibility statement" }
             ];
 
             const footerLinks = $(".govuk-footer__inline-list-item a");
@@ -151,7 +151,7 @@ describe("Start router/handler integration tests", () => {
                 { href: "https://resources.companieshouse.gov.uk/serviceInformation.shtml", text: "Polisïau" },
                 { href: "/help/cookies", text: "Cwcis" },
                 { href: "https://www.gov.uk/government/organisations/companies-house#org-contacts", text: "Cysylltwch â ni" },
-                { href: "/persons-with-significant-control-verification/accessibility-statement?lang=cy", text: "Hygyrchedd" }
+                { href: "/persons-with-significant-control-verification/accessibility-statement?lang=cy", text: "Datganiad hygyrchedd" }
             ];
 
             const footerLinks = $(".govuk-footer__inline-list-item a");
