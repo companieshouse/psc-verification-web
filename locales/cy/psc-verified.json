@@ -9,5 +9,8 @@
     "psc_verified_next_heading": "Beth ydych chi eisiau gwneud nesaf?",
     "psc_verified_next_body": "Darparu manylion gwiriad hunaniaeth neu ofyn am estyniad ar gyfer:",
     "psc_verified_verification_details_link": "PRhA arall o ",
-    "psc_verified_another_company_verification_link": "PRhA o gwmni gwahanol"
+    "psc_verified_another_company_verification_link": "PRhA o gwmni gwahanol",
+    "confirmation_feedback_title": "Adborth",
+    "confirmation_feedback_info": "Helpwch ni i wella'r gwasanaeth hwn. ",
+    "confirmation_feedback_link": "Cwblhewch ein harolwg cyflym (yn agor mewn tab newydd)."
 }
