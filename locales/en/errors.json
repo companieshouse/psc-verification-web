@@ -1,4 +1,5 @@
 {
     "server_error_summary" : "There was an error processing the request.",
-    "error_summary_title" : "There is a problem"
+    "error_summary_title" : "There is a problem",
+    "error_title": "Error - "
 }
