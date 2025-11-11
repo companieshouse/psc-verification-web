@@ -75,4 +75,30 @@ describe("individual PSC list view", () => {
             expect(extensionLink.attr("href")).toContain(`companyNumber=${COMPANY_NUMBER}`);
         });
     });
+
+    it("Should not render request extension link when EXTENSIONS_LIVE is false", async () => {
+        process.env.EXTENSIONS_LIVE = "false";
+
+        const queryParams = new URLSearchParams(`companyNumber=${COMPANY_NUMBER}&lang=en`);
+        const uriWithQuery = `${PrefixedUrls.INDIVIDUAL_PSC_LIST}?${queryParams}`;
+
+        const resp = await request(app).get(uriWithQuery);
+        const $ = cheerio.load(resp.text);
+
+        const summaryCards = $(".govuk-summary-card");
+        expect(summaryCards.length).toBeGreaterThan(0);
+
+        // For each summary card, check that verify and request extension links
+        summaryCards.each((_, card) => {
+            const verifyLink = $(card).find("a:contains('Provide verification details')");
+            const extensionLinkSpan = $(card).find("a:contains('Request extension')").children();
+
+            // Verify link should exist
+            expect(verifyLink.length).toBe(1);
+
+            // Extension link should be hidden
+            expect(extensionLinkSpan.attr("class")).toMatch(/govuk-visually-hidden/);
+        });
+    });
+
 });

@@ -41,7 +41,9 @@
           classes: "govuk-tag--red"
       }) }}
     {% endset %}
-        {{ govukSummaryList({
+    {% set extensionClass = "govuk-visually-hidden" if not extensionsLive else "" %}
+
+    {{ govukSummaryList({
         card: {
             title: {
             text: psc.pscName
@@ -62,7 +64,8 @@
                   visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link_for,
                   attributes: {
                       "onclick": "_paq.push(['trackGoal', '" + PiwikGoalIds.REQUEST_EXTENSION + "'])"
-                  }
+                  },
+                  classes: extensionClass
                 }
             ]
         }
