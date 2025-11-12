@@ -9,7 +9,6 @@ export default class AccessibilityStatementHandler extends GenericHandler<BaseVi
 
     public async getViewData (req: Request, res: Response): Promise<BaseViewData> {
         const baseViewData = await super.getViewData(req, res);
-        const lang = "en";
         res.locals.englishOnly = true; // To be removed when translations are added
 
         return {
