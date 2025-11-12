@@ -10,6 +10,7 @@ import { COMPANY_NUMBER, INDIVIDUAL_PSCS_LIST } from "../../../mocks/companyPsc.
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
 import { getCompanyIndividualPscList } from "../../../../src/services/companyPscService";
+import * as config from "../../../../src/config";
 
 jest.mock("../../../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
@@ -19,6 +20,13 @@ jest.mock("../../../../src/services/companyPscService");
 const mockGetCompanyIndividualPscList = getCompanyIndividualPscList as jest.Mock;
 mockGetCompanyIndividualPscList.mockResolvedValue(INDIVIDUAL_PSCS_LIST);
 jest.mock("../../../../src/services/pscService");
+
+jest.mock("../../../../src/config", () => ({
+    env: { ...process.env }
+}));
+const mockConfig = config as { env: {
+    EXTENSIONS_LIVE: boolean
+} };
 
 describe("individual PSC list view", () => {
 
@@ -77,7 +85,7 @@ describe("individual PSC list view", () => {
     });
 
     it("Should not render request extension link when EXTENSIONS_LIVE is false", async () => {
-        process.env.EXTENSIONS_LIVE = "false";
+        mockConfig.env.EXTENSIONS_LIVE = false;
 
         const queryParams = new URLSearchParams(`companyNumber=${COMPANY_NUMBER}&lang=en`);
         const uriWithQuery = `${PrefixedUrls.INDIVIDUAL_PSC_LIST}?${queryParams}`;
@@ -88,16 +96,16 @@ describe("individual PSC list view", () => {
         const summaryCards = $(".govuk-summary-card");
         expect(summaryCards.length).toBeGreaterThan(0);
 
-        // For each summary card, check that verify and request extension links
+        // For each summary card, check Verify and Request extension links
         summaryCards.each((_, card) => {
             const verifyLink = $(card).find("a:contains('Provide verification details')");
-            const extensionLinkSpan = $(card).find("a:contains('Request extension')").children();
+            const extensionLink = $(card).find("a:contains('Request extension')");
 
             // Verify link should exist
             expect(verifyLink.length).toBe(1);
 
-            // Extension link should be hidden
-            expect(extensionLinkSpan.attr("class")).toMatch(/govuk-visually-hidden/);
+            // Extension link should not exist
+            expect(extensionLink.length).toBe(0);
         });
     });
 
