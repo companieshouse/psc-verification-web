@@ -17,6 +17,9 @@ import { dataIntegrityErrorInterceptor } from "./middleware/error-interceptors/d
 import { requestLogger } from "./middleware/requestLogger";
 import { requestIdGenerator } from "./middleware/requestIdGenerator";
 import { getGOVUKFrontendVersion } from "@companieshouse/ch-node-utils";
+import { localise } from "./middleware/localise";
+import { getEmailFromSession } from "./middleware/getEmailFromSession";
+import { injectGenericViewData } from "./middleware/injectGenericViewData";
 
 const app = express();
 
@@ -67,6 +70,11 @@ app.use(csrfErrorHandler);
 // block transaction-related requests if transaction is closed
 app.use(servicePathPrefix + urlWithTransactionIdAndSubmissionId, blockClosedTransaction);
 
+// populate res.locals with data for rendering Nunjucks views
+app.use(servicePathPrefix, localise);
+app.use(servicePathPrefix, getEmailFromSession);
+app.use(servicePathPrefix, injectGenericViewData);
+
 // serve static files
 app.use(express.static(path.join(__dirname, "/../assets/public")));
 
@@ -76,13 +84,13 @@ njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
 njk.addGlobal("cdnHost", process.env.CDN_HOST);
 njk.addGlobal("chsUrl", process.env.CHS_URL);
 njk.addGlobal("CommonDataEventIds", CommonDataEventIds);
+njk.addGlobal("PrefixedUrls", PrefixedUrls);
 njk.addGlobal("ExternalUrls", ExternalUrls);
 njk.addGlobal("PIWIK_SERVICE_NAME", process.env.PIWIK_SERVICE_NAME);
 njk.addGlobal("PIWIK_SITE_ID", process.env.PIWIK_SITE_ID);
 njk.addGlobal("PIWIK_URL", process.env.PIWIK_URL);
 njk.addGlobal("PiwikGoalIds", PiwikGoalIds);
 njk.addGlobal("verifyIdentityLink", process.env.VERIFY_IDENTITY_LINK);
-njk.addGlobal("accessibilityStatementLink", PrefixedUrls.ACCESSIBILITY_STATEMENT);
 njk.addGlobal("govukFrontendVersion", getGOVUKFrontendVersion());
 njk.addGlobal("govukRebrand", true);
 

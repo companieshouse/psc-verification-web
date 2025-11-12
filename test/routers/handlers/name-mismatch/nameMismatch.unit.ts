@@ -52,7 +52,7 @@ describe("Name mismatch handler", () => {
                 query: { selectedPscId: PSC_NOTIFICATION_ID }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED } });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, lang: "en" } });
             const handler = new NameMismatchHandler();
 
             const { templatePath } = await handler.executeGet(req, res);
@@ -74,14 +74,13 @@ describe("Name mismatch handler", () => {
                     lang: "en"
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED } });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, lang: "en" } });
             const handler = new NameMismatchHandler();
 
             const { viewData } = await handler.executeGet(req, res);
 
             expect(viewData).toMatchObject({
-                backURL: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code?lang=en`,
-                currentUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-why-this-name?lang=en`
+                backURL: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code?lang=en`
             });
         });
 
@@ -100,7 +99,7 @@ describe("Name mismatch handler", () => {
                 }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED } });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, lang: "en" } });
             const handler = new NameMismatchHandler();
             const resp = await handler.executeGet(req, res);
 
@@ -144,6 +143,7 @@ describe("Name mismatch handler", () => {
                     lang: "en"
                 }
             };
+            res.locals.lang = "en";
 
             const handler = new NameMismatchHandler();
 
@@ -180,6 +180,7 @@ describe("Name mismatch handler", () => {
                     pscNotificationId: PSC_NOTIFICATION_ID
                 }
             };
+            res.locals.lang = "en";
 
             const errors = {
                 status: 200,

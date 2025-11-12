@@ -50,7 +50,7 @@ describe("Individual statement handler", () => {
                 query: { selectedPscId: PSC_NOTIFICATION_ID }
             });
 
-            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, lang: "en" } });
             const handler = new IndividualStatementHandler();
 
             const { templatePath } = await handler.executeGet(req, res);
@@ -74,14 +74,13 @@ describe("Individual statement handler", () => {
                     lang: "en"
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, lang: "en" } });
             const handler = new IndividualStatementHandler();
 
             const { viewData } = await handler.executeGet(req, res);
 
             expect(viewData).toMatchObject({
-                backURL: `${expectedPrefix}/individual/personal-code?lang=en&selectedPscId=123456`,
-                currentUrl: `${expectedPrefix}/individual/psc-statement?lang=en&selectedPscId=123456`
+                backURL: `${expectedPrefix}/individual/personal-code?lang=en&selectedPscId=123456`
             });
         });
 
@@ -101,14 +100,13 @@ describe("Individual statement handler", () => {
                     lang: "en"
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL_NAME_MISMATCH } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL_NAME_MISMATCH, lang: "en" } });
             const handler = new IndividualStatementHandler();
 
             const { viewData } = await handler.executeGet(req, res);
 
             expect(viewData).toMatchObject({
-                backURL: `${expectedPrefix}/individual/psc-why-this-name?lang=en&selectedPscId=123456`,
-                currentUrl: `${expectedPrefix}/individual/psc-statement?lang=en&selectedPscId=123456`
+                backURL: `${expectedPrefix}/individual/psc-why-this-name?lang=en&selectedPscId=123456`
             });
         });
 
@@ -124,7 +122,7 @@ describe("Individual statement handler", () => {
                     pscType: "individual"
                 }
             });
-            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL } });
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, lang: "en" } });
             const handler = new IndividualStatementHandler();
 
             const { viewData } = await handler.executeGet(req, res);
@@ -155,6 +153,7 @@ describe("Individual statement handler", () => {
                 }
             });
             const res = httpMocks.createResponse();
+            res.locals.lang = "en";
             const handler = new IndividualStatementHandler();
 
             const resp = await handler.executePost(req, res);
@@ -189,6 +188,7 @@ describe("Individual statement handler", () => {
                     pscNotificationId: PSC_NOTIFICATION_ID
                 }
             };
+            res.locals.lang = "en";
 
             const errors = {
                 status: 400,

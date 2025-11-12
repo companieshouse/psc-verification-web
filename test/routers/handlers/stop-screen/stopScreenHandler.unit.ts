@@ -49,7 +49,7 @@ describe("Stop screen handler", () => {
                     companyNumber: "00006400"
                 }
             });
-            const response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile } });
+            const response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile, lang: "en" } });
             const handler = new StopScreenHandler();
             const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
             const expectedStopUri = getUrlWithStopType(toStopScreenPrefixedUrl(stopType), stopType);
@@ -61,7 +61,6 @@ describe("Stop screen handler", () => {
             expect(resp.templatePath).toBe(`router_views/stopScreen/${stopType}`);
             const expectedViewData = {
                 templateName: stopType,
-                currentUrl: `${expectedCurrentUri}?lang=en`,
                 errors: {}
             };
 
@@ -70,7 +69,6 @@ describe("Stop screen handler", () => {
                     expect(viewData).toMatchObject(
                         {
                             ...expectedViewData,
-                            currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`,
                             backURL: `${PrefixedUrls.CONFIRM_COMPANY}?lang=en&companyNumber=00006400`,
                             extraData: [validCompanyProfile.companyName, `${PrefixedUrls.COMPANY_NUMBER}?lang=en`, env.CONTACT_US_LINK]
                         });
@@ -79,7 +77,6 @@ describe("Stop screen handler", () => {
                     expect(viewData).toMatchObject(
                         {
                             ...expectedViewData,
-                            currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`,
                             backURL: `${PrefixedUrls.CONFIRM_COMPANY}?lang=en&companyNumber=00006400`,
                             extraData: [validCompanyProfile.companyName, `${PrefixedUrls.COMPANY_NUMBER}?lang=en`, env.CONTACT_US_LINK]
                         });
@@ -87,7 +84,6 @@ describe("Stop screen handler", () => {
                 case STOP_TYPE.EMPTY_PSC_LIST:
                     expect(viewData).toMatchObject({
                         ...expectedViewData,
-                        currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`,
                         backURL: `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=00006400&lang=en`
                     });
                     break;
@@ -102,15 +98,13 @@ describe("Stop screen handler", () => {
                 case STOP_TYPE.SUPER_SECURE:
                     expect(viewData).toMatchObject({
                         ...expectedViewData,
-                        currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`,
                         backURL: `${PrefixedUrls.CONFIRM_COMPANY}?companyNumber=00006400&lang=en`,
                         extraData: [env.DSR_EMAIL_ADDRESS, env.DSR_PHONE_NUMBER]
                     });
                     break;
                 case STOP_TYPE.PROBLEM_WITH_PSC_DATA:
                     expect(viewData).toMatchObject({
-                        ...expectedViewData,
-                        currentUrl: `/persons-with-significant-control-verification/stop/${stopType}?companyNumber=00006400&lang=en`
+                        ...expectedViewData
                     });
                     break;
                 default:

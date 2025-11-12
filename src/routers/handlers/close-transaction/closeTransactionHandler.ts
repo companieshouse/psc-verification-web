@@ -4,7 +4,7 @@ import { logger } from "../../../lib/logger";
 import { addSearchParams } from "../../../utils/queryParams";
 import { PrefixedUrls } from "../../../constants";
 import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
-import { selectLang } from "../../../utils/localise";
+import { selectLang } from "../../../middleware/localise";
 
 export class CloseTransactionHandler {
 

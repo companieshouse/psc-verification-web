@@ -13,7 +13,7 @@ import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/
 import { IncomingMessage } from "http";
 import { getPscIndividual } from "../../../../src/services/pscService";
 import { PrefixedUrls, STOP_TYPE } from "../../../../src/constants";
-import { getLocalesService } from "../../../../src/utils/localise";
+import { getLocalesService } from "../../../../src/middleware/localise";
 import { getTransaction } from "../../../../src/services/transactionService";
 import { OPEN_PSC_TRANSACTION } from "../../../mocks/transaction.mock";
 

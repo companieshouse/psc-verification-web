@@ -12,12 +12,12 @@ describe("start handler", () => {
             });
 
             const res = httpMocks.createResponse({});
+            res.locals.lang = "en";
             const handler = new StartHandler();
 
             const { templatePath, viewData } = await handler.executeGet(req, res);
 
             expect(templatePath).toBe("router_views/start/start");
-            expect(viewData.currentUrl).toBe("/persons-with-significant-control-verification/start?lang=en");
             expect(viewData.idvImplementationDate).toBe("1 September 2025");
         });
     });

@@ -2,9 +2,7 @@ import { Request, Response } from "express";
 import { getPscIndividual } from "../../../services/pscService";
 import { ExternalUrls, PrefixedUrls, Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
-import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
-import { getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 
 interface PscVerifiedViewData extends BaseViewData {
@@ -23,8 +21,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
     public async getViewData (req: Request, res: Response): Promise<PscVerifiedViewData> {
 
         const baseViewData = await super.getViewData(req, res);
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
+        const lang = res.locals.lang;
         const transactionId = req.params.transactionId;
         const submissionId = req.params.submissionId;
         const verification = res.locals.submission;
@@ -37,8 +34,6 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
 
         return {
             ...baseViewData,
-            ...getLocaleInfo(locales, lang),
-            currentUrl: addSearchParams(getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, transactionId, submissionId), { lang }),
             companyName,
             companyNumber,
             pscName: pscDetailsResponse.resource?.name!,

@@ -21,6 +21,7 @@ const request = httpMocks.createRequest({
     }
 });
 const response = httpMocks.createResponse();
+response.locals = { lang: "en" };
 
 describe("confirm company handler tests", () => {
     describe("executeGet tests", () => {
@@ -37,8 +38,7 @@ describe("confirm company handler tests", () => {
             const { viewData } = await handler.executeGet(request, response);
 
             expect(viewData).toMatchObject({
-                backURL: `/company-lookup/search?forward=%2Fpersons-with-significant-control-verification%2Fconfirm-company%3FcompanyNumber%3D%7BcompanyNumber%7D%26lang%3Den`,
-                currentUrl: `/persons-with-significant-control-verification/confirm-company?companyNumber=${COMPANY_NUMBER}&lang=en`
+                backURL: `/company-lookup/search?forward=%2Fpersons-with-significant-control-verification%2Fconfirm-company%3FcompanyNumber%3D%7BcompanyNumber%7D%26lang%3Den`
             });
         });
     });
@@ -52,7 +52,6 @@ describe("confirm company handler tests", () => {
                     lang: "en"
                 }
             });
-            const response = httpMocks.createResponse();
             const handler = new ConfirmCompanyHandler();
             const redirectUrl = await handler.executePost(request, response);
             expect(redirectUrl).toBe(`${PrefixedUrls.INDIVIDUAL_PSC_LIST}?companyNumber=${COMPANY_NUMBER}&lang=en`);

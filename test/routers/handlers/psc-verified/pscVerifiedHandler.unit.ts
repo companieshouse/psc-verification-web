@@ -48,7 +48,7 @@ describe("PSC Verified handler", () => {
                     pscType: "individual"
                 }
             });
-            response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile } });
+            response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile, lang: "en" } });
         });
 
         it("Should resolve correct view data", async () => {
@@ -59,7 +59,6 @@ describe("PSC Verified handler", () => {
             const viewData = resp.viewData;
             expect(resp.templatePath).toBe("router_views/pscVerified/psc-verified");
             expect(viewData).toMatchObject({
-                currentUrl: `${expectedPrefix}/psc-verified?lang=en`,
                 companyNumber: COMPANY_NUMBER,
                 companyName: "Test Company",
                 pscName: "Sir Forename Middlename Surname",

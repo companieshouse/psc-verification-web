@@ -38,8 +38,9 @@ describe("individual statement tests", () => {
         expect(middlewareMocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
     });
 
-    it("Should render the individual statement page with a successful status code", async () => {
+    it("Should render the individual statement page with a successful status code and URL", async () => {
         const resp = await request(app).get(PrefixedUrls.INDIVIDUAL_STATEMENT);
         expect(resp.status).toBe(HttpStatusCode.Ok);
+        expect(resp.request.url).toContain("/persons-with-significant-control-verification/transaction/:transactionId/submission/:submissionId/individual/psc-statement");
     });
 });
