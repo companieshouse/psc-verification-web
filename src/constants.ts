@@ -71,8 +71,13 @@ export const PrefixedUrls = {
 export const ExternalUrls = {
     COMPANY_LOOKUP: "/company-lookup/search",
     COMPANY_LOOKUP_FORWARD: servicePathPrefix + "/confirm-company",
-    REQUEST_AN_EXTENSION: "/persons-with-significant-control-extension/new-submission",
     SIGNOUT: "/signout"
+} as const;
+
+export const PiwikGoalIds = {
+    START: process.env.PIWIK_START_GOAL_ID,
+    VERIFY: process.env.PIWIK_VERIFY_GOAL_ID,
+    REQUEST_EXTENSION: process.env.PIWIK_REQUEST_EXTENSION_GOAL_ID
 } as const;
 
 // used as Session keys (Redis)

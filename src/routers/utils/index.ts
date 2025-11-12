@@ -1,4 +1,5 @@
 import StartRouter from "./../startRouter";
+import AccessibilityStatementRouter from "./../accessibilityStatementRouter";
 import HealthCheckRouter from "./../healthCheckRouter";
 import CompanyNumberRouter from "./../companyNumberRouter";
 import ConfirmCompanyRouter from "./../confirmCompanyRouter";
@@ -13,7 +14,7 @@ import NameMismatchRouter from "../nameMismatchRouter";
 
 import { logger } from "../../lib/logger";
 import { Headers } from "@companieshouse/api-sdk-node/dist/http";
-export { StartRouter, HealthCheckRouter, CloseTransactionRouter, CompanyNumberRouter, ConfirmCompanyRouter, IndividualPscListRouter, NameMismatchRouter, PersonalCodeRouter, IndividualStatementRouter, NewSubmissionRouter, PscVerifiedRouter, StopScreenRouter };
+export { StartRouter, AccessibilityStatementRouter, HealthCheckRouter, CloseTransactionRouter, CompanyNumberRouter, ConfirmCompanyRouter, IndividualPscListRouter, NameMismatchRouter, PersonalCodeRouter, IndividualStatementRouter, NewSubmissionRouter, PscVerifiedRouter, StopScreenRouter };
 
 export function formatDateBorn (dateOfBirth: any, lang: string): string {
     try {

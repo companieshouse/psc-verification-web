@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { CompanyPersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 import { getCompanyIndividualPscList } from "../../../services/companyPscService";
-import { ExternalUrls, PSC_KIND_TYPE, PrefixedUrls, Urls } from "../../../constants";
+import { PSC_KIND_TYPE, ExternalUrls, PrefixedUrls, Urls } from "../../../constants";
+import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { addSearchParams } from "../../../utils/queryParams";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn, internationaliseDate } from "../../utils";
@@ -157,7 +158,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
                 .filter(name => name)
                 .join(" "); // ensure single space between names even if some are missing
             const idvDetails = psc.identityVerificationDetails;
-            const requestExtensionUrl = companyNumber ? addSearchParams(ExternalUrls.REQUEST_AN_EXTENSION, { companyNumber, selectedPscId, lang }) : undefined;
+            const requestExtensionUrl = companyNumber ? addSearchParams(env.PSC_EXTENSIONS_PATH, { companyNumber, selectedPscId, lang }) : undefined;
 
             return {
                 pscId: selectedPscId,

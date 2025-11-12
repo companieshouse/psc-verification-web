@@ -134,11 +134,11 @@ describe("name mismatch router/handler integration tests", () => {
             const $ = cheerio.load(resp.text);
 
             const radioButtons = [
-                { value: "LEGAL_NAME_CHANGE", text: "Legally changed name (for example, marriage or divorce)", eventId: "legally-changed-radio-option" },
+                { value: "LEGALLY_CHANGED", text: "Legally changed name (for example, marriage or divorce)", eventId: "legally-changed-radio-option" },
                 { value: "PREFERRED_NAME", text: "Preferred name", eventId: "preferred-name-radio-option" },
-                { value: "DIFFERENT_NAMING_CONVENTION", text: "Translation or a different naming convention", eventId: "translation-or-different-naming-convention-radio-option" },
-                { value: "PUBLIC_REGISTER_ERROR", text: "Error on the public register", eventId: "register-incorrect-radio-option" },
-                { value: "PREFER_NOT_TO_SAY", text: "Prefer not to say", eventId: "prefer-not-to-say-radio-option" }
+                { value: "TRANSLATION_OR_DIFF_CONV", text: "Translation or a different naming convention", eventId: "translation-or-different-naming-convention-radio-option" },
+                { value: "REGISTER_ERROR", text: "Error on the public register", eventId: "register-incorrect-radio-option" },
+                { value: "NOT_SAY", text: "Prefer not to say", eventId: "prefer-not-to-say-radio-option" }
             ];
 
             const renderedRadios = $("input[type=\"radio\"]");
@@ -202,7 +202,7 @@ describe("name mismatch router/handler integration tests", () => {
             const uri = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.NAME_MISMATCH, TRANSACTION_ID, PSC_VERIFICATION_ID);
             const verification: PscVerificationData = {
                 verificationDetails: {
-                    nameMismatchReason: NameMismatchReasonEnum.PREFER_NOT_TO_SAY
+                    nameMismatchReason: NameMismatchReasonEnum.NOT_SAY
                 }
             };
 
@@ -215,7 +215,7 @@ describe("name mismatch router/handler integration tests", () => {
 
             const resp = await request(app)
                 .post(uri)
-                .send({ nameMismatch: NameMismatchReasonEnum.PREFER_NOT_TO_SAY });
+                .send({ nameMismatch: NameMismatchReasonEnum.NOT_SAY });
 
             expect(resp.status).toBe(HttpStatusCode.Found);
             expect(mockPatchPscVerification).toHaveBeenCalledTimes(1);

@@ -11,6 +11,7 @@ import { INDIVIDUAL_PSCS_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST, VERIFIED_PSC, V
 import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED } from "../../../mocks/pscVerification.mock";
 import { PersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/psc/types";
 import { DateTime } from "luxon";
+import { env } from "process";
 
 function daysFromNow (days: number): Date {
     return DateTime.now().plus({ days }).toJSDate();
@@ -39,6 +40,43 @@ describe("psc list handler", () => {
         jest.clearAllMocks();
     });
     describe("executeGet", () => {
+        it("should handle scLookupServiceException when verification statement data is not present", async () => {
+            const req = httpMocks.createRequest({
+                method: "GET",
+                url: Urls.INDIVIDUAL_PSC_LIST,
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    lang: "en"
+                }
+            });
+
+            // Mock PSC with no verification statement date or due date
+            const pscWithoutVerificationDate = {
+                ...VERIFY_NOW_PSC.resource,
+                identityVerificationDetails: {
+                    appointmentVerificationStatementDate: undefined,
+                    appointmentVerificationStatementDueOn: undefined
+                }
+            };
+
+            mockGetCompanyIndividualPscList.mockResolvedValue([pscWithoutVerificationDate]);
+
+            // Mock getPscIndividual to throw PscLookupServiceException
+            const PscLookupServiceException = new Error("PscLookupServiceException: Verification statement date not present");
+            mockGetPscIndividual.mockImplementationOnce(() => { throw PscLookupServiceException; });
+
+            const res = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_CREATED } });
+            const handler = new IndividualPscListHandler();
+
+            await expect(handler.executeGet(req, res)).resolves.toMatchObject({
+                templatePath: expect.any(String),
+                viewData: expect.any(Object)
+            });
+            // Optionally, check that the PSC is still present in the viewData
+            const { viewData } = await handler.executeGet(req, res);
+            expect(viewData.canVerifyNowDetails.length).toBeGreaterThan(0);
+        });
+
         it("should return the correct template path and view data (excluding super secure PSCs)", async () => {
             const req = httpMocks.createRequest({
                 method: "GET",
@@ -94,7 +132,7 @@ describe("psc list handler", () => {
             expect(viewData.canVerifyNowDetails.length).toBeGreaterThan(0);
             for (const psc of viewData.canVerifyNowDetails) {
                 expect(psc.requestExtensionUrl).toBeDefined();
-                expect(psc.requestExtensionUrl).toContain("/persons-with-significant-control-extension/new-submission");
+                expect(psc.requestExtensionUrl).toContain(env.PSC_EXTENSIONS_PATH);
                 expect(psc.requestExtensionUrl).toContain(`companyNumber=${COMPANY_NUMBER}`);
                 expect(psc.requestExtensionUrl).toContain(`selectedPscId=${psc.pscId}`);
             }
@@ -137,7 +175,9 @@ describe("psc list handler", () => {
                 const psc = mockPsc({
                     identityVerificationDetails: {
                         appointmentVerificationStartOn: daysFromNow(-10),
-                        appointmentVerificationEndOn: daysFromNow(10)
+                        appointmentVerificationEndOn: daysFromNow(10),
+                        appointmentVerificationStatementDate: daysFromNow(-15),
+                        appointmentVerificationStatementDueOn: daysFromNow(-1)
                     }
                 });
                 expect(pscIsVerified(psc)).toBe(true);
@@ -148,7 +188,9 @@ describe("psc list handler", () => {
                 const psc = mockPsc({
                     identityVerificationDetails: {
                         appointmentVerificationStartOn: daysFromNow(10),
-                        appointmentVerificationEndOn: daysFromNow(24)
+                        appointmentVerificationEndOn: daysFromNow(24),
+                        appointmentVerificationStatementDate: daysFromNow(8),
+                        appointmentVerificationStatementDueOn: daysFromNow(22)
                     }
                 });
                 expect(pscIsVerified(psc)).toBe(false);
@@ -159,7 +201,9 @@ describe("psc list handler", () => {
                 const psc = mockPsc({
                     identityVerificationDetails: {
                         appointmentVerificationStartOn: daysFromNow(-20),
-                        appointmentVerificationEndOn: daysFromNow(-10)
+                        appointmentVerificationEndOn: daysFromNow(-10),
+                        appointmentVerificationStatementDate: daysFromNow(-24),
+                        appointmentVerificationStatementDueOn: daysFromNow(-10)
                     }
                 });
                 expect(pscIsVerified(psc)).toBe(false);
@@ -167,19 +211,13 @@ describe("psc list handler", () => {
             });
         });
 
-        describe("pscCanVerifyNow", () => {
-            it("should return true if verification statement date is undefined", () => {
-                const psc = mockPsc({
-                    identityVerificationDetails: {}
-                });
-                expect(pscCanVerifyNow(psc)).toBe(true);
-                expect(pscCanVerifyLater(psc)).toBe(false);
-            });
+        describe("psc", () => {
 
             it("should return true if verification statement date is in the past", () => {
                 const psc = mockPsc({
                     identityVerificationDetails: {
-                        appointmentVerificationStatementDate: daysFromNow(-10)
+                        appointmentVerificationStatementDate: daysFromNow(-10),
+                        appointmentVerificationStatementDueOn: daysFromNow(4)
                     }
                 });
                 expect(pscCanVerifyNow(psc)).toBe(true);
@@ -189,7 +227,8 @@ describe("psc list handler", () => {
             it("should return false if verification statement date is in the future", () => {
                 const psc = mockPsc({
                     identityVerificationDetails: {
-                        appointmentVerificationStatementDate: daysFromNow(10)
+                        appointmentVerificationStatementDate: daysFromNow(10),
+                        appointmentVerificationStatementDueOn: daysFromNow(24)
                     }
                 });
                 expect(pscCanVerifyNow(psc)).toBe(false);

@@ -15,10 +15,10 @@
 
 {% set whySomePscsHaveDifferentDatesDetails %}
   <p class="govuk-body">{{ i18n.ind_psc_list_why_diff_dates_description_1 }}</p>
-  <h3 class="govuk-heading-s">{{ i18n.ind_psc_list_why_diff_dates_description_2 }} {{ idvImplementationDate }}</h3>
+  <h2 class="govuk-heading-s">{{ i18n.ind_psc_list_why_diff_dates_description_2 }} {{ idvImplementationDate }}</h2>
   <p class="govuk-body">{{ i18n.ind_psc_list_why_diff_dates_description_3 }} {{ idvImplementationDate }}.</p>
   <p class="govuk-body">{{ i18n.ind_psc_list_why_diff_dates_description_4 }}</p>
-  <h3 class="govuk-heading-s">{{ i18n.ind_psc_list_why_diff_dates_description_5 }} {{ idvImplementationDate }}</h3>
+  <h2 class="govuk-heading-s">{{ i18n.ind_psc_list_why_diff_dates_description_5 }} {{ idvImplementationDate }}</h2>
   <p class="govuk-body">{{ i18n.ind_psc_list_why_diff_dates_description_6 }}</p>
 {% endset %}
 
@@ -51,17 +51,17 @@
                 {
                   href: [nextPageUrl+psc.pscId ],
                   text: i18n.ind_psc_list_summary_card_verify_link,
-                  visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link + i18n.ind_psc_list_summary_card_verify_link_for + psc.pscName,
+                  visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link_for,
                   attributes: {
-                      "data-event-id": "provide-verification-details-link"
+                      "onclick": "_paq.push(['trackGoal', '" + PiwikGoalIds.VERIFY + "'])"
                   }
                 },
                 {
                   href: psc.requestExtensionUrl,
                   text: i18n.ind_psc_list_summary_card_extension_link,
-                  visuallyHiddenText: i18n.ind_psc_list_summary_card_extension_link + i18n.ind_psc_list_summary_card_verify_link_for + psc.pscName,
+                  visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link_for,
                   attributes: {
-                      "data-event-id": "request-extension-link"
+                      "onclick": "_paq.push(['trackGoal', '" + PiwikGoalIds.REQUEST_EXTENSION + "'])"
                   }
                 }
             ]
