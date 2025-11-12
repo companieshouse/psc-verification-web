@@ -1,9 +1,7 @@
 import { Request, Response } from "express";
-import { PrefixedUrls, Urls } from "../../../constants";
+import { Urls } from "../../../constants";
 import { logger } from "../../../lib/logger";
-import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
-import { addSearchParams } from "../../../utils/queryParams";
 
 export default class AccessibilityStatementHandler extends GenericHandler<BaseViewData> {
 
@@ -11,15 +9,12 @@ export default class AccessibilityStatementHandler extends GenericHandler<BaseVi
 
     public async getViewData (req: Request, res: Response): Promise<BaseViewData> {
         const baseViewData = await super.getViewData(req, res);
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
+        const lang = "en";
         res.locals.englishOnly = true; // To be removed when translations are added
 
         return {
             ...baseViewData,
-            ...getLocaleInfo(locales, "en"), // To be removed when translations are added
-            isSignedIn: false,
-            currentUrl: addSearchParams(PrefixedUrls.ACCESSIBILITY_STATEMENT, { lang }),
+            hideNavbar: true,
             backURL: null,
             templateName: Urls.ACCESSIBILITY_STATEMENT
         };

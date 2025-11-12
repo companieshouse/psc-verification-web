@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { CompanyPersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 import { getCompanyIndividualPscList } from "../../../services/companyPscService";
-import { PSC_KIND_TYPE, ExternalUrls, PrefixedUrls, Urls } from "../../../constants";
-import { getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { PSC_KIND_TYPE, PrefixedUrls, Urls } from "../../../constants";
 import { addSearchParams } from "../../../utils/queryParams";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { formatDateBorn, internationaliseDate } from "../../utils";
