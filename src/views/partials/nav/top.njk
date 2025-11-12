@@ -1,4 +1,4 @@
-{% if isSignedIn %}
+{% if userEmail is not undefined and not hideNavbar %}
     {% set signInHref = chsUrl + "/signin" %}
     {% set userAccountHref = accountUrl + "/user/account?lang=" + lang %}
     {% set signOutHref = chsUrl + "/signout" %}

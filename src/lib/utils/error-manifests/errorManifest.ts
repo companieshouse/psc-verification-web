@@ -1,4 +1,4 @@
-import { getLocalesService } from "../../../utils/localise";
+import { getLocalesService } from "../../../middleware/localise";
 
 const localesService = getLocalesService();
 

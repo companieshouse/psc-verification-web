@@ -49,6 +49,12 @@ describe("ConfirmCompany router/handler integration tests", () => {
             const $ = cheerio.load(resp.text);
             expect($("a#select-different-company").attr("href")).toBe("/persons-with-significant-control-verification/company-number?lang=en");
         });
+
+        it("Should be the correct URL for the Confirm Company page", async () => {
+            const resp = await request(app).get(PrefixedUrls.CONFIRM_COMPANY);
+
+            expect(resp.request.url).toContain("/persons-with-significant-control-verification/confirm-company");
+        });
     });
 
     describe("POST method", () => {

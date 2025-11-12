@@ -1,7 +1,7 @@
 import { HttpStatusCode } from "axios";
 import * as cheerio from "cheerio";
 import request from "supertest";
-import { getLocalesService } from "../src/utils/localise";
+import { getLocalesService } from "../src/middleware/localise";
 import app from "../src/app";
 import * as config from "../src/config";
 import { servicePathPrefix } from "../src/constants";
