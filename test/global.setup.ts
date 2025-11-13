@@ -19,6 +19,7 @@ export default () => {
     process.env.DSR_PHONE_NUMBER = "02921 507 370";
     process.env.ENQUIRIES_EMAIL_ADDRESS = "enquiries@companieshouse.gov.uk";
     process.env.ENQUIRIES_PHONE_NUMBER = "0303 1234 500";
+    process.env.EXTENSIONS_LIVE = "true";
     process.env.GET_PSC01_LINK = "https://www.gov.uk/government/publications/give-notice-of-individual-person-with-significant-control-psc01";
     process.env.GET_RP01_LINK = "https://www.gov.uk/government/publications/replace-a-document-not-meeting-requirements-rp01";
     process.env.IDV_IMPLEMENTATION_DATE = "20250901";

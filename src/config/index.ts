@@ -22,6 +22,7 @@ export const env = readEnv(process.env, {
     DSR_PHONE_NUMBER: str.describe("Telephone number for the DSR team"),
     ENQUIRIES_EMAIL_ADDRESS: str.describe("Email Address for enquiries"),
     ENQUIRIES_PHONE_NUMBER: str.describe("Telephone number for enquiries"),
+    EXTENSIONS_LIVE: bool.describe("Prevent use of extensions service until available"),
     GET_PSC01_LINK: url.describe("Link to obtaining paper form PSC01"),
     GET_RP01_LINK: url.describe("Link to obtaining paper form RP01"),
     IDV_IMPLEMENTATION_DATE: str.describe("Date when IDV comes into effect for PSCs"),

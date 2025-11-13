@@ -10,6 +10,7 @@ import { COMPANY_NUMBER, INDIVIDUAL_PSCS_LIST } from "../../../mocks/companyPsc.
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
 import { getCompanyIndividualPscList } from "../../../../src/services/companyPscService";
+import * as config from "../../../../src/config";
 
 jest.mock("../../../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
@@ -19,6 +20,13 @@ jest.mock("../../../../src/services/companyPscService");
 const mockGetCompanyIndividualPscList = getCompanyIndividualPscList as jest.Mock;
 mockGetCompanyIndividualPscList.mockResolvedValue(INDIVIDUAL_PSCS_LIST);
 jest.mock("../../../../src/services/pscService");
+
+jest.mock("../../../../src/config", () => ({
+    env: { ...process.env }
+}));
+const mockConfig = config as { env: {
+    EXTENSIONS_LIVE: boolean
+} };
 
 describe("individual PSC list view", () => {
 
@@ -75,4 +83,30 @@ describe("individual PSC list view", () => {
             expect(extensionLink.attr("href")).toContain(`companyNumber=${COMPANY_NUMBER}`);
         });
     });
+
+    it("Should not render request extension link when EXTENSIONS_LIVE is false", async () => {
+        mockConfig.env.EXTENSIONS_LIVE = false;
+
+        const queryParams = new URLSearchParams(`companyNumber=${COMPANY_NUMBER}&lang=en`);
+        const uriWithQuery = `${PrefixedUrls.INDIVIDUAL_PSC_LIST}?${queryParams}`;
+
+        const resp = await request(app).get(uriWithQuery);
+        const $ = cheerio.load(resp.text);
+
+        const summaryCards = $(".govuk-summary-card");
+        expect(summaryCards.length).toBeGreaterThan(0);
+
+        // For each summary card, check Verify and Request extension links
+        summaryCards.each((_, card) => {
+            const verifyLink = $(card).find("a:contains('Provide verification details')");
+            const extensionLink = $(card).find("a:contains('Request extension')");
+
+            // Verify link should exist
+            expect(verifyLink.length).toBe(1);
+
+            // Extension link should not exist
+            expect(extensionLink.length).toBe(0);
+        });
+    });
+
 });

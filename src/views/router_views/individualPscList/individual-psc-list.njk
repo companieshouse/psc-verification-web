@@ -41,30 +41,34 @@
           classes: "govuk-tag--red"
       }) }}
     {% endset %}
-        {{ govukSummaryList({
+    {% set actionItems = [
+      {
+        href: [nextPageUrl+psc.pscId ],
+        text: i18n.ind_psc_list_summary_card_verify_link,
+        visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link_for,
+        attributes: {
+            "onclick": "_paq.push(['trackGoal', '" + PiwikGoalIds.VERIFY + "'])"
+        }
+      }
+    ] %}
+    {% set actionItems = actionItems.concat([
+      {
+        href: psc.requestExtensionUrl,
+        text: i18n.ind_psc_list_summary_card_extension_link,
+        visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link_for,
+        attributes: {
+            "onclick": "_paq.push(['trackGoal', '" + PiwikGoalIds.REQUEST_EXTENSION + "'])"
+        }
+      }
+    ]) if extensionsLive else actionItems %}
+
+    {{ govukSummaryList({
         card: {
             title: {
             text: psc.pscName
         },
         actions: {
-            items: [
-                {
-                  href: [nextPageUrl+psc.pscId ],
-                  text: i18n.ind_psc_list_summary_card_verify_link,
-                  visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link_for,
-                  attributes: {
-                      "onclick": "_paq.push(['trackGoal', '" + PiwikGoalIds.VERIFY + "'])"
-                  }
-                },
-                {
-                  href: psc.requestExtensionUrl,
-                  text: i18n.ind_psc_list_summary_card_extension_link,
-                  visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link_for,
-                  attributes: {
-                      "onclick": "_paq.push(['trackGoal', '" + PiwikGoalIds.REQUEST_EXTENSION + "'])"
-                  }
-                }
-            ]
+          items: actionItems
         }
       },
       rows: [
