@@ -22,7 +22,7 @@
 {% block main_content %}
     <form action="" method="post">
         {% include "includes/csrf-token.njk" %}
-        <span class="govuk-caption-xl">
+        <span class="govuk-caption-xl govuk-!-text-break-word">
             <div class="govuk-!-padding-bottom-1" id="nameAndDateOfBirth">{{ nameAndDateBirthText }}</div>
         </span>
 
@@ -42,7 +42,10 @@
             items: [
                 {
                     value: "INDIVIDUAL_VERIFIED",
-                    html: statementText
+                    html: statementText,
+                    label: {
+                        classes: "govuk-label govuk-checkboxes__label govuk-!-text-break-word"
+                    }
                 }
             ]
         } %}
