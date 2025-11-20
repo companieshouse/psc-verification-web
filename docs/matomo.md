@@ -58,11 +58,13 @@ public async getViewData (req: Request, res: Response): Promise<StartViewData> {
 #### IDs
 Goals work slightly differently from events. Instead of being defined at the code level, they are defined in Matomo itself by the Performance team. Each goal has an ID, which we reference in psc-verification-web. The goal IDs vary by environment, so we use an environment variable such as `PIWIK_START_GOAL_ID`. A table of goal IDs per environment can be seen below:
 
-| Goal | Local Docker | CIDEV | Staging/Live |
-|:----|:------------:|:-----:|:------------:|
-| PSC IDV – Start now button             | 24 | 45  | 46  |
-| PSC IDV – Provide verification details | 98 | 119 | 119 |
-| PSC IDV – Request extension            | 99 | 120 | 120 |
+| Goal                                   | Local Docker | CIDEV | Staging | Live |
+|:---------------------------------------|:------------:|:-----:|:-------:|:----:|
+| PSC IDV – Start now button             | 24           | 45    | 46      | 3*   |
+| PSC IDV – Provide verification details | 98           | 119   | 119     | 4    |
+| PSC IDV – Request extension            | 99           | 120   | 120     | 5    |
+
+*The start now button should be unused in live due to the GDS start screen.
 
 #### Triggering a goal
 Goals are triggered explicitly via JavaScript like so:
