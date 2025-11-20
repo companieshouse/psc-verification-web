@@ -118,6 +118,5 @@ PIWIK_URL| Link to the matomo dashboard |
 POST_TO_CH_LINK| Link to guidance on submission by post |
 PSC_DATA_API_FETCH_SIZE| Pagination window for psc-data-api |
 PSC_EXTENSIONS_PATH| Path to build the PSC_EXTENSIONS link |
-SERVICE_LIVE| Prevent use of service until Implementation |
 VERIFY_IDENTITY_LINK| Path to guidance to Verify Identity |
 WEBFILING_LOGIN_URL| URL for Webfiling login page |

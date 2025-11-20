@@ -6,7 +6,6 @@ import { CommonDataEventIds, ExternalUrls, PiwikGoalIds, PrefixedUrls, servicePa
 import { logger } from "./lib/logger";
 import { sessionMiddleware } from "./middleware/session";
 import routerDispatch from "./routerDispatch";
-import { isLive } from "./middleware/serviceLive";
 import { csrfProtectionMiddleware } from "./middleware/csrf";
 import csrfErrorHandler from "./middleware/error-interceptors/csrfErrorInterceptor";
 import { blockClosedTransaction } from "./middleware/blockClosedTransaction";
@@ -22,9 +21,6 @@ import { getEmailFromSession } from "./middleware/getEmailFromSession";
 import { injectGenericViewData } from "./middleware/injectGenericViewData";
 
 const app = express();
-
-// service availability page
-app.use(isLive);
 
 app.set("views", [
     path.join(__dirname, "views"),
