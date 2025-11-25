@@ -89,7 +89,7 @@ COOKIE_DOMAIN| Domain for cookies |
 COOKIE_NAME| Name for the cookie |
 COOKIE_SECRET| Used for cookie encryption |
 DEFAULT_SESSION_EXPIRATION| session expiration time|
-DEPLOYMENT_ENVIRONMENT| the environment of an instance: docker/cidev/staging/live|
+DEPLOYMENT_ENVIRONMENT| The environment of an instance: docker/cidev/staging/live|
 DSR_EMAIL_ADDRESS| Email address for the DSR team |
 DSR_PHONE_NUMBER| Phone number for the DSR team |
 ENQUIRIES_EMAIL_ADDRESS| Email address for Companies House enquiries |
