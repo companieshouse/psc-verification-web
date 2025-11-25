@@ -18,11 +18,15 @@ export const env = readEnv(process.env, {
     COOKIE_NAME: str.describe("Name for the cookie"),
     COOKIE_SECRET: str.describe("Secret used for cookie encryption"),
     DEFAULT_SESSION_EXPIRATION: str,
+    DEPLOYMENT_ENVIRONMENT: str
+        .in(["docker", "cidev", "staging", "live"])
+        .describe("The environment of an instance"),
     DSR_EMAIL_ADDRESS: str.describe("Email Address for DSR team"),
     DSR_PHONE_NUMBER: str.describe("Telephone number for the DSR team"),
     ENQUIRIES_EMAIL_ADDRESS: str.describe("Email Address for enquiries"),
     ENQUIRIES_PHONE_NUMBER: str.describe("Telephone number for enquiries"),
     EXTENSIONS_LIVE: bool.describe("Prevent use of extensions service until available"),
+    GDS_START_SCREEN_URL: str.describe("URL for the start screen hosted on gov.uk"),
     GET_PSC01_LINK: url.describe("Link to obtaining paper form PSC01"),
     GET_RP01_LINK: url.describe("Link to obtaining paper form RP01"),
     IDV_IMPLEMENTATION_DATE: str.describe("Date when IDV comes into effect for PSCs"),
