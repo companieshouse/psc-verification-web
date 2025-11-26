@@ -19,7 +19,7 @@ export const env = readEnv(process.env, {
     COOKIE_SECRET: str.describe("Secret used for cookie encryption"),
     DEFAULT_SESSION_EXPIRATION: str,
     DEPLOYMENT_ENVIRONMENT: str
-        .in(["docker", "cidev", "staging", "live"])
+        .in(["test", "live"])
         .describe("The environment of an instance"),
     DSR_EMAIL_ADDRESS: str.describe("Email Address for DSR team"),
     DSR_PHONE_NUMBER: str.describe("Telephone number for the DSR team"),

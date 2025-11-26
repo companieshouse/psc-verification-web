@@ -44,7 +44,7 @@ describe("Start router/handler integration tests", () => {
 
         it.each([servicePathPrefix, PrefixedUrls.START])("should render template when DEPLOYMENT_ENVIRONMENT is not 'live'", async (url) => {
             const env = require("../../src/config").env;
-            env.DEPLOYMENT_ENVIRONMENT = "docker";
+            env.DEPLOYMENT_ENVIRONMENT = "test";
             const resp = await request(app).get(url);
             expect(resp.status).toBe(HttpStatusCode.Ok);
             const $ = cheerio.load(resp.text);
