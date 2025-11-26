@@ -4,7 +4,7 @@
     "description": "Service to enable PSCs to supply their verification details",
     "main": "dist/httpServer.js",
     "engines": {
-        "node": ">=22.0.0",
+        "node": ">=24.0.0",
         "npm": ">=10"
     },
     "scripts": {
@@ -27,11 +27,11 @@
     "author": "Moses Wejuli <mwejuli@companieshouse.gov.uk>",
     "license": "MIT",
     "dependencies": {
-        "@companieshouse/api-sdk-node": "^2.0.312",
-        "@companieshouse/ch-node-utils": "^2.1.8",
-        "@companieshouse/node-session-handler": "^5.2.4",
-        "@companieshouse/structured-logging-node": "^2.0.2",
-        "@companieshouse/web-security-node": "^4.4.10",
+        "@companieshouse/api-sdk-node": "^2.0.316",
+        "@companieshouse/ch-node-utils": "^2.1.11",
+        "@companieshouse/node-session-handler": "^5.2.8",
+        "@companieshouse/structured-logging-node": "^2.0.4",
+        "@companieshouse/web-security-node": "^4.4.13",
         "axios": "^1.12.2",
         "cookie-parser": "1.4.7",
         "express": "^5.1.0",
