@@ -33,6 +33,25 @@ describe("Start router/handler integration tests", () => {
 
     const START_HEADING = "Provide identity verification details for a person with significant control";
 
+    describe("Start router redirect and render logic", () => {
+        it.each([servicePathPrefix, PrefixedUrls.START])("should redirect to GDS start screen when DEPLOYMENT_ENVIRONMENT is 'live'", async (url) => {
+            const env = require("../../src/config").env;
+            env.DEPLOYMENT_ENVIRONMENT = "live";
+            const resp = await request(app).get(url);
+            expect(resp.status).toBe(302);
+            expect(resp.header.location).toBe(env.GDS_START_SCREEN_URL);
+        });
+
+        it.each([servicePathPrefix, PrefixedUrls.START])("should render template when DEPLOYMENT_ENVIRONMENT is not 'live'", async (url) => {
+            const env = require("../../src/config").env;
+            env.DEPLOYMENT_ENVIRONMENT = "test";
+            const resp = await request(app).get(url);
+            expect(resp.status).toBe(HttpStatusCode.Ok);
+            const $ = cheerio.load(resp.text);
+            expect($("h1.govuk-heading-l").text()).toMatch(START_HEADING);
+        });
+    });
+
     describe("Cookie banner", () => {
 
         describe("GET method when cookie settings are to be confirmed", () => {
