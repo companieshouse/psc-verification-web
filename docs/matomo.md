@@ -67,15 +67,24 @@ Goals work slightly differently from events. Instead of being defined at the cod
 *The start now button should be unused in live due to the GDS start screen.
 
 #### Triggering a goal
-Goals are triggered explicitly via JavaScript like so:
+Behind the scenes, goals are triggered explicitly via JavaScript like so:
 
 ```html
-attributes: {
-    "onclick": "_paq.push(['trackGoal', '" + PIWIK_START_GOAL_ID + "'])"
-}
+"onclick": "_paq.push(['trackGoal', '" + PIWIK_START_GOAL_ID + "'])"
 ```
 
-`'trackGoal'` must be present.
+This causes an issue with our CSP (Content Security Policy) since the inline is untrusted. Instead, `src/views/partials/__meta_footer.njk` contains a script that attaches the appropriate event listener if the `data-goal-id` attribute is used. Put simply, to track a goal you should use something like:
+
+```html
+<a href="..." data-goal-id="{{ PIWIK_START_GOAL_ID }}"></a>
+```
+
+Similarly to working with events, if you're tracking a goal on a [govuk-frontend](https://github.com/alphagov/govuk-frontend) component:
+```
+attributes: {
+    "data-goal-id": PIWIK_START_GOAL_ID
+}
+```
 
 ### Visits
 Visits are tracked automatically, with no developer action needed.
