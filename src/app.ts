@@ -19,6 +19,7 @@ import { getGOVUKFrontendVersion } from "@companieshouse/ch-node-utils";
 import { localise } from "./middleware/localise";
 import { getEmailFromSession } from "./middleware/getEmailFromSession";
 import { injectGenericViewData } from "./middleware/injectGenericViewData";
+import { cspMiddleware } from "./middleware/contentSecurityPolicy";
 
 const app = express();
 
@@ -70,6 +71,9 @@ app.use(servicePathPrefix + urlWithTransactionIdAndSubmissionId, blockClosedTran
 app.use(servicePathPrefix, localise);
 app.use(servicePathPrefix, getEmailFromSession);
 app.use(servicePathPrefix, injectGenericViewData);
+
+// Apply Content Security Policy middleware
+app.use(cspMiddleware);
 
 // serve static files
 app.use(express.static(path.join(__dirname, "/../assets/public")));
