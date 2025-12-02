@@ -23,7 +23,7 @@
     </div>
   </div>
 </div>
-<script>
+<script nonce={{ nonce | dump | safe }}>
   document.title = "{{ i18n.error_title }}" + document.title;
 </script>
 {% endif %}

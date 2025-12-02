@@ -1,7 +1,7 @@
 <div id="templateName" data-id='{{templateName}}' hidden></div> {# NOTE: This is a requirement for Matomo/Piwik #}
-<script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+<script nonce={{ nonce | dump | safe }}>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 <script src="{{ cdnHost }}/javascripts/vendor/jquery-3.3.1.min.js"></script>
-<script type="application/javascript">
+<script type="application/javascript" nonce={{ nonce | dump | safe }}>
     window.SERVICE_NAME = '{{PIWIK_SERVICE_NAME}}'
     window.PIWIK_URL = '{{ PIWIK_URL }}'
     window.PIWIK_SITE_ID = '{{ PIWIK_SITE_ID }}'
