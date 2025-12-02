@@ -20,7 +20,7 @@ const prepareCSPConfig = (nonce: string): HelmetOptions => {
                 upgradeInsecureRequests: null,
                 defaultSrc: [SELF],
                 fontSrc: [CDN],
-                imgSrc: [CDN],
+                imgSrc: [CDN, PIWIK_URL],
                 styleSrc: [NONCE, CDN],
                 connectSrc: [SELF, PIWIK_URL, CDN, CHS_URL],
                 formAction: [
