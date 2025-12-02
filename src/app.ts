@@ -54,6 +54,9 @@ app.use(express.urlencoded({ extended: false }));
 // set x-request-id header for all requests
 app.use(requestIdGenerator);
 
+// Apply Content Security Policy middleware
+app.use(cspMiddleware);
+
 // initiate session and attach to middleware
 app.use(servicePathPrefix, sessionMiddleware);
 
@@ -71,9 +74,6 @@ app.use(servicePathPrefix + urlWithTransactionIdAndSubmissionId, blockClosedTran
 app.use(servicePathPrefix, localise);
 app.use(servicePathPrefix, getEmailFromSession);
 app.use(servicePathPrefix, injectGenericViewData);
-
-// Apply Content Security Policy middleware
-app.use(cspMiddleware);
 
 // serve static files
 app.use(express.static(path.join(__dirname, "/../assets/public")));
