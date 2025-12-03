@@ -47,7 +47,7 @@
         text: i18n.ind_psc_list_summary_card_verify_link,
         visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link_for,
         attributes: {
-            "onclick": "_paq.push(['trackGoal', '" + PiwikGoalIds.VERIFY + "'])"
+            "data-goal-id": PiwikGoalIds.VERIFY
         }
       }
     ] %}
@@ -57,7 +57,7 @@
         text: i18n.ind_psc_list_summary_card_extension_link,
         visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link_for,
         attributes: {
-            "onclick": "_paq.push(['trackGoal', '" + PiwikGoalIds.REQUEST_EXTENSION + "'])"
+            "data-goal-id": PiwikGoalIds.REQUEST_EXTENSION
         }
       }
     ]) if extensionsLive else actionItems %}

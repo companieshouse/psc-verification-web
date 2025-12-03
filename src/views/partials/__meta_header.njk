@@ -3,7 +3,7 @@
     <link href="{{ cdnHost }}/stylesheets/services/presenter-account/application.css" rel="stylesheet"/>
     <link href="{{ cdnHost }}/stylesheets/extensions/languages-nav.css" rel="stylesheet"/>
     <link href="{{ cdnHost }}/stylesheets/session-timeout.css" rel="stylesheet" />
-    <script>
+    <script nonce={{ nonce | dump | safe }}>
         var page = page || {};
     </script>
 </head>

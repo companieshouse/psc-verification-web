@@ -19,6 +19,7 @@ import { getGOVUKFrontendVersion } from "@companieshouse/ch-node-utils";
 import { localise } from "./middleware/localise";
 import { getEmailFromSession } from "./middleware/getEmailFromSession";
 import { injectGenericViewData } from "./middleware/injectGenericViewData";
+import { cspMiddleware } from "./middleware/contentSecurityPolicy";
 
 const app = express();
 
@@ -52,6 +53,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // set x-request-id header for all requests
 app.use(requestIdGenerator);
+
+// Apply Content Security Policy middleware
+app.use(cspMiddleware);
 
 // initiate session and attach to middleware
 app.use(servicePathPrefix, sessionMiddleware);
