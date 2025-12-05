@@ -4,7 +4,7 @@ import { env } from "../config";
 import { v4 as uuidv4 } from "uuid";
 
 const prepareCSPConfig = (nonce: string): HelmetOptions => {
-    const CDN = env.CDN_HOST.replace(/^\/\//, "");
+    const CDN = env.CDN_HOST.replace(/^\/\//, "https://");
     const PIWIK_URL = env.PIWIK_URL;
     const PIWIK_CHS_DOMAIN = "*." + env.COOKIE_DOMAIN;
     const SELF = "'self'";
