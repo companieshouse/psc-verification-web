@@ -63,17 +63,18 @@ app.use(servicePathPrefix, sessionMiddleware);
 // log incoming requests pre & post processing
 app.use(requestLogger);
 
+// populate res.locals with data for rendering Nunjucks views
+// NOTE: this must appear before anything that renders a view
+app.use(servicePathPrefix, localise);
+app.use(servicePathPrefix, getEmailFromSession);
+app.use(servicePathPrefix, injectGenericViewData);
+
 // attach csrf protection to middleware
 app.use(csrfProtectionMiddleware);
 app.use(csrfErrorHandler);
 
 // block transaction-related requests if transaction is closed
 app.use(servicePathPrefix + urlWithTransactionIdAndSubmissionId, blockClosedTransaction);
-
-// populate res.locals with data for rendering Nunjucks views
-app.use(servicePathPrefix, localise);
-app.use(servicePathPrefix, getEmailFromSession);
-app.use(servicePathPrefix, injectGenericViewData);
 
 // serve static files
 app.use(express.static(path.join(__dirname, "/../assets/public")));
