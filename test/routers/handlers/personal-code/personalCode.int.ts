@@ -2,6 +2,7 @@ import { HttpStatusCode } from "axios";
 import request from "supertest";
 import * as cheerio from "cheerio";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
+import mockServiceUnavailableMiddleware from "../../../mocks/serviceUnavailable.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
 import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
 import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
@@ -48,6 +49,7 @@ describe("personal code router/handler integration tests", () => {
 
     afterEach(() => {
         expect(mockSessionMiddleware).toHaveBeenCalledTimes(1);
+        expect(mockServiceUnavailableMiddleware).toHaveBeenCalledTimes(1);
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
         expect(mockGetPscVerification).toHaveBeenCalledTimes(1);
     });
