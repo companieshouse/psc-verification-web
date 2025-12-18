@@ -3,6 +3,7 @@ import * as cheerio from "cheerio";
 import request from "supertest";
 import { URLSearchParams } from "url";
 import mockSessionMiddleware from "../../../mocks/sessionMiddleware.mock";
+import mockServiceUnavailableMiddleware from "../../../mocks/serviceUnavailable.mock";
 import mockAuthenticationMiddleware from "../../../mocks/authenticationMiddleware.mock";
 import mockCsrfProtectionMiddleware from "../../../mocks/csrfProtectionMiddleware.mock";
 import { PrefixedUrls } from "../../../../src/constants";
@@ -36,6 +37,7 @@ describe("individual statement router/handler integration tests", () => {
     beforeEach(() => {
         jest.clearAllMocks();
         mockSessionMiddleware.mockClear();
+        mockServiceUnavailableMiddleware.mockClear();
         mockAuthenticationMiddleware.mockClear();
         mockCsrfProtectionMiddleware.mockClear();
     });
@@ -43,6 +45,7 @@ describe("individual statement router/handler integration tests", () => {
     afterEach(() => {
         expect(mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
+        expect(mockServiceUnavailableMiddleware).toHaveBeenCalledTimes(1);
     });
 
     describe("GET method", () => {

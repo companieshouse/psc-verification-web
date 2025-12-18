@@ -17,11 +17,11 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.HEALTHCHECK, HealthCheckRouter);
     router.use(Urls.COMPANY_NUMBER, authenticate, CompanyNumberRouter);
     router.use(Urls.CONFIRM_COMPANY, authenticate, ConfirmCompanyRouter);
-    router.use(Urls.INDIVIDUAL_PSC_LIST, authenticate, fetchCompany, checkCompany, IndividualPscListRouter);
+    router.use(Urls.INDIVIDUAL_PSC_LIST, serviceUnavailable, authenticate, fetchCompany, checkCompany, IndividualPscListRouter);
     router.use(Urls.NEW_SUBMISSION, authenticate, NewSubmissionRouter);
-    router.use(Urls.PERSONAL_CODE, authenticate, fetchVerification, PersonalCodeRouter);
-    router.use(Urls.NAME_MISMATCH, authenticate, fetchVerification, NameMismatchRouter);
-    router.use(Urls.INDIVIDUAL_STATEMENT, authenticate, fetchVerification, IndividualStatementRouter);
+    router.use(Urls.PERSONAL_CODE, serviceUnavailable, authenticate, fetchVerification, PersonalCodeRouter);
+    router.use(Urls.NAME_MISMATCH, serviceUnavailable, authenticate, fetchVerification, NameMismatchRouter);
+    router.use(Urls.INDIVIDUAL_STATEMENT, serviceUnavailable, authenticate, fetchVerification, IndividualStatementRouter);
     router.use(Urls.CLOSE_TRANSACTION, authenticate, fetchVerification, CloseTransactionRouter);
     router.use(Urls.PSC_VERIFIED, authenticate, fetchVerification, fetchCompany, PscVerifiedRouter);
     router.use(Urls.STOP_SCREEN, authenticate, fetchCompany, StopScreenRouter);

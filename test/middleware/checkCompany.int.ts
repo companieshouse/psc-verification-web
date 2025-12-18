@@ -1,7 +1,14 @@
+/**
+ * ⚠️ Note: All mocks must be imported before the `app` import.
+ * This is because the Express app (`app`) is initialized with all middleware at import time.
+ * If the mock is imported after `app`, the real middleware will already
+ * be registered and the mock will not take effect, leading to tests not using the intended mock.
+ */
 import { HttpStatusCode } from "axios";
 import request from "supertest";
 import { URLSearchParams } from "url";
 import mockSessionMiddleware from "../mocks/sessionMiddleware.mock";
+import mockServiceUnavailableMiddleware from "../mocks/serviceUnavailable.mock";
 import mockAuthenticationMiddleware from "../mocks/authenticationMiddleware.mock";
 import app from "../../src/app";
 import { PrefixedUrls, STOP_TYPE } from "../../src/constants";
@@ -27,6 +34,7 @@ describe("CheckCompany middleware", () => {
 
     afterEach(() => {
         expect(mockSessionMiddleware).toHaveBeenCalledTimes(1);
+        expect(mockServiceUnavailableMiddleware).toHaveBeenCalledTimes(1);
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyProfile).toHaveBeenCalledTimes(1);
     });

@@ -1,6 +1,7 @@
 import request from "supertest";
 import * as cheerio from "cheerio";
 import mockSessionMiddleware from "../mocks/sessionMiddleware.mock";
+import mockServiceUnavailableMiddleware from "../mocks/serviceUnavailable.mock";
 import mockAuthenticationMiddleware from "../mocks/authenticationMiddleware.mock";
 import app from "../../src/app";
 import { PrefixedUrls, STOP_TYPE } from "../../src/constants";
@@ -31,6 +32,7 @@ describe("GET psc individual list router", () => {
 
         expect(resp.status).toBe(HttpStatusCode.Ok);
         expect(mockSessionMiddleware).toHaveBeenCalledTimes(1);
+        expect(mockServiceUnavailableMiddleware).toHaveBeenCalledTimes(1);
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyProfile).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyIndividualPscList).toHaveBeenCalledTimes(1);
