@@ -26,9 +26,10 @@
     "ind_psc_list_cannot_verify_description_2": " aros i’w cyfnod o 14 diwrnod ddechrau cyn y gallant ddarparu eu manylion gwiriad hunaniaeth.",
     "ind_psc_list_already_verified_details_description": "PRhA sydd eisoes wedi darparu manylion y gwiriad",
     "ind_psc_list_not_found_details_main_link": "Ni allaf ddod o hyd i’r PRhA rydw i’n chwilio amdano",
-    "ind_psc_list_not_found_details_description_1": "Gallwch ddefnyddio’r gwasanaeth hwn dim ond i ddarparu manylion gwiriad ar gyfer PRhA a ddangosir ar gofrestr Tŷ’r Cwmnïau.",
-    "ind_psc_list_not_found_details_description_2": "Os yw’r cwmni wedi hysbysu Tŷ’r Cwmnïau yn ddiweddar am PRhA newydd, rhaid i chi aros nes bod y ffeilio hwnnw yn cael ei dderbyn ac mae’r PRhA newydd yn ymddangos ar y gofrestr gyhoeddus.",
-    "ind_psc_list_not_found_details_description_3": "Os oes gan PRhA ei wybodaeth bersonol wedi’i ddiogelu rhag cael ei ddangos ar y gofrestr, bydd angen i chi ddarparu eu manylion gwiriad gan ddefnyddio ffurflen bapur. I ofyn am ffurflen, e-bostiwch ",
+    "ind_psc_list_not_found_details_reasons": "Mae sawl rheswm efallai na fyddwch yn gallu dod o hyd i PRhA ar y rhestr hon:",
+    "ind_psc_list_not_found_details_description_1": "efallai y bydd angen i'r cwmni wirio bod ei wybodaeth PRhA yn gyfredol ar gofrestr Tŷ’r Cwmnïau",
+    "ind_psc_list_not_found_details_description_2": "os yw’r cwmni wedi ein hysbysu’n ddiweddar am PRhA newydd, rhaid i chi aros nes bod y ffeilio hwnnw’n cael ei dderbyn ac mae’r PRhA newydd yn ymddangos ar y gofrestr gyhoeddus",
+    "ind_psc_list_not_found_details_description_3": "os yw PRhA wedi gwneud cais llwyddiannus i ddiogelu eu gwybodaeth rhag ymddangos ar y gofrestr gyhoeddus, bydd angen i chi ffeilio ffurflen bapur yn lle hynny. E-bostiwch",
     "ind_psc_list_not_found_details_description_4": "neu ffoniwch ",
     "ind_psc_list_not_found_details_description_5": ", a darparwch enw a rhif y cwmni."
 }
