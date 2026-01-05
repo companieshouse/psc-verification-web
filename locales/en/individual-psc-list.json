@@ -26,9 +26,10 @@
     "ind_psc_list_cannot_verify_description_2": "must wait for their 14 day period to start before they can provide their identity verification details.",
     "ind_psc_list_already_verified_details_description": "PSCs that have already provided verification details",
     "ind_psc_list_not_found_details_main_link": "I can't find the PSC I'm looking for",
-    "ind_psc_list_not_found_details_description_1": "You can only use this service to provide verification details for PSCs that are shown on the Companies House register.",
-    "ind_psc_list_not_found_details_description_2": "If the company has recently notified Companies House of a new PSC, you must wait until that filing is accepted and the new PSC appears on the public register.",
-    "ind_psc_list_not_found_details_description_3": "If a PSC has their personal information protected from being shown on the register, you'll need to provide their verification details using a paper form. To request a form, email ",
+    "ind_psc_list_not_found_details_reasons": "There are several reasons you might not be able to find a PSC on this list:",
+    "ind_psc_list_not_found_details_description_1": "the company may need to check that its PSC information is up to date on the Companies House register",
+    "ind_psc_list_not_found_details_description_2": "if the company has recently notified us of a new PSC, you must wait until that filing is accepted and the new PSC appears on the public register",
+    "ind_psc_list_not_found_details_description_3": "if a PSC has successfully applied for their information to be protected from appearing on the public register, you'll need to file a paper form instead. Email",
     "ind_psc_list_not_found_details_description_4": "or call ",
     "ind_psc_list_not_found_details_description_5": ", and provide the company name and number."
 }

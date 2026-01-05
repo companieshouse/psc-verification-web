@@ -210,12 +210,15 @@
 {% endfor %}
 
 {% set pscNotFoundDetails %}
-        <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description_1 }}</p>
-        <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description_2 }}</p>
-        <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_description_3 }}
-        <a href="mailto:{{ dsrEmailAddress }}" data-event-id="dsr-email-address-mailto">{{ dsrEmailAddress }}</a>
+        <p class="govuk-body">{{ i18n.ind_psc_list_not_found_details_reasons }}</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>{{ i18n.ind_psc_list_not_found_details_description_1 }}</li>
+          <li>{{ i18n.ind_psc_list_not_found_details_description_2 }}</li>
+          <li>{{ i18n.ind_psc_list_not_found_details_description_3 }}
+            <a href="mailto:{{ dsrEmailAddress }}" data-event-id="dsr-email-address-mailto">{{ dsrEmailAddress }}</a>
             {{ i18n.ind_psc_list_not_found_details_description_4 }}{{ dsrPhoneNumber }}{{ i18n.ind_psc_list_not_found_details_description_5 }}
-        </p>
+          </li>
+        </ul>
 {% endset %}
 
 {{ govukDetails({
