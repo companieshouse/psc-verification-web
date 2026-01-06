@@ -24,6 +24,8 @@
   "dob_mismatch_check_personal_code": "Gwiriwch eich bod wedi cofnodi’r cod personol cywir",
   "dob_mismatch_character_code": "Gwnewch yn siŵr bod y cod 11 nod a chofnodwyd gennych yn cyfateb i’r cod a gawsoch pan wnaethoch chi gwblhau gwiriad hunaniaeth.",
   "dob_mismatch_try_again_link_text": "Ewch yn ôl i’r  sgrin flaenorol, a cheisiwch eto",
+  "dob_mismatch_fix_issue": "Ni allwch barhau heb ddatrys y broblem. Os nad ydych yn meddwl y byddwch yn gallu gwneud hyn erbyn eich dyddiad cau gwiriad, gallwch ",
+  "dob_mismatch_fix_issue_link_text": "fynd yn ôl a gwneud cais am estyniad",
   "dob_mismatch_check_dob": "Gwiriwch a yw eich dyddiad geni ar gofrestr Tŷ’r Cwmnïau yn gywir",
   "dob_mismatch_check_dob_webfiling": "I wirio’r dyddiad geni llawn sydd gennym i chi, mae angen i rywun sydd wedi’i awdurdodi i ffeilio ar gyfer y cwmni hwn fewngofnodi i’n",
   "dob_mismatch_check_dob_webfiling_link_text": "gwasanaeth WebFiling",
