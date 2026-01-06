@@ -60,6 +60,7 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 ...baseViewData,
                 templateName: stopType,
                 backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
+                pscListURL: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang }),
                 extraData: [env.GET_RP01_LINK, env.WEBFILING_LOGIN_URL]
             };
         }
