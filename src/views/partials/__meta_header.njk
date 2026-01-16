@@ -1,8 +1,9 @@
 <head>
-    <link href="{{ cdnHost }}/stylesheets/ch.gov.uk.css" rel="stylesheet" crossorigin="anonymous"/>
-    <link href="{{ cdnHost }}/stylesheets/services/psc-verification-web/application.css" rel="stylesheet" crossorigin="anonymous"/>
-    <link href="{{ cdnHost }}/stylesheets/extensions/languages-nav.css" rel="stylesheet" crossorigin="anonymous"/>
-    <link href="{{ cdnHost }}/stylesheets/session-timeout.css" rel="stylesheet" crossorigin="anonymous"/>
+    {# Cache busting strategy used here '?v=N' should be incremented if we ever need to force a reload of the stylesheets #}
+    <link href="{{ cdnHost }}/stylesheets/ch.gov.uk.css?v=1" rel="stylesheet"/>
+    <link href="{{ cdnHost }}/stylesheets/services/psc-verification-web/application.css?v=1" rel="stylesheet"/>
+    <link href="{{ cdnHost }}/stylesheets/extensions/languages-nav.css?v=1" rel="stylesheet"/>
+    <link href="{{ cdnHost }}/stylesheets/session-timeout.css?v=1" rel="stylesheet"/>
     <script nonce={{ nonce | dump | safe }}>
         var page = page || {};
     </script>
