@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrefixedUrls, STOP_TYPE, toStopScreenPrefixedUrl } from "../../../constants";
+import { PrefixedUrls, STOP_TYPE } from "../../../constants";
 import { BaseViewData, GenericHandler, ViewModel } from "../generic";
 import { addSearchParams } from "../../../utils/queryParams";
 import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
@@ -37,7 +37,6 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
     const lang = res.locals.lang;
     const companyProfile = res.locals.companyProfile;
     const companyName = companyProfile?.companyName;
-    const stopScreenPrefixedUrl = toStopScreenPrefixedUrl(stopType);
 
     switch (stopType) {
         case STOP_TYPE.COMPANY_STATUS:

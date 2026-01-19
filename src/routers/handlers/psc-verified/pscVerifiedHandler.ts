@@ -23,7 +23,6 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
         const baseViewData = await super.getViewData(req, res);
         const lang = res.locals.lang;
         const transactionId = req.params.transactionId;
-        const submissionId = req.params.submissionId;
         const verification = res.locals.submission;
         const companyNumber = verification?.data?.companyNumber as string;
         const companyProfile = res.locals.companyProfile;
