@@ -7,6 +7,12 @@
 </p>
 {% endset %}
 
+{% set homeLink %}
+  <p>{{i18n.global_built_by}}<a class="govuk-footer__link" href="{{i18n.global_ch_home_url}}">{{i18n.global_companies_house}}</a>
+  </p>
+{% endset %}
+
+
 {{ govukFooter({
   meta: {
     items: [
@@ -30,8 +36,10 @@
         text: i18n.global_footer_accessibility_statement,
         attributes: { "data-event-id": "accessibility-footer-link" }
       }
-    ]
+    ],
+    html: homeLink
   },
+
   contentLicence: null,
   copyright: {
      text: i18n.global_footer_crown_copyright
