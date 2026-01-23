@@ -18,5 +18,8 @@
     "global_footer_licence_p1": "All content is available under the ",
     "global_footer_licence_p2": ", except where otherwise stated",
     "global_footer_crown_copyright": "© Crown copyright",
-    "global_footer_accessibility_statement": "Accessibility statement"
+    "global_footer_accessibility_statement": "Accessibility statement",
+    "global_ch_home_url" : "https://www.gov.uk/government/organisations/companies-house",
+    "global_built_by": "Built by ",
+    "global_companies_house" : "Companies House"
 }
