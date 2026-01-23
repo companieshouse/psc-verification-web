@@ -19,7 +19,7 @@
     "global_footer_licence_p2": ", ac eithrio lle nodir yn wahanol",
     "global_footer_crown_copyright": "© Hawlfraint y Goron",
     "global_footer_accessibility_statement": "Datganiad hygyrchedd",
-    "global_ch_home_url" : "https://www.gov.uk/government/organisations/companies-house.cy", 
-    "global_built_by": "Adeiladwyd gan ",
-    "global_companies_house" : "Dŷ’r Cwmnïau"
+    "global_footer_ch_home_url" : "https://www.gov.uk/government/organisations/companies-house.cy", 
+    "global_footer_built_by": "Adeiladwyd gan ",
+    "global_footer_companies_house" : "Dŷ’r Cwmnïau"
 }
