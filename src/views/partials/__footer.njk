@@ -1,11 +1,11 @@
 {% from "govuk/components/footer/macro.njk" import govukFooter %}
 
-{%- set licenceHtml -%}
-<p class="govuk-footer__licence-description">{{ i18n.global_footer_licence_p1 }}
-    <a class="govuk-footer__link" href="{{ i18n.global_footer_ogl_v3_url }}">{{ i18n.global_footer_ogl_v3 }}</a>
-    {{ i18n.global_footer_licence_p2 }}
-</p>
+
+{% set builtByCompaniesHouse %}
+  <p>{{i18n.global_footer_built_by}}<a class="govuk-footer__link" href="{{i18n.global_footer_ch_home_url}}">{{i18n.global_footer_companies_house}}</a>
+  </p>
 {% endset %}
+
 
 {{ govukFooter({
   meta: {
@@ -30,8 +30,10 @@
         text: i18n.global_footer_accessibility_statement,
         attributes: { "data-event-id": "accessibility-footer-link" }
       }
-    ]
+    ],
+    html: builtByCompaniesHouse
   },
+
   contentLicence: null,
   copyright: {
      text: i18n.global_footer_crown_copyright
