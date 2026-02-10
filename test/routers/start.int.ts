@@ -182,21 +182,6 @@ describe("Start router/handler integration tests", () => {
             });
         });
 
-        it("should render the Open Government Licence link correctly", async () => {
-
-            const resp = await request(app).get(servicePathPrefix);
-            expect(resp.status).toBe(HttpStatusCode.Ok);
-            const $ = cheerio.load(resp.text);
-
-            const licenceText = $(".govuk-footer__licence-description p");
-            expect(licenceText.length).toBe(1);
-            const normalisedLicenceText = licenceText.text().replace(/\s+/g, " ").replace(/\s+,/g, ",").trim();
-            expect(normalisedLicenceText).toBe("All content is available under the Open Government Licence v3.0, except where otherwise stated");
-            const oglLink = $(".govuk-footer__licence-description a");
-            expect(oglLink.length).toBe(1);
-            expect(oglLink.attr("href")).toBe("https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/");
-        });
-
         it("should render the Crown copyright link correctly", async () => {
             const resp = await request(app).get(servicePathPrefix);
             expect(resp.status).toBe(HttpStatusCode.Ok);

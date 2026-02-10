@@ -1,7 +1,11 @@
 {
     "personal_code_title": "What is their Companies House personal code?",
     "personal_code_details_summaryText": "Where to find the Companies House personal code",
-    "personal_code_details_text": "This is an 11 character code that is given to a person after they have verified their identity with Companies House.",
+    "personal_code_details_body_11_character_code": "This is an 11 character code that is given to a person after they have verified their identity with Companies House.",
+    "personal_code_details_body_find_your_code": "You can find your code in the ‘Manage account’ section of your",
+    "personal_code_details_body_companies_house": "Companies House account",
+    "personal_code_details_body_be_signed_in": "You need to be signed in using the same email address you used when you verified your identity.",
+    "personal_code_details_body_verified_by_agent": "If your identity was verified by an authorised agent, we sent the personal code to the email address the agent provided for you.",
     "personal_code_born": "Born ",
     "personal_code_button": "Save and continue",
     "personal_code_error_summary": "Enter a Companies House personal code",

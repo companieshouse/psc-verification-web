@@ -1,7 +1,11 @@
 {
   "personal_code_title": "Beth yw eu cod personol Tŷ Cwmnïau?",
   "personal_code_details_summaryText": "Ble i ddod o hyd i god personol Tŷ’r Cwmnïau",
-  "personal_code_details_text": "Mae hwn yn god 11 nod sy'n cael ei roi i berson ar ôl iddynt gwblhau gwiriad hunaniaeth gyda Thŷ’r Cwmnïau.",
+  "personal_code_details_body_11_character_code": "Mae hwn yn god 11 nod sy'n cael ei roi i berson ar ôl iddynt gwblhau gwiriad hunaniaeth.",
+  "personal_code_details_body_find_your_code": "Gallwch ddod o hyd i'ch cod yn yr adran ‘Rheoli cyfrif’ eich",
+  "personal_code_details_body_companies_house": "cyfrif Tŷ'r Cwmnïau",
+  "personal_code_details_body_be_signed_in": "Mae angen i chi fewngofnodi gan ddefnyddio'r un cyfeiriad e-bost a ddefnyddiwyd pan wnaethoch gwblhau gwiriad hunaniaeth.",
+  "personal_code_details_body_verified_by_agent": "Os cafodd eich hunaniaeth ei wirio gan asiant awdurdodedig, fe wnaethom anfon y cod personol i'r cyfeiriad e-bost a ddarparodd yr asiant ar eich cyfer.",
   "personal_code_born": "Ganwyd ",
   "personal_code_button": "Cadw a pharhau",
   "personal_code_error_summary": "Cofnodwch god personol Tŷ’r Cwmnïau",
