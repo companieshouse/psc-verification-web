@@ -42,13 +42,16 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             templateName: Urls.PERSONAL_CODE
         };
 
-        function resolveUrlTemplate (prefixedUrl: string): string | null {
-            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { lang });
+        function resolveUrlTemplate (prefixedUrl: string, transactionId: string, submissionId: string): string | null {
+            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, transactionId, submissionId), { lang });
         }
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<PersonalCodeViewData>> {
-        logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
+        const submissionId = (typeof req.params?.submissionId === "string") ? req.params?.submissionId : req.params?.submissionId?.[0];
+        const transactionId = (typeof req.params?.transactionId === "string") ? req.params?.transactionId : req.params?.transactionId?.[0];
+
+        logger.info(`called for transactionId="${transactionId}", submissionId="${submissionId}"`);
         const viewData = await this.getViewData(req, res);
 
         return {
@@ -58,7 +61,10 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
     }
 
     public async executePost (req: Request, res: Response): Promise<ViewModel<PersonalCodeViewData>> {
-        logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
+        const submissionId = (typeof req.params?.submissionId === "string") ? req.params?.submissionId : req.params?.submissionId?.[0];
+        const transactionId = (typeof req.params?.transactionId === "string") ? req.params?.transactionId : req.params?.transactionId?.[0];
+
+        logger.info(`called for transactionId="${transactionId}", submissionId="${submissionId}"`);
         const viewData = await this.getViewData(req, res);
 
         try {
@@ -76,11 +82,11 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             const validator = new PscVerificationFormsValidator(lang);
             viewData.errors = await validator.validatePersonalCode(req.body, lang, viewData.pscName);
 
-            logger.debug(`patching personal code for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
-            const patchResponse = await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
-            const validationStatusResponse = await getValidationStatus(req, req.params.transactionId, req.params.submissionId, ["$.verification_statement"]);
+            logger.debug(`patching personal code for transactionId="${transactionId}", submissionId="${submissionId}"`);
+            const patchResponse = await patchPscVerification(req, transactionId, submissionId, verification);
+            const validationStatusResponse = await getValidationStatus(req, transactionId, submissionId, ["$.verification_statement"]);
             const url = this.resolveNextPageUrl(validationStatusResponse, patchResponse);
-            const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(url, req.params.transactionId, req.params.submissionId);
+            const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(url, transactionId, submissionId);
             viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
 
         } catch (err: any) {

@@ -50,7 +50,7 @@ describe("CloseTransactionHandler", () => {
 
     it("should call closeTransaction with correct params", async () => {
         (closeTransactionService as jest.Mock).mockResolvedValueOnce({});
-        await handler.closeTransaction(req as Request);
+        await handler.closeTransaction(req as Request, "tx123", "sub456");
         expect(closeTransactionService).toHaveBeenCalledWith(req, "tx123", "sub456");
     });
 

@@ -9,26 +9,30 @@ import { selectLang } from "../../../middleware/localise";
 export class CloseTransactionHandler {
 
     public async execute (req: Request, res: Response): Promise<string> {
-        logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
+
+        const submissionId = (typeof req.params?.submissionId === "string") ? req.params?.submissionId : req.params?.submissionId?.[0];
+        const transactionId = (typeof req.params?.transactionId === "string") ? req.params?.transactionId : req.params?.transactionId?.[0];
+
+        logger.info(`called for transactionId="${transactionId}", submissionId="${submissionId}"`);
 
         const companyNumber = req.query.companyNumber as string;
         const lang = selectLang(req.query.lang);
 
-        await this.closeTransaction(req);
+        await this.closeTransaction(req, transactionId, submissionId);
 
-        const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, req.params?.transactionId, req.params?.submissionId);
+        const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PSC_VERIFIED, transactionId, submissionId);
         // send the redirect
         return addSearchParams(nextPageUrl, { companyNumber, lang });
     }
 
-    public async closeTransaction (req: Request): Promise<void> {
-        await closeTransactionService(req, req.params.transactionId, req.params.submissionId)
+    public async closeTransaction (req: Request, transactionId: string, submissionId: string): Promise<void> {
+        await closeTransactionService(req, transactionId, submissionId)
             .then(() => {
-                logger.info(`transaction closed successfully for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
+                logger.info(`transaction closed successfully for transactionId="${transactionId}", submissionId="${submissionId}"`);
             })
             .catch((err) => {
                 const message = err.message ? `: ${err.message}` : "";
-                throw new Error(`failed to close transaction for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"${message}`);
+                throw new Error(`failed to close transaction for transactionId="${transactionId}", submissionId="${submissionId}"${message}`);
             });
     }
 }
