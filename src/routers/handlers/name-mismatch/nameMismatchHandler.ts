@@ -27,8 +27,9 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
     private static readonly templatePath = "router_views/nameMismatch/name-mismatch";
 
     public async getViewData (req: Request, res: Response): Promise<NameMismatchViewData> {
-
         const baseViewData = await super.getViewData(req, res);
+        const submissionId = (typeof req.params?.submissionId === "string") ? req.params?.submissionId : req.params?.submissionId?.[0];
+        const transactionId = (typeof req.params?.transactionId === "string") ? req.params?.transactionId : req.params?.transactionId?.[0];
         const verification: PscVerification = res.locals.submission;
         const companyNumber = verification.data.companyNumber as string;
         const pscIndividual = await getPscIndividual(req, companyNumber, verification.data.pscNotificationId as string);
@@ -51,17 +52,21 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
             translationOrDifferentConvention,
             publicRegisterError,
             preferNotToSay,
-            backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
+            backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE, transactionId, submissionId),
             templateName: Urls.NAME_MISMATCH
         };
 
-        function resolveUrlTemplate (prefixedUrl: string): string | null {
-            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, req.params.transactionId, req.params.submissionId), { lang });
+        function resolveUrlTemplate (prefixedUrl: string, transactionId: string, submissionId: string): string | null {
+            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, transactionId, submissionId), { lang });
         }
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<NameMismatchViewData>> {
-        logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
+        const submissionId = (typeof req.params?.submissionId === "string") ? req.params?.submissionId : req.params?.submissionId?.[0];
+        const transactionId = (typeof req.params?.transactionId === "string") ? req.params?.transactionId : req.params?.transactionId?.[0];
+
+        logger.info(`called for transactionId="${transactionId}", submissionId="${submissionId}"`);
+
         const viewData = await this.getViewData(req, res);
 
         return {
@@ -71,7 +76,11 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
     }
 
     public async executePost (req: Request, res: Response): Promise<ViewModel<NameMismatchViewData>> {
-        logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
+
+        const submissionId = (typeof req.params?.submissionId === "string") ? req.params?.submissionId : req.params?.submissionId?.[0];
+        const transactionId = (typeof req.params?.transactionId === "string") ? req.params?.transactionId : req.params?.transactionId?.[0];
+
+        logger.info(`called for transactionId="${transactionId}", submissionId="${submissionId}"`);
         const viewData = await this.getViewData(req, res);
 
         try {
@@ -84,13 +93,13 @@ export class NameMismatchHandler extends GenericHandler<NameMismatchViewData> {
             };
 
             queryParams.set("lang", lang);
-            const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, req.params.transactionId, req.params.submissionId);
+            const nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.INDIVIDUAL_STATEMENT, transactionId, submissionId);
             viewData.nextPageUrl = `${nextPageUrl}?${queryParams}`;
             const validator = new PscVerificationFormsValidator(lang);
             viewData.errors = await validator.validateNameMismatch(req.body, lang, viewData.pscName);
 
-            logger.debug(`patching name mismatch reason for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
-            await patchPscVerification(req, req.params.transactionId, req.params.submissionId, verification);
+            logger.debug(`patching name mismatch reason for transactionId="${transactionId}", submissionId="${submissionId}"`);
+            await patchPscVerification(req, transactionId, submissionId, verification);
 
         } catch (err: any) {
             logger.debug(`problem handling name mismatch request: ${err.message}`);
