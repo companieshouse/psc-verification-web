@@ -68,6 +68,12 @@ export const env = readEnv(process.env, {
                 "The order from least to most severe is: ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < MARK < OFF. " +
                 "OFF is intended to be used to turn off logging, not as a level for actual logging."
         ),
+    NODE_ENV: str
+        .describe("The environment in which the application is running. Options are: " +
+                "development (docker environment) " +
+                "test (cidev environment), " +
+                "staging (staging environment), " +
+                "production (live environment)"),
     NODE_HOSTNAME: str.describe("Host name the server is hosted on"),
     NODE_HOSTNAME_SECURE: str.describe("Hostname for the secure HTTPS server"),
     NODE_SSL_CERTIFICATE: str.describe("Path to the SSL certificate file").default(""),
@@ -75,7 +81,7 @@ export const env = readEnv(process.env, {
     NODE_SSL_PRIVATE_KEY: str.describe("Path to the SSL private key file").default(""),
     NUNJUCKS_LOADER_NO_CACHE: bool.describe("Flag to control the caching of templates in the Nunjucks loader"),
     NUNJUCKS_LOADER_WATCH: bool.describe("Flag to enable or disable watching for file changes in the Nunjucks loader"),
-    OTEL_LOG_ENABLED: bool.describe("Flag to enable OpenTelemetry logging"),
+    OTEL_LOG_ENABLED: str.describe("Flag to enable OpenTelemetry logging"),
     OTEL_EXPORTER_OTLP_ENDPOINT: str.describe("OpenTelemetry OTLP exporter endpoint"),
     PIWIK_SERVICE_NAME: str.describe("Service name used by Matomo scripts"),
     PIWIK_URL: str.describe("Link to the matomo dashboard"),
@@ -85,7 +91,7 @@ export const env = readEnv(process.env, {
     PIWIK_REQUEST_EXTENSION_GOAL_ID: str.describe("Goal Id for the \"Request extension\" button - used by matomo"),
     PSC_DATA_API_FETCH_SIZE: str.describe("Number of records fetched from the PSC data API in a single request"),
     PSC_EXTENSIONS_PATH: str.describe("Path to build the PSC_EXTENSIONS link"),
-    PSC_VERIFICATION_WEB_PORT: port.describe("Port number the PSC Verification web server listens on"),
+    PSC_VERIFICATION_WEB_PORT: str.describe("Port number the PSC Verification web server listens on"),
     POST_TO_CH_LINK: url.describe("Link to guidance on submission by post"),
     VERIFY_IDENTITY_LINK: str.describe("Path to guidance to Verify Identity"),
     WEBFILING_LOGIN_URL: url.describe("URL for Webfiling login page")

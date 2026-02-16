@@ -41,10 +41,6 @@ export class PersonalCodeHandler extends GenericHandler<PersonalCodeViewData> {
             backURL: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang }),
             templateName: Urls.PERSONAL_CODE
         };
-
-        function resolveUrlTemplate (prefixedUrl: string, transactionId: string, submissionId: string): string | null {
-            return addSearchParams(getUrlWithTransactionIdAndSubmissionId(prefixedUrl, transactionId, submissionId), { lang });
-        }
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<PersonalCodeViewData>> {

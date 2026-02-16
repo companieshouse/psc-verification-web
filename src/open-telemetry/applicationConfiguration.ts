@@ -1,4 +1,4 @@
-interface applicationConfiguration {
+interface ApplicationConfiguration {
     port: number;
     apiAddress: string;
     internalApiKey: string;
@@ -23,4 +23,4 @@ interface applicationConfiguration {
     };
 }
 
-export default applicationConfiguration;
+export default ApplicationConfiguration;

@@ -27,6 +27,12 @@ const sdk = new NodeSDK({
 });
 
 if (openTelemetryConfig.otel?.otelLogEnabled) {
-    console.log("Staring OpenTelemetry SDK...");
-    sdk.start();
+    // initialising structured logging before OpenTelemetry can cause issues so omitted for now
+    console.info("Starting OpenTelemetry SDK...");
+    try {
+        sdk.start();
+        console.info("OpenTelemetry SDK started successfully.");
+    } catch (error) {
+        console.error("Failed to start OpenTelemetry SDK");
+    }
 }

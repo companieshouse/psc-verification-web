@@ -2,8 +2,6 @@ import { NodeSDK } from "@opentelemetry/sdk-node";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-proto";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
-import openTelemetryConfig from "../../src/open-telemetry/openTelemetryConfig";
-import "../../src/otel";
 
 // Mock OpenTelemetry dependencies
 jest.mock("@opentelemetry/sdk-node");
@@ -20,14 +18,9 @@ describe("otel.ts", () => {
     });
 
     it("should initialize NodeSDK with correct configuration", () => {
-        openTelemetryConfig.otel = {
-            traceExporterUrl: "http://otel-collector:4318/v1/traces",
-            metricsExporterUrl: "http://otel-collector:4318/v1/metrics",
-            otelLogEnabled: false
-        };
-
         jest.isolateModules(() => {
             require("../../src/otel");
+            require("../../src/open-telemetry/openTelemetryConfig");
         });
 
         expect(OTLPMetricExporter).toHaveBeenCalledWith({
