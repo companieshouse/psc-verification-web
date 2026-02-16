@@ -13,6 +13,10 @@ export class CloseTransactionHandler {
         const submissionId = (typeof req.params?.submissionId === "string") ? req.params?.submissionId : req.params?.submissionId?.[0];
         const transactionId = (typeof req.params?.transactionId === "string") ? req.params?.transactionId : req.params?.transactionId?.[0];
 
+        if (!transactionId || !submissionId) {
+            throw new Error(`failed to close transaction for transactionId="${transactionId}", submissionId="${submissionId}"`);
+        }
+
         logger.info(`called for transactionId="${transactionId}", submissionId="${submissionId}"`);
 
         const companyNumber = req.query.companyNumber as string;

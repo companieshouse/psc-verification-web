@@ -86,6 +86,30 @@ describe("Personal code handler", () => {
             });
         });
 
+        it("should have the correct page URLs when transactionId and submissionId are arrays", async () => {
+            const req = httpMocks.createRequest({
+                method: "GET",
+                url: Urls.PERSONAL_CODE,
+                params: {
+                    transactionId: [TRANSACTION_ID],
+                    submissionId: [PSC_VERIFICATION_ID]
+                },
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    selectedPscId: PSC_NOTIFICATION_ID,
+                    lang: "en"
+                }
+            });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_PERSONAL_CODE, lang: "en" } });
+            const handler = new PersonalCodeHandler();
+
+            const { viewData } = await handler.executeGet(req, res);
+
+            expect(viewData).toMatchObject({
+                backURL: `/persons-with-significant-control-verification/individual/psc-list?companyNumber=12345678&lang=en`
+            });
+        });
+
         it("should resolve the correct view data", async () => {
             const req = httpMocks.createRequest({
                 method: "GET",
@@ -130,6 +154,47 @@ describe("Personal code handler", () => {
                 params: {
                     transactionId: TRANSACTION_ID,
                     submissionId: PSC_VERIFICATION_ID
+                },
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    selectedPscId: PSC_NOTIFICATION_ID,
+                    lang: "en"
+                },
+                body: {
+                    personalCode: UVID
+                }
+            });
+
+            const res = httpMocks.createResponse();
+
+            res.locals.submission = {
+                data: {
+                    companyNumber: COMPANY_NUMBER,
+                    pscNotificationId: PSC_VERIFICATION_ID,
+                    lang: "en"
+                }
+            };
+            res.locals.lang = "en";
+
+            const handler = new PersonalCodeHandler();
+
+            const model = await handler.executePost(req, res);
+
+            expect(patchPscVerification).toHaveBeenCalledTimes(1);
+            expect(model.viewData.nextPageUrl).toBe(`/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-statement?lang=en`);
+
+        });
+
+        it("should return the PSC statement page when the validation status is valid when the transactionId or submissionId are arrays", async () => {
+            mockGetValidationStatus.mockReturnValue(VALIDATION_STATUS_RESOURCE_VALID);
+            mockPatchPscVerification.mockReturnValue(PATCH_RESP_NO_NAME_MISMATCH);
+
+            const req = httpMocks.createRequest({
+                method: "POST",
+                url: Urls.PERSONAL_CODE,
+                params: {
+                    transactionId: [TRANSACTION_ID],
+                    submissionId: [PSC_VERIFICATION_ID]
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,
@@ -424,6 +489,49 @@ describe("Personal code handler", () => {
                 params: {
                     transactionId: TRANSACTION_ID,
                     submissionId: PSC_VERIFICATION_ID
+                },
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    selectedPscId: PSC_NOTIFICATION_ID,
+                    lang: "en"
+                },
+                body: {
+                    personalCode: UVID
+                }
+            });
+
+            const res = httpMocks.createResponse();
+            res.locals.lang = "en";
+            const viewData = { errors: null };
+
+            const getViewData = jest.fn().mockResolvedValue(viewData);
+            mockPatchPscVerification.mockImplementation(async () => {
+                throw new HttpError("Internal Server Error", HttpStatusCode.InternalServerError);
+            });
+
+            const processHandlerException = jest.fn().mockReturnValue("Processed Internal Server Error");
+
+            const instance = new PersonalCodeHandler();
+            instance.getViewData = getViewData;
+            instance.processHandlerException = processHandlerException;
+
+            await instance.executePost(req, res);
+
+            expect(viewData.errors).toBe("Processed Internal Server Error");
+            expect(processHandlerException).toHaveBeenCalledWith(expect.objectContaining({ message: "Internal Server Error" }));
+            expect(logger.debug).toHaveBeenCalled();
+
+        });
+
+        it("Should redirect to the internal server error page when the transactionId or submissionId are missing", async () => {
+            jest.spyOn(logger, "debug").mockImplementation(() => {});
+
+            const req = httpMocks.createRequest({
+                method: "POST",
+                url: Urls.PERSONAL_CODE,
+                params: {
+                    transactionId: "",
+                    submissionId: ""
                 },
                 query: {
                     companyNumber: COMPANY_NUMBER,

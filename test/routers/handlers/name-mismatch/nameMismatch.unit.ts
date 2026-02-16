@@ -84,6 +84,30 @@ describe("Name mismatch handler", () => {
             });
         });
 
+        it("should have the correct page URLs when transactionId and submissionId are arrays", async () => {
+            const req = httpMocks.createRequest({
+                method: "GET",
+                url: Urls.NAME_MISMATCH,
+                params: {
+                    transactionId: [TRANSACTION_ID],
+                    submissionId: [PSC_VERIFICATION_ID]
+                },
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    selectedPscId: PSC_NOTIFICATION_ID,
+                    lang: "en"
+                }
+            });
+            const res = httpMocks.createResponse({ locals: { submission: IND_VERIFICATION_NAME_MISMATCH_UNDEFINED, lang: "en" } });
+            const handler = new NameMismatchHandler();
+
+            const { viewData } = await handler.executeGet(req, res);
+
+            expect(viewData).toMatchObject({
+                backURL: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code?lang=en`
+            });
+        });
+
         it("should resolve the correct view data", async () => {
             const req = httpMocks.createRequest({
                 method: "GET",
@@ -130,7 +154,46 @@ describe("Name mismatch handler", () => {
                     lang: "en"
                 },
                 body: {
-                    nameMismatch: NameMismatchReasonEnum.PUBLIC_REGISTER_ERROR
+                    nameMismatch: NameMismatchReasonEnum.REGISTER_ERROR
+                }
+            });
+
+            const res = httpMocks.createResponse();
+
+            res.locals.submission = {
+                data: {
+                    companyNumber: COMPANY_NUMBER,
+                    pscNotificationId: PSC_VERIFICATION_ID,
+                    lang: "en"
+                }
+            };
+            res.locals.lang = "en";
+
+            const handler = new NameMismatchHandler();
+
+            const model = await handler.executePost(req, res);
+
+            expect(model.viewData).toMatchObject({
+                nextPageUrl: `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/psc-statement?lang=en`
+            });
+        });
+
+        it("should return the correct next page when transactionId and submissionId are arrays", async () => {
+
+            const req = httpMocks.createRequest({
+                method: "POST",
+                url: Urls.NAME_MISMATCH,
+                params: {
+                    transactionId: [TRANSACTION_ID],
+                    submissionId: [PSC_VERIFICATION_ID]
+                },
+                query: {
+                    companyNumber: COMPANY_NUMBER,
+                    selectedPscId: PSC_NOTIFICATION_ID,
+                    lang: "en"
+                },
+                body: {
+                    nameMismatch: NameMismatchReasonEnum.REGISTER_ERROR
                 }
             });
 

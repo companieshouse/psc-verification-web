@@ -162,6 +162,31 @@ describe("Individual statement handler", () => {
             expect(patchPscVerification).toHaveBeenCalledWith(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_STATEMENT_DATA);
         });
 
+        it("should patch the submission data when transactionId and submissionId are arrays", async () => {
+            const req = httpMocks.createRequest({
+                method: "POST",
+                url: Urls.PSC_VERIFIED,
+                params: {
+                    transactionId: [TRANSACTION_ID],
+                    submissionId: [PSC_VERIFICATION_ID]
+                },
+                query: {
+                    pscType: "individual"
+                },
+                body: {
+                    pscIndividualStatement: VerificationStatementEnum.INDIVIDUAL_VERIFIED
+                }
+            });
+            const res = httpMocks.createResponse();
+            res.locals.lang = "en";
+            const handler = new IndividualStatementHandler();
+
+            const resp = await handler.executePost(req, res);
+
+            expect(patchPscVerification).toHaveBeenCalledTimes(1);
+            expect(patchPscVerification).toHaveBeenCalledWith(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_STATEMENT_DATA);
+        });
+
         it("should generate a validation error when no statement is selected", async () => {
 
             const req = httpMocks.createRequest({

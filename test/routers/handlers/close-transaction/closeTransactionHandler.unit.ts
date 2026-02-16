@@ -10,6 +10,8 @@ describe("CloseTransactionHandler", () => {
     let req: Partial<Request>;
     let res: Partial<Response>;
     let handler: CloseTransactionHandler;
+    const TRANSACTION_ID = "tx123";
+    const SUBMISSION_ID = "sub456";
 
     beforeEach(() => {
         req = {
@@ -18,6 +20,7 @@ describe("CloseTransactionHandler", () => {
                 submissionId: "sub456"
             },
             query: {
+                companyNumber: "12345678",
                 lang: "en"
             }
         };
@@ -30,8 +33,9 @@ describe("CloseTransactionHandler", () => {
     it("should close the transaction and return redirect URL", async () => {
         (closeTransactionService as jest.Mock).mockResolvedValueOnce({});
         const redirectUrl = await handler.execute(req as Request, res as Response);
-        expect(closeTransactionService).toHaveBeenCalledWith(req, "tx123", "sub456");
+        expect(closeTransactionService).toHaveBeenCalledWith(req, TRANSACTION_ID, SUBMISSION_ID);
         expect(redirectUrl).toContain("/persons-with-significant-control-verification/transaction/tx123/submission/sub456/psc-verified");
+        expect(redirectUrl).toContain("companyNumber=12345678");
         expect(redirectUrl).toContain("lang=en");
     });
 
@@ -46,17 +50,47 @@ describe("CloseTransactionHandler", () => {
         req.query.lang = "cy";
         const redirectUrl = await handler.execute(req as Request, res as Response);
         expect(redirectUrl).toContain("lang=cy");
+        expect(redirectUrl).toContain("companyNumber=12345678");
     });
 
     it("should call closeTransaction with correct params", async () => {
         (closeTransactionService as jest.Mock).mockResolvedValueOnce({});
-        await handler.closeTransaction(req as Request, "tx123", "sub456");
-        expect(closeTransactionService).toHaveBeenCalledWith(req, "tx123", "sub456");
+        await handler.execute(req as Request, res as Response);
+        expect(closeTransactionService).toHaveBeenCalledWith(req, TRANSACTION_ID, SUBMISSION_ID);
+    });
+
+    it("should call closeTransaction with correct params when transactionId and submissionId are arrays", async () => {
+        req = {
+            params: {
+                transactionId: ["tx123"],
+                submissionId: ["sub456"]
+            },
+            query: {
+                companyNumber: "12345678",
+                lang: "en"
+            }
+        };
+        (closeTransactionService as jest.Mock).mockResolvedValueOnce({});
+        await handler.execute(req as Request, res as Response);
+        expect(closeTransactionService).toHaveBeenCalledWith(req, TRANSACTION_ID, SUBMISSION_ID);
     });
 
     it("should throw error in closeTransaction if service throws", async () => {
         (closeTransactionService as jest.Mock).mockRejectedValueOnce(new Error("fail"));
-        await expect(handler.closeTransaction(req as Request)).rejects.toThrow("failed to close transaction");
+        await expect(handler.closeTransaction(req as Request, TRANSACTION_ID, SUBMISSION_ID)).rejects.toThrow("failed to close transaction");
+    });
+
+    it("should throw error if transactionId or submissionId are missing", async () => {
+        req = {
+            params: {
+                transactionId: "",
+                submissionId: ""
+            }
+        };
+
+        (closeTransactionService as jest.Mock).mockResolvedValueOnce({});
+
+        await expect(handler.execute(req as Request, res as Response)).rejects.toThrow("failed to close transaction for transactionId=\"\", submissionId=\"\"");
     });
 
 });
