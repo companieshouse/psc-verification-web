@@ -30,7 +30,6 @@ export const env = readEnv(process.env, {
     GET_PSC01_LINK: url.describe("Link to obtaining paper form PSC01"),
     GET_RP01_LINK: url.describe("Link to obtaining paper form RP01"),
     IDV_IMPLEMENTATION_DATE: str.describe("Date when IDV comes into effect for PSCs"),
-    INTERNAL_API_URL: str.describe("Internal API URL for service interaction"),
     LOCALES_ENABLED: str.describe("feature flag that toggles localisation behaviour"),
     LOCALES_PATH: str.describe("The name of the directory where the locales files are stored"),
     LOG_LEVEL: str
@@ -91,7 +90,6 @@ export const env = readEnv(process.env, {
     PIWIK_REQUEST_EXTENSION_GOAL_ID: str.describe("Goal Id for the \"Request extension\" button - used by matomo"),
     PSC_DATA_API_FETCH_SIZE: str.describe("Number of records fetched from the PSC data API in a single request"),
     PSC_EXTENSIONS_PATH: str.describe("Path to build the PSC_EXTENSIONS link"),
-    PSC_VERIFICATION_WEB_PORT: str.describe("Port number the PSC Verification web server listens on"),
     POST_TO_CH_LINK: url.describe("Link to guidance on submission by post"),
     VERIFY_IDENTITY_LINK: str.describe("Path to guidance to Verify Identity"),
     WEBFILING_LOGIN_URL: url.describe("URL for Webfiling login page")

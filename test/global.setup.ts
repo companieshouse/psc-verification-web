@@ -25,7 +25,6 @@ export default () => {
     process.env.GET_PSC01_LINK = "https://www.gov.uk/government/publications/give-notice-of-individual-person-with-significant-control-psc01";
     process.env.GET_RP01_LINK = "https://www.gov.uk/government/publications/replace-a-document-not-meeting-requirements-rp01";
     process.env.IDV_IMPLEMENTATION_DATE = "20250901";
-    process.env.INTERNAL_API_URL = "http://api.chs.local";
     process.env.LOCALES_ENABLED = "true";
     process.env.LOCALES_PATH = "locales";
     process.env.LOG_LEVEL = "DEBUG";
@@ -47,7 +46,6 @@ export default () => {
     process.env.POST_TO_CH_LINK = "https://www.gov.uk/government/news/posting-documents-to-companies-house";
     process.env.PSC_DATA_API_FETCH_SIZE = "100";
     process.env.PSC_EXTENSIONS_PATH = "/persons-with-significant-control-extensions/requesting-an-extension";
-    process.env.PSC_VERIFICATION_WEB_PORT = "3000";
     process.env.VERIFY_IDENTITY_LINK = "";
     process.env.WEBFILING_LOGIN_URL = "https://ewf.companieshouse.gov.uk/";
     console.log("Global environment variables set");
