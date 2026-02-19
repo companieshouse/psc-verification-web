@@ -22,7 +22,7 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
 
         const baseViewData = await super.getViewData(req, res);
         const lang = res.locals.lang;
-        const transactionId = req.params.transactionId;
+        const transactionId = (typeof req.params?.transactionId === "string") ? req.params?.transactionId : req.params?.transactionId?.[0];
         const verification = res.locals.submission;
         const companyNumber = verification?.data?.companyNumber as string;
         const companyProfile = res.locals.companyProfile;
@@ -44,7 +44,10 @@ export class PscVerifiedHandler extends GenericHandler<PscVerifiedViewData> {
     }
 
     public async executeGet (req: Request, res: Response): Promise<ViewModel<PscVerifiedViewData>> {
-        logger.info(`called for transactionId="${req.params?.transactionId}", submissionId="${req.params?.submissionId}"`);
+        const submissionId = (typeof req.params?.submissionId === "string") ? req.params?.submissionId : req.params?.submissionId?.[0];
+        const transactionId = (typeof req.params?.transactionId === "string") ? req.params?.transactionId : req.params?.transactionId?.[0];
+
+        logger.info(`called for transactionId="${transactionId}", submissionId="${submissionId}"`);
         const viewData = await this.getViewData(req, res);
 
         return {

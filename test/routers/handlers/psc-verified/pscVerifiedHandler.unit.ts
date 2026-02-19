@@ -9,6 +9,7 @@ import middlewareMocks from "../../../mocks/allMiddleware.mock";
 import { PSC_INDIVIDUAL } from "../../../mocks/psc.mock";
 import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_FULL, PSC_NOTIFICATION_ID, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../../../mocks/pscVerification.mock";
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
+import { logger } from "../../../../src/lib/logger";
 
 jest.mock("../../../../src/services/pscService");
 const mockGetPscIndividual = getPscIndividual as jest.Mock;
@@ -53,12 +54,10 @@ describe("PSC Verified handler", () => {
 
         it("Should resolve correct view data", async () => {
             const handler = new PscVerifiedHandler();
-            const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
-
             const resp = await handler.executeGet(request, response);
-            const viewData = resp.viewData;
+
             expect(resp.templatePath).toBe("router_views/pscVerified/psc-verified");
-            expect(viewData).toMatchObject({
+            expect(resp.viewData).toMatchObject({
                 companyNumber: COMPANY_NUMBER,
                 companyName: "Test Company",
                 pscName: "Sir Forename Middlename Surname",
@@ -70,5 +69,50 @@ describe("PSC Verified handler", () => {
             expect(mockGetPscIndividual).toHaveBeenCalledTimes(1);
             expect(mockGetPscIndividual).toHaveBeenCalledWith(request, COMPANY_NUMBER, PSC_NOTIFICATION_ID);
         });
+
+        it("Should resolve correct view data when req.param.transactionId is an array", async () => {
+            request = httpMocks.createRequest({
+                method: "GET",
+                url: Urls.PSC_VERIFIED,
+                params: {
+                    transactionId: [TRANSACTION_ID],
+                    submissionId: [PSC_VERIFICATION_ID]
+                },
+                query: {
+                    pscType: "individual"
+                }
+            });
+
+            jest.spyOn(logger, "info").mockImplementation(() => {});
+
+            const handler = new PscVerifiedHandler();
+            const resp = await handler.executeGet(request, response);
+            expect(resp.viewData.referenceNumber).toBe(TRANSACTION_ID);
+            expect(logger.info).toHaveBeenCalledWith(expect.stringContaining("called for transactionId=\"11111-22222-33333\", submissionId=\"662a0de6a2c6f9aead0f32ab\""));
+        });
+
+        it("Should resolve correct view data when req.param.transactionId is empty", async () => {
+            request = httpMocks.createRequest({
+                method: "GET",
+                url: Urls.PSC_VERIFIED,
+                params: {
+                    transactionId: "",
+                    submissionId: ""
+                },
+                query: {
+                    pscType: "individual"
+                }
+            });
+
+            jest.spyOn(logger, "info").mockImplementation(() => {});
+            const handler = new PscVerifiedHandler();
+
+            const resp = await handler.executeGet(request, response);
+            expect(resp.viewData.referenceNumber).toBe("");
+            // Verify logger.info was called with the correct message
+            expect(logger.info).toHaveBeenCalledTimes(1);
+            expect(logger.info).toHaveBeenCalledWith(expect.stringContaining("called for transactionId=\"\", submissionId=\"\""));
+        });
     });
+
 });

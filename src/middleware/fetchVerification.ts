@@ -4,8 +4,8 @@ import { getPscVerification } from "../services/pscVerificationService";
 import { handleExceptions } from "../utils/asyncHandler";
 
 export const fetchVerification = handleExceptions(async (req: Request, res: Response, next: NextFunction) => {
-    const resourceId = req.params.submissionId;
-    const transactionId = req.params.transactionId;
+    const resourceId = (typeof req.params.submissionId === "string") ? req.params.submissionId : req.params.submissionId?.[0];
+    const transactionId = (typeof req.params.transactionId === "string") ? req.params.transactionId : req.params.transactionId?.[0];
 
     if (transactionId && resourceId) {
         logger.debug(`Retrieving verification: transactionId="${transactionId}", resourceId="${resourceId}"`);

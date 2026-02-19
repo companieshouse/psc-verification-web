@@ -32,7 +32,8 @@ export class StopScreenHandler extends GenericHandler<StopScreenHandlerViewData>
 }
 
 const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, baseViewData: BaseViewData) => {
-
+    const submissionId = (typeof req.params?.submissionId === "string") ? req.params?.submissionId : req.params?.submissionId?.[0];
+    const transactionId = (typeof req.params?.transactionId === "string") ? req.params?.transactionId : req.params?.transactionId?.[0];
     const companyNumber = req.query.companyNumber as string;
     const lang = res.locals.lang;
     const companyProfile = res.locals.companyProfile;
@@ -44,8 +45,8 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
             return {
                 ...baseViewData,
                 templateName: stopType,
-                backURL: addSearchParams(resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY), { companyNumber }),
-                extraData: [companyName, resolveUrlTemplate(PrefixedUrls.COMPANY_NUMBER), env.CONTACT_US_LINK]
+                backURL: addSearchParams(resolveUrlTemplate(PrefixedUrls.CONFIRM_COMPANY, transactionId, submissionId), { companyNumber }),
+                extraData: [companyName, resolveUrlTemplate(PrefixedUrls.COMPANY_NUMBER, transactionId, submissionId), env.CONTACT_US_LINK]
             };
         case STOP_TYPE.EMPTY_PSC_LIST: {
             return {
@@ -58,7 +59,7 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
             return {
                 ...baseViewData,
                 templateName: stopType,
-                backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE),
+                backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE, transactionId, submissionId),
                 pscListURL: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang }),
                 extraData: [env.GET_RP01_LINK, env.WEBFILING_LOGIN_URL]
             };
@@ -84,10 +85,10 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
 
     }
 
-    function resolveUrlTemplate (prefixedUrl: string, templateName?: STOP_TYPE): string {
+    function resolveUrlTemplate (prefixedUrl: string, transactionId: string, submissionId: string, templateName?: STOP_TYPE): string {
         const url = templateName ? getUrlWithStopType(prefixedUrl, templateName) : prefixedUrl;
 
-        return addSearchParams(getUrlWithTransactionIdAndSubmissionId(url, req.params.transactionId, req.params.submissionId), { lang });
+        return addSearchParams(getUrlWithTransactionIdAndSubmissionId(url, transactionId, submissionId), { lang });
     }
 
 };
