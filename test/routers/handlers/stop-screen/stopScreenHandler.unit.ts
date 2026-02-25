@@ -2,7 +2,7 @@ import { HttpStatusCode } from "axios";
 import * as httpMocks from "node-mocks-http";
 import { PrefixedUrls, STOP_TYPE, toStopScreenPrefixedUrl } from "../../../../src/constants";
 import { StopScreenHandler } from "../../../../src/routers/handlers/stop-screen/stopScreenHandler";
-import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../../src/utils/url";
+import { getUrlWithStopType } from "../../../../src/utils/url";
 import { getPscIndividual } from "../../../../src/services/pscService";
 import { getPscVerification } from "../../../../src/services/pscVerificationService";
 import { getCompanyProfile } from "../../../../src/services/companyProfileService";
@@ -52,8 +52,6 @@ describe("Stop screen handler", () => {
             const response = httpMocks.createResponse({ locals: { submission: INDIVIDUAL_VERIFICATION_FULL, companyProfile: validCompanyProfile, lang: "en" } });
             const handler = new StopScreenHandler();
             const expectedPrefix = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}`;
-            const expectedStopUri = getUrlWithStopType(toStopScreenPrefixedUrl(stopType), stopType);
-            const expectedCurrentUri = getUrlWithTransactionIdAndSubmissionId(expectedStopUri, TRANSACTION_ID, PSC_VERIFICATION_ID);
 
             const resp = await handler.executeGet(request, response);
             const viewData = resp.viewData;

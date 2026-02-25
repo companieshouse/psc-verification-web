@@ -1,6 +1,5 @@
 import { CompanyPersonsWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/company-psc/types";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
-import { Session } from "@companieshouse/node-session-handler";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { PSC_KIND_TYPE } from "../../src/constants";
@@ -13,7 +12,6 @@ jest.mock("../../src/services/apiClientService");
 
 const mockGetCompanyPsc = jest.fn();
 const mockCreateOAuthApiClient = createOAuthApiClient as jest.Mock;
-let session: Session;
 const originalEnv = { ...process.env };
 
 mockCreateOAuthApiClient.mockReturnValue({
@@ -25,7 +23,6 @@ mockCreateOAuthApiClient.mockReturnValue({
 describe("companyPscService", () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        session = new Session();
     });
 
     afterEach(() => {
@@ -63,13 +60,11 @@ describe("companyPscService", () => {
     });
 
     it("getCompanyPscList should throw an error if HttpStatus is not 200 OK", async () => {
-        const mockResponse: ApiResponse<CompanyPersonsWithSignificantControl> = {
-            httpStatusCode: HttpStatusCode.ServiceUnavailable
-        };
+
         const request = {} as Request;
 
         try {
-            const response = await getCompanyPscList(request, COMPANY_NUMBER);
+            await getCompanyPscList(request, COMPANY_NUMBER);
             throw new Error("invalid expecting getCompanyPscList to throw error");
         } catch (error: any) {
             expect(error.message).toBe("Failed to get company psc list for companyNumber=\"12345678\" with start index 0 and items per page 100");

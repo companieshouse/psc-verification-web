@@ -49,7 +49,7 @@ describe("Authentication checked on all pages except for the start page", () => 
     });
 
     it(`Should not authenticate when navigating to '${PrefixedUrls.START}'`, async () => {
-        const resp = await request(app).get(PrefixedUrls.START);
+        await request(app).get(PrefixedUrls.START);
 
         expect(middlewareMocks.mockAuthenticationMiddleware).not.toHaveBeenCalled();
     });
@@ -61,7 +61,7 @@ describe("Authentication checked on all pages except for the start page", () => 
         PrefixedUrls.INDIVIDUAL_STATEMENT,
         PrefixedUrls.PSC_VERIFIED])("Should authenticate when navigating to '%s'", async (url) => {
 
-        const resp = await request(app).get(url);
+        await request(app).get(url);
 
         expect(middlewareMocks.mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
     });

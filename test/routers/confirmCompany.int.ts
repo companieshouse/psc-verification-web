@@ -25,8 +25,7 @@ describe("ConfirmCompany router/handler integration tests", () => {
     describe("GET method", () => {
 
         it("Should render the Confirm Company page with a successful status code and content", async () => {
-            const resp = await request(app).get(PrefixedUrls.CONFIRM_COMPANY)
-                .expect(HttpStatusCode.Ok);
+            await request(app).get(PrefixedUrls.CONFIRM_COMPANY).expect(HttpStatusCode.Ok);
         });
 
         it("Should display 'Confirm this is the correct company' message on the Confirm Company page", async () => {

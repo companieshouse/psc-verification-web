@@ -6,7 +6,6 @@ import { postTransaction } from "../../../../src/services/transactionService";
 import { createPscVerification } from "../../../../src/services/pscVerificationService";
 import { CREATED_PSC_TRANSACTION } from "../../../mocks/transaction.mock";
 import middlewareMocks from "../../../mocks/allMiddleware.mock";
-import { PscVerificationData } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
 import { COMPANY_NUMBER, INDIVIDUAL_VERIFICATION_CREATED } from "../../../mocks/pscVerification.mock";
 import { mockApiErrorResponse } from "../../../mocks/companyProfile.mock";
 
@@ -59,10 +58,6 @@ describe("new submission handler tests", () => {
         });
 
         it("Should create a new psc verification submission", async () => {
-            const verification: PscVerificationData = {
-                companyNumber: COMPANY_NUMBER
-            };
-
             const handler = new NewSubmissionHandler();
 
             // when
@@ -94,11 +89,6 @@ describe("new submission handler tests", () => {
         });
 
         it("Should create a new psc verification submission", async () => {
-
-            const verification: PscVerificationData = {
-                companyNumber: COMPANY_NUMBER
-            };
-
             const handler = new NewSubmissionHandler();
 
             // when

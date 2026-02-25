@@ -37,7 +37,7 @@ describe("closeTransactionRouter", () => {
         }));
 
         // Add error handler to catch thrown errors
-        app.use((err: any, req: Request, res: Response, next: Function) => {
+        app.use((err: any, req: Request, res: Response, _next: any) => {
             res.status(500).send("Error: " + err.message);
         });
 

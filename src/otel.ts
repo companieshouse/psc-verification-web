@@ -33,6 +33,6 @@ if (openTelemetryConfig.otel?.otelLogEnabled) {
         sdk.start();
         console.info("OpenTelemetry SDK started successfully.");
     } catch (error) {
-        console.error("Failed to start OpenTelemetry SDK");
+        console.error("Failed to start OpenTelemetry SDK:", error);
     }
 }
