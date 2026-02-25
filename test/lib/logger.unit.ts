@@ -1,4 +1,5 @@
 import { PrefixedLogger } from "../../src/lib/logger";
+import * as structuredLogging from "@companieshouse/structured-logging-node";
 import { Request } from "express";
 import { jest } from "@jest/globals";
 
@@ -17,7 +18,7 @@ describe("PrefixedLogger", () => {
             debugRequest: jest.fn(),
             traceRequest: jest.fn()
         };
-        jest.spyOn(require("@companieshouse/structured-logging-node"), "createLogger").mockReturnValue(mockRawLogger);
+        jest.spyOn(structuredLogging, "createLogger").mockReturnValue(mockRawLogger);
         logger = new PrefixedLogger();
     });
 

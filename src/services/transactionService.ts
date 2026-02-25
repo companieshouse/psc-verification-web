@@ -111,6 +111,7 @@ export const closeTransaction = async (req: Request, transactionId: string, obje
     logger.debug(`Closing transaction with transactionId="${transactionId}", updating reference`);
 
     const putResponse: ApiResponse<Transaction> = await putTransaction(req, transactionId, DESCRIPTION, TransactionStatus.CLOSED, objectId)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .catch((sdkResponse) => {
             return Promise.reject(new Error(`Failed to close transaction with transactionId="${transactionId}"`));
         });

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import * as cheerio from "cheerio";
 import mockSessionMiddleware from "../mocks/sessionMiddleware.mock";
 import mockFetchCompanyMiddleware from "../mocks/fetchCompany.mock";

@@ -1,69 +1,128 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import { defineConfig } from 'eslint/config'
-import tsParser from '@typescript-eslint/parser'
-import typescriptEslint from '@typescript-eslint/eslint-plugin'
-import checkFile from 'eslint-plugin-check-file'
-import unusedImports from 'eslint-plugin-unused-imports'
-import { eslintConfigStandard } from './eslint.standard.mjs'
+import typescriptEslint from "@typescript-eslint/eslint-plugin";
+import stylisticTs from '@stylistic/eslint-plugin';
+import globals from "globals";
+import tsParser from "@typescript-eslint/parser";
+import js from "@eslint/js";
 
-export default defineConfig([
-  eslintConfigStandard,
+const normalize = (cfg) => (Array.isArray(cfg) ? cfg : [cfg]);
+
+const configArray = [
+  ...normalize(js.configs.recommended),
+  ...normalize(typescriptEslint.configs["flat/eslint-recommended"]),
+  ...normalize(typescriptEslint.configs["flat/recommended"]),
   {
-    files: ['src/**/*.*', 'test/**/*.*'],
+    plugins: {
+      "@typescript-eslint": typescriptEslint,
+      '@stylistic/ts': stylisticTs,
+    },
 
     languageOptions: {
       globals: {
         ...globals.node,
-        ...globals.commonjs,
-        ...globals.jest
+        ...globals.jest,
       },
+
       parser: tsParser,
-      parserOptions: {
-        ecmaFeatures: {}
-      }
+      ecmaVersion: "latest",
+      sourceType: "commonjs",
     },
-
-    plugins: {
-      js,
-      '@typescript-eslint': typescriptEslint,
-      'check-file': checkFile,
-      'unused-imports': unusedImports
-    },
-
-    extends: ['js/recommended'],
 
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      indent: ['error', 4, {
-        SwitchCase: 1
-      }],
+      "@typescript-eslint/ban-types": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-inferrable-types": "off",
+      "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+      "@typescript-eslint/no-wrapper-object-types": "off",
+      "require-await": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+        },
+      ],
 
-      quotes: ['error', 'double', {
-        allowTemplateLiterals: true
-      }],
+      semi: ["error", "always"],
+      "@stylistic/ts/type-annotation-spacing": "error",
+      "arrow-spacing": "error",
 
-      semi: [2, 'always'],
-      'no-unused-vars': 'off',
-      'padded-blocks': 'off',
+      "brace-style": [
+        "error",
+        "1tbs",
+        {
+          allowSingleLine: true,
+        },
+      ],
 
-      'check-file/filename-naming-convention': ['error', {
-        'src/!(bin)/**/*.*': 'CAMEL_CASE',
-        'test/**/*.*': 'CAMEL_CASE'
-      }, {
-        ignoreMiddleExtensions: true
-      }],
+      "comma-spacing": [
+        "error",
+        {
+          before: false,
+          after: true,
+        },
+      ],
 
-      'check-file/folder-naming-convention': ['error', {
-        'src/**/': 'KEBAB_CASE',
-        'test/**/': 'KEBAB_CASE'
-      }],
+      curly: "error",
+      eqeqeq: ["error", "smart"],
+      "eol-last": ["warn", "always"],
 
-      'sort-imports': ['error', {
-        ignoreDeclarationSort: true
-      }],
+      indent: [
+        "error",
+        4,
+        {
+          SwitchCase: 1,
+        },
+      ],
 
-      'unused-imports/no-unused-imports': 'error'
-    }
-  }
-])
+      "key-spacing": [
+        "error",
+        {
+          afterColon: true,
+        },
+      ],
+
+      "keyword-spacing": [
+        "error",
+        {
+          before: true,
+          after: true,
+        },
+      ],
+
+      "no-duplicate-imports": "error",
+      "no-irregular-whitespace": "error",
+      "no-trailing-spaces": "error",
+      "no-multi-spaces": "error",
+
+      "no-multiple-empty-lines": [
+        "error",
+        {
+          max: 1,
+          maxEOF: 1,
+        },
+      ],
+
+      "no-underscore-dangle": [
+        "error",
+        {
+          allowFunctionParams: true,
+        },
+      ],
+
+      "no-unused-vars": "off",
+      "no-whitespace-before-property": "error",
+      "object-curly-spacing": ["error", "always"],
+      "space-infix-ops": "error",
+
+      "spaced-comment": [
+        "error",
+        "always",
+        {
+          markers: ["/", "*"],
+        },
+      ],
+    },
+  },
+];
+
+export default configArray;

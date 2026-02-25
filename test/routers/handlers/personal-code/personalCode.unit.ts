@@ -506,7 +506,7 @@ describe("Personal code handler", () => {
 
             const getViewData = jest.fn().mockResolvedValue(viewData);
             mockPatchPscVerification.mockImplementation(async () => {
-                throw new HttpError("Internal Server Error", HttpStatusCode.InternalServerError);
+                return Promise.reject(new HttpError("Internal Server Error", HttpStatusCode.InternalServerError));
             });
 
             const processHandlerException = jest.fn().mockReturnValue("Processed Internal Server Error");

@@ -20,7 +20,7 @@ export const defaultBaseViewData: Partial<BaseViewData> = {
     templateName: null
 } as const;
 
-export async function getViewData<T extends BaseViewData> (req: Request, res: Response): Promise<T> {
+export async function getViewData<T extends BaseViewData> (_req: Request, _res: Response): Promise<T> {
     const viewData = defaultBaseViewData as T;
     return viewData;
 }

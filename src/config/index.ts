@@ -1,6 +1,6 @@
 import { Validators, addProtocolIfMissing, readEnv } from "./validator";
 
-const { str, url, bool, port } = Validators;
+const { str, url, bool } = Validators;
 
 export const env = readEnv(process.env, {
     ACCOUNT_URL: str.describe("Host URL for the account service"),

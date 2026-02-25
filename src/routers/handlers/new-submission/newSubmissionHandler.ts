@@ -25,7 +25,7 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         const companyNumber = req.query.companyNumber as string;
         const lang = res.locals.lang;
 
-        let nextPageUrl : string = "";
+        let nextPageUrl: string;
 
         if (this.isErrorResponse(resource)) {
             nextPageUrl = getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.PROBLEM_WITH_PSC_DATA);

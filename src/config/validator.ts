@@ -112,8 +112,10 @@ const urlValidator = strValidator
     .map<string>((s) => s.trim())
     .map<string>((s) => {
         try {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const _ = new URL(s);
         } catch (e) {
+            // eslint-disable-next-line preserve-caught-error
             throw new Error(`'${s}' is not a valid URL. ${e}`);
         }
         return s;

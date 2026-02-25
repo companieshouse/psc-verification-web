@@ -8,7 +8,7 @@ import { selectLang } from "../../../middleware/localise";
 
 export class CloseTransactionHandler {
 
-    public async execute (req: Request, res: Response): Promise<string> {
+    public async execute (req: Request, _res: Response): Promise<string> {
 
         const submissionId = (typeof req.params?.submissionId === "string") ? req.params?.submissionId : req.params?.submissionId?.[0];
         const transactionId = (typeof req.params?.transactionId === "string") ? req.params?.transactionId : req.params?.transactionId?.[0];

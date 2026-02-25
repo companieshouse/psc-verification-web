@@ -7,8 +7,8 @@ interface PscVerification {
 };
 
 const PSC_VERIFICATION_PATH: string = "api-enumerations/psc_verification.yml";
-const COMPANY_CATEGORY:keyof PscVerification = "company";
-const VALIDATION_CATEGORY:keyof PscVerification = "validation";
+const COMPANY_CATEGORY: keyof PscVerification = "company";
+const VALIDATION_CATEGORY: keyof PscVerification = "validation";
 export const COMPANY_STATUS_NOT_ALLOWED = "status-not-allowed";
 export const COMPANY_TYPE_ALLOWED = "type-allowed";
 

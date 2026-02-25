@@ -34,6 +34,7 @@ export class PscVerificationFormsValidator extends GenericValidator {
             } else {
                 return Promise.reject(this.errors);
             }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err) {
             this.errors.serverError = this.errorManifest.generic.serverError;
             return Promise.reject(this.errors);

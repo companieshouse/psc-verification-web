@@ -120,7 +120,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
     }
 
     private async getIndividualPscListWithIdvDetails (companyNumber: string, req: Request): Promise<PersonWithSignificantControl[]> {
-        let individualPscList: CompanyPersonWithSignificantControl[] = [];
+        let individualPscList: CompanyPersonWithSignificantControl[];
         const individualPscListWithIdvDetails: PersonWithSignificantControl[] = [];
         if (companyNumber) {
             individualPscList = await getCompanyIndividualPscList(req, companyNumber);

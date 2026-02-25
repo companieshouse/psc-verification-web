@@ -156,7 +156,7 @@ describe("Individual statement handler", () => {
             res.locals.lang = "en";
             const handler = new IndividualStatementHandler();
 
-            const resp = await handler.executePost(req, res);
+            await handler.executePost(req, res);
 
             expect(patchPscVerification).toHaveBeenCalledTimes(1);
             expect(patchPscVerification).toHaveBeenCalledWith(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_STATEMENT_DATA);
@@ -181,7 +181,7 @@ describe("Individual statement handler", () => {
             res.locals.lang = "en";
             const handler = new IndividualStatementHandler();
 
-            const resp = await handler.executePost(req, res);
+            await handler.executePost(req, res);
 
             expect(patchPscVerification).toHaveBeenCalledTimes(1);
             expect(patchPscVerification).toHaveBeenCalledWith(req, TRANSACTION_ID, PSC_VERIFICATION_ID, PATCH_INDIVIDUAL_STATEMENT_DATA);
