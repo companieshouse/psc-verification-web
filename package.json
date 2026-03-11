@@ -27,7 +27,7 @@
     "author": "Moses Wejuli <mwejuli@companieshouse.gov.uk>",
     "license": "MIT",
     "dependencies": {
-        "@companieshouse/api-sdk-node": "^2.0.316",
+        "@companieshouse/api-sdk-node": "github:companieshouse/api-sdk-node#spike/investigate-psc-list",
         "@companieshouse/ch-node-utils": "^2.1.13",
         "@companieshouse/node-session-handler": "^5.2.8",
         "@companieshouse/structured-logging-node": "^2.0.4",

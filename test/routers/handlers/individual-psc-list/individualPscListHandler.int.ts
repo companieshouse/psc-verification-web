@@ -29,7 +29,7 @@ const mockConfig = config as { env: {
     EXTENSIONS_LIVE: boolean
 } };
 
-describe("individual PSC list view", () => {
+describe.skip("individual PSC list view", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();

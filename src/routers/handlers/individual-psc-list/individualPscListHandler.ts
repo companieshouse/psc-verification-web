@@ -9,6 +9,8 @@ import { env } from "../../../config";
 import { logger } from "../../../lib/logger";
 import { getPscIndividual } from "../../../services/pscService";
 import { PersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/psc/types";
+import { getPscVerificationByNotificationId } from "../../../services/pscVerificationService";
+import { getTransactionData } from "../../../services/transactionService";
 
 interface PscListData {
     pscId: string,
@@ -20,6 +22,7 @@ interface PscListData {
     pscVerificationDeadlineDate: string,
     pscSortName?: string,
     requestExtensionUrl?: string,
+    isPendingVerification?: boolean
 }
 
 interface IndividualPscListViewData extends BaseViewData {
@@ -88,6 +91,9 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         const canVerifyNow = unverifiedPscList.filter(pscCanVerifyNow);
         const canVerifyLater = unverifiedPscList.filter(pscCanVerifyLater);
 
+        // Prevents users from providing verification details while a previous submission is being processed.
+        await this.checkPendingTransactions(canVerifyNow, req);
+
         const canVerifyNowDetails = this.getViewPscDetails(canVerifyNow, lang, companyNumber); // pass company number to generate request extension link
         const canVerifyLaterDetails = this.getViewPscDetails(canVerifyLater, lang);
         const verifiedPscDetails = this.getViewPscDetails(verifiedPscList, lang);
@@ -116,6 +122,22 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
         function resolveUrlTemplate (prefixedUrl: string): string | null {
             return addSearchParams(prefixedUrl, { companyNumber, lang });
+        }
+    }
+
+    private async checkPendingTransactions (canVerifyNow: PersonWithSignificantControl[], req: Request) {
+        for (const psc of canVerifyNow) {
+
+            const pscId = this.getPscIdFromSelfLink(psc);
+            const verification = await getPscVerificationByNotificationId(req, pscId);
+            if (verification && verification.resource) {
+
+                const transactionId = verification.resource?.links.self.split("/")[2] as string;
+                const transaction = await getTransactionData(req, transactionId);
+                for (const filing of Object.values(transaction?.filings ?? {})) {
+                    psc.isPendingVerification = filing.status === "processing";
+                }
+            }
         }
     }
 
@@ -170,7 +192,8 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
                 pscVerificationStartDate: this.getLocalizedDate(idvDetails?.appointmentVerificationStatementDate, lang),
                 pscVerificationDeadlineDate: this.getLocalizedDate(idvDetails?.appointmentVerificationStatementDueOn, lang),
                 pscSortName,
-                requestExtensionUrl
+                requestExtensionUrl,
+                isPendingVerification: psc.isPendingVerification
             };
         });
     }
