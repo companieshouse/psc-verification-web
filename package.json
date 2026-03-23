@@ -106,10 +106,8 @@
         ]
     },
     "overrides": {
-        "chokidar": "3.5.3",
-        "glob-parent": "6.0.2",
-        "micromatch": "4.0.8",
-        "minimatch": "10.2.1"
+        "diff": "8.0.3",
+        "serialize-javascript": "7.0.4"
     },
     "directories": {
         "test": "test"
