@@ -85,6 +85,7 @@ njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
 njk.addGlobal("cdnHost", process.env.CDN_HOST);
 njk.addGlobal("chsUrl", process.env.CHS_URL);
 njk.addGlobal("CommonDataEventIds", CommonDataEventIds);
+njk.addGlobal("GDS_START_SCREEN_URL", process.env.GDS_START_SCREEN_URL);
 njk.addGlobal("PrefixedUrls", PrefixedUrls);
 njk.addGlobal("ExternalUrls", ExternalUrls);
 njk.addGlobal("PIWIK_SERVICE_NAME", process.env.PIWIK_SERVICE_NAME);
