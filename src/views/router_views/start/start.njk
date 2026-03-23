@@ -4,10 +4,26 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 
 {% set title = i18n.start_main_title %}
 
 {% block main_content %}
+
+    {% set html %}
+        <p class="govuk-notification-banner__heading">
+            {{ i18n.start_dev_test_only_notification_heading }}
+        </p>
+        <p class="govuk-body">
+            {{ i18n.start_dev_test_only_notification_body_1 }}
+            <a class="govuk-notification-banner__link" href="{{ GDS_START_SCREEN_URL }}">{{ i18n.start_dev_test_only_notification_link_1 }}</a>.
+        </p>
+        <p class="govuk-body">{{ i18n.start_dev_test_only_notification_body_2 }}</p>
+    {% endset %}
+
+    {{ govukNotificationBanner({
+        html: html
+    }) }}
 
     <h1 class="govuk-heading-l">{{ i18n.start_main_title }}</h1>
 
@@ -59,7 +75,7 @@
         text: i18n.start_request_extension_inset_text
     }) }}
 
-    <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>   
+    <h2 class="govuk-heading-m">{{ i18n.start_before_heading }}</h2>
     <p class="govuk-body"> {{i18n.start_before_list}} </p>
 
     <ul class="govuk-list govuk-list--bullet">
@@ -69,7 +85,7 @@
 
     <p class="govuk-body">{{ i18n.start_before_personal_code_description }}</p>
     <p class="govuk-body">{{ i18n.start_guidance_duration_description }}</p>
-    
+
     {{ govukButton({
             text: i18n.start_button,
             href: PrefixedUrls.COMPANY_NUMBER + "?lang=" +lang,
@@ -80,7 +96,7 @@
             }
         }) }}
 
-    <h2 class="govuk-heading-m">{{ i18n.start_adapt_your_device_heading }}</h2>   
+    <h2 class="govuk-heading-m">{{ i18n.start_adapt_your_device_heading }}</h2>
     <p class="govuk-body">
         <a href="https://mcmw.abilitynet.org.uk/" data-event-id="adapt-your-device-link">{{ i18n.start_adapt_your_device_link }}</a>.
         {{ i18n.start_adapt_your_device_description }}

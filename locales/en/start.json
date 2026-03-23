@@ -1,5 +1,9 @@
 {
     "start_main_title": "Provide identity verification details for a person with significant control (PSC)",
+    "start_dev_test_only_notification_heading": "This start screen is not used in production",
+    "start_dev_test_only_notification_body_1": "It is only available in development and test environments (docker, cidev, and staging). In production, users will be directed to the start of the service via the",
+    "start_dev_test_only_notification_link_1": "Whitehall start screen",
+    "start_dev_test_only_notification_body_2": "Attempting to access this screen in live will result in a redirect to the Whitehall start screen.",
     "start_service_description_1": "If you are a PSC, use this service to provide your Companies House personal code and verification statement, or to request an extension if you need more time.",
     "start_service_description_2": "You can also use this service if you're filing on behalf of a PSC.",
     "start_personal_code_details_main_link": "What is a Companies House personal code?",
