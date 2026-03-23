@@ -1,5 +1,9 @@
 {
     "start_main_title": "Darparwch fanylion gwiriad hunaniaeth ar gyfer person â rheolaeth arwyddocaol (PRhA)",
+    "start_dev_test_only_notification_heading": "T\u200Bhis start screen is not used in production",
+    "start_dev_test_only_notification_body_1": "I\u200Bt is only available in development and test environments (docker, cidev, and staging). In production, users will be directed to the start of the service via the",
+    "start_dev_test_only_notification_link_1": "W\u200Bhitehall start screen",
+    "start_dev_test_only_notification_body_2": "A\u200Bttempting to access this screen in live will result in a redirect to the Whitehall start screen.",
     "start_service_description_1": "start_service_description_1",
     "start_service_description_2": "start_service_description_2",
     "start_personal_code_details_main_link": "start_personal_code_details_main_link",
