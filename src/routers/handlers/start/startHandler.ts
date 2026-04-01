@@ -22,7 +22,6 @@ export default class StartHandler extends GenericHandler<StartViewData> {
             ...baseViewData,
             hideNavbar: true,
             idvImplementationDate: internationaliseDate(idvDateFormatted, lang),
-            backURL: null,
             templateName: Urls.START
         };
     }
@@ -32,7 +31,6 @@ export default class StartHandler extends GenericHandler<StartViewData> {
 
         // ...process request here and return data for the view
         return {
-            templatePath: StartHandler.templatePath,
             viewData: await this.getViewData(req, res)
         };
     }
