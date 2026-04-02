@@ -11,6 +11,7 @@ import { validCompanyProfile } from "../mocks/companyProfile.mock";
 import { CEASED_PSCS_EXCLUSIVE_LIST, COMPANY_NUMBER, INDIVIDUAL_PSCS_LIST, SUPER_SECURE_PSCS_EXCLUSIVE_LIST } from "../mocks/companyPsc.mock";
 import { HttpStatusCode } from "axios";
 import { getUrlWithStopType } from "../../src/utils/url";
+import { getPscVerificationByNotificationId } from "../../src/services/pscVerificationService";
 
 jest.mock("../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
@@ -18,6 +19,9 @@ mockGetCompanyProfile.mockResolvedValue(validCompanyProfile);
 
 jest.mock("../../src/services/companyPscService");
 const mockGetCompanyIndividualPscList = getCompanyIndividualPscList as jest.Mock;
+
+jest.mock("../../src/services/pscVerificationService");
+const mockGetPscVerificationByNotificationId = getPscVerificationByNotificationId as jest.Mock;
 
 jest.mock("../../src/services/pscService");
 
@@ -36,6 +40,7 @@ describe("GET psc individual list router", () => {
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyProfile).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyIndividualPscList).toHaveBeenCalledTimes(1);
+        expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledTimes(2);
     });
 
     it("Should render PSC List screen for ordinary PSCs only, when Super Secure are present", async () => {

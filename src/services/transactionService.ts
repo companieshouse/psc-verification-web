@@ -2,7 +2,7 @@ import { Resource } from "@companieshouse/api-sdk-node";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
-import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
+import { Transaction, TransactionData } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { HttpError } from "../lib/errors/httpError";
@@ -32,6 +32,35 @@ export const getTransaction = async (req: Request, transactionId: string): Promi
     }
 
     const castedSdkResponse: Resource<Transaction> = sdkResponse as Resource<Transaction>;
+
+    if (!castedSdkResponse.resource) {
+        logger.error(`Transaction API GET request returned no resource for transactionId="${transactionId}"`);
+        return Promise.reject(new Error(`No resource in Transaction API response for transactionId="${transactionId}"`));
+    }
+
+    logger.debug(`Retrieved transaction with status code ${sdkResponse.httpStatusCode} for transactionId="${transactionId}"`);
+
+    return Promise.resolve(castedSdkResponse.resource);
+};
+
+export const getTransactionData = async (req: Request, transactionId: string): Promise<TransactionData> => {
+    const apiClient: ApiClient = createOAuthApiClient(req.session);
+
+    logger.debug(`Retrieving transaction data with transactionId="${transactionId}"`);
+    const requestId = req.headers["x-request-id"] as string | undefined;
+    const sdkResponse: Resource<TransactionData> | ApiErrorResponse = await apiClient.transaction.getTransactionData(transactionId, requestId);
+
+    if (!sdkResponse) {
+        logger.error(`Transaction API GET request returned no response for transactionId="${transactionId}"`);
+        return Promise.reject(new Error(`No response from Transaction API for transactionId="${transactionId}"`));
+    }
+
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= HttpStatusCode.BadRequest) {
+        logger.error(`HTTP status code ${sdkResponse.httpStatusCode} - Failed to get transaction data with transactionId="${transactionId}"`);
+        return Promise.reject(new HttpError(`Failed to get transaction data with transactionId="${transactionId}"`, sdkResponse.httpStatusCode ?? HttpStatusCode.InternalServerError));
+    }
+
+    const castedSdkResponse: Resource<TransactionData> = sdkResponse as Resource<TransactionData>;
 
     if (!castedSdkResponse.resource) {
         logger.error(`Transaction API GET request returned no resource for transactionId="${transactionId}"`);

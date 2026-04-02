@@ -35,32 +35,41 @@
   <p class="govuk-body">{{ i18n.ind_psc_list_can_verify_description_1 }}<b>{{ companyName }}</b>{{ i18n.ind_psc_list_can_verify_description_2 }}</p>
 
   {% for psc in canVerifyNowDetails | sort(attribute = 'pscSortName') %}
+    {% set pscStatusText = i18n.ind_psc_list_summary_card_status_pending if psc.isPendingVerification else i18n.ind_psc_list_summary_card_status_unverified %}
+    {% set pscStatusClass = "govuk-tag--purple" if psc.isPendingVerification else "govuk-tag--red" %}
     {% set pscStatusText %}
       {{ govukTag({
-          text: i18n.ind_psc_list_summary_card_status_unverified,
-          classes: "govuk-tag--red"
+        text: pscStatusText,
+        classes: pscStatusClass
       }) }}
+      {% if psc.isPendingVerification %}
+        <div class="govuk-body govuk-!-margin-top-2">{{ i18n.ind_psc_list_summary_card_status_pending_info }}</div>
+      {% endif %}
     {% endset %}
-    {% set actionItems = [
+    {% if not psc.isPendingVerification %}
+      {% set actionItems = [
       {
         href: [nextPageUrl+psc.pscId ],
         text: i18n.ind_psc_list_summary_card_verify_link,
         visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link_for,
         attributes: {
-            "data-goal-id": PiwikGoalIds.VERIFY
+          "data-goal-id": PiwikGoalIds.VERIFY
         }
       }
-    ] %}
-    {% set actionItems = actionItems.concat([
+      ] %}
+      {% set actionItems = actionItems.concat([
       {
         href: psc.requestExtensionUrl,
         text: i18n.ind_psc_list_summary_card_extension_link,
         visuallyHiddenText: i18n.ind_psc_list_summary_card_verify_link_for,
         attributes: {
-            "data-goal-id": PiwikGoalIds.REQUEST_EXTENSION
+          "data-goal-id": PiwikGoalIds.REQUEST_EXTENSION
         }
       }
-    ]) if extensionsLive else actionItems %}
+      ]) if extensionsLive else actionItems %}
+    {% else %}
+      {% set actionItems = [] %}
+    {% endif %}
 
     {{ govukSummaryList({
         card: {

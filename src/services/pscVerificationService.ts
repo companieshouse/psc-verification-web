@@ -95,6 +95,37 @@ export const getPscVerification = async (request: Request, transactionId: string
     return castedSdkResponse;
 };
 
+export const getPscVerificationByNotificationId = async (request: Request, notificationId: string): Promise<Resource<PscVerification>> => {
+    const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
+    const logReference = `notificationId="${notificationId}"`;
+
+    logger.debug(`Retrieving PSC verification for ${logReference}`);
+    const headers = extractRequestIdHeader(request);
+    const sdkResponse: Resource<PscVerification> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.getPscVerificationByNotificationId(notificationId, headers);
+
+    if (!sdkResponse) {
+        throw new Error(`PSC Verification GET request returned no response for ${logReference}`);
+    }
+    switch (sdkResponse.httpStatusCode) {
+        case HttpStatusCode.Ok:
+            break; // Successful response, proceed further
+        case HttpStatusCode.Unauthorized:
+            // Show the Page Not Found page if the user is not authorized to view the resource
+            throw new HttpError(`User not authorized owner for ${logReference}`, HttpStatusCode.NotFound);
+
+        case undefined:
+            throw new Error(`HTTP status code is undefined - Failed to GET PSC Verification for ${logReference}`);
+        default:
+            throw new HttpError(`Failed to GET PSC Verification for ${logReference}`, sdkResponse.httpStatusCode);
+    }
+
+    const castedSdkResponse = sdkResponse as Resource<PscVerification>;
+
+    logger.debug(`GET PSC Verification finished with status ${sdkResponse.httpStatusCode} for ${logReference}`);
+
+    return castedSdkResponse;
+};
+
 export const patchPscVerification = async (request: Request, transactionId: string, pscVerificationId: string, pscVerification: PscVerificationData): Promise<Resource<PscVerification>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
     const logReference = `transactionId="${transactionId}", pscVerificationId="${pscVerificationId}"`;
