@@ -130,15 +130,11 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
             const pscId = this.getPscIdFromSelfLink(psc);
             const verification = await getPscVerificationByNotificationId(req, pscId);
-            if (verification && verification.resource && verification.resource.links && verification.resource.links.self) {
-
-                const transactionId = verification.resource?.links.self.split("/")[2] as string;
+            const transactionId = verification?.resource?.links?.self?.split("/")[2];
+            if (transactionId) {
                 const transactionData = await getTransactionData(req, transactionId);
-                if (transactionData && transactionData.filings) {
-                // Check if any filing is processing
-                    const filings = Object.values(transactionData.filings);
-                    psc.isPendingVerification = filings.some((filing: any) => filing.status === "processing");
-                }
+                const filings = Object.values(transactionData?.filings ?? {});
+                psc.isPendingVerification = filings.some((filing: any) => filing.status === "processing");
             }
         }
     }

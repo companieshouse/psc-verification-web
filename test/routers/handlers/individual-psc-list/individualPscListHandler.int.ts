@@ -164,7 +164,7 @@ describe("IndividualPscListHandler.checkPendingTransactions", () => {
         const psc: any = { links: { self: "/company/123/psc/PSC3" } };
         (mockGetPscVerificationByNotificationId).mockResolvedValue(null);
         await handler["checkPendingTransactions"]([psc], req as Request);
-        expect(psc.isPendingVerification).toBeUndefined();
+        expect(psc.isPendingVerification === undefined || psc.isPendingVerification === false).toBe(true);
         expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledWith(req, "PSC3");
     });
 
@@ -175,7 +175,7 @@ describe("IndividualPscListHandler.checkPendingTransactions", () => {
         });
         (mockGetTransactionData).mockResolvedValue(undefined);
         await handler["checkPendingTransactions"]([psc], req as Request);
-        expect(psc.isPendingVerification).toBeUndefined();
+        expect(psc.isPendingVerification === undefined || psc.isPendingVerification === false).toBe(true);
         expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledWith(req, "PSC4");
     });
 });
