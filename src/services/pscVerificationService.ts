@@ -115,11 +115,7 @@ function validatePscVerificationSdkResponse(
             throw new Error(`HTTP status code is undefined - Failed to GET PSC Verification for ${logReference}`);
         }
     } else if (sdkResponse.httpStatusCode === HttpStatusCode.Unauthorized) {
-        if (isByNotificationId) {
-            throw new HttpError(`User not authorized owner for ${logReference}`, HttpStatusCode.NotFound);
-        } else {
-            throw new HttpError(`User not authorized owner for ${logReference}`, HttpStatusCode.NotFound);
-        }
+        throw new HttpError(`User not authorized owner for ${logReference}`, HttpStatusCode.NotFound);
     } else if (sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
         if (isByNotificationId) {
             throw new HttpError(`Failed to GET PSC Verification By Notification Id for ${logReference}`, sdkResponse.httpStatusCode);
