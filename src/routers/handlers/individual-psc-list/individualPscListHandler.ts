@@ -134,17 +134,18 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
                 const verification = await getPscVerificationByNotificationId(req, pscId);
                 transactionId = verification?.resource?.links?.self?.split("/")[2];
                 if (transactionId) {
+        await Promise.all(
+            pscs.map(async (psc) => {
+                const pscId = this.getPscIdFromSelfLink(psc);
+                const verification = await getPscVerificationByNotificationId(req, pscId);
+                const transactionId = verification?.resource?.links?.self?.split("/")[2];
+                if (transactionId) {
                     const transactionData = await getTransactionData(req, transactionId);
                     const filings = Object.values(transactionData?.filings ?? {});
                     psc.isPendingVerification = filings.some((filing: any) => filing.status === "processing");
                 }
-            } catch (error) {
-                logger.error(
-                    `Error checking pending transactions for PSC. pscId=${pscId ?? "unknown"}, transactionId=${transactionId ?? "unknown"}, error=${error}`
-                );
-                // In case of error, leave isPendingVerification as false/undefined so that the PSC list can still be rendered.
-            }
-        }
+            })
+        );
     }
 
     private async getIndividualPscListWithIdvDetails (companyNumber: string, req: Request): Promise<PersonWithSignificantControl[]> {
