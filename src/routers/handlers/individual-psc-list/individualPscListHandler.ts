@@ -127,14 +127,22 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
 
     private async checkPendingTransactions(pscs: any[], req: Request): Promise<void> {
         for (const psc of pscs) {
-
-            const pscId = this.getPscIdFromSelfLink(psc);
-            const verification = await getPscVerificationByNotificationId(req, pscId);
-            const transactionId = verification?.resource?.links?.self?.split("/")[2];
-            if (transactionId) {
-                const transactionData = await getTransactionData(req, transactionId);
-                const filings = Object.values(transactionData?.filings ?? {});
-                psc.isPendingVerification = filings.some((filing: any) => filing.status === "processing");
+            let pscId: string | undefined;
+            let transactionId: string | undefined;
+            try {
+                pscId = this.getPscIdFromSelfLink(psc);
+                const verification = await getPscVerificationByNotificationId(req, pscId);
+                transactionId = verification?.resource?.links?.self?.split("/")[2];
+                if (transactionId) {
+                    const transactionData = await getTransactionData(req, transactionId);
+                    const filings = Object.values(transactionData?.filings ?? {});
+                    psc.isPendingVerification = filings.some((filing: any) => filing.status === "processing");
+                }
+            } catch (error) {
+                logger.error(
+                    `Error checking pending transactions for PSC. pscId=${pscId ?? "unknown"}, transactionId=${transactionId ?? "unknown"}, error=${error}`
+                );
+                // In case of error, leave isPendingVerification as false/undefined so that the PSC list can still be rendered.
             }
         }
     }
