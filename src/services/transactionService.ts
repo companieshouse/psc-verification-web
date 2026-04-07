@@ -51,7 +51,7 @@ export const getTransactionData = async (req: Request, transactionId: string): P
     const sdkResponse: Resource<TransactionData> | ApiErrorResponse = await apiClient.transaction.getTransactionData(transactionId, requestId);
 
     if (!sdkResponse) {
-        logger.error(`Transaction API GET request returned no response for transactionId="${transactionId}"`);
+        logger.error(`Transaction API GET request returned no transaction data for transactionId="${transactionId}"`);
         return Promise.reject(new Error(`No response from Transaction API for transactionId="${transactionId}"`));
     }
 
@@ -63,11 +63,11 @@ export const getTransactionData = async (req: Request, transactionId: string): P
     const castedSdkResponse: Resource<TransactionData> = sdkResponse as Resource<TransactionData>;
 
     if (!castedSdkResponse.resource) {
-        logger.error(`Transaction API GET request returned no resource for transactionId="${transactionId}"`);
+        logger.error(`Transaction API GET request returned no transaction data for transactionId="${transactionId}"`);
         return Promise.reject(new Error(`No resource in Transaction API response for transactionId="${transactionId}"`));
     }
 
-    logger.debug(`Retrieved transaction with status code ${sdkResponse.httpStatusCode} for transactionId="${transactionId}"`);
+    logger.debug(`Retrieved transaction data with status code ${sdkResponse.httpStatusCode} for transactionId="${transactionId}"`);
 
     return Promise.resolve(castedSdkResponse.resource);
 };
@@ -102,7 +102,7 @@ export const postTransaction = async (req: Request): Promise<Transaction> => {
         return Promise.reject(new Error(`No resource in Transaction API response for companyNumber="${companyNumber}"`));
     }
 
-    logger.debug(`Received transaction with status code ${sdkResponse.httpStatusCode} for companyNumber="${companyNumber}"`);
+    logger.debug(`Received transaction data with status code ${sdkResponse.httpStatusCode} for companyNumber="${companyNumber}"`);
 
     return Promise.resolve(castedSdkResponse.resource);
 };

@@ -125,7 +125,7 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         }
     }
 
-    private async checkPendingTransactions(pscs: any[], req: Request): Promise<void> {
+    private async checkPendingTransactions(pscs: PersonWithSignificantControl[], req: Request): Promise<void> {
         for (const psc of pscs) {
             let pscId: string | undefined;
             let transactionId: string | undefined;
@@ -134,18 +134,24 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
                 const verification = await getPscVerificationByNotificationId(req, pscId);
                 transactionId = verification?.resource?.links?.self?.split("/")[2];
                 if (transactionId) {
-        await Promise.all(
-            pscs.map(async (psc) => {
-                const pscId = this.getPscIdFromSelfLink(psc);
-                const verification = await getPscVerificationByNotificationId(req, pscId);
-                const transactionId = verification?.resource?.links?.self?.split("/")[2];
-                if (transactionId) {
-                    const transactionData = await getTransactionData(req, transactionId);
-                    const filings = Object.values(transactionData?.filings ?? {});
-                    psc.isPendingVerification = filings.some((filing: any) => filing.status === "processing");
-                }
-            })
-        );
+                    await Promise.all(
+                        pscs.map(async (psc) => {
+                            const pscId = this.getPscIdFromSelfLink(psc);
+                            const verification = await getPscVerificationByNotificationId(req, pscId);
+                            const transactionId = verification?.resource?.links?.self?.split("/")[2];
+                            if (transactionId) {
+                                const transactionData = await getTransactionData(req, transactionId);
+                                const filings = Object.values(transactionData?.filings ?? {});
+                                psc.isPendingVerification = filings.some((filing: any) => filing.status === "processing");
+                            }
+                        }) );
+                };
+            } catch (error) {
+                logger.error(`Error checking pending transactions for PSC with id "${pscId}" and transaction id "${transactionId}": ${error}`);
+                // if there's an error checking the transaction status, we assume there's no pending transaction to avoid blocking the user from submitting verification details
+                psc.isPendingVerification = false;
+            }
+        }
     }
 
     private async getIndividualPscListWithIdvDetails (companyNumber: string, req: Request): Promise<PersonWithSignificantControl[]> {

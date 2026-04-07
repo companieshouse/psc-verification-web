@@ -178,4 +178,12 @@ describe("IndividualPscListHandler.checkPendingTransactions", () => {
         expect(psc.isPendingVerification === undefined || psc.isPendingVerification === false).toBe(true);
         expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledWith(req, "PSC4");
     });
+
+    it("should set isPendingVerification false if an error is thrown when checking transaction status", async () => {
+        const psc: any = { links: { self: "/company/123/psc/PSC5" } };
+        (mockGetPscVerificationByNotificationId).mockImplementation(() => { throw new Error("API error"); });
+        await handler["checkPendingTransactions"]([psc], req as Request);
+        expect(psc.isPendingVerification).toBe(false);
+        expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledWith(req, "PSC5");
+    });
 });

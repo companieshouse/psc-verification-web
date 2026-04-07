@@ -699,7 +699,7 @@ describe("pscVerificationService", () => {
         it("should throw an error when the response is empty", async () => {
             mockGetPscVerificationByNotificationId.mockResolvedValueOnce(undefined);
             await expect(getPscVerificationByNotificationId(req, notificationId)).rejects.toThrow(
-                `PSC Verification GET request returned no response for notificationId="${notificationId}"`
+                `PSC Verification By Notification Id GET request returned no response for notificationId="${notificationId}"`
             );
         });
 
@@ -719,7 +719,20 @@ describe("pscVerificationService", () => {
             };
             mockGetPscVerificationByNotificationId.mockResolvedValueOnce(mockGet);
             await expect(getPscVerificationByNotificationId(req, notificationId)).rejects.toThrow(
-                new HttpError(`Failed to GET PSC Verification for notificationId="${notificationId}"`, HttpStatusCode.ServiceUnavailable)
+                new HttpError(`Failed to GET PSC Verification By Notification Id for notificationId="${notificationId}"`, HttpStatusCode.ServiceUnavailable)
+            );
+        });
+
+        it("should throw an error when the response resource is undefined", async () => {
+            const req = {} as Request;
+            const notificationId = "notif-123";
+            const mockGet = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: undefined
+            };
+            mockGetPscVerificationByNotificationId.mockResolvedValueOnce(mockGet);
+            await expect(getPscVerificationByNotificationId(req, notificationId)).rejects.toThrow(
+                `PSC Verification API GET By Notification Id request returned no resource with notificationId="${notificationId}"`
             );
         });
     });
