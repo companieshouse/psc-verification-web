@@ -69,16 +69,7 @@ export const getPscVerification = async (request: Request, transactionId: string
     const headers = extractRequestIdHeader(request);
     const sdkResponse: Resource<PscVerification> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.getPscVerification(transactionId, pscVerificationId, headers);
 
-    if (!sdkResponse) {
-        throw new Error(`PSC Verification GET request returned no response for ${logReference}`);
-    }
-    if (!sdkResponse.httpStatusCode) {
-        throw new Error(`HTTP status code is undefined - Failed to GET PSC Verification for ${logReference}`);
-    } else if (sdkResponse.httpStatusCode === HttpStatusCode.Unauthorized) {
-        throw new HttpError(`User not authorized owner for ${logReference}`, HttpStatusCode.NotFound);
-    } else if (sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
-        throw new HttpError(`Failed to GET PSC Verification for ${logReference}`, sdkResponse.httpStatusCode);
-    }
+    validatePscVerificationSdkResponse(sdkResponse, logReference, false);
     const castedSdkResponse = sdkResponse as Resource<PscVerification>;
     if (!castedSdkResponse.resource) {
         throw new Error(`PSC Verification API GET request returned no resource for ${logReference}`);
@@ -95,16 +86,7 @@ export const getPscVerificationByNotificationId = async (request: Request, notif
     const headers = extractRequestIdHeader(request);
     const sdkResponse: Resource<PscVerification> | ApiErrorResponse = await oAuthApiClient.pscVerificationService.getPscVerificationByNotificationId(notificationId, headers);
 
-    if (!sdkResponse) {
-        throw new Error(`PSC Verification By Notification Id GET request returned no response for ${logReference}`);
-    }
-    if (!sdkResponse.httpStatusCode) {
-        throw new Error(`HTTP status code is undefined - Failed to GET PSC Verification By Notification Id for ${logReference}`);
-    } else if (sdkResponse.httpStatusCode === HttpStatusCode.Unauthorized) {
-        throw new HttpError(`User not authorized owner for ${logReference}`, HttpStatusCode.NotFound);
-    } else if (sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
-        throw new HttpError(`Failed to GET PSC Verification By Notification Id for ${logReference}`, sdkResponse.httpStatusCode);
-    }
+    validatePscVerificationSdkResponse(sdkResponse, logReference, true);
     const castedSdkResponse = sdkResponse as Resource<PscVerification>;
     if (!castedSdkResponse.resource) {
         throw new Error(`PSC Verification API GET By Notification Id request returned no resource with ${logReference}`);
@@ -112,6 +94,40 @@ export const getPscVerificationByNotificationId = async (request: Request, notif
     logger.debug(`GET PSC Verification By Notification Id finished with status ${sdkResponse.httpStatusCode} for ${logReference}`);
     return castedSdkResponse;
 };
+
+// Helper to centralize sdkResponse status code checks for GET endpoints
+function validatePscVerificationSdkResponse(
+    sdkResponse: Resource<PscVerification> | ApiErrorResponse | undefined,
+    logReference: string,
+    isByNotificationId: boolean
+) {
+    if (!sdkResponse) {
+        if (isByNotificationId) {
+            throw new Error(`PSC Verification By Notification Id GET request returned no response for ${logReference}`);
+        } else {
+            throw new Error(`PSC Verification GET request returned no response for ${logReference}`);
+        }
+    }
+    if (!sdkResponse.httpStatusCode) {
+        if (isByNotificationId) {
+            throw new Error(`HTTP status code is undefined - Failed to GET PSC Verification By Notification Id for ${logReference}`);
+        } else {
+            throw new Error(`HTTP status code is undefined - Failed to GET PSC Verification for ${logReference}`);
+        }
+    } else if (sdkResponse.httpStatusCode === HttpStatusCode.Unauthorized) {
+        if (isByNotificationId) {
+            throw new HttpError(`User not authorized owner for ${logReference}`, HttpStatusCode.NotFound);
+        } else {
+            throw new HttpError(`User not authorized owner for ${logReference}`, HttpStatusCode.NotFound);
+        }
+    } else if (sdkResponse.httpStatusCode !== HttpStatusCode.Ok) {
+        if (isByNotificationId) {
+            throw new HttpError(`Failed to GET PSC Verification By Notification Id for ${logReference}`, sdkResponse.httpStatusCode);
+        } else {
+            throw new HttpError(`Failed to GET PSC Verification for ${logReference}`, sdkResponse.httpStatusCode);
+        }
+    }
+}
 
 export const patchPscVerification = async (request: Request, transactionId: string, pscVerificationId: string, pscVerification: PscVerificationData): Promise<Resource<PscVerification>> => {
     const oAuthApiClient: ApiClient = createOAuthApiClient(request.session);
