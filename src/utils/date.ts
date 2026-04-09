@@ -17,6 +17,14 @@ export const toReadableFormat = (dateToConvert: string | undefined, lang = "en")
     return convertedDate;
 };
 
+function getLocalizedMeridiem(dateTime: DateTime, lang: string): string {
+    const hour = dateTime.hour;
+    let meridiem = hour < 12 ? "am" : "pm";
+    if (lang === "cy") {
+        meridiem = meridiem === "am" ? "yb" : "yh";
+    }
+    return meridiem;
+}
 export const toHourDayDateFormat = (dateToConvert: string | undefined, lang = "en"): string => {
     if (!dateToConvert) {
         return "";
@@ -26,10 +34,11 @@ export const toHourDayDateFormat = (dateToConvert: string | undefined, lang = "e
 
     let convertedHour;
     if (dateTime.minute === 0) {
-        convertedHour = dateTime.setLocale(lang).toFormat("ha").toLowerCase();
+        convertedHour = dateTime.setLocale(lang).toFormat("h").toLowerCase();
     } else {
-        convertedHour = dateTime.setLocale(lang).toFormat("h:mma").toLowerCase();
+        convertedHour = dateTime.setLocale(lang).toFormat("h:mm").toLowerCase();
     }
+    convertedHour += getLocalizedMeridiem(dateTime, lang);
     const convertedDate = dateTime.setLocale(lang).toFormat("cccc d MMMM yyyy");
 
     if (convertedHour === "Invalid DateTime" || convertedDate === "Invalid DateTime") {
