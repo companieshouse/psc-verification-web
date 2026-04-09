@@ -27,7 +27,7 @@
     "author": "Moses Wejuli <mwejuli@companieshouse.gov.uk>",
     "license": "MIT",
     "dependencies": {
-        "@companieshouse/api-sdk-node": "github:companieshouse/api-sdk-node#feature/add-get-verification-by-id-function",
+        "@companieshouse/api-sdk-node": "^2.0.334",
         "@companieshouse/ch-node-utils": "^2.1.13",
         "@companieshouse/node-session-handler": "^5.2.10",
         "@companieshouse/structured-logging-node": "^2.0.7",
