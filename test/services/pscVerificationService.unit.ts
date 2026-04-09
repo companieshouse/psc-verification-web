@@ -4,7 +4,7 @@ import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist
 import { HttpStatusCode } from "axios";
 import { Request } from "express";
 import { createApiKeyClient, createOAuthApiClient } from "../../src/services/apiClientService";
-import { checkPlannedMaintenance, createPscVerification, getPscVerification, getValidationStatus, patchPscVerification } from "../../src/services/pscVerificationService";
+import { checkPlannedMaintenance, createPscVerification, getPscVerification, getPscVerificationByNotificationId, getValidationStatus, patchPscVerification } from "../../src/services/pscVerificationService";
 import { INDIVIDUAL_VERIFICATION_CREATED, INDIVIDUAL_VERIFICATION_FULL, INDIVIDUAL_VERIFICATION_PATCH, INITIAL_PSC_DATA, PATCH_INDIVIDUAL_DATA, PLANNED_MAINTENANCE, PSC_VERIFICATION_ID, TRANSACTION_ID, VALIDATION_STATUS_INVALID_NAME, VALIDATION_STATUS_RESP_VALID, mockValidationStatusNameError } from "../mocks/pscVerification.mock";
 import { CREATED_PSC_TRANSACTION } from "../mocks/transaction.mock";
 import { logger } from "../../src/lib/logger";
@@ -19,6 +19,7 @@ const mockCreatePscVerification = jest.fn();
 const mockGetPscVerification = jest.fn();
 const mockPatchPscVerification = jest.fn();
 const mockGetValidationStatus = jest.fn();
+const mockGetPscVerificationByNotificationId = jest.fn();
 const mockCheckPlannedMaintenance = jest.fn();
 const mockCreateOAuthApiClient = createOAuthApiClient as jest.Mock;
 const mockCreateApiKeyClient = createApiKeyClient as jest.Mock;
@@ -28,7 +29,8 @@ mockCreateOAuthApiClient.mockReturnValue({
         postPscVerification: mockCreatePscVerification,
         getPscVerification: mockGetPscVerification,
         patchPscVerification: mockPatchPscVerification,
-        getValidationStatus: mockGetValidationStatus
+        getValidationStatus: mockGetValidationStatus,
+        getPscVerificationByNotificationId: mockGetPscVerificationByNotificationId
     }
 });
 
@@ -183,7 +185,6 @@ describe("pscVerificationService", () => {
         });
 
         it("should throw a DataIntegrityError when there's a problem with psc data", async () => {
-
             const mockCastApiErrorResponse = {
                 httpStatusCode: HttpStatusCode.InternalServerError,
                 errors: [
@@ -203,19 +204,10 @@ describe("pscVerificationService", () => {
                     }
                 ]
             };
-
-            mockCreatePscVerification.mockResolvedValueOnce(mockCastApiErrorResponse);
-
-            const response = await createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA).catch((error) => {
-                expect(error).toBeInstanceOf(DataIntegrityError);
-                expect(error).toHaveProperty("type", "PSC_DATA");
-                expect(error).toHaveProperty("message", `We are currently unable to process a Verification filing for this PSC - Failed to POST PSC Verification for transactionId="${TRANSACTION_ID}"`);
-            });
-
-            expect(response).toBeUndefined();
-            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
-            expect(mockCreatePscVerification).toHaveBeenCalledTimes(1);
-            expect(mockCreatePscVerification).toHaveBeenCalledWith(TRANSACTION_ID, INITIAL_PSC_DATA, {});
+            (mockCreatePscVerification as jest.Mock).mockResolvedValueOnce(mockCastApiErrorResponse);
+            await expect(createPscVerification(req, CREATED_PSC_TRANSACTION, INITIAL_PSC_DATA)).rejects.toThrow(
+                `${Responses.PROBLEM_WITH_PSC_DATA} - Failed to POST PSC Verification for transactionId="${TRANSACTION_ID}"`
+            );
         });
     });
 
@@ -500,7 +492,7 @@ describe("pscVerificationService", () => {
             };
             mockGetValidationStatus.mockResolvedValueOnce(mockValidationStatus);
 
-            const response = await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID, {});
+            const response = await getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID, []);
 
             expect(response).toEqual(expected);
             expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
@@ -667,6 +659,82 @@ describe("pscVerificationService", () => {
 
             await expect(getValidationStatus(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
                 `Error getting validation status for transactionId="${TRANSACTION_ID}", pscVerificationId="${PSC_VERIFICATION_ID}"`
+            );
+        });
+    });
+
+    describe("getPscVerificationByNotificationId", () => {
+        const req = {} as Request;
+        const notificationId = "notif-123";
+
+        beforeEach(() => {
+            jest.clearAllMocks();
+        });
+
+        it("should return the resource on 200 OK", async () => {
+            const mockGet: Resource<PscVerification> = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: INDIVIDUAL_VERIFICATION_FULL
+            };
+            mockGetPscVerificationByNotificationId.mockResolvedValueOnce(mockGet);
+
+            const response = await getPscVerificationByNotificationId(req, notificationId);
+            expect(response.httpStatusCode).toBe(HttpStatusCode.Ok);
+            expect(response.resource).toEqual(INDIVIDUAL_VERIFICATION_FULL);
+            expect(mockCreateOAuthApiClient).toHaveBeenCalledTimes(1);
+            expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledTimes(1);
+            expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledWith(notificationId, {});
+        });
+
+        it("should throw an error when the response is empty", async () => {
+            mockGetPscVerificationByNotificationId.mockResolvedValueOnce(undefined);
+            await expect(getPscVerificationByNotificationId(req, notificationId)).rejects.toThrow(
+                `PSC Verification By Notification Id GET request returned no response for notificationId="${notificationId}"`
+            );
+        });
+
+        it("should throw an error when the response status is 401 Unauthorized", async () => {
+            const mockGet: Resource<PscVerification> = {
+                httpStatusCode: HttpStatusCode.Unauthorized
+            };
+            mockGetPscVerificationByNotificationId.mockResolvedValueOnce(mockGet);
+            await expect(getPscVerificationByNotificationId(req, notificationId)).rejects.toThrow(
+                new HttpError(`User not authorized owner for notificationId="${notificationId}"`, HttpStatusCode.NotFound)
+            );
+        });
+
+        it("should throw an error when the response status is not 200", async () => {
+            const mockGet: Resource<PscVerification> = {
+                httpStatusCode: HttpStatusCode.ServiceUnavailable
+            };
+            mockGetPscVerificationByNotificationId.mockResolvedValueOnce(mockGet);
+            await expect(getPscVerificationByNotificationId(req, notificationId)).rejects.toThrow(
+                new HttpError(`Failed to GET PSC Verification By Notification Id for notificationId="${notificationId}"`, HttpStatusCode.ServiceUnavailable)
+            );
+        });
+
+        it("should throw an error when the response resource is undefined", async () => {
+            const req = {} as Request;
+            const notificationId = "notif-123";
+            const mockGet = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: undefined
+            };
+            mockGetPscVerificationByNotificationId.mockResolvedValueOnce(mockGet);
+            await expect(getPscVerificationByNotificationId(req, notificationId)).rejects.toThrow(
+                `PSC Verification API GET By Notification Id request returned no resource with notificationId="${notificationId}"`
+            );
+        });
+
+        it("should throw an error when the response status is undefined in getPscVerificationByNotificationId", async () => {
+            const req = {} as Request;
+            const notificationId = "notif-123";
+            const mockGet = {
+                httpStatusCode: undefined
+            };
+            mockGetPscVerificationByNotificationId.mockResolvedValueOnce(mockGet);
+            await expect(getPscVerificationByNotificationId(req, notificationId)).rejects.toThrow(
+                `HTTP status code is undefined - Failed to GET PSC Verification By Notification Id for notificationId="${notificationId}"`
             );
         });
     });

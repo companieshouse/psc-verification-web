@@ -12,6 +12,10 @@ import { getCompanyProfile } from "../../../../src/services/companyProfileServic
 import { validCompanyProfile } from "../../../mocks/companyProfile.mock";
 import { getCompanyIndividualPscList } from "../../../../src/services/companyPscService";
 import * as config from "../../../../src/config";
+import { getPscVerificationByNotificationId } from "../../../../src/services/pscVerificationService";
+import { IndividualPscListHandler } from "../../../../src/routers/handlers/individual-psc-list/individualPscListHandler";
+import { getTransactionData } from "../../../../src/services/transactionService";
+import { Request } from "express";
 
 jest.mock("../../../../src/services/companyProfileService");
 const mockGetCompanyProfile = getCompanyProfile as jest.Mock;
@@ -21,6 +25,12 @@ jest.mock("../../../../src/services/companyPscService");
 const mockGetCompanyIndividualPscList = getCompanyIndividualPscList as jest.Mock;
 mockGetCompanyIndividualPscList.mockResolvedValue(INDIVIDUAL_PSCS_LIST);
 jest.mock("../../../../src/services/pscService");
+
+jest.mock("../../../../src/services/pscVerificationService");
+const mockGetPscVerificationByNotificationId = getPscVerificationByNotificationId as jest.Mock;
+
+jest.mock("../../../../src/services/transactionService");
+const mockGetTransactionData = getTransactionData as jest.Mock;
 
 jest.mock("../../../../src/config", () => ({
     env: { ...process.env }
@@ -41,6 +51,7 @@ describe("individual PSC list view", () => {
         expect(mockAuthenticationMiddleware).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyProfile).toHaveBeenCalledTimes(1);
         expect(mockGetCompanyIndividualPscList).toHaveBeenCalledTimes(1);
+        expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledTimes(2);
     });
 
     it("Should render the Individual PSC List page with a success status code and correct links", async () => {
@@ -111,4 +122,68 @@ describe("individual PSC list view", () => {
         });
     });
 
+});
+
+describe("IndividualPscListHandler.checkPendingTransactions", () => {
+    let handler: IndividualPscListHandler;
+    let req: Partial<Request>;
+
+    beforeEach(() => {
+        handler = new IndividualPscListHandler();
+        req = {};
+        jest.clearAllMocks();
+    });
+
+    it("should set isPendingVerification true if any filing is processing", async () => {
+        const psc: any = { links: { self: "/company/123/psc/PSC1" } };
+        (mockGetPscVerificationByNotificationId).mockResolvedValue({
+            resource: { links: { self: "/transactions/tx123/filings/filing1" } }
+        });
+        (mockGetTransactionData).mockResolvedValue({
+            filings: { filing1: { status: "processing" }, filing2: { status: "submitted" } }
+        });
+        await handler["checkPendingTransactions"]([psc], req as Request);
+        expect(psc.isPendingVerification).toBe(true);
+        expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledWith(req, "PSC1");
+    });
+
+    it("should set isPendingVerification false if no filing is processing", async () => {
+        const psc: any = { links: { self: "/company/123/psc/PSC2" } };
+        (mockGetPscVerificationByNotificationId).mockResolvedValue({
+            resource: { links: { self: "/transactions/tx124/filings/filing1" } }
+        });
+        (mockGetTransactionData).mockResolvedValue({
+            filings: { filing1: { status: "submitted" }, filing2: { status: "accepted" } }
+        });
+        await handler["checkPendingTransactions"]([psc], req as Request);
+        expect(psc.isPendingVerification).toBe(false);
+        expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledWith(req, "PSC2");
+    });
+
+    it("should not set isPendingVerification if no verification resource", async () => {
+        const psc: any = { links: { self: "/company/123/psc/PSC3" } };
+        (mockGetPscVerificationByNotificationId).mockResolvedValue(null);
+        await handler["checkPendingTransactions"]([psc], req as Request);
+        expect(psc.isPendingVerification === undefined || psc.isPendingVerification === false).toBe(true);
+        expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledWith(req, "PSC3");
+    });
+
+    it("should not set isPendingVerification if no transaction data", async () => {
+        const psc: any = { links: { self: "/company/123/psc/PSC4" } };
+        (mockGetPscVerificationByNotificationId).mockResolvedValue({
+            resource: { links: { self: "/transactions/tx125/filings/filing1" } }
+        });
+        (mockGetTransactionData).mockResolvedValue(undefined);
+        await handler["checkPendingTransactions"]([psc], req as Request);
+        expect(psc.isPendingVerification === undefined || psc.isPendingVerification === false).toBe(true);
+        expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledWith(req, "PSC4");
+    });
+
+    it("should set isPendingVerification false if an error is thrown when checking transaction status", async () => {
+        const psc: any = { links: { self: "/company/123/psc/PSC5" } };
+        (mockGetPscVerificationByNotificationId).mockImplementation(() => { throw new Error("API error"); });
+        await handler["checkPendingTransactions"]([psc], req as Request);
+        expect(psc.isPendingVerification).toBe(false);
+        expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledWith(req, "PSC5");
+    });
 });

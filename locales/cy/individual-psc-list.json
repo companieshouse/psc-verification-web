@@ -18,6 +18,8 @@
     "ind_psc_list_summary_card_key4": "Statws y gwiriad",
     "ind_psc_list_summary_card_status_verified": "Wedi’i gwirio",
     "ind_psc_list_summary_card_status_unverified": "Heb ei gwirio",
+    "ind_psc_list_summary_card_status_pending": "Wedi dod i lawr",
+    "ind_psc_list_summary_card_status_pending_info": "Rydym yn prosesu eich dogfen",
     "ind_psc_list_summary_card_verify_link": "Darparu manylion y gwiriad",
     "ind_psc_list_summary_card_verify_link_for": " ar gyfer ",
     "ind_psc_list_summary_card_extension_link": "Gwneud cais am estyniad",

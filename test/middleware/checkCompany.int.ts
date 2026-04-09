@@ -24,6 +24,7 @@ jest.mock("../../src/services/companyPscService");
 const mockGetCompanyIndividualPscList = getCompanyIndividualPscList as jest.Mock;
 mockGetCompanyIndividualPscList.mockResolvedValueOnce(INDIVIDUAL_PSCS_LIST);
 
+jest.mock("../../src/services/pscVerificationService");
 jest.mock("../../src/services/pscService");
 
 describe("CheckCompany middleware", () => {

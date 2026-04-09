@@ -18,6 +18,8 @@
     "ind_psc_list_summary_card_key4": "Verification status",
     "ind_psc_list_summary_card_status_verified": "Verified",
     "ind_psc_list_summary_card_status_unverified": "Unverified",
+    "ind_psc_list_summary_card_status_pending": "Received",
+    "ind_psc_list_summary_card_status_pending_info": "We are processing your document",
     "ind_psc_list_summary_card_verify_link": "Provide verification details",
     "ind_psc_list_summary_card_verify_link_for": " for ",
     "ind_psc_list_summary_card_extension_link": "Request extension",

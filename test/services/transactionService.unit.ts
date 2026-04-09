@@ -4,7 +4,7 @@ import { HttpStatusCode } from "axios";
 import { HttpError } from "../../src/lib/errors/httpError";
 import { createOAuthApiClient } from "../../src/services/apiClientService";
 import { getCompanyProfile } from "../../src/services/companyProfileService";
-import { DESCRIPTION, TransactionStatus, closeTransaction, getTransaction, postTransaction, putTransaction } from "../../src/services/transactionService";
+import { DESCRIPTION, TransactionStatus, closeTransaction, getTransaction, postTransaction, putTransaction, getTransactionData } from "../../src/services/transactionService";
 import { validCompanyProfile } from "../mocks/companyProfile.mock";
 import { CLOSED_PSC_TRANSACTION, COMPANY_NUMBER, CREATED_PSC_TRANSACTION, OPEN_PSC_TRANSACTION, PSC_VERIFICATION_ID, TRANSACTION_ID } from "../mocks/transaction.mock";
 
@@ -19,13 +19,15 @@ const mockGetTransaction = jest.fn();
 const mockPostTransaction = jest.fn();
 const mockPutTransaction = jest.fn();
 const mockCloseTransaction = jest.fn();
+const mockGetTransactionData = jest.fn();
 
 mockCreateOAuthApiClient.mockReturnValue({
     transaction: {
         getTransaction: mockGetTransaction,
         postTransaction: mockPostTransaction,
         putTransaction: mockPutTransaction,
-        closeTransaction: mockCloseTransaction
+        closeTransaction: mockCloseTransaction,
+        getTransactionData: mockGetTransactionData
     }
 });
 
@@ -217,6 +219,58 @@ describe("Transaction service", () => {
             await expect(closeTransaction(req, TRANSACTION_ID, PSC_VERIFICATION_ID)).rejects.toThrow(
                 `Failed to close transaction with transactionId="${TRANSACTION_ID}"`
             );
+        });
+    });
+
+    describe("getTransactionData", () => {
+        const req = {
+            headers: {
+                "x-request-id": REQUEST_ID
+            },
+            session: {}
+        } as any;
+        const transactionId = TRANSACTION_ID;
+
+        beforeEach(() => {
+            jest.clearAllMocks();
+        });
+
+        it("should resolve with the transaction data resource on success", async () => {
+            const mockResponse = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: { filings: { filing1: { status: "processing" } } }
+            };
+            mockGetTransactionData.mockResolvedValueOnce(mockResponse);
+            const result = await getTransactionData(req, transactionId);
+            expect(result).toEqual({ filings: { filing1: { status: "processing" } } });
+            expect(mockGetTransactionData).toHaveBeenCalledWith(transactionId, REQUEST_ID);
+        });
+
+        it("should reject if no response is returned from the API", async () => {
+            mockGetTransactionData.mockResolvedValueOnce(undefined);
+            await expect(getTransactionData(req, transactionId)).rejects.toThrow("No response from Transaction API for transactionId=\"11111-22222-33333\"");
+            expect(mockGetTransactionData).toHaveBeenCalledWith(transactionId, REQUEST_ID);
+        });
+
+        it("should reject if the API response has an HTTP error status", async () => {
+            const mockResponse = {
+                httpStatusCode: HttpStatusCode.BadRequest
+            };
+            mockGetTransactionData.mockResolvedValueOnce(mockResponse);
+            await expect(getTransactionData(req, transactionId)).rejects.toThrow(
+                new HttpError(`Failed to get transaction data with transactionId="${transactionId}"`, HttpStatusCode.BadRequest)
+            );
+            expect(mockGetTransactionData).toHaveBeenCalledWith(transactionId, REQUEST_ID);
+        });
+
+        it("should reject if the API response has no resource", async () => {
+            const mockResponse = {
+                httpStatusCode: HttpStatusCode.Ok,
+                resource: undefined
+            };
+            mockGetTransactionData.mockResolvedValueOnce(mockResponse);
+            await expect(getTransactionData(req, transactionId)).rejects.toThrow("No resource in Transaction API response for transactionId=\"11111-22222-33333\"");
+            expect(mockGetTransactionData).toHaveBeenCalledWith(transactionId, REQUEST_ID);
         });
     });
 
