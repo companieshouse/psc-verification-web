@@ -22,9 +22,8 @@ export default () => {
     process.env.ENQUIRIES_PHONE_NUMBER = "0303 1234 500";
     process.env.EXTENSIONS_LIVE = "true";
     process.env.GDS_START_SCREEN_URL = "https://www.gov.uk/guidance/provide-psc-verification";
-    process.env.GET_CORRECTING_DOB_LINK: "https://www.gov.uk/guidance/correcting-your-date-of-birth-with-companies-house",
+    process.env.GET_CORRECTING_DOB_LINK = "https://www.gov.uk/guidance/correcting-your-date-of-birth-with-companies-house";
     process.env.GET_PSC01_LINK = "https://www.gov.uk/government/publications/give-notice-of-individual-person-with-significant-control-psc01";
-    process.env.GET_RP01_LINK = "https://www.gov.uk/government/publications/replace-a-document-not-meeting-requirements-rp01";
     process.env.IDV_IMPLEMENTATION_DATE = "20250901";
     process.env.LOCALES_ENABLED = "true";
     process.env.LOCALES_PATH = "locales";

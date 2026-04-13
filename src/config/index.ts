@@ -29,7 +29,6 @@ export const env = readEnv(process.env, {
     GDS_START_SCREEN_URL: str.describe("URL for the start screen hosted on gov.uk"),
     GET_CORRECTING_DOB_LINK: str.describe("Link to guidance on correcting your date of birth"),
     GET_PSC01_LINK: url.describe("Link to obtaining paper form PSC01"),
-    GET_RP01_LINK: url.describe("Link to obtaining paper form RP01"),
     IDV_IMPLEMENTATION_DATE: str.describe("Date when IDV comes into effect for PSCs"),
     LOCALES_ENABLED: str.describe("feature flag that toggles localisation behaviour"),
     LOCALES_PATH: str.describe("The name of the directory where the locales files are stored"),

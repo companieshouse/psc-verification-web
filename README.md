@@ -95,8 +95,8 @@ DSR_PHONE_NUMBER| Phone number for the DSR team |
 ENQUIRIES_EMAIL_ADDRESS| Email address for Companies House enquiries |
 ENQUIRIES_PHONE_NUMBER| Phone number for Companies House enquiries |
 GDS_START_SCREEN_URL| URL for the start screen hosted on gov.uk |
+GET_CORRECTING_DOB_LINK| URL for guidance on correcting your date of birth
 GET_PSC01_LINK| Link to obtaining paper form PSC01 |
-GET_RP01_LINK| Link to obtaining paper form RP01 |
 HUMAN_LOG| Whether to produce a human-readable "pretty" log (1 or 0) |
 IDV_IMPLEMENTATION_DATE| Date when IDV comes into effect for PSCs |
 LOCALES_ENABLED| Feature flag that toggles localisation behaviour|
