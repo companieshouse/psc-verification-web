@@ -135,9 +135,21 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
                 transactionId = verification?.resource?.links?.self?.split("/")[2];
                 if (transactionId) {
                     const transactionData = await getTransactionData(req, transactionId);
-                    const filings = Object.values(transactionData?.filings ?? {});
-                    psc.isPendingVerification = filings.some((filing: any) => filing.status === "processing");
-                };
+                    if (transactionData.status === "closed") {
+                        const filings = Object.values(transactionData?.filings ?? {});
+                        // If there are no filings
+                        if (filings.length === 0) {
+                            psc.isPendingVerification = true;
+                            continue;
+                        }
+                        // If any filing.status is 'processing' or 'accepted', set isPendingVerification = true
+                        psc.isPendingVerification = filings.some((filing: any) => filing.status === "processing" || filing.status === "accepted");
+
+                    } else {
+                        // If transaction is not closed, set to false
+                        psc.isPendingVerification = false;
+                    }
+                }
             } catch (error) {
                 logger.error(`Error checking pending transactions for PSC with id "${pscId}" and transaction id "${transactionId}": ${error}`);
                 // if there's an error checking the transaction status, we assume there's no pending transaction to avoid blocking the user from submitting verification details
