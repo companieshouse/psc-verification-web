@@ -27,6 +27,7 @@ export const env = readEnv(process.env, {
     ENQUIRIES_PHONE_NUMBER: str.describe("Telephone number for enquiries"),
     EXTENSIONS_LIVE: bool.describe("Prevent use of extensions service until available"),
     GDS_START_SCREEN_URL: str.describe("URL for the start screen hosted on gov.uk"),
+    GET_CORRECTING_DOB_LINK: str.describe("Link to guidance on correcting your date of birth"),
     GET_PSC01_LINK: url.describe("Link to obtaining paper form PSC01"),
     GET_RP01_LINK: url.describe("Link to obtaining paper form RP01"),
     IDV_IMPLEMENTATION_DATE: str.describe("Date when IDV comes into effect for PSCs"),

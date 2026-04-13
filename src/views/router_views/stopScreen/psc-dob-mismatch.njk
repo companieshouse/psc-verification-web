@@ -29,22 +29,9 @@
     </p>
     <p class="govuk-body">{{ i18n.dob_mismatch_if_wrong }}</p>
 
-    {% set howToCorrectDobDetails %}
-    <p class="govuk-body">{{ i18n.dob_mismatch_how_to_correct_details_par_1 }}
-        <a href="{{ extraData[0] }}" class="govuk-link" id="rp01-link" data-event-id="rp01-link">{{ i18n.dob_mismatch_how_to_correct_details_rp01_link_text }}</a>.
+    <p class="govuk-link">
+        <a href="{{ extraData[0] }}" class="govuk-link" data-event-id="correcting-your-dob-link">{{ i18n.dob_mismatch_correcting_dob_link_text }}</a>.
     </p>
-    <p class="govuk-body">{{ i18n.dob_mismatch_how_to_correct_details_par_2 }}
-        <a href="{{ extraData[1] }}" class="govuk-link" data-event-id="correct-dob-webfiling-link">{{ i18n.dob_mismatch_check_dob_webfiling_link_text }}</a>.
-    </p>
-    {% endset %}
-
-    {{ govukDetails({
-        summaryText: i18n.dob_mismatch_how_to_correct_details,
-        html: howToCorrectDobDetails,
-        attributes: {
-            "data-event-id": "how-to-correct-dob-dropdown"
-        }
-    }) }}
 
     <h2 class="govuk-heading-m">{{ i18n.dob_mismatch_authorised_agent }}</h2>
     <p class="govuk-body">{{ i18n.dob_mismatch_verified_identity }}</p>
