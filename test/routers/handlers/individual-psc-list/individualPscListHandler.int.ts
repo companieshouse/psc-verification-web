@@ -125,7 +125,6 @@ describe("individual PSC list view", () => {
 });
 
 describe("IndividualPscListHandler.checkPendingTransactions", () => {
-
     let handler: IndividualPscListHandler;
     let req: Partial<Request>;
 
