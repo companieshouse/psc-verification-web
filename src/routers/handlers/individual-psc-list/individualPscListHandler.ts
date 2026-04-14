@@ -11,6 +11,9 @@ import { getPscIndividual } from "../../../services/pscService";
 import { PersonWithSignificantControl } from "@companieshouse/api-sdk-node/dist/services/psc/types";
 import { getPscVerificationByNotificationId } from "../../../services/pscVerificationService";
 import { getTransactionData } from "../../../services/transactionService";
+import { Filing, TransactionData } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
+import { PscVerification } from "@companieshouse/api-sdk-node/dist/services/psc-verification-link/types";
+import { Resource } from "@companieshouse/api-sdk-node";
 
 interface PscListData {
     pscId: string,
@@ -125,19 +128,37 @@ export class IndividualPscListHandler extends GenericHandler<IndividualPscListVi
         }
     }
 
+    /**
+    * This function checks if there are any transactions still processing before the psc has been updated to verified.
+    * This prevents users from submitting multiple verifications while waiting for a transaction to complete.
+    * @param pscs List of unverified PSCs to check for pending transactions
+    * @param req The request object
+    */
     private async checkPendingTransactions(pscs: PersonWithSignificantControl[], req: Request): Promise<void> {
         for (const psc of pscs) {
             let pscId: string | undefined;
             let transactionId: string | undefined;
             try {
                 pscId = this.getPscIdFromSelfLink(psc);
-                const verification = await getPscVerificationByNotificationId(req, pscId);
+                const verification: Resource<PscVerification> = await getPscVerificationByNotificationId(req, pscId);
                 transactionId = verification?.resource?.links?.self?.split("/")[2];
                 if (transactionId) {
-                    const transactionData = await getTransactionData(req, transactionId);
-                    const filings = Object.values(transactionData?.filings ?? {});
-                    psc.isPendingVerification = filings.some((filing: any) => filing.status === "processing");
-                };
+                    const transactionData: TransactionData = await getTransactionData(req, transactionId);
+                    if (transactionData.status === "closed") {
+                        const filings: Filing[] = Object.values(transactionData?.filings ?? {});
+                        // If there are no filings
+                        if (filings.length === 0) {
+                            psc.isPendingVerification = true;
+                            continue;
+                        }
+                        // If any filing.status is 'processing' or 'accepted', set isPendingVerification = true
+                        psc.isPendingVerification = filings.some((filing: any) => filing.status === "processing" || filing.status === "accepted");
+
+                    } else {
+                        // If transaction is not closed, set to false
+                        psc.isPendingVerification = false;
+                    }
+                }
             } catch (error) {
                 logger.error(`Error checking pending transactions for PSC with id "${pscId}" and transaction id "${transactionId}": ${error}`);
                 // if there's an error checking the transaction status, we assume there's no pending transaction to avoid blocking the user from submitting verification details

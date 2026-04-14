@@ -134,15 +134,32 @@ describe("IndividualPscListHandler.checkPendingTransactions", () => {
         jest.clearAllMocks();
     });
 
+    it("should set isPendingVerification true if filings is empty (length 0)", async () => {
+        const psc: any = { links: { self: "/company/123/psc/PSC_EMPTY" } };
+        (mockGetPscVerificationByNotificationId).mockResolvedValue({
+            resource: { links: { self: "/transactions/tx999/filings/filingX" } }
+        });
+        (mockGetTransactionData).mockResolvedValue({ status: "closed", filings: {} });
+        await handler["checkPendingTransactions"]([psc], req as Request);
+        expect(psc.isPendingVerification).toBe(true);
+        expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledWith(req, "PSC_EMPTY");
+    });
+
     it("should set isPendingVerification true if any filing is processing", async () => {
         const psc: any = { links: { self: "/company/123/psc/PSC1" } };
         (mockGetPscVerificationByNotificationId).mockResolvedValue({
             resource: { links: { self: "/transactions/tx123/filings/filing1" } }
         });
         (mockGetTransactionData).mockResolvedValue({
-            filings: { filing1: { status: "processing" }, filing2: { status: "submitted" } }
+            status: "closed",
+            filings: {
+                filing1: { status: "processing" },
+                filing2: { status: "rejected" }
+            }
         });
         await handler["checkPendingTransactions"]([psc], req as Request);
+        // Ensure filings.length > 0 and at least one is processing
+        expect(Object.keys((await mockGetTransactionData.mock.results[0].value).filings).length).toBeGreaterThan(0);
         expect(psc.isPendingVerification).toBe(true);
         expect(mockGetPscVerificationByNotificationId).toHaveBeenCalledWith(req, "PSC1");
     });
