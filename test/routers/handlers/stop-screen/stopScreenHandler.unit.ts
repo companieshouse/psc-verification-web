@@ -90,7 +90,7 @@ describe("Stop screen handler", () => {
                         {
                             ...expectedViewData,
                             backURL: `${expectedPrefix}/individual/personal-code?lang=en`,
-                            extraData: [env.GET_RP01_LINK, env.WEBFILING_LOGIN_URL]
+                            extraData: [env.WEBFILING_LOGIN_URL, env.GET_CORRECTING_DOB_LINK]
                         });
                     break;
                 case STOP_TYPE.SUPER_SECURE:

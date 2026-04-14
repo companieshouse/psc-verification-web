@@ -61,7 +61,7 @@ const setContent = async (req: Request, res: Response, stopType: STOP_TYPE, base
                 templateName: stopType,
                 backURL: resolveUrlTemplate(PrefixedUrls.PERSONAL_CODE, transactionId, submissionId),
                 pscListURL: addSearchParams(PrefixedUrls.INDIVIDUAL_PSC_LIST, { companyNumber, lang }),
-                extraData: [env.GET_RP01_LINK, env.WEBFILING_LOGIN_URL]
+                extraData: [env.WEBFILING_LOGIN_URL, env.GET_CORRECTING_DOB_LINK]
             };
         }
         case STOP_TYPE.SUPER_SECURE: {
