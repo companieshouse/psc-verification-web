@@ -713,19 +713,6 @@ describe("pscVerificationService", () => {
             );
         });
 
-        it("should throw an error when the response resource is undefined", async () => {
-            const req = {} as Request;
-            const notificationId = "notif-123";
-            const mockGet = {
-                httpStatusCode: HttpStatusCode.Ok,
-                resource: undefined
-            };
-            mockGetPscVerificationByNotificationId.mockResolvedValueOnce(mockGet);
-            await expect(getPscVerificationByNotificationId(req, notificationId)).rejects.toThrow(
-                `PSC Verification API GET By Notification Id request returned no resource with notificationId="${notificationId}"`
-            );
-        });
-
         it("should throw an error when the response status is undefined in getPscVerificationByNotificationId", async () => {
             const req = {} as Request;
             const notificationId = "notif-123";

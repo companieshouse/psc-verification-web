@@ -88,9 +88,7 @@ export const getPscVerificationByNotificationId = async (request: Request, notif
 
     validatePscVerificationSdkResponse(sdkResponse, logReference, true);
     const castedSdkResponse = sdkResponse as Resource<PscVerification>;
-    if (!castedSdkResponse.resource) {
-        throw new Error(`PSC Verification API GET By Notification Id request returned no resource with ${logReference}`);
-    }
+
     logger.debug(`GET PSC Verification By Notification Id finished with status ${sdkResponse.httpStatusCode} for ${logReference}`);
     return castedSdkResponse;
 };
