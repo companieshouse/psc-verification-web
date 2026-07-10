@@ -46,7 +46,8 @@ export const Urls = {
     CLOSE_TRANSACTION: `${urlWithTransactionIdAndSubmissionId}/close-transaction`,
     PSC_VERIFIED: `${urlWithTransactionIdAndSubmissionId}/psc-verified`,
     STOP_SCREEN: "/stop/:stopType",
-    STOP_SCREEN_SUBMISSION: `${urlWithTransactionIdAndSubmissionId}/stop/:stopType`
+    STOP_SCREEN_SUBMISSION: `${urlWithTransactionIdAndSubmissionId}/stop/:stopType`,
+    PRESENTER_RETURN: "/presenter-return/:transactionId"
 } as const;
 
 export const PrefixedUrls = {
@@ -65,6 +66,7 @@ export const PrefixedUrls = {
     PSC_VERIFIED: servicePathPrefix + Urls.PSC_VERIFIED,
     STOP_SCREEN: servicePathPrefix + Urls.STOP_SCREEN,
     STOP_SCREEN_SUBMISSION: servicePathPrefix + Urls.STOP_SCREEN_SUBMISSION,
+    PRESENTER_RETURN: servicePathPrefix + Urls.PRESENTER_RETURN,
     COOKIES: "/help/cookies"
 } as const;
 

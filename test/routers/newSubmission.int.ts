@@ -36,8 +36,13 @@ describe("NewSubmission router/handler integration tests", () => {
 
     describe("GET method`", () => {
 
-        it.each(["en", "cy"])("Should redirect to the PERSONAL_CODE screen with query param lang=\"%s\"", async (lang) => {
-            const expectedRedirectUrl = `/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code?companyNumber=${COMPANY_NUMBER}&lang=${lang}`;
+        it.each(["en", "cy"])("Should redirect to the presenter journey with returnUrl containing submissionId (lang=\"%s\")", async (lang) => {
+            // After our change the handler redirects to the transactions-web presenter journey,
+            // not directly to the personal-code screen.
+            const expectedReturnUrl = encodeURIComponent(
+                `http://chs.local/persons-with-significant-control-verification/presenter-return/${TRANSACTION_ID}?submissionId=${encodeURIComponent(PSC_VERIFICATION_ID)}`
+            );
+            const expectedRedirectUrl = `http://chs.local/transaction/${TRANSACTION_ID}/presenter?returnUrl=${expectedReturnUrl}`;
 
             await request(app).get(PrefixedUrls.NEW_SUBMISSION)
                 .query({ companyNumber: `${COMPANY_NUMBER}`, lang })

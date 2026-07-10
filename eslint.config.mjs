@@ -111,6 +111,7 @@ const configArray = [
 
       "no-unused-vars": "off",
       "no-whitespace-before-property": "error",
+
       "object-curly-spacing": ["error", "always"],
       "space-infix-ops": "error",
 
@@ -121,6 +122,12 @@ const configArray = [
           markers: ["/", "*"],
         },
       ],
+    },
+  },
+  {
+    files: ["test/**/*.ts"],
+    rules: {
+      "no-underscore-dangle": "off",
     },
   },
 ];
