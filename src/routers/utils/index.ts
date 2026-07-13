@@ -44,3 +44,19 @@ export function extractRequestIdHeader (req: any): Headers {
         return {};
     }
 }
+
+interface GetPresenterRedirectParams {
+    companyNumber: string;
+    formType: string;
+    transactionId: string;
+    returnUrl: string;
+}
+
+export function getPresenterJourneyUrl (params: GetPresenterRedirectParams): string {
+    const url = new URL(`${process.env.CHS_URL}/transaction/${params.transactionId}/presenter`);
+    url.searchParams.append("companyNumber", params.companyNumber);
+    url.searchParams.append("formType", params.formType);
+    url.searchParams.append("returnUrl", params.returnUrl);
+
+    return url.toString();
+}

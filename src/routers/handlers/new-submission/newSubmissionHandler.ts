@@ -9,6 +9,7 @@ import { createPscVerification } from "../../../services/pscVerificationService"
 import { Resource } from "@companieshouse/api-sdk-node";
 import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { addSearchParams } from "../../../utils/queryParams";
+import { getPresenterJourneyUrl } from "../../utils";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
 import { env } from "../../../config";
@@ -38,11 +39,16 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         // presenter journey is complete.
         const regex = "persons-with-significant-control-verification/(.*)$";
         const resourceId = pscVerification?.links.self.match(regex);
-        const presenterReturnUrl = `${env.CHS_URL}${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, transaction.id!, resourceId![1])}`;
+        const personalCodeUrl = `${env.CHS_URL}${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, transaction.id!, resourceId![1])}`;
 
         // Redirect to transactions-web to start the presenter identity journey.
         // transactions-web will redirect back to presenterReturnUrl once complete.
-        const presenterJourneyUrl = `${env.CHS_URL}/transaction/${transaction.id}/presenter?returnUrl=${encodeURIComponent(presenterReturnUrl)}`;
+        const presenterJourneyUrl = getPresenterJourneyUrl({
+            companyNumber,
+            formType: "VS01",
+            transactionId: transaction.id!,
+            returnUrl: personalCodeUrl
+        });
 
         logger.info(`Redirecting to presenter journey: ${presenterJourneyUrl}`);
         return presenterJourneyUrl;

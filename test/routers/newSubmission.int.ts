@@ -42,7 +42,7 @@ describe("NewSubmission router/handler integration tests", () => {
             const expectedReturnUrl = encodeURIComponent(
                 `http://chs.local/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code`
             );
-            const expectedRedirectUrl = `http://chs.local/transaction/${TRANSACTION_ID}/presenter?returnUrl=${expectedReturnUrl}`;
+            const expectedRedirectUrl = `http://chs.local/transaction/${TRANSACTION_ID}/presenter?companyNumber=${COMPANY_NUMBER}&formType=VS01&returnUrl=${expectedReturnUrl}`;
 
             await request(app).get(PrefixedUrls.NEW_SUBMISSION)
                 .query({ companyNumber: `${COMPANY_NUMBER}`, lang })
