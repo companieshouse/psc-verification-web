@@ -1,7 +1,7 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Router } from "express";
 import { Urls, servicePathPrefix } from "./constants";
-import { AccessibilityStatementRouter, CloseTransactionRouter, CompanyNumberRouter, ConfirmCompanyRouter, HealthCheckRouter, IndividualPscListRouter, IndividualStatementRouter, NameMismatchRouter, NewSubmissionRouter, PersonalCodeRouter, PresenterReturnRouter, PscVerifiedRouter, StartRouter, StopScreenRouter } from "./routers/utils";
+import { AccessibilityStatementRouter, CloseTransactionRouter, CompanyNumberRouter, ConfirmCompanyRouter, HealthCheckRouter, IndividualPscListRouter, IndividualStatementRouter, NameMismatchRouter, NewSubmissionRouter, PersonalCodeRouter, PscVerifiedRouter, StartRouter, StopScreenRouter } from "./routers/utils";
 import { authenticate } from "./middleware/authentication";
 import { fetchVerification } from "./middleware/fetchVerification";
 import { fetchCompany } from "./middleware/fetchCompany";
@@ -26,7 +26,6 @@ const routerDispatch = (app: Application) => {
     router.use(Urls.PSC_VERIFIED, authenticate, fetchVerification, fetchCompany, PscVerifiedRouter);
     router.use(Urls.STOP_SCREEN, authenticate, fetchCompany, StopScreenRouter);
     router.use(Urls.STOP_SCREEN_SUBMISSION, authenticate, StopScreenRouter);
-    router.use(Urls.PRESENTER_RETURN, authenticate, PresenterReturnRouter);
     // this route placed last so only used as a fallback
     router.use("/", serviceUnavailable, StartRouter);
 };

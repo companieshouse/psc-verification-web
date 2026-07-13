@@ -40,7 +40,7 @@ describe("NewSubmission router/handler integration tests", () => {
             // After our change the handler redirects to the transactions-web presenter journey,
             // not directly to the personal-code screen.
             const expectedReturnUrl = encodeURIComponent(
-                `http://chs.local/persons-with-significant-control-verification/presenter-return/${TRANSACTION_ID}?submissionId=${encodeURIComponent(PSC_VERIFICATION_ID)}`
+                `http://chs.local/persons-with-significant-control-verification/transaction/${TRANSACTION_ID}/submission/${PSC_VERIFICATION_ID}/individual/personal-code`
             );
             const expectedRedirectUrl = `http://chs.local/transaction/${TRANSACTION_ID}/presenter?returnUrl=${expectedReturnUrl}`;
 

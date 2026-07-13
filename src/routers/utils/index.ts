@@ -11,11 +11,10 @@ import CloseTransactionRouter from "./../closeTransactionRouter";
 import PscVerifiedRouter from "./../pscVerifiedRouter";
 import StopScreenRouter from "./../stopScreenRouter";
 import NameMismatchRouter from "../nameMismatchRouter";
-import PresenterReturnRouter from "../presenterReturnRouter";
 
 import { logger } from "../../lib/logger";
 import { Headers } from "@companieshouse/api-sdk-node/dist/http";
-export { StartRouter, AccessibilityStatementRouter, HealthCheckRouter, CloseTransactionRouter, CompanyNumberRouter, ConfirmCompanyRouter, IndividualPscListRouter, NameMismatchRouter, PersonalCodeRouter, IndividualStatementRouter, NewSubmissionRouter, PresenterReturnRouter, PscVerifiedRouter, StopScreenRouter };
+export { StartRouter, AccessibilityStatementRouter, HealthCheckRouter, CloseTransactionRouter, CompanyNumberRouter, ConfirmCompanyRouter, IndividualPscListRouter, NameMismatchRouter, PersonalCodeRouter, IndividualStatementRouter, NewSubmissionRouter, PscVerifiedRouter, StopScreenRouter };
 
 export function formatDateBorn (dateOfBirth: any, lang: string): string {
     try {
