@@ -50,6 +50,7 @@ interface GetPresenterRedirectParams {
     formType: string;
     transactionId: string;
     returnUrl: string;
+    lang: string;
 }
 
 export function getPresenterJourneyUrl (params: GetPresenterRedirectParams): string {
@@ -57,6 +58,7 @@ export function getPresenterJourneyUrl (params: GetPresenterRedirectParams): str
     url.searchParams.append("companyNumber", params.companyNumber);
     url.searchParams.append("formType", params.formType);
     url.searchParams.append("returnUrl", params.returnUrl);
+    url.searchParams.append("lang", params.lang);
 
     return url.toString();
 }

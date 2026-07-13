@@ -42,12 +42,13 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         const personalCodeUrl = `${env.CHS_URL}${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, transaction.id!, resourceId![1])}`;
 
         // Redirect to transactions-web to start the presenter identity journey.
-        // transactions-web will redirect back to presenterReturnUrl once complete.
+        // transactions-web will redirect back to returnUrl once complete.
         const presenterJourneyUrl = getPresenterJourneyUrl({
             companyNumber,
             formType: "VS01",
             transactionId: transaction.id!,
-            returnUrl: personalCodeUrl
+            returnUrl: personalCodeUrl,
+            lang
         });
 
         logger.info(`Redirecting to presenter journey: ${presenterJourneyUrl}`);
