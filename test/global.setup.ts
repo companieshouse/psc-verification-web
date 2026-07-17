@@ -9,6 +9,7 @@ export default () => {
     process.env.CH_NODE_UTILS_LOG_LVL = "info";
     process.env.CHS_API_KEY = "CHS_API_KEY";
     process.env.CHS_INTERNAL_API_KEY = "CHS_INTERNAL_API_KEY";
+    process.env.CHS_JWT_SECRET = "CHS_JWT_SECRET";
     process.env.CHS_URL = "http://chs.local";
     process.env.CONTACT_US_LINK = "CONTACT_US_LINK";
     process.env.COOKIE_DOMAIN = "cookie_domain";

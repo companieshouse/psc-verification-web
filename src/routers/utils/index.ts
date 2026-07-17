@@ -14,6 +14,7 @@ import NameMismatchRouter from "../nameMismatchRouter";
 
 import { logger } from "../../lib/logger";
 import { Headers } from "@companieshouse/api-sdk-node/dist/http";
+import { createHmac } from "crypto";
 export { StartRouter, AccessibilityStatementRouter, HealthCheckRouter, CloseTransactionRouter, CompanyNumberRouter, ConfirmCompanyRouter, IndividualPscListRouter, NameMismatchRouter, PersonalCodeRouter, IndividualStatementRouter, NewSubmissionRouter, PscVerifiedRouter, StopScreenRouter };
 
 export function formatDateBorn (dateOfBirth: any, lang: string): string {
@@ -55,10 +56,36 @@ interface GetPresenterRedirectParams {
 
 export function getPresenterJourneyUrl (params: GetPresenterRedirectParams): string {
     const url = new URL(`${process.env.CHS_URL}/transaction/${params.transactionId}/presenter`);
-    url.searchParams.append("companyNumber", params.companyNumber);
-    url.searchParams.append("formType", params.formType);
-    url.searchParams.append("returnUrl", params.returnUrl);
-    url.searchParams.append("lang", params.lang);
+    url.searchParams.append("jwt", signPresenterJourneyJwt(params));
 
     return url.toString();
+}
+
+function base64UrlEncode (input: string | Buffer): string {
+    return Buffer.from(input).toString("base64")
+        .replace(/=/g, "")
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_");
+}
+
+function signPresenterJourneyJwt (params: GetPresenterRedirectParams): string {
+    const header = { alg: "HS256", typ: "JWT" };
+    const payload = {
+        companyNumber: params.companyNumber,
+        formType: params.formType,
+        returnUrl: params.returnUrl,
+        lang: params.lang
+    };
+
+    const encodedHeader = base64UrlEncode(JSON.stringify(header));
+    const encodedPayload = base64UrlEncode(JSON.stringify(payload));
+    const signingInput = `${encodedHeader}.${encodedPayload}`;
+
+    const signature = base64UrlEncode(
+        createHmac("sha256", process.env.CHS_JWT_SECRET as string)
+            .update(signingInput)
+            .digest()
+    );
+
+    return `${signingInput}.${signature}`;
 }

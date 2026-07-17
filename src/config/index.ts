@@ -12,6 +12,7 @@ export const env = readEnv(process.env, {
     CDN_URL_JS: str.describe("CDN URL for the JavaScript files"),
     CH_NODE_UTILS_LOG_LVL: str.describe("Enable the logging within ch-node-utils for localisation"),
     CHS_INTERNAL_API_KEY: str.describe("Internal API key"),
+    CHS_JWT_SECRET: str.describe("Secret used to sign the presenter journey JWT"),
     CHS_URL: url.describe("This host URL for CHS"),
     CONTACT_US_LINK: str.describe("Link to contact us"),
     COOKIE_DOMAIN: str.describe("Domain for cookies"),
