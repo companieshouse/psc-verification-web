@@ -9,8 +9,10 @@ import { createPscVerification } from "../../../services/pscVerificationService"
 import { Resource } from "@companieshouse/api-sdk-node";
 import { getUrlWithStopType, getUrlWithTransactionIdAndSubmissionId } from "../../../utils/url";
 import { addSearchParams } from "../../../utils/queryParams";
+import { getPresenterJourneyUrl } from "../../utils";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { HttpStatusCode } from "axios";
+import { env } from "../../../config";
 
 export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
 
@@ -25,22 +27,32 @@ export class NewSubmissionHandler extends GenericHandler<BaseViewData> {
         const companyNumber = req.query.companyNumber as string;
         const lang = res.locals.lang;
 
-        let nextPageUrl: string;
-
         if (this.isErrorResponse(resource)) {
-            nextPageUrl = getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.PROBLEM_WITH_PSC_DATA);
-        } else {
-            const pscVerification = resource.resource;
-            logger.info(`CREATED New Resource ${pscVerification?.links.self}`);
-
-            // set up redirect to psc_code screen
-            const regex = "persons-with-significant-control-verification/(.*)$";
-            const resourceId = pscVerification?.links.self.match(regex);
-            nextPageUrl = getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, transaction.id!, resourceId![1]);
-
+            const nextPageUrl = getUrlWithStopType(PrefixedUrls.STOP_SCREEN, STOP_TYPE.PROBLEM_WITH_PSC_DATA);
+            return addSearchParams(nextPageUrl, { companyNumber, lang });
         }
-        // send the redirect
-        return addSearchParams(nextPageUrl, { companyNumber, lang });
+
+        const pscVerification = resource.resource;
+        logger.info(`CREATED New Resource ${pscVerification?.links.self}`);
+
+        // Build the return URL that transactions-web will redirect back to after the
+        // presenter journey is complete.
+        const regex = "persons-with-significant-control-verification/(.*)$";
+        const resourceId = pscVerification?.links.self.match(regex);
+        const personalCodeUrl = `${env.CHS_URL}${getUrlWithTransactionIdAndSubmissionId(PrefixedUrls.PERSONAL_CODE, transaction.id!, resourceId![1])}`;
+
+        // Redirect to transactions-web to start the presenter identity journey.
+        // transactions-web will redirect back to returnUrl once complete.
+        const presenterJourneyUrl = getPresenterJourneyUrl({
+            companyNumber,
+            formType: "VS01",
+            transactionId: transaction.id!,
+            returnUrl: personalCodeUrl,
+            lang
+        });
+
+        logger.info(`Redirecting to presenter journey: ${presenterJourneyUrl}`);
+        return presenterJourneyUrl;
     }
 
     public async createNewSubmission (request: Request, transaction: Transaction): Promise<Resource<PscVerification> | ApiErrorResponse> {
