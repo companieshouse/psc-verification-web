@@ -58,6 +58,11 @@
         "uuid": "11.1.1",
         "yargs": "18.0.0"
     },
+    "@comments dependencies": {
+        "@package uuid": [
+            "Pinned to 11.1.1 because uuid >=12 dropped its CommonJS build (ESM-only \"type\": \"module\"), which Jest/ts-jest cannot require and breaks the test suite."
+        ]
+    },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
         "@stylistic/eslint-plugin": "^5.9.0",
@@ -92,18 +97,12 @@
         "nodemon": "^3.1.14",
         "nyc": "^17.1.0",
         "sass": "1.97.3",
-        "sonarqube-scanner": "3.5.0",
+        "sonarqube-scanner": "^5.0.1",
         "supertest": "^7.2.2",
         "ts-jest": "^29.4.6",
         "ts-node": "^10.9.2",
         "typescript": "^5.9.3",
         "typescript-eslint": "^8.56.1"
-    },
-    "@comments devDependencies": {
-        "@package sonarqube-scanner": [
-            "We're using an older version of sonarqube-scanner as v4 removed the ability to use environment variables in the sonar-project.properties file.",
-            "See this confluence page for more details: https://companieshouse.atlassian.net/wiki/spaces/DEVOPS/pages/4927324161/Sonarqube+Configuration+and+Migration#Node-pitfalls"
-        ]
     },
     "overrides": {
         "diff": "8.0.3",
@@ -111,12 +110,11 @@
         "protobufjs": "7.6.5",
         "i18next-fs-backend": "2.6.6",
         "brace-expansion": "2.1.4",
-        "qs":"6.15.2",
-        "undici":"7.29.0",
-        "immutable":"5.1.8",
-        "adm-zip":"0.6.0",
-        "body-parser":"2.3.0"
-  
+        "qs": "6.16.0",
+        "undici": "8.11.2",
+        "immutable": "5.1.8",
+        "adm-zip": "0.6.1",
+        "body-parser": "2.3.0"
     },
     "directories": {
         "test": "test"
